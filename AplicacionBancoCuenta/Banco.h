@@ -30,7 +30,7 @@ public:
 	void buscarCuentasPorFecha(const std::string& fecha) const;
 	void buscarCuentasPorCriterio(); // Busca cuentas por criterio
 	void realizarTransferencia(); // Metodo para realizar transferencias entre cuentas
-	std::string formatearConComas(int valorEnCentavos)const;
+	std::string formatearConComas(double valorEnCentavos)const;
 
 	// Obtiene la ruta del escritorio del usuario
 	std::string obtenerRutaEscritorio() const;

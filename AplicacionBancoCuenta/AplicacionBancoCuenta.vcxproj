@@ -145,8 +145,6 @@
     <ClInclude Include="CuentaAhorros.h" />
     <ClInclude Include="CuentaCorriente.h" />
     <ClInclude Include="Fecha.h" />
-    <ClInclude Include="NodoCuentaAhorros.h" />
-    <ClInclude Include="NodoCuentaCorriente.h" />
     <ClInclude Include="NodoPersona.h" />
     <ClInclude Include="Persona.h" />
     <ClInclude Include="Utilidades.h" />

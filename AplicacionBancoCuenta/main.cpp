@@ -6,9 +6,10 @@
 #include "Banco.h"
 #include "Utilidades.h"
 #include "Cifrado.h" // Asegurate de incluir este archivo de cabecera
+#include <algorithm>
 
 // Funcion para mostrar el menu sin parpadeo y limpiar toda la linea
-void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y) {
+static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y) {
 	system("cls"); // Limpia la pantalla
 	const int anchoLinea = 80; // Ajusta segun el ancho de tu consola
 	for (int i = 0; i < numOpciones; i++) {
@@ -26,7 +27,7 @@ void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, 
 }
 
 // Funcion para buscar cuenta por cedula o numero de cuenta (retorna la cuenta y tipo)
-bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, CuentaCorriente*& cuentaCorriente, std::string& cedula) {
+static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, CuentaCorriente*& cuentaCorriente, std::string& cedula) {
 	system("cls");
 	std::cout << "\n===== OPERACIONES DE CUENTA =====\n\n";
 
@@ -94,28 +95,28 @@ bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, Cuen
 				std::vector<std::pair<bool, void*>> cuentas; // true=ahorro, false=corriente
 
 				// Cuentas de ahorro
-				NodoCuentaAhorros* nodoAhorro = actual->persona->getListaCuentasAhorros();
+				cuentaAhorros = actual->persona->getCabezaAhorros(); // Obtener cuenta de ahorro principal
 				int contador = 1;
-				while (nodoAhorro) {
-					if (nodoAhorro->cuenta) {
+				while (cuentaAhorros) {
+					if (cuentaAhorros->getCuentaAhorros()) {
 						std::cout << contador << ". Cuenta de Ahorro: "
-							<< nodoAhorro->cuenta->getNumeroCuenta() << "\n";
-						cuentas.push_back({ true, nodoAhorro->cuenta });
+							<< cuentaAhorros->getCuentaAhorros()->getNumeroCuenta() << "\n";
+						cuentas.push_back({ true, cuentaAhorros->getCuentaAhorros() });
 						contador++;
 					}
-					nodoAhorro = nodoAhorro->siguiente;
+					cuentaAhorros = cuentaAhorros->getSiguiente();
 				}
 
 				// Cuentas corrientes
-				NodoCuentaCorriente* nodoCorriente = actual->persona->getListaCuentasCorriente();
-				while (nodoCorriente) {
-					if (nodoCorriente->cuenta) {
+				cuentaCorriente = actual->persona->getCabezaCorriente(); // Obtener cuenta corriente principal
+				while (cuentaCorriente) {
+					if (cuentaCorriente->getCuentaCorriente()) {
 						std::cout << contador << ". Cuenta Corriente: "
-							<< nodoCorriente->cuenta->getNumeroCuenta() << "\n";
-						cuentas.push_back({ false, nodoCorriente->cuenta });
+							<< cuentaCorriente->getCuentaCorriente()->getNumeroCuenta() << "\n";
+						cuentas.push_back({ false, cuentaCorriente->getCuentaCorriente() });
 						contador++;
 					}
-					nodoCorriente = nodoCorriente->siguiente;
+					cuentaCorriente = cuentaCorriente->getSiguiente();
 				}
 
 				if (cuentas.empty()) {
@@ -186,30 +187,30 @@ bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, Cuen
 		while (actual && !encontrado) {
 			if (actual->persona) {
 				// Buscar en cuentas de ahorro
-				NodoCuentaAhorros* nodoAhorro = actual->persona->getListaCuentasAhorros();
-				while (nodoAhorro && !encontrado) {
-					if (nodoAhorro->cuenta && std::to_string(nodoAhorro->cuenta->getNumeroCuenta()) == numCuenta) {
-						cuentaAhorros = nodoAhorro->cuenta;
+				cuentaAhorros = actual->persona->getCabezaAhorros(); // Obtener cuenta de ahorro principal
+				while (cuentaAhorros && !encontrado) {
+					if (cuentaAhorros->getCuentaAhorros() && cuentaAhorros->getCuentaAhorros()->getNumeroCuenta() == numCuenta) {
+						cuentaAhorros = cuentaAhorros->getCuentaAhorros();
 						cuentaCorriente = nullptr;
 						cedula = actual->persona->getCedula();
 						encontrado = true;
 						break;
 					}
-					nodoAhorro = nodoAhorro->siguiente;
+					cuentaAhorros = cuentaAhorros->getSiguiente();
 				}
 
 				// Si no se encontro, buscar en cuentas corrientes
 				if (!encontrado) {
-					NodoCuentaCorriente* nodoCorriente = actual->persona->getListaCuentasCorriente();
-					while (nodoCorriente && !encontrado) {
-						if (nodoCorriente->cuenta && std::to_string(nodoCorriente->cuenta->getNumeroCuenta()) == numCuenta) {
+					cuentaCorriente = actual->persona->getCabezaCorriente(); // Obtener cuenta corriente principal
+					while (cuentaCorriente && !encontrado) {
+						if (cuentaCorriente->getCuentaCorriente() && cuentaCorriente->getCuentaCorriente()->getNumeroCuenta() == numCuenta) {
 							cuentaAhorros = nullptr;
-							cuentaCorriente = nodoCorriente->cuenta;
+							cuentaCorriente = cuentaCorriente->getCuentaCorriente();
 							cedula = actual->persona->getCedula();
 							encontrado = true;
 							break;
 						}
-						nodoCorriente = nodoCorriente->siguiente;
+						cuentaCorriente = cuentaCorriente->getSiguiente();
 					}
 				}
 			}
@@ -228,16 +229,25 @@ bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, Cuen
 	return true;
 }
 
+// Función para mostrar personas
+void mostrarPersonas(const std::vector<Persona*>& personas) {
+	for (auto p : personas) {
+		std::cout << p->getNombres() << " " << p->getApellidos() << " - " << p->getFechaNacimiento() << "\n";
+	}
+}
+
+
 int main() {
 	std::string opciones[] = {
 		"Crear Cuenta",
 		"Buscar Cuenta",
-		"Cuenta",
-		"Transferencias",
+		"Operaciones de Cuenta",
+		"Realizar Transferencias",
 		"Guardar Archivo",
 		"Recuperar Archivo",
 		"Descifrar Archivo",
 		"Menu de ayuda",
+		"Explorador de archivos",
 		"Salir"
 	};
 
@@ -415,7 +425,7 @@ int main() {
 				else if (selCuenta == 1) { // Retirar
 					std::cout << "\nRETIRO\n\n";
 
-					int saldoActual = 0;
+					double saldoActual = 0;
 					if (cuentaAhorros != nullptr) {
 						saldoActual = cuentaAhorros->consultarSaldo();
 						std::cout << "Saldo disponible: $" << cuentaAhorros->formatearSaldo() << std::endl;
@@ -455,10 +465,10 @@ int main() {
 					std::cout << "\nCONSULTA DE SALDO\n\n";
 
 					if (cuentaAhorros != nullptr) {
-						cuentaAhorros->mostrarInformacion(cedula);
+						cuentaAhorros->mostrarInformacion(cedula, false);
 					}
 					else {
-						cuentaCorriente->mostrarInformacion(cedula);
+						cuentaCorriente->mostrarInformacion(cedula, false);
 					}
 				}
 
@@ -697,7 +707,198 @@ int main() {
 				system("pause");
 				break;
 			}
-			case 8: // Salir
+			case 8: // Explorador de archivos
+			{
+				NodoPersona* cabeza = banco.getListaPersonas();
+
+				std::vector<std::string> opcionesPersona = { "Nombre", "Apellido", "Fecha de nacimiento" };
+
+				// Criterios de ordenamiento para personas
+				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersona = {
+					[](const Persona* a, const Persona* b) {
+						std::string na = a->getNombres(), nb = b->getNombres();
+						std::transform(na.begin(), na.end(), na.begin(), ::tolower);
+						std::transform(nb.begin(), nb.end(), nb.begin(), ::tolower);
+						return na < nb;
+					},
+					[](const Persona* a, const Persona* b) {
+						std::string aa = a->getApellidos(), ab = b->getApellidos();
+						std::transform(aa.begin(), aa.end(), aa.begin(), ::tolower);
+						std::transform(ab.begin(), ab.end(), ab.begin(), ::tolower);
+						return aa < ab;
+					},
+					[](const Persona* a, const Persona* b) {
+						return a->getFechaNacimiento() < b->getFechaNacimiento();
+					}
+				};
+				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersonaDesc = {
+					[](const Persona* a, const Persona* b) {
+						std::string na = a->getNombres(), nb = b->getNombres();
+						std::transform(na.begin(), na.end(), na.begin(), ::tolower);
+						std::transform(nb.begin(), nb.end(), nb.begin(), ::tolower);
+						return na > nb;
+					},
+					[](const Persona* a, const Persona* b) {
+						std::string aa = a->getApellidos(), ab = b->getApellidos();
+						std::transform(aa.begin(), aa.end(), aa.begin(), ::tolower);
+						std::transform(ab.begin(), ab.end(), ab.begin(), ::tolower);
+						return aa > ab;
+					},
+					[](const Persona* a, const Persona* b) {
+						return a->getFechaNacimiento() > b->getFechaNacimiento();
+					}
+				};
+
+
+				int seleccion = 0;
+				bool ascendente = true;
+				while (true) {
+					system("cls");
+					// Encabezado horizontal con cursor
+					for (size_t i = 0; i < opcionesPersona.size(); ++i) {
+						if (i == seleccion)
+							std::cout << " >" << opcionesPersona[i] << "< ";
+						else
+							std::cout << "  " << opcionesPersona[i] << "  ";
+						if (i < opcionesPersona.size() - 1) std::cout << "|";
+					}
+					std::cout << "\n";
+					std::cout << "-------------------------------------------------------------\n";
+					// Ordenar la lista enlazada
+					if (ascendente)
+						Utilidades::burbujaLista(cabeza, criteriosPersona[seleccion]);
+					else
+						Utilidades::burbujaLista(cabeza, criteriosPersonaDesc[seleccion]);
+					// Mostrar datos en formato horizontal
+					NodoPersona* actual = cabeza;
+					while (actual) {
+						Persona* p = actual->persona;
+						std::cout << p->getNombres() << " | " << p->getApellidos() << " | " << p->getFechaNacimiento() << "\n";
+						actual = actual->siguiente;
+					}
+					std::cout << "\nUse IZQUIERDA/DERECHA para cambiar criterio, ARRIBA para ascendente, ABAJO para descendente, ESC para salir.\n";
+
+					int tecla = _getch();
+					if (tecla == 224) {
+						tecla = _getch();
+						if (tecla == 75) // Izquierda
+							seleccion = (seleccion - 1 + opcionesPersona.size()) % opcionesPersona.size();
+						else if (tecla == 77) // Derecha
+							seleccion = (seleccion + 1) % opcionesPersona.size();
+						else if (tecla == 72) // Arriba
+							ascendente = true;
+						else if (tecla == 80) // Abajo
+							ascendente = false;
+					}
+					else if (tecla == 27) { // ESC
+						break;
+					}
+				}
+
+				/*// --- Recolectar todas las personas ---
+				std::vector<Persona*> personas;
+				NodoPersona* actual = banco.getListaPersonas();
+				while (actual) {
+					if (actual->persona) personas.push_back(actual->persona);
+					actual = actual->siguiente;
+				}
+
+				// --- Menú de ordenamiento para personas ---
+				std::vector<std::string> opcionesPersona = { "Nombre", "Apellido", "Fecha de nacimiento" };
+				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersona = {
+					[](const Persona* a, const Persona* b) { return a->getNombres() < b->getNombres(); },
+					[](const Persona* a, const Persona* b) { return a->getApellidos() < b->getApellidos(); },
+					[](const Persona* a, const Persona* b) { return a->getFechaNacimiento() < b->getFechaNacimiento(); }
+				};
+
+				int seleccion = 0;
+				while (true) {
+					system("cls");
+					std::cout << "Ordenar personas por:\n";
+					for (size_t i = 0; i < opcionesPersona.size(); ++i) {
+						if (i == seleccion)
+							std::cout << " > " << opcionesPersona[i] << "\n";
+						else
+							std::cout << "   " << opcionesPersona[i] << "\n";
+					}
+					std::cout << "\nESC para salir, ENTER para ver cuentas de la persona seleccionada\n";
+
+					int tecla = _getch();
+					if (tecla == 224) {
+						tecla = _getch();
+						if (tecla == 72) seleccion = (seleccion - 1 + opcionesPersona.size()) % opcionesPersona.size();
+						else if (tecla == 80) seleccion = (seleccion + 1) % opcionesPersona.size();
+					}
+					else if (tecla == 13) {
+						// Ordenar y mostrar personas
+						Utilidades::burbuja<Persona>(personas, criteriosPersona[seleccion]);
+						system("cls");
+						std::cout << "Personas ordenadas por " << opcionesPersona[seleccion] << ":\n";
+						for (size_t i = 0; i < personas.size(); ++i) {
+							std::cout << i + 1 << ". " << personas[i]->getNombres() << " " << personas[i]->getApellidos()
+								<< " - " << personas[i]->getFechaNacimiento() << "\n";
+						}
+						std::cout << "\nSeleccione una persona para ver sus cuentas (1-" << personas.size() << "), o ESC para volver: ";
+						int idx = 0;
+						std::string entrada;
+						char t = _getch();
+						if (t == 27) continue;
+						while (t >= '0' && t <= '9') {
+							entrada += t;
+							std::cout << t;
+							t = _getch();
+						}
+						if (!entrada.empty()) idx = std::stoi(entrada) - 1;
+						if (idx >= 0 && idx < (int)personas.size()) {
+							// Mostrar cuentas de la persona seleccionada
+							Persona* p = personas[idx];
+							system("cls");
+							std::cout << "Cuentas de " << p->getNombres() << " " << p->getApellidos() << ":\n";
+							// --- Recolectar cuentas ---
+							std::vector<CuentaAhorros*> cuentasAhorro;
+							CuentaAhorros* ca = p->getCabezaAhorros();
+							while (ca) {
+								cuentasAhorro.push_back(ca);
+								ca = ca->getSiguiente();
+							}
+							std::vector<CuentaCorriente*> cuentasCorriente;
+							CuentaCorriente* cc = p->getCabezaCorriente();
+							while (cc) {
+								cuentasCorriente.push_back(cc);
+								cc = cc->getSiguiente();
+							}
+							// --- Menú de ordenamiento para cuentas ---
+							std::vector<std::string> opcionesCuenta = { "Numero de cuenta" };
+							std::vector<std::function<bool(const CuentaAhorros*, const CuentaAhorros*)>> criteriosCuenta = {
+								[](const CuentaAhorros* a, const CuentaAhorros* b) { return a->getNumeroCuenta() < b->getNumeroCuenta(); }
+							};
+							// Ordenar y mostrar cuentas de ahorro
+							if (!cuentasAhorro.empty()) {
+								Utilidades::burbuja<CuentaAhorros>(cuentasAhorro, criteriosCuenta[0]);
+								std::cout << "\nCuentas de Ahorro:\n";
+								for (auto c : cuentasAhorro) {
+									std::cout << "  " << c->getNumeroCuenta() << " | Saldo: $" << c->formatearSaldo() << "\n";
+								}
+							}
+							// Ordenar y mostrar cuentas corriente
+							if (!cuentasCorriente.empty()) {
+								std::cout << "\nCuentas Corriente:\n";
+								for (auto c : cuentasCorriente) {
+									std::cout << "  " << c->getNumeroCuenta() << " | Saldo: $" << c->formatearSaldo() << "\n";
+								}
+							}
+							std::cout << "\nPresione cualquier tecla para volver...";
+							_getch();
+						}
+					}
+					else if (tecla == 27) {
+						break;
+					}
+				}*/
+
+				break;
+			}
+			case 9: // Salir
 			{
 				system("cls");
 				std::cout << "Saliendo del sistema...\n";

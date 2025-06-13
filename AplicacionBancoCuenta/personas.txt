@@ -348,3 +348,150 @@ Fecha de nacimiento: 09/03/2001
 Correo: uriel@hotmail.com
 Direccion: san carlos
 -----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: 01/01/2000
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: 04/05/2003
+Fecha de nacimiento: 04/05/2003
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: 03/09/2001
+Fecha de nacimiento: 03/09/2001
+Correo: andradeuriel8334@hotmail.com
+Direccion: San carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: 01/01/2000
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: 01/01/2000
+Fecha de nacimiento: 01/01/2000
+Correo: andradeuriel8334@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel alejandro
+Apellidos: andrade hermosa
+Fecha de nacimiento: 09/03/2001
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: Andrade
+Fecha de nacimiento: 09/03/2001
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel 
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 09/03/2001
+Correo: andradeuriel8834@hotmail.com
+Direccion: san carlos, parque ingles, quito
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel 
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@hotmail.com
+Direccion: san carlos, quito, ecuador 
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade 
+Fecha de nacimiento: 05/04/2003
+Correo: uriel.jorge@hotmail.com
+Direccion: aj
+-----------------------------
+Cedula: 1714387774
+Nombres: damian
+Apellidos: arciniegas
+Fecha de nacimiento: 17/02/1983
+Correo: vda_damian@hotmail.com
+Direccion: quito
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: Andrade
+Fecha de nacimiento: 09/03/2001
+Correo: uriel8334@hotmail.com
+Direccion: quito 
+-----------------------------
+Cedula: 1713602173
+Nombres: Francia
+Apellidos: Isabel
+Fecha de nacimiento: 10/05/1980
+Correo: franciaIs@hotmail.com
+Direccion: quito 
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: Andrade
+Fecha de nacimiento: 09/03/2001
+Correo: uriel8334@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 1714387774
+Nombres: damian 
+Apellidos: Arciniegas
+Fecha de nacimiento: 17/02/1983
+Correo: damian@hotmail.com
+Direccion: quito
+-----------------------------
+Cedula: 1713602173
+Nombres: Francia 
+Apellidos: Macias
+Fecha de nacimiento: 10/05/1980
+Correo: fracia@hotmail.com
+Direccion: quito
+-----------------------------

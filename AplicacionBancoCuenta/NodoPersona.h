@@ -21,4 +21,4 @@ public:
     }
 };
 
-#endif
+#endif // NODOPERSONA_H

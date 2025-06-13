@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <windows.h> // Para gotoxy
+#include <conio.h> // Para getch
 
 
 
@@ -221,5 +222,41 @@ void Utilidades::mostrarMenuAyuda() {
 
 	if ((int)resultado <= 32) {
 		std::cerr << "Error al abrir el menú de ayuda. Código: " << (int)resultado << std::endl;
+	}
+}
+
+
+template<typename T>
+void mostrarMenuOrdenar(std::vector<T*>& vec,
+	const std::vector<std::string>& opciones,
+	const std::vector<std::function<bool(const T*, const T*)>>& criterios,
+	std::function<void(const std::vector<T*>&)> mostrarDatos)
+{
+	int seleccion = 0;
+	while (true) {
+		system("cls");
+		std::cout << "Ordenar por:\n";
+		for (size_t i = 0; i < opciones.size(); ++i) {
+			if (i == seleccion)
+				std::cout << " > " << opciones[i] << "\n";
+			else
+				std::cout << "   " << opciones[i] << "\n";
+		}
+		std::cout << "\nESC para salir\n";
+
+		int tecla = _getch();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 72) seleccion = (seleccion - 1 + opciones.size()) % opciones.size();
+			else if (tecla == 80) seleccion = (seleccion + 1) % opciones.size();
+		}
+		else if (tecla == 13) {
+			Utilidades::burbuja<T>(vec, criterios[seleccion]);
+			mostrarDatos(vec);
+			system("pause");
+		}
+		else if (tecla == 27) {
+			break;
+		}
 	}
 }

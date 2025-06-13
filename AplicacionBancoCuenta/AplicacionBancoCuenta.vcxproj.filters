@@ -68,12 +68,6 @@
     <ClInclude Include="Cifrado.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="NodoCuentaAhorros.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="NodoCuentaCorriente.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Utilidades.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
