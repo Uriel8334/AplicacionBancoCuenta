@@ -15,7 +15,7 @@ Fecha::Fecha() {
     //corregirSiNoLaborable();
 }
 
-// Constructor con parámetros (día, mes, año)
+// Constructor con parametros (dia, mes, año)
 Fecha::Fecha(int d, int m, int a) : dia(d), mes(m), anio(a) {
     //corregirSiNoLaborable();
 }
@@ -25,7 +25,7 @@ Fecha::Fecha(const std::string& fechaFormateada) {
     std::istringstream ss(fechaFormateada);
     char separador;
     if (!(ss >> dia >> separador >> mes >> separador >> anio) || separador != '/') {
-        throw std::invalid_argument("Formato de fecha inválido. Use DD/MM/AAAA.");
+        throw std::invalid_argument("Formato de fecha invalido. Use DD/MM/AAAA.");
     }
     //corregirSiNoLaborable();
 }
@@ -42,7 +42,7 @@ bool Fecha::esFinDeSemana(int d, int m, int a) const {
     tiempo.tm_mon = m - 1;
     tiempo.tm_year = a - 1900;
     mktime(&tiempo);
-    return (tiempo.tm_wday == 0 || tiempo.tm_wday == 6); // domingo o sábado
+    return (tiempo.tm_wday == 0 || tiempo.tm_wday == 6); // domingo o sabado
 }
 
 // Verifica si la fecha cae en un feriado
@@ -67,7 +67,7 @@ void Fecha::corregirSiNoLaborable() {
     }
 }
 
-// Avanza hasta el siguiente día laborable
+// Avanza hasta el siguiente dia laborable
 void Fecha::avanzarADiaLaborable() {
     tm tiempo = {};
     tiempo.tm_mday = dia + 1;
@@ -89,7 +89,7 @@ std::string Fecha::obtenerFechaFormateada() const {
     return oss.str();
 }
 
-// Verifica si la fecha del sistema difiere de la fecha real (indicio de manipulación)
+// Verifica si la fecha del sistema difiere de la fecha real (indicio de manipulacion)
 bool Fecha::esFechaSistemaManipulada() const {
 	time_t t = time(0); // Obtiene la fecha actual del sistema
 	tm now = {}; // Estructura para almacenar la fecha actual
@@ -106,7 +106,7 @@ void Fecha::setFecha(int d, int m, int a) {
     //corregirSiNoLaborable();
 }
 
-// Devuelve si la fecha del sistema está (posiblemente) manipulada
+// Devuelve si la fecha del sistema esta (posiblemente) manipulada
 bool Fecha::getEsFechaSistemaManipulada() const {
     return esFechaSistemaManipulada();
 }

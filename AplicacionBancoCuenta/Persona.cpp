@@ -49,7 +49,7 @@ namespace PersonaUI {
 		return (seleccion == 0); // Retorna true si selecciona "Si"
 		};
 
-	// Lambda para ingresar montos con validación en tiempo real
+	// Lambda para ingresar montos con validacion en tiempo real
 	const std::function<double(double, double, const std::string&)> ingresarMonto = [](double min, double max, const std::string& mensaje) -> double {
 		std::string entrada;
 		bool tienePunto = false;
@@ -64,7 +64,7 @@ namespace PersonaUI {
 
 			char tecla = _getch();
 
-			// Enter - verificar si el valor es válido
+			// Enter - verificar si el valor es valido
 			if (tecla == 13 && !entrada.empty()) {
 				try {
 					double valor = std::stod(entrada);
@@ -77,13 +77,13 @@ namespace PersonaUI {
 					continue;
 				}
 				catch (...) {
-					std::cout << "\nFormato inválido. Presione cualquier tecla...";
+					std::cout << "\nFormato invalido. Presione cualquier tecla...";
 					_getch();
 					continue;
 				}
 			}
 
-			// Backspace - borrar un carácter
+			// Backspace - borrar un caracter
 			if (tecla == 8 && !entrada.empty()) {
 				if (entrada.back() == '.') {
 					tienePunto = false;
@@ -97,10 +97,10 @@ namespace PersonaUI {
 				continue;
 			}
 
-			// Dígitos (0-9)
+			// Digitos (0-9)
 			if (isdigit(tecla)) {
 				if (tienePunto && digitosDecimales >= 2) {
-					continue; // Máximo 2 decimales
+					continue; // Maximo 2 decimales
 				}
 				entrada += tecla;
 				if (tienePunto) {
@@ -259,13 +259,13 @@ std::string Persona::ingresarNombres(std::string& nombres) {
 				nombres.pop_back();
 				cout << "\b \b";
 			}
-			// Letras (mayusculas o minusculas) - permitir solo si no está vacío o es el primer carácter
+			// Letras (mayusculas o minusculas) - permitir solo si no esta vacio o es el primer caracter
 			else if (((tecla >= 'A' && tecla <= 'Z') || (tecla >= 'a' && tecla <= 'z'))) {
 				nombres += tecla;
-				espacioPermitido = true; // Permitir espacio después de una letra
+				espacioPermitido = true; // Permitir espacio despues de una letra
 				cout << tecla;
 			}
-			// Un solo espacio entre palabras - NO permitir como primer carácter
+			// Un solo espacio entre palabras - NO permitir como primer caracter
 			else if (tecla == ' ' && espacioPermitido && !nombres.empty()) {
 				nombres += tecla;
 				espacioPermitido = false;
@@ -327,13 +327,13 @@ std::string Persona::ingresarApellidos(std::string& apellidos) {
 				apellidos.pop_back();
 				cout << "\b \b";
 			}
-			// Letras (mayusculas o minusculas) - permitir solo si no está vacío o es el primer carácter
+			// Letras (mayusculas o minusculas) - permitir solo si no esta vacio o es el primer caracter
 			else if (((tecla >= 'A' && tecla <= 'Z') || (tecla >= 'a' && tecla <= 'z'))) {
 				apellidos += tecla;
-				espacioPermitido = true; // Permitir espacio después de una letra
+				espacioPermitido = true; // Permitir espacio despues de una letra
 				cout << tecla;
 			}
-			// Un solo espacio entre palabras - No permite como primer carácter
+			// Un solo espacio entre palabras - No permite como primer caracter
 			else if (tecla == ' ' && espacioPermitido && !apellidos.empty()) {
 				apellidos += tecla;
 				espacioPermitido = false;
@@ -378,7 +378,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	bool fechaSeleccionada = false;
 	const int anioMaximo = anioActual + 100;
 
-	// campo = 0 (Día), 1 (Mes), 2 (Año)
+	// campo = 0 (Dia), 1 (Mes), 2 (Año)
 	int campo = 0;
 
 	while (!fechaSeleccionada) {
@@ -709,10 +709,10 @@ int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 				// Mostrar datos del titular solo la primera vez
 				if (!mostrarDatosTitular) { // Si es la primera cuenta encontrada
 					std::cout << "\n ===== DATOS DEL TITULAR =====\n";
-					std::cout << "Cédula: " << this->cedula << std::endl;
+					std::cout << "Cedula: " << this->cedula << std::endl;
 					std::cout << "Nombre: " << this->nombres << " " << this->apellidos << std::endl;
 					std::cout << "Correo: " << this->correo << std::endl;
-					std::cout << "Dirección: " << this->direccion << std::endl;
+					std::cout << "Direccion: " << this->direccion << std::endl;
 					std::cout << std::string(30, '-') << std::endl;
 					mostrarDatosTitular = true;
 				}
@@ -791,10 +791,10 @@ int Persona::buscarPersonaPorCriterio(const std::string& criterioBusqueda, const
 				// Mostrar datos del titular solo la primera vez
 				if (!mostrarDatosTitular) { // Si es la primera cuenta encontrada
 					std::cout << "\n===== DATOS DEL TITULAR =====\n";
-					std::cout << "Cédula: " << this->cedula << std::endl;
+					std::cout << "Cedula: " << this->cedula << std::endl;
 					std::cout << "Nombre: " << this->nombres << " " << this->apellidos << std::endl;
 					std::cout << "Correo: " << this->correo << std::endl;
-					std::cout << "Dirección: " << this->direccion << std::endl;
+					std::cout << "Direccion: " << this->direccion << std::endl;
 					std::cout << std::string(30, '-') << std::endl;
 					mostrarDatosTitular = true;
 				}
@@ -941,20 +941,20 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 	// Verificar si la cedula esperada coincide con la cedula de la persona
 	ingresarDatos(cedulaEsperada);
 
-	// Verificación de puntero nulo primero
+	// Verificacion de puntero nulo primero
 	if (!nuevaCuenta) {
-		cout << "Error: Cuenta nula pasada como parámetro." << endl;
+		cout << "Error: Cuenta nula pasada como parametro." << endl;
 		return false;
 	}
 
-	// Verificar límite de cuentas
+	// Verificar limite de cuentas
 	if (this->numCuentas >= MAX_CUENTAS) {
-		cout << "No se pueden agregar más cuentas, límite alcanzado." << endl;
+		cout << "No se pueden agregar mas cuentas, limite alcanzado." << endl;
 		return false;
 	}
 
 	try {
-		// Generar número de cuenta
+		// Generar numero de cuenta
 		Fecha fechaActual;
 		std::string fechaStr = fechaActual.obtenerFechaFormateada();
 		nuevaCuenta->setFechaApertura(fechaStr);
@@ -977,14 +977,14 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 
 		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
 		if (numeroCuenta.empty()) {
-			cout << "Error generando número de cuenta." << endl;
+			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
 
-		// Mostrar información
+		// Mostrar informacion
 		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
 
-		//std::cout << "Antes de vincular: cabezaAhorros = " << (cabezaAhorros ? cabezaAhorros->getNumeroCuenta() : "NULL") << std::endl; // Depuración para verificar la vinculación
+		//std::cout << "Antes de vincular: cabezaAhorros = " << (cabezaAhorros ? cabezaAhorros->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
 		// Agregar a la lista enlazada
 		nuevaCuenta->setSiguiente(cabezaAhorros);
 		nuevaCuenta->setAnterior(nullptr);
@@ -994,7 +994,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		this->cabezaAhorros = nuevaCuenta;
 		this->numCuentas++;
 
-		//std::cout << "Después de vincular: cabezaAhorros = " << (cabezaAhorros ? cabezaAhorros->getNumeroCuenta() : "NULL") << std::endl; // Depuración para verificar la vinculación
+		//std::cout << "Despues de vincular: cabezaAhorros = " << (cabezaAhorros ? cabezaAhorros->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
 
 		std::cout << "---- Cuenta de Ahorros creada correctamente ----" << std::endl;
 		return true;
@@ -1014,14 +1014,14 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada) {
 
 	ingresarDatos(cedulaEsperada);
-	// Verificación de puntero nulo primero
+	// Verificacion de puntero nulo primero
 	if (!nuevaCuenta) {
-		cout << "Error: Cuenta nula pasada como parámetro." << endl;
+		cout << "Error: Cuenta nula pasada como parametro." << endl;
 		return false;
 	}
 
 	try {
-		// Generar número de cuenta
+		// Generar numero de cuenta
 		Fecha fechaActual;
 		std::string fechaStr = fechaActual.obtenerFechaFormateada();
 		nuevaCuenta->setFechaApertura(fechaStr);
@@ -1037,14 +1037,14 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 
 		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
 		if (numeroCuenta.empty()) {
-			cout << "Error generando número de cuenta." << endl;
+			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
 
-		// Mostrar información
+		// Mostrar informacion
 		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
 
-		//std::cout << "Antes de vincular: cabezaAhorros = " << (cabezaCorriente ? cabezaCorriente->getNumeroCuenta() : "NULL") << std::endl; // Depuración para verificar la vinculación
+		//std::cout << "Antes de vincular: cabezaAhorros = " << (cabezaCorriente ? cabezaCorriente->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
 
 		// Agregar a la lista enlazada
 		nuevaCuenta->setSiguiente(cabezaCorriente);
@@ -1055,7 +1055,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		this->cabezaCorriente = nuevaCuenta;
 		this->numCuentas++;
 
-		//std::cout << "Después de vincular: cabezaAhorros = " << (cabezaCorriente ? cabezaCorriente->getNumeroCuenta() : "NULL") << std::endl; // Depuración para verificar la vinculación
+		//std::cout << "Despues de vincular: cabezaAhorros = " << (cabezaCorriente ? cabezaCorriente->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
 
 		std::cout << "---- Cuenta de Ahorros creada correctamente ----" << std::endl;
 		return true;
@@ -1071,20 +1071,20 @@ bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::stri
 {
 	const int MAX_CUENTAS = 5;
 
-	// Verificación de puntero nulo primero
+	// Verificacion de puntero nulo primero
 	if (!nuevaCuenta) {
-		cout << "Error: Cuenta nula pasada como parámetro." << endl;
+		cout << "Error: Cuenta nula pasada como parametro." << endl;
 		return false;
 	}
 
-	// Verificar límite de cuentas
+	// Verificar limite de cuentas
 	if (this->numCuentas >= MAX_CUENTAS) {
-		cout << "No se pueden agregar más cuentas, límite alcanzado." << endl;
+		cout << "No se pueden agregar mas cuentas, limite alcanzado." << endl;
 		return false;
 	}
 
 	try {
-		// Generar número de cuenta
+		// Generar numero de cuenta
 		Fecha fechaActual;
 		std::string fechaStr = fechaActual.obtenerFechaFormateada();
 		nuevaCuenta->setFechaApertura(fechaStr);
@@ -1104,14 +1104,14 @@ bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::stri
 		}
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
-		// Generar número de cuenta
+		// Generar numero de cuenta
 		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
 		if (numeroCuenta.empty()) {
-			cout << "Error generando número de cuenta." << endl;
+			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
 
-		// Mostrar información
+		// Mostrar informacion
 		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
 
 		// Agregar a la lista enlazada
@@ -1134,14 +1134,14 @@ bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::stri
 
 bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada)
 {
-	// Verificación de puntero nulo primero
+	// Verificacion de puntero nulo primero
 	if (!nuevaCuenta) {
-		cout << "Error: Cuenta nula pasada como parámetro." << endl;
+		cout << "Error: Cuenta nula pasada como parametro." << endl;
 		return false;
 	}
 
 	try {
-		// Generar número de cuenta
+		// Generar numero de cuenta
 		Fecha fechaActual;
 		std::string fechaStr = fechaActual.obtenerFechaFormateada();
 		nuevaCuenta->setFechaApertura(fechaStr);
@@ -1157,11 +1157,11 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 
 		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
 		if (numeroCuenta.empty()) {
-			cout << "Error generando número de cuenta." << endl;
+			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
 
-		// Mostrar información
+		// Mostrar informacion
 		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
 
 		// Agregar a la lista enlazada
@@ -1221,7 +1221,7 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta) {
 					}
 				}
 				catch (const std::exception& e) {
-					std::cerr << "Error en la generación del número de cuenta: " << e.what() << std::endl;
+					std::cerr << "Error en la generacion del numero de cuenta: " << e.what() << std::endl;
 					return ""; // O un valor por defecto seguro
 				}
 
@@ -1244,9 +1244,9 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta) {
 		numeroCuentaStr = base + std::to_string(digitoControl);
 
 		if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
-			return ""; // Retornar cadena vacía indica error
+			return ""; // Retornar cadena vacia indica error
 		}
-		// El código continúa si la validación es exitosa
+		// El codigo continua si la validacion es exitosa
 		nuevaCuenta->setNumeroCuenta(numeroCuentaStr);
 		numeroValido = true;
 

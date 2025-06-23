@@ -89,11 +89,11 @@ void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limp
 	if (limpiarPantalla) { // Limpiar pantalla si se solicita
 		std::system("cls");
 	}
-	// Título con formato específico para CuentaAhorros
+	// Titulo con formato especifico para CuentaAhorros
 	std::cout << "\n" << std::string(50, '=') << std::endl;
 	std::cout << "          INFORMACION DE CUENTA DE AHORROS" << std::endl;
 	std::cout << std::string(50, '=') << "\n" << std::endl;
-	// Información del titular si está disponible
+	// Informacion del titular si esta disponible
 	if (!cedula.empty()) {
 		std::cout << "Cedula del titular: " << cedula << std::endl;
 		std::cout << std::string(30, '-') << std::endl;
@@ -102,7 +102,7 @@ void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limp
 	std::cout << "Tipo de cuenta: AHORROS" << std::endl;
 	std::cout << "Numero de cuenta: " << this->numeroCuenta << std::endl;
 
-	// Imprimir usando el método de la clase Fecha
+	// Imprimir usando el metodo de la clase Fecha
 	std::cout << "Fecha de apertura: "
 		<< this->fechaApertura.obtenerFechaFormateada()
 		<< std::endl;
@@ -113,7 +113,7 @@ void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limp
 	std::cout << "Saldo actual: $" << formatearConComas(this->saldo) << std::endl;
 	std::cout << "Tasa de interes: " << this->tasaInteres << "%" << std::endl;
 
-	// Pie de página
+	// Pie de pagina
 	std::cout << "\n" << std::string(50, '-') << std::endl;
 	std::cout << "Presione cualquier tecla para continuar..." << std::endl;
 	int tecla = _getch();

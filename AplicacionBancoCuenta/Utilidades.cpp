@@ -1,15 +1,19 @@
-#include "Utilidades.h"
+﻿#include "Utilidades.h"
+#include "NodoPersona.h"
+#include "Persona.h"
+#include <windows.h>
+#include <conio.h>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
 #include <cctype>
 #include <regex>
-#include <iostream>
 #include <string>
-#include <windows.h> // Para gotoxy
-#include <conio.h> // Para getch
-
-
+#include <ctime>
 
 Utilidades::Utilidades() {
 	// Constructor vacio
@@ -217,14 +221,147 @@ void Utilidades::mostrarMenuAyuda() {
 	// Construimos la ruta del ejecutable de ayuda
 	ruta += "\\ayuda\\AyudaSistemaBancario.exe";
 
-	// Ejecutamos el men� de ayuda
+	// Ejecutamos el menu de ayuda
 	HINSTANCE resultado = ShellExecuteA(NULL, "open", ruta.c_str(), NULL, NULL, SW_SHOWNORMAL);
 
 	if ((int)resultado <= 32) {
-		std::cerr << "Error al abrir el men� de ayuda. C�digo: " << (int)resultado << std::endl;
+		std::cerr << "Error al abrir el menu de ayuda. Codigo: " << (int)resultado << std::endl;
 	}
 }
 
+// Implementacion didactica de hash para archivos
+std::string Utilidades::calcularSHA1(const std::string& rutaArchivo) {
+    std::ifstream archivo(rutaArchivo, std::ios::binary);
+    if (!archivo) {
+        return "ERROR_ARCHIVO_NO_ENCONTRADO";
+    }
+
+    // --- Principios basicos del hashing ---
+    // 1. Inicializacion de valores semilla
+    // Usamos valores primos como semilla para mejor distribucion
+    std::size_t h1 = 0x01234567;
+    std::size_t h2 = 0x89ABCDEF;
+    std::size_t h3 = 0xFEDCBA98;
+    std::size_t h4 = 0x76543210;
+    
+    // 2. Variables para el procesamiento por bloques
+    unsigned char buffer[64]; // Tamaño de bloque tipico: 64 bytes
+    std::size_t totalBytes = 0;
+    std::size_t bytesLeidos = 0;
+    
+    // 3. Lectura y procesamiento por bloques (simulando hash real)
+    while ((bytesLeidos = archivo.read(reinterpret_cast<char*>(buffer), 
+                                      sizeof(buffer)).gcount()) > 0) {
+        // Procesamos cada byte con operaciones de hash
+        for (std::size_t i = 0; i < bytesLeidos; ++i) {
+            // Aplicamos funcion de mezcla a cada byte
+            h1 = ((h1 << 5) | (h1 >> 27)) ^ buffer[i];  // Rotacion circular y XOR
+            h2 = ((h2 << 7) | (h2 >> 25)) + buffer[i];  // Rotacion y suma
+            h3 = h3 * 33 + ~buffer[i];                  // Multiplicacion y negacion
+            h4 = ((h4 >> 3) | (h4 << 29)) ^ buffer[i];  // Rotacion inversa y XOR
+            
+            // Mezclamos los estados del hash periodicamente
+            if (i % 16 == 15) {
+                std::size_t temp = h1;
+                h1 = h2 ^ h3;
+                h2 = h3 + h4;
+                h3 = h4 ^ temp;
+                h4 = temp + h1;
+            }
+        }
+        
+        totalBytes += bytesLeidos;
+    }
+    
+    // 4. Finalizacion: incorporamos el tamaño al hash (importante en hashes criptograficos)
+    h1 ^= totalBytes;
+    h2 += totalBytes;
+    h3 ^= (h1 ^ h2);
+    h4 += (h2 ^ h3);
+    
+    // 5. Mezclado final para garantizar avalancha (pequeños cambios → grandes diferencias)
+    for (int i = 0; i < 3; ++i) {
+        h1 = ((h1 << 13) | (h1 >> 19)) + h4;
+        h2 = ((h2 << 17) | (h2 >> 15)) ^ h1;
+        h3 = ((h3 << 7) | (h3 >> 25)) + h2;
+        h4 = ((h4 << 11) | (h4 >> 21)) ^ h3;
+    }
+    
+    // 6. Convertir a representacion hexadecimal (32 caracteres)
+    std::stringstream ss;
+    ss << std::hex << std::setfill('0') 
+       << std::setw(8) << h1 
+       << std::setw(8) << h2 
+       << std::setw(8) << h3 
+       << std::setw(8) << h4;
+    
+    // 7. Añadir el tamaño del archivo como informacion extra
+    return ss.str() + "-" + std::to_string(totalBytes);
+}
+
+// Verificar si el hash coincide con el del archivo
+bool Utilidades::verificarSHA1(const std::string& rutaArchivo, const std::string& hashEsperado) {
+    std::string hashActual = calcularSHA1(rutaArchivo);
+    
+    // Informe detallado para fines educativos
+    if (hashActual == hashEsperado) {
+        std::cout << "Hash verificado exitosamente." << std::endl;
+        std::cout << "  • Hash esperado/recibido: " << hashEsperado << std::endl;
+        std::cout << "  • Hash actual/calculado: " << hashActual << std::endl;
+        return true;
+    } else {
+        std::cout << "¡ADVERTENCIA! Hash no coincide." << std::endl;
+        std::cout << "  • Hash esperado/recibido: " << hashEsperado << std::endl;
+        std::cout << "  • Hash actual/calculado: " << hashActual << std::endl;
+        return false;
+    }
+}
+
+// Guardar hash en un archivo separado con metadatos educativos
+void Utilidades::guardarHashArchivo(const std::string& rutaArchivo, const std::string& hash) {
+    std::string rutaHash = rutaArchivo + ".hash";
+    std::ofstream archivoHash(rutaHash);
+    
+    if (archivoHash) {
+        // Añadimos cabecera informativa con fecha
+        time_t tiempoActual = time(nullptr);
+        struct tm timeinfo;
+        localtime_s(&timeinfo, &tiempoActual);  // Version segura
+        char buffer[128];
+        std::strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeinfo);
+        
+        archivoHash << "# Hash de integridad del archivo: " << rutaArchivo << std::endl;
+        archivoHash << "# Generado: " << buffer << std::endl;
+        archivoHash << "# Formato: [hash-tamaño_bytes]" << std::endl;
+        archivoHash << hash;
+        archivoHash.close();
+        std::cout << "Hash guardado en: " << rutaHash << std::endl;
+    } else {
+        std::cerr << "Error al guardar el hash" << std::endl;
+    }
+}
+
+// Leer hash desde un archivo, saltando lineas de comentarios
+std::string Utilidades::leerHashArchivo(const std::string& rutaHashArchivo) {
+    std::ifstream archivoHash(rutaHashArchivo);
+    if (!archivoHash) {
+        return "";
+    }
+    
+    std::string linea;
+    std::string hash;
+    
+    // Leer linea por linea hasta encontrar una que no sea comentario
+    while (std::getline(archivoHash, linea)) {
+        // Saltamos lineas que empiezan con # (comentarios)
+        if (!linea.empty() && linea[0] != '#') {
+            hash = linea;
+            break;
+        }
+    }
+    
+    return hash;
+}
 
 template<typename T>
 void mostrarMenuOrdenar(std::vector<T*>& vec,

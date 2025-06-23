@@ -216,7 +216,7 @@ void Banco::agregarPersonaConCuenta() {
 				break;
 			}
 
-			// Esta sección se ejecuta solo para personas nuevas
+			// Esta seccion se ejecuta solo para personas nuevas
 			persona->setCedula(cedulaTemp);
 			try {
 				Fecha fechaActual;
@@ -230,7 +230,7 @@ void Banco::agregarPersonaConCuenta() {
 						//std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
 					}
 					else {
-						//std::cout << "Error: La cuenta no se vinculó correctamente" << std::endl;
+						//std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
 					}
 				}
 				if (!resultado) {
@@ -365,7 +365,7 @@ void Banco::agregarPersonaConCuenta() {
 									std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
 								}
 								else {
-									std::cout << "Error: La cuenta no se vinculó correctamente" << std::endl;
+									std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
 								}
 							}
 							if (!resultado) {
@@ -399,7 +399,7 @@ void Banco::agregarPersonaConCuenta() {
 						std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
 					}
 					else {
-						std::cout << "Error: La cuenta no se vinculó correctamente" << std::endl;
+						std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
 					}
 				}
 				if (!resultado) {
@@ -470,7 +470,7 @@ void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
 void Banco::guardarCuentasEnArchivo() {
 	Fecha fechaActual;
 	if ((fechaActual.getEsFechaSistemaManipulada())) {
-		std::cout << "Error: la fecha del sistema parece haber sido manipulada. No se guardará el respaldo.\n";
+		std::cout << "Error: la fecha del sistema parece haber sido manipulada. No se guardara el respaldo.\n";
 		return;
 	}
 
@@ -978,12 +978,12 @@ void Banco::buscarCuentasPorCriterio() {
 	std::string numCuentaIngresada;
 	double valorNum = 0.0;
 
-	// Solicitar el valor según el criterio
-	if (seleccion == 0) { // Número de cuenta
-		std::cout << "Ingrese el número de cuenta: ";
+	// Solicitar el valor segun el criterio
+	if (seleccion == 0) { // Numero de cuenta
+		std::cout << "Ingrese el numero de cuenta: ";
 		numCuentaIngresada.clear();
 
-		// Control de entrada numérica similar a otros lugares
+		// Control de entrada numerica similar a otros lugares
 		while (true) {
 			char tecla = _getch();
 			if (tecla >= '0' && tecla <= '9') {
@@ -1004,7 +1004,7 @@ void Banco::buscarCuentasPorCriterio() {
 		}
 	}
 	else if (seleccion == 1) { // Fecha de apertura
-		// Implementar selección de fecha con cursor como en otras partes del código
+		// Implementar seleccion de fecha con cursor como en otras partes del codigo
 		int dia = 1, mes = 1, anio = 2000, campo = 0;
 		bool fechaSeleccionada = false;
 		SYSTEMTIME st;
@@ -1065,9 +1065,9 @@ void Banco::buscarCuentasPorCriterio() {
 		}
 	}
 	else if (seleccion == 2) { // Saldo mayor a
-		std::cout << "Ingrese el saldo mínimo: ";
+		std::cout << "Ingrese el saldo minimo: ";
 
-		// Implementar validación similar a otras partes
+		// Implementar validacion similar a otras partes
 		std::string entrada;
 		bool tienePunto = false;
 		int digitosDecimales = 0;
@@ -1094,7 +1094,7 @@ void Banco::buscarCuentasPorCriterio() {
 						catch (...) {}
 					}
 				}
-				std::cout << "\nFormato inválido. Ingrese nuevamente: ";
+				std::cout << "\nFormato invalido. Ingrese nuevamente: ";
 				entrada.clear();
 				tienePunto = false;
 				digitosDecimales = 0;
@@ -1121,7 +1121,7 @@ void Banco::buscarCuentasPorCriterio() {
 				continue;
 			}
 
-			// Dígitos
+			// Digitos
 			if (isdigit(tecla)) {
 				if (tienePunto && digitosDecimales == 2) continue;
 				if (tienePunto) ++digitosDecimales;
@@ -1137,13 +1137,13 @@ void Banco::buscarCuentasPorCriterio() {
 		}
 	}
 
-	// El resto de criterios está bien implementado
+	// El resto de criterios esta bien implementado
 
-	// A continuación, modificamos cómo se muestran los resultados de búsqueda:
+	// A continuacion, modificamos como se muestran los resultados de busqueda:
 
 	int totalCuentasEncontradas = 0;
 
-	if (seleccion == 4) { // Si es búsqueda por cédula, ya está implementado correctamente
+	if (seleccion == 4) { // Si es busqueda por cedula, ya esta implementado correctamente
 		bool encontrado = false;
 		NodoPersona* actual = listaPersonas;
 
@@ -1155,14 +1155,14 @@ void Banco::buscarCuentasPorCriterio() {
 				cuentaAhorros = actual->persona->getCabezaAhorros();
 				cuentaCorriente = actual->persona->getCabezaCorriente();
 
-				// Mostrar información básica de la persona
+				// Mostrar informacion basica de la persona
 				std::cout << "\n===== DATOS DEL TITULAR =====\n";
-				std::cout << "Cédula: " << actual->persona->getCedula() << std::endl;
+				std::cout << "Cedula: " << actual->persona->getCedula() << std::endl;
 				std::cout << "Nombre: " << actual->persona->getNombres() << " "
 					<< actual->persona->getApellidos() << std::endl;
 				std::cout << "Fecha de nacimiento: " << actual->persona->getFechaNacimiento() << std::endl;
 				std::cout << "Correo: " << actual->persona->getCorreo() << std::endl;
-				std::cout << "Dirección: " << actual->persona->getDireccion() << std::endl;
+				std::cout << "Direccion: " << actual->persona->getDireccion() << std::endl;
 
 				// Mostrar todas sus cuentas
 				std::cout << "\n===== CUENTAS DE AHORRO =====\n";
@@ -1202,17 +1202,17 @@ void Banco::buscarCuentasPorCriterio() {
 		}
 
 		if (!encontrado) {
-			std::cout << "No se encontró ninguna persona con la cédula: " << numCuentaIngresada << std::endl;
+			std::cout << "No se encontro ninguna persona con la cedula: " << numCuentaIngresada << std::endl;
 		}
 		else {
 			std::cout << "\nTotal de cuentas encontradas: " << totalCuentasEncontradas << std::endl;
 		}
 	}
 	else {
-		// Para otros criterios, modificamos el método buscarPersonaPorCriterio en la clase Persona
+		// Para otros criterios, modificamos el metodo buscarPersonaPorCriterio en la clase Persona
 		// para que muestre los datos del titular junto con cada cuenta.
 
-		// Recorremos todas las personas y buscamos según criterio
+		// Recorremos todas las personas y buscamos segun criterio
 		NodoPersona* actual = listaPersonas;
 		while (actual) {
 			if (actual->persona && actual->persona->isValidInstance()) {

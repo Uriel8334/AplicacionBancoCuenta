@@ -93,22 +93,22 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 		std::system("cls");
 	}
 
-	// Título con formato específico para CuentaCorriente
+	// Titulo con formato especifico para CuentaCorriente
 	std::cout << "\n" << std::string(50, '=') << std::endl;
 	std::cout << "          INFORMACION DE CUENTA CORRIENTE" << std::endl;
 	std::cout << std::string(50, '=') << "\n" << std::endl;
 
-	// Información del titular si está disponible
+	// Informacion del titular si esta disponible
 	if (!cedula.empty()) {
 		std::cout << "Cedula del titular: " << cedula << std::endl;
 		std::cout << std::string(30, '-') << std::endl;
 	}
 
-	// Información común
+	// Informacion comun
 	std::cout << "Tipo de cuenta: CORRIENTE" << std::endl;
 	std::cout << "Numero de cuenta: " << this->numeroCuenta << std::endl;
 
-	// Imprimir usando el método de la clase Fecha
+	// Imprimir usando el metodo de la clase Fecha
 	std::cout << "Fecha de apertura: "
 		<< this->fechaApertura.obtenerFechaFormateada()
 		<< std::endl;
@@ -117,7 +117,7 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 	std::cout << "Estado: " << this->estadoCuenta << std::endl;
 	std::cout << "Saldo actual: $" << formatearConComas(this->saldo) << std::endl;
 
-	// Pie de página
+	// Pie de pagina
 	std::cout << "\n" << std::string(50, '-') << std::endl;
 	std::cout << "Presione cualquier tecla para continuar..." << std::endl;
 	int tecla = _getch();

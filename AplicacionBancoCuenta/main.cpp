@@ -229,7 +229,7 @@ static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 	return true;
 }
 
-// Función para mostrar personas
+// Funcion para mostrar personas
 void mostrarPersonas(const std::vector<Persona*>& personas) {
 	for (auto p : personas) {
 		std::cout << p->getNombres() << " " << p->getApellidos() << " - " << p->getFechaNacimiento() << "\n";
@@ -248,6 +248,7 @@ int main() {
 		"Descifrar Archivo",
 		"Menu de ayuda",
 		"Explorador de archivos",
+		 "Gestion de Hash",
 		"Salir"
 	};
 
@@ -546,7 +547,7 @@ int main() {
 			break;
 			case 5: // Recuperar Archivo
 			{
-				// Submenú para tipo de carga
+				// Submenu para tipo de carga
 				std::string opcionesCarga[] = { "Recuparar de Respaldo (.bak)", "Recuperar de Archivo cifrado (.bin)", "Cancelar" };
 				int numOpcionesCarga = sizeof(opcionesCarga) / sizeof(opcionesCarga[0]);
 				int selCarga = 0;
@@ -573,7 +574,7 @@ int main() {
 						break;
 				}
 
-				// Si se selecciona la opción "Cancelar" (índice 2), finaliza
+				// Si se selecciona la opcion "Cancelar" (indice 2), finaliza
 				if (selCarga == 2) {
 					break;
 				}
@@ -603,7 +604,7 @@ int main() {
 			break;
 			case 6:  // Descifrar Archivo
 			{
-				// Submenú principal para descifrar archivo
+				// Submenu principal para descifrar archivo
 				std::string opcionesDescifrado[] = { "Descifrar Archivo (.bin)", "Cancelar" };
 				int numOpcionesDescifrado = sizeof(opcionesDescifrado) / sizeof(opcionesDescifrado[0]);
 				int selDescifrado = 0;
@@ -635,7 +636,7 @@ int main() {
 					break;
 				}
 
-				// Submenú secundario para tipo de descifrado
+				// Submenu secundario para tipo de descifrado
 				std::string subOpcionesDescifrado[] = {
 					"Binario(.bin) -> Backup(.bak)",
 					"Binario(.bin) -> Texto(.txt)",
@@ -667,7 +668,7 @@ int main() {
 					}
 				}
 
-				// Manejar opción "Cancelar" del segundo submenú
+				// Manejar opcion "Cancelar" del segundo submenu
 				if (selSubDescifrado == 2) {
 					break;
 				}
@@ -803,7 +804,7 @@ int main() {
 					actual = actual->siguiente;
 				}
 
-				// --- Menú de ordenamiento para personas ---
+				// --- Menu de ordenamiento para personas ---
 				std::vector<std::string> opcionesPersona = { "Nombre", "Apellido", "Fecha de nacimiento" };
 				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersona = {
 					[](const Persona* a, const Persona* b) { return a->getNombres() < b->getNombres(); },
@@ -867,7 +868,7 @@ int main() {
 								cuentasCorriente.push_back(cc);
 								cc = cc->getSiguiente();
 							}
-							// --- Menú de ordenamiento para cuentas ---
+							// --- Menu de ordenamiento para cuentas ---
 							std::vector<std::string> opcionesCuenta = { "Numero de cuenta" };
 							std::vector<std::function<bool(const CuentaAhorros*, const CuentaAhorros*)>> criteriosCuenta = {
 								[](const CuentaAhorros* a, const CuentaAhorros* b) { return a->getNumeroCuenta() < b->getNumeroCuenta(); }
@@ -898,7 +899,84 @@ int main() {
 
 				break;
 			}
-			case 9: // Salir
+			case 9: // Gestion de Hash
+			{
+				// Submenu para gestion de hash
+				std::string opcionesHash[] = { "Crear Hash", "Verificar Hash", "Cancelar" };
+				int numOpcionesHash = sizeof(opcionesHash) / sizeof(opcionesHash[0]);
+				int seleccionHash = 0;
+
+				while (true) {
+					system("cls");
+					std::cout << "GESTIoN DE HASH DE ARCHIVOS\n\n";
+					std::cout << "Seleccione una operacion:\n\n";
+					for (int i = 0; i < numOpcionesHash; i++) {
+						if (i == seleccionHash)
+							std::cout << " > " << opcionesHash[i] << std::endl;
+						else
+							std::cout << "   " << opcionesHash[i] << std::endl;
+					}
+
+					int teclaHash = _getch();
+					if (teclaHash == 224) {
+						teclaHash = _getch();
+						if (teclaHash == 72) // Flecha arriba
+							seleccionHash = (seleccionHash - 1 + numOpcionesHash) % numOpcionesHash;
+						else if (teclaHash == 80) // Flecha abajo
+							seleccionHash = (seleccionHash + 1) % numOpcionesHash;
+					}
+					else if (teclaHash == 13) // Enter
+						break;
+					else if (teclaHash == 27) { // ESC
+						seleccionHash = 2; // Cancelar
+						break;
+					}
+				}
+
+				if (seleccionHash == 2) { // Cancelar
+					break;
+				}
+
+				system("cls");
+				std::cout << "Ingrese el nombre del archivo (sin extension): ";
+				std::string nombreArchivo;
+				std::cin >> nombreArchivo;
+
+				// Formar la ruta completa al archivo
+				std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+				std::string rutaArchivo = rutaEscritorio + nombreArchivo + ".bak";
+
+				if (seleccionHash == 0) { // Crear Hash
+					std::string hash = Utilidades::calcularSHA1(rutaArchivo);
+					if (hash == "ERROR_ARCHIVO_NO_ENCONTRADO") {
+						std::cout << "Error: El archivo no existe." << std::endl;
+					}
+					else {
+						std::cout << "Hash calculado: " << hash << std::endl;
+						Utilidades::guardarHashArchivo(rutaArchivo, hash);
+					}
+				}
+				else if (seleccionHash == 1) { // Verificar Hash
+					std::string rutaHash = rutaArchivo + ".hash";
+					std::string hashGuardado = Utilidades::leerHashArchivo(rutaHash);
+
+					if (hashGuardado.empty()) {
+						std::cout << "Error: No se encontro un archivo de hash para este backup." << std::endl;
+					}
+					else {
+						bool valido = Utilidades::verificarSHA1(rutaArchivo, hashGuardado);
+						if (valido) {
+							std::cout << "¡Verificacion exitosa! El archivo es legitimo y no ha sido modificado." << std::endl;
+						}
+						else {
+							std::cout << "¡ADVERTENCIA! El hash no coincide. El archivo puede haber sido modificado." << std::endl;
+						}
+					}
+				}
+				system("pause");
+				break;
+			}
+			case 10: // Salir
 			{
 				system("cls");
 				std::cout << "Saliendo del sistema...\n";

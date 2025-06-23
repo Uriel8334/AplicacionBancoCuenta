@@ -272,7 +272,7 @@ bool Validar::archivoExiste(const std::string& rutaArchivo) {
 std::string Validar::generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada)
 {
     // Por ejemplo: "Respaldo" + "00" + "_" + "30_05_2025" + ".bak"
-    // Incrementa el índice si se detecta un archivo existente
+    // Incrementa el indice si se detecta un archivo existente
     int indice = 0;
     while (true) {
         std::ostringstream oss;
@@ -281,7 +281,7 @@ std::string Validar::generarNombreConIndice(const std::string& rutaDirectorio, c
 
         std::string posibleNombre = rutaDirectorio + oss.str() + ".bak";
         if (!archivoExiste(posibleNombre)) {
-            // Devuelve el nombre si no está repetido
+            // Devuelve el nombre si no esta repetido
             return oss.str();
         }
         indice++;

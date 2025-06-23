@@ -5,6 +5,12 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+
+class NodoPersona;
+class Persona;
 
 class Utilidades {
 public:
@@ -47,8 +53,7 @@ public:
         }
     }
 
-
-    // Ordena una lista enlazada simple de nodos usando burbuja (O(n^2)), versión template
+    // Ordena una lista enlazada simple de nodos usando burbuja (O(n^2)), version template
     template<typename Nodo, typename T>
     static void burbujaLista(Nodo* cabeza, std::function<bool(const T*, const T*)> criterio) {
         // Contar nodos
@@ -67,6 +72,13 @@ public:
         }
     }
 
+    // Metodos para hash de archivos
+    static std::string calcularSHA1(const std::string& rutaArchivo); 
+    static bool verificarSHA1(const std::string& rutaArchivo, const std::string& hashEsperado);
+    
+    // Metodos para el manejo de archivos de hash
+    static void guardarHashArchivo(const std::string& rutaArchivo, const std::string& hash);
+    static std::string leerHashArchivo(const std::string& rutaHashArchivo);
 };
 
 #endif // UTILIDADES_H

@@ -140,7 +140,7 @@ bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nom
     std::string nombreArchivoTemp;
     std::string rutaArchivoTemp;
 
-    // Se decide la extensión de salida según la 'opcion' recibida
+    // Se decide la extension de salida segun la 'opcion' recibida
     switch (opcion) {
     case 0: // BIN -> BAK
         nombreArchivoTemp = "temp_backup";
@@ -151,7 +151,7 @@ bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nom
         rutaArchivoTemp = rutaEscritorio + nombreArchivoTemp + ".txt";
         break;
     default:
-        std::cout << "Opción de descifrado inválida.\n";
+        std::cout << "Opcion de descifrado invalida.\n";
         return false;
     }
 
@@ -159,7 +159,7 @@ bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nom
         // Descifrar el archivo cifrado en un archivo temporal
         desifrarArchivo(rutaOrigen, rutaArchivoTemp, claveCifrado);
 
-        // Verificar que el archivo se descifró correctamente
+        // Verificar que el archivo se descifro correctamente
         std::ifstream archivo(rutaArchivoTemp);
         if (!archivo.is_open()) {
             std::cout << "No se pudo abrir el archivo descifrado: " << rutaArchivoTemp << "\n";
@@ -167,7 +167,7 @@ bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nom
         }
         archivo.close();
 
-         //Eliminar el archivo temporal después de descifrar (si lo deseas)
+         //Eliminar el archivo temporal despues de descifrar (si lo deseas)
          //if (std::remove(rutaArchivoTemp.c_str()) != 0) {
          //   std::cout << "Advertencia: No se pudo eliminar el archivo temporal.\n";
          //}

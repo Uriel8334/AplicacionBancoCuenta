@@ -78,7 +78,7 @@ public:
 	// Verifica si un archivo ya existe
 	static bool archivoExiste(const std::string& rutaArchivo);
 
-	// Genera un nombre de respaldo único
+	// Genera un nombre de respaldo unico
 	static std::string generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada);
 
 
