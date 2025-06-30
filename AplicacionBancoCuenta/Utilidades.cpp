@@ -14,6 +14,176 @@
 #include <regex>
 #include <string>
 #include <ctime>
+#include <chrono>
+#include <queue>
+#include <algorithm>
+
+// Nodo para el Arbol B
+template<typename T>
+class NodoArbolB {
+public:
+    bool esHoja;                       // Indica si es un nodo hoja
+    std::vector<T*> claves;            // Claves del nodo (punteros a objetos)
+    std::vector<NodoArbolB<T>*> hijos; // Punteros a los hijos
+
+    // Constructor
+    NodoArbolB(bool hoja = true) : esHoja(hoja) {}
+
+    // Destructor
+    ~NodoArbolB() {
+        for (auto& hijo : hijos) {
+            delete hijo;
+        }
+    }
+};
+
+// ImplementaciOn didActica de Arbol B
+template<typename T>
+class ArbolB {
+private:
+    NodoArbolB<T>* raiz;
+    int grado; // Grado mInimo (determina nUmero de claves por nodo)
+
+    // Busca una clave en el nodo y sus subArboles
+    T* buscarEnNodo(NodoArbolB<T>* nodo, const std::string& valor, 
+                    std::function<bool(const T*, const std::string&)> comparador) {
+        if (!nodo) return nullptr;
+
+        // Buscar la clave en el nodo actual
+        for (auto& clave : nodo->claves) {
+            if (comparador(clave, valor)) {
+                return clave;
+            }
+        }
+
+        // Si es hoja y no se encontrO, no existe
+        if (nodo->esHoja) {
+            return nullptr;
+        }
+
+        // Determinar subArbol donde podrIa estar la clave
+        int i = 0;
+        while (i < nodo->claves.size() && !comparador(nodo->claves[i], valor)) {
+            i++;
+        }
+
+        // Buscar en el hijo correspondiente
+        return buscarEnNodo(nodo->hijos[i < nodo->hijos.size() ? i : nodo->hijos.size()-1], valor, comparador);
+    }
+
+public:
+    // Constructor
+    ArbolB(int _grado) : raiz(nullptr), grado(_grado) {
+        if (grado < 2) grado = 2; // MInimo grado 2
+    }
+
+    // Destructor
+    ~ArbolB() {
+        if (raiz) delete raiz;
+    }
+
+    // Construir Arbol desde un vector de elementos
+    void construirDesdeVector(std::vector<T*>& elementos) {
+        // Crear raIz
+        raiz = new NodoArbolB<T>();
+        
+        // Si hay pocos elementos, los ponemos en la raIz
+        if (elementos.size() <= 2 * grado - 1) {
+            for (auto& elem : elementos) {
+                raiz->claves.push_back(elem);
+            }
+            return;
+        }
+
+        // Si hay muchos elementos, crear estructura de Arbol
+        raiz->esHoja = false;
+        
+        int elementosPorNodo = grado;
+        int totalElementos = elementos.size();
+        int posActual = 0;
+        
+        // Crear nodos hoja y distribuir elementos
+        while (posActual < totalElementos) {
+            NodoArbolB<T>* nodoHoja = new NodoArbolB<T>(true);
+            
+            // Llenar nodo con elementos
+            for (int i = 0; i < elementosPorNodo && posActual < totalElementos; i++) {
+                nodoHoja->claves.push_back(elementos[posActual++]);
+            }
+            
+            // Agregar nodo como hijo de la raIz
+            raiz->hijos.push_back(nodoHoja);
+            
+            // Si no es el primer hijo, promover una clave a la raIz
+            if (raiz->hijos.size() > 1 && !nodoHoja->claves.empty()) {
+                raiz->claves.push_back(nodoHoja->claves.front());
+            }
+        }
+    }
+
+    // Buscar elemento en el Arbol
+    T* buscar(const std::string& valor, std::function<bool(const T*, const std::string&)> comparador) {
+        return buscarEnNodo(raiz, valor, comparador);
+    }
+
+    // Mostrar estructura del Arbol
+    void mostrar() {
+        if (!raiz) {
+            std::cout << "Arbol vacIo" << std::endl;
+            return;
+        }
+
+        // Recorrer por niveles
+        std::queue<NodoArbolB<T>*> cola;
+        cola.push(raiz);
+
+        int nivel = 0;
+        while (!cola.empty()) {
+            int nodosEnNivel = cola.size();
+            std::cout << "Nivel " << nivel << ": ";
+
+            for (int i = 0; i < nodosEnNivel; i++) {
+                NodoArbolB<T>* nodoActual = cola.front();
+                cola.pop();
+
+                // Mostrar claves del nodo
+                std::cout << "[ ";
+                for (auto& clave : nodoActual->claves) {
+                    if (auto persona = dynamic_cast<Persona*>(clave)) {
+                        std::cout << persona->getNombres() << " ";
+                    } else {
+                        std::cout << "objeto ";
+                    }
+                }
+                std::cout << "] ";
+
+                // Encolar hijos
+                for (auto& hijo : nodoActual->hijos) {
+                    cola.push(hijo);
+                }
+            }
+            std::cout << std::endl;
+            nivel++;
+        }
+    }
+
+    int altura() const {
+        if (!raiz) return 0;
+
+        // Aproximamos la altura basada en el número de nodos
+        int nodosEstimados = 0;
+        for (auto& hijo : raiz->hijos) {
+            nodosEstimados++;
+            if (!hijo->esHoja) {
+                nodosEstimados += hijo->hijos.size();
+            }
+        }
+
+        // La altura del árbol es aproximadamente log(n)
+        return raiz->hijos.empty() ? 1 : 2 + (nodosEstimados > 0 ? 1 : 0);
+    }
+};
+
 
 Utilidades::Utilidades() {
 	// Constructor vacio
@@ -396,4 +566,210 @@ void mostrarMenuOrdenar(std::vector<T*>& vec,
 			break;
 		}
 	}
+}
+
+// Implementación de la función PorArbolB mejorada
+void Utilidades::PorArbolB(NodoPersona* cabeza) {
+    if (!cabeza) {
+        std::cout << "No hay datos para mostrar." << std::endl;
+        system("pause");
+        return;
+    }
+
+    // Opciones de criterios de ordenamiento (sin tildes)
+    std::vector<std::string> criterios = { "Cedula", "Nombre", "Apellido", "Fecha de nacimiento" };
+    int selCriterio = 0;
+
+    // Recolectar personas de la lista
+    std::vector<Persona*> personas;
+    NodoPersona* actual = cabeza;
+    while (actual) {
+        if (actual->persona && actual->persona->isValidInstance()) {
+            personas.push_back(actual->persona);
+        }
+        actual = actual->siguiente;
+    }
+
+    if (personas.empty()) {
+        std::cout << "No hay personas validas para procesar." << std::endl;
+        system("pause");
+        return;
+    }
+
+    // Función local para mostrar menú sin parpadeo
+    auto mostrarMenuCriterios = [&criterios, &selCriterio]() {
+        system("cls");
+        std::cout << "=== ARBOL B DIDACTICO ===" << std::endl;
+        std::cout << "Seleccione criterio de ordenamiento:" << std::endl;
+
+        for (size_t i = 0; i < criterios.size(); i++) {
+            if (i == selCriterio)
+                std::cout << " > " << criterios[i] << std::endl;
+            else
+                std::cout << "   " << criterios[i] << std::endl;
+        }
+        };
+
+    // Menú inicial
+    mostrarMenuCriterios();
+
+    // Navegación del menú
+    while (true) {
+        int tecla = _getch();
+
+        if (tecla == 224) {
+            tecla = _getch();
+            if (tecla == 72) // Flecha arriba
+                selCriterio = (selCriterio - 1 + criterios.size()) % criterios.size();
+            else if (tecla == 80) // Flecha abajo
+                selCriterio = (selCriterio + 1) % criterios.size();
+
+            // Redibujar todo el menú
+            mostrarMenuCriterios();
+        }
+        else if (tecla == 13) break; // Enter
+        else if (tecla == 27) return; // ESC
+    }
+
+    // Resto del código para definir comparadores, construir árbol, etc...
+    std::function<bool(const Persona*, const Persona*)> criterioOrdenamiento;
+    std::function<bool(const Persona*, const std::string&)> criterioBusqueda;
+
+    switch (selCriterio) {
+    case 0: // Cedula
+        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+            return a->getCedula() < b->getCedula();
+            };
+        criterioBusqueda = [](const Persona* p, const std::string& cedula) {
+            return p->getCedula() == cedula;
+            };
+        break;
+    case 1: // Nombre
+        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+            return Utilidades::ConvertirAMinusculas(a->getNombres()) <
+                Utilidades::ConvertirAMinusculas(b->getNombres());
+            };
+        criterioBusqueda = [](const Persona* p, const std::string& nombre) {
+            return Utilidades::ConvertirAMinusculas(p->getNombres()).find(
+                Utilidades::ConvertirAMinusculas(nombre)) != std::string::npos;
+            };
+        break;
+    case 2: // Apellido
+        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+            return Utilidades::ConvertirAMinusculas(a->getApellidos()) <
+                Utilidades::ConvertirAMinusculas(b->getApellidos());
+            };
+        criterioBusqueda = [](const Persona* p, const std::string& apellido) {
+            return Utilidades::ConvertirAMinusculas(p->getApellidos()).find(
+                Utilidades::ConvertirAMinusculas(apellido)) != std::string::npos;
+            };
+        break;
+    case 3: // Fecha de nacimiento
+        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+            return a->getFechaNacimiento() < b->getFechaNacimiento();
+            };
+        criterioBusqueda = [](const Persona* p, const std::string& fecha) {
+            return p->getFechaNacimiento() == fecha;
+            };
+        break;
+    }
+
+    // Ordenar y crear árbol
+    std::sort(personas.begin(), personas.end(), criterioOrdenamiento);
+
+    auto inicio = std::chrono::high_resolution_clock::now();
+    ArbolB<Persona> arbol(3);
+    arbol.construirDesdeVector(personas);
+    auto fin = std::chrono::high_resolution_clock::now();
+    auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(fin - inicio).count();
+
+    // Submenú de operaciones con mismo enfoque que el menú principal
+    std::vector<std::string> opcionesArbol = { "Buscar persona", "Volver" };
+    int selOpcion = 0;
+
+    // Función local para mostrar menú completo
+    auto mostrarMenuCompleto = [&criterios, &selCriterio, &arbol, &duracion, &opcionesArbol, &selOpcion]() {
+        system("cls");
+        std::cout << "=== ARBOL B DIDACTICO ===" << std::endl;
+        std::cout << "Ordenado por: " << criterios[selCriterio] << std::endl;
+        arbol.mostrar();
+        std::cout << "\nTiempo de construccion: " << duracion << " milisegundos." << std::endl;
+        
+        std::cout << "\nSeleccione operacion:" << std::endl;
+        for (size_t i = 0; i < opcionesArbol.size(); i++) {
+            if (i == selOpcion)
+                std::cout << " > " << opcionesArbol[i] << std::endl;
+            else
+                std::cout << "   " << opcionesArbol[i] << std::endl;
+        }
+    };
+
+    // Mostrar menú inicial
+    mostrarMenuCompleto();
+
+    while (true) {
+        int tecla = _getch();
+        if (tecla == 224) {
+            tecla = _getch();
+            if (tecla == 72) // Flecha arriba
+                selOpcion = (selOpcion - 1 + opcionesArbol.size()) % opcionesArbol.size();
+            else if (tecla == 80) // Flecha abajo
+                selOpcion = (selOpcion + 1) % opcionesArbol.size();
+                
+            // Redibujamos el menú completo con la nueva selección
+            mostrarMenuCompleto();
+        }
+        else if (tecla == 13) { // Enter
+            if (selOpcion == 0) { // Buscar persona
+                // Coordenadas para el área de entrada
+                int baseY = arbol.altura() + 8 + opcionesArbol.size();
+                Utilidades::gotoxy(0, baseY);
+                std::cout << std::string(80, ' '); // Limpiar línea
+                Utilidades::gotoxy(0, baseY);
+                
+                std::string criterioBusquedaStr;
+                // Si criterios es igual a Fecha de nacimiento imprimir "DD/MM/AAAA"
+                if (selCriterio == 3) {
+                    std::cout << "Usar el siguiente formato para buscar por fecha DD/MM/AAAA: ";
+                }
+                std::cout << "Ingrese " << criterios[selCriterio] << " a buscar: ";
+                
+                std::cin >> criterioBusquedaStr;
+                
+                // Búsqueda y medición de tiempo
+                auto inicioBusqueda = std::chrono::high_resolution_clock::now();
+                Persona* encontrado = arbol.buscar(criterioBusquedaStr, criterioBusqueda);
+                auto finBusqueda = std::chrono::high_resolution_clock::now();
+                auto duracionBusqueda = std::chrono::duration_cast<std::chrono::milliseconds>
+                                        (finBusqueda - inicioBusqueda).count();
+                
+                // Mostrar resultados
+                Utilidades::gotoxy(0, baseY + 1);
+                if (encontrado) {
+                    std::cout << "Persona encontrada:" << std::endl;
+                    std::cout << "Cedula: " << encontrado->getCedula() << std::endl;
+                    std::cout << "Nombre: " << encontrado->getNombres() << std::endl;
+                    std::cout << "Apellidos: " << encontrado->getApellidos() << std::endl;
+                    std::cout << "Fecha de nacimiento: " << encontrado->getFechaNacimiento() << std::endl;
+                    std::cout << "Correo: " << encontrado->getCorreo() << std::endl;
+                } else {
+                    std::cout << "Persona no encontrada." << std::endl;
+                }
+                
+                std::cout << "Tiempo de busqueda: " << duracionBusqueda << " milisegundos." << std::endl;
+                std::cout << "\nPresione Enter para continuar...";
+                std::cin.ignore();
+                std::cin.get();
+                
+                // Redibujar menú completo
+                mostrarMenuCompleto();
+            }
+            else {
+                break; // Volver
+            }
+        }
+        else if (tecla == 27) { // ESC
+            break;
+        }
+    }
 }

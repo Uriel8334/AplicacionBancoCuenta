@@ -79,6 +79,11 @@ public:
     // Metodos para el manejo de archivos de hash
     static void guardarHashArchivo(const std::string& rutaArchivo, const std::string& hash);
     static std::string leerHashArchivo(const std::string& rutaHashArchivo);
+    
+
+    // Metodo para demostraciOn didActica de Arbol B
+    static void PorArbolB(NodoPersona* cabeza);
+
 };
 
 #endif // UTILIDADES_H

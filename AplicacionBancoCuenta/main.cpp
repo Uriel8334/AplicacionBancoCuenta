@@ -248,7 +248,8 @@ int main() {
 		"Descifrar Archivo",
 		"Menu de ayuda",
 		"Explorador de archivos",
-		 "Gestion de Hash",
+		"Gestion de Hash",
+		"Arbol B",
 		"Salir"
 	};
 
@@ -976,7 +977,19 @@ int main() {
 				system("pause");
 				break;
 			}
-			case 10: // Salir
+			case 10: // Arbol B
+			{
+				if (banco.getListaPersonas() == nullptr) {
+					system("cls");
+					std::cout << "No hay personas registradas. Cree una cuenta primero.\n";
+					system("pause");
+					break;
+				}
+
+				Utilidades::PorArbolB(banco.getListaPersonas());
+				break;
+			}
+			case 11: // Salir
 			{
 				system("cls");
 				std::cout << "Saliendo del sistema...\n";
