@@ -7,22 +7,23 @@
 #include "Utilidades.h"
 #include "Cifrado.h" // Asegurate de incluir este archivo de cabecera
 #include <algorithm>
-
+#include "Marquesina.h"
 // Funcion para mostrar el menu sin parpadeo y limpiar toda la linea
 static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y) {
-	system("cls"); // Limpia la pantalla
-	const int anchoLinea = 80; // Ajusta segun el ancho de tu consola
+	Utilidades::limpiarPantallaPreservandoMarquesina();
+
+	const int anchoLinea = 80;
 	for (int i = 0; i < numOpciones; i++) {
-		Utilidades::gotoxy(0, y + i);
-		std::cout << std::string(anchoLinea, ' '); // Borra toda la linea
-		Utilidades::gotoxy(x, y + i);
+		Utilidades::gotoxy(0, y + i ); // +2 para dejar espacio a la marquesina
+		std::cout << std::string(anchoLinea, ' '); // Borra toda la línea
+		Utilidades::gotoxy(x, y + i ); // +2 para dejar espacio a la marquesina
 		if (i == seleccion)
 			std::cout << " > " << opciones[i] << "   ";
 		else
 			std::cout << "   " << opciones[i] << "   ";
 	}
-	// Limpia cualquier linea sobrante si el menu se reduce
-	Utilidades::gotoxy(0, y + numOpciones);
+	// Limpiar cualquier línea sobrante si el menú se reduce
+	Utilidades::gotoxy(0, y + numOpciones ); // +2 para dejar espacio a la marquesina
 	std::cout << std::string(anchoLinea, ' ');
 }
 
@@ -236,6 +237,7 @@ void mostrarPersonas(const std::vector<Persona*>& personas) {
 	}
 }
 
+Marquesina* marquesinaGlobal = nullptr;
 
 int main() {
 	std::string opciones[] = {
@@ -262,6 +264,21 @@ int main() {
 	// Imprime el menu una vez (para reservar espacio)
 	for (int i = 0; i < numOpciones; i++)
 		std::cout << std::endl;
+
+	// Configuración de la consola
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	int anchoConsola = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+
+	// Crear la marquesina en la parte superior de la consola
+	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 150);
+	marquesinaGlobal->iniciar();
+
+	// Dejar espacio para la marquesina
+	std::cout << std::endl << std::endl; // 2 líneas para la marquesina
+
+
+
 
 	while (true) {
 		mostrarMenu(seleccion, opciones, numOpciones, x, y);
@@ -1011,6 +1028,11 @@ int main() {
 			std::cout << "Saliendo con ESC..." << std::endl;
 			break;
 		}
+	}
+
+	if (marquesinaGlobal) {
+		marquesinaGlobal->detener();
+		delete marquesinaGlobal;
 	}
 	return 0;
 }

@@ -84,6 +84,10 @@ public:
     // Metodo para demostraciOn didActica de Arbol B
     static void PorArbolB(NodoPersona* cabeza);
 
+    // Función para limpiar la pantalla pero preservar la zona de marquesina
+    static void limpiarPantallaPreservandoMarquesina(int lineasMarquesina = 2);
+
+
 };
 
 #endif // UTILIDADES_H

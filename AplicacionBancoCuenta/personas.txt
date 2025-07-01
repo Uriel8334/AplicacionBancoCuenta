@@ -495,3 +495,10 @@ Fecha de nacimiento: 10/05/1980
 Correo: fracia@hotmail.com
 Direccion: quito
 -----------------------------
+Cedula: 0401865381
+Nombres: Uriel Alejandro
+Apellidos: Andrade Hermosa
+Fecha de nacimiento: 29/02/2000
+Correo: vanidad*4567@gmail.com
+Direccion: san carlos 
+-----------------------------

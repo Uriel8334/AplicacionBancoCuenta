@@ -73,12 +73,14 @@ namespace PersonaUI {
 						return valor;
 					}
 					std::cout << "\nEl valor debe estar entre " << min << " y " << max << ". Presione cualquier tecla...";
-					_getch();
+					int teclaCualquiera = _getch();
+					(void)teclaCualquiera;
 					continue;
 				}
 				catch (...) {
 					std::cout << "\nFormato invalido. Presione cualquier tecla...";
-					_getch();
+					int teclaCualquiera = _getch();
+					(void)teclaCualquiera;
 					continue;
 				}
 			}
@@ -657,6 +659,7 @@ std::string Persona::ingresarDireccion(std::string& direccion)
 /// Metodo para corregir los datos de la persona.
 /// </summary>
 /// <returns></returns>
+/// @param seleccion Si es true, se repite el ingreso de datos; si es false, se finaliza el ingreso.
 bool Persona::corregirDatos()
 {
 	if (PersonaUI::seleccionarSiNo("¿Los datos ingresados son correctos?")) {
@@ -667,9 +670,11 @@ bool Persona::corregirDatos()
 	}
 }
 
+
 /// <summary>
 /// Metodo para mostrar los datos de la persona.
 /// </summary>
+/// @param cedula Cedula de la persona
 void Persona::mostrarDatos() const {
 	cout << "\n----- DATOS DEL USUARIO -----\n";
 	cout << "Cedula: " << cedula << endl;
@@ -975,7 +980,10 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		}
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
-		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
+		// Pedir al usuario que seleccione una sucursal
+		std::string sucursal = seleccionSucursal();
+
+		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta, sucursal);
 		if (numeroCuenta.empty()) {
 			cout << "Error generando numero de cuenta." << endl;
 			return false;
@@ -1035,11 +1043,15 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
-		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
+		// Pedir al usuario que seleccione una sucursal
+		std::string sucursal = seleccionSucursal();
+
+		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta, sucursal);
 		if (numeroCuenta.empty()) {
 			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
+
 
 		// Mostrar informacion
 		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
@@ -1105,7 +1117,14 @@ bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::stri
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
 		// Generar numero de cuenta
-		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
+		// Pedir al usuario que seleccione una sucursal
+		std::string sucursal = seleccionSucursal();
+
+		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta, sucursal);
+		if (numeroCuenta.empty()) {
+			cout << "Error generando numero de cuenta." << endl;
+			return false;
+		}
 		if (numeroCuenta.empty()) {
 			cout << "Error generando numero de cuenta." << endl;
 			return false;
@@ -1155,7 +1174,14 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
-		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta);
+		// Pedir al usuario que seleccione una sucursal
+		std::string sucursal = seleccionSucursal();
+
+		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta, sucursal);
+		if (numeroCuenta.empty()) {
+			cout << "Error generando numero de cuenta." << endl;
+			return false;
+		}
 		if (numeroCuenta.empty()) {
 			cout << "Error generando numero de cuenta." << endl;
 			return false;
@@ -1182,17 +1208,24 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 	}
 }
 
+
 /// <summary>
 /// Metodo para crear un numero de cuenta unico para una nueva cuenta, asegurando que no se repita con las cuentas existentes.
 /// </summary>
 /// <param name="nuevaCuenta"></param>
+/// <param name="sucursal"></param>
 /// <returns></returns>
-std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta) {
+std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::string& sucursal) {
+	// Validar que la sucursal esté entre las permitidas
+	if (sucursal != "210" && sucursal != "220" && sucursal != "480" && sucursal != "560") {
+		std::cerr << "Error: Código de sucursal no válido. Use 210, 220, 480 o 560." << std::endl;
+		return "";
+	}
+
 	std::vector<Cuenta<double>*> cuentas;
-	bool numeroValido = false;
 	std::string numeroCuentaStr;
 
-	// Agregar cuentas de ahorro a la lista
+	// Recolectar todas las cuentas existentes
 	CuentaAhorros* actualAhorros = cabezaAhorros;
 	while (actualAhorros) {
 		cuentas.push_back(actualAhorros);
@@ -1204,56 +1237,119 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta) {
 		cuentas.push_back(actualCorriente);
 		actualCorriente = actualCorriente->getSiguiente();
 	}
-	do {
-		int mayorCentral = 0;
 
-		for (auto cuenta : cuentas) {
-			std::string numeroStr = cuenta->getNumeroCuenta();
-			if (numeroStr.size() < 10) {
-				numeroStr.insert(0, 10 - numeroStr.size(), '0');
+	// Buscar el mayor número de cuenta para la sucursal especificada
+	int mayorNumCuenta = 0;
+
+	for (auto cuenta : cuentas) {
+		std::string numCuenta = cuenta->getNumeroCuenta();
+
+		// Verificar si el número de cuenta tiene el formato correcto
+		if (numCuenta.length() == 10 && numCuenta.substr(0, 3) == sucursal) {
+			try {
+				// Extraer los 6 dígitos del número de cuenta (posición 3 a 8)
+				int numSecuencial = std::stoi(numCuenta.substr(3, 6));
+				if (numSecuencial > mayorNumCuenta) {
+					mayorNumCuenta = numSecuencial;
+				}
 			}
-
-			if (numeroStr.substr(0, 3) == "090") {
-				try {
-					int parteCentral = std::stoi(numeroStr.substr(3, 6));
-					if (parteCentral > mayorCentral) {
-						mayorCentral = parteCentral;
-					}
-				}
-				catch (const std::exception& e) {
-					std::cerr << "Error en la generacion del numero de cuenta: " << e.what() << std::endl;
-					return ""; // O un valor por defecto seguro
-				}
-
+			catch (const std::exception& e) {
+				std::cerr << "Error al procesar número de cuenta: " << e.what() << std::endl;
 			}
 		}
+	}
 
-		++mayorCentral;
+	// Incrementar para obtener el siguiente número secuencial
+	mayorNumCuenta++;
 
-		std::ostringstream oss;
-		oss << std::setw(6) << std::setfill('0') << mayorCentral;
-		std::string parteCuenta = oss.str();
-		std::string base = "090" + parteCuenta;
+	// Formatear el número de cuenta con ceros a la izquierda
+	std::ostringstream oss;
+	oss << sucursal << std::setw(6) << std::setfill('0') << mayorNumCuenta;
+	std::string base = oss.str();
 
-		int suma = 0;
-		for (char c : base) {
-			suma += (c - '0');
-		}
-		int digitoControl = suma % 10;
+	// Calcular dígito verificador: suma de todos los dígitos módulo 10
+	int suma = 0;
+	for (char c : base) {
+		suma += (c - '0');
+	}
+	int digitoVerificador = suma % 10;
 
-		numeroCuentaStr = base + std::to_string(digitoControl);
+	// Formar el número de cuenta completo
+	numeroCuentaStr = base + std::to_string(digitoVerificador);
 
-		if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
-			return ""; // Retornar cadena vacia indica error
-		}
-		// El codigo continua si la validacion es exitosa
-		nuevaCuenta->setNumeroCuenta(numeroCuentaStr);
-		numeroValido = true;
+	// Verificar que el número de cuenta sea válido
+	if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
+		std::cerr << "Error: El número de cuenta generado no es válido." << std::endl;
+		return "";
+	}
 
-	} while (!numeroValido); // Si el numero no es valido, se genera otro
+	// Asignar el número de cuenta al objeto
+	nuevaCuenta->setNumeroCuenta(numeroCuentaStr);
 
 	return numeroCuentaStr;
 }
 
 
+// Función para seleccionar sucursal mediante navegación con cursor
+std::string Persona::seleccionSucursal() {
+	std::string sucursales[] = {
+		"Sucursal Quicentro Shopping",
+		"Sucursal Centro Plaza Grande",
+		"Sucursal Quicentro Sur",
+		"Sucursal Valle de los Chillos"
+	};
 
+	std::string codigosSucursales[] = { "210", "220", "480", "560" };
+	int numOpciones = sizeof(sucursales) / sizeof(sucursales[0]);
+	int seleccion = 0;
+
+	system("cls");
+	std::cout << "Seleccione la sucursal donde se encuentra:\n\n";
+
+	// Mostrar opciones inicialmente
+	for (int i = 0; i < numOpciones; i++) {
+		if (i == seleccion)
+			std::cout << " > " << sucursales[i] << std::endl;
+		else
+			std::cout << "   " << sucursales[i] << std::endl;
+	}
+
+	// Navegación del menú
+	while (true) {
+		int tecla = _getch();
+
+		if (tecla == 224) { // Tecla especial
+			tecla = _getch();
+			if (tecla == 72) { // Flecha arriba
+				// Guardar selección anterior
+				int selAnterior = seleccion;
+				seleccion = (seleccion - 1 + numOpciones) % numOpciones;
+
+				// Actualizar solo las líneas que cambian
+				Utilidades::gotoxy(0, 2 + selAnterior);
+				std::cout << "   " << sucursales[selAnterior] << std::string(20, ' ');
+
+				Utilidades::gotoxy(0, 2 + seleccion);
+				std::cout << " > " << sucursales[seleccion] << std::string(20, ' ');
+			}
+			else if (tecla == 80) { // Flecha abajo
+				// Guardar selección anterior
+				int selAnterior = seleccion;
+				seleccion = (seleccion + 1) % numOpciones;
+
+				// Actualizar solo las líneas que cambian
+				Utilidades::gotoxy(0, 2 + selAnterior);
+				std::cout << "   " << sucursales[selAnterior] << std::string(20, ' ');
+
+				Utilidades::gotoxy(0, 2 + seleccion);
+				std::cout << " > " << sucursales[seleccion] << std::string(20, ' ');
+			}
+		}
+		else if (tecla == 13) { // ENTER
+			return codigosSucursales[seleccion];
+		}
+		else if (tecla == 27) { // ESC - valor por defecto
+			return "210"; // Retorna código de sucursal por defecto
+		}
+	}
+}

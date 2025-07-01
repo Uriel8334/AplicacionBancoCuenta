@@ -22,166 +22,167 @@
 template<typename T>
 class NodoArbolB {
 public:
-    bool esHoja;                       // Indica si es un nodo hoja
-    std::vector<T*> claves;            // Claves del nodo (punteros a objetos)
-    std::vector<NodoArbolB<T>*> hijos; // Punteros a los hijos
+	bool esHoja;                       // Indica si es un nodo hoja
+	std::vector<T*> claves;            // Claves del nodo (punteros a objetos)
+	std::vector<NodoArbolB<T>*> hijos; // Punteros a los hijos
 
-    // Constructor
-    NodoArbolB(bool hoja = true) : esHoja(hoja) {}
+	// Constructor
+	NodoArbolB(bool hoja = true) : esHoja(hoja) {}
 
-    // Destructor
-    ~NodoArbolB() {
-        for (auto& hijo : hijos) {
-            delete hijo;
-        }
-    }
+	// Destructor
+	~NodoArbolB() {
+		for (auto& hijo : hijos) {
+			delete hijo;
+		}
+	}
 };
 
 // ImplementaciOn didActica de Arbol B
 template<typename T>
 class ArbolB {
 private:
-    NodoArbolB<T>* raiz;
-    int grado; // Grado mInimo (determina nUmero de claves por nodo)
+	NodoArbolB<T>* raiz;
+	int grado; // Grado mInimo (determina nUmero de claves por nodo)
 
-    // Busca una clave en el nodo y sus subArboles
-    T* buscarEnNodo(NodoArbolB<T>* nodo, const std::string& valor, 
-                    std::function<bool(const T*, const std::string&)> comparador) {
-        if (!nodo) return nullptr;
+	// Busca una clave en el nodo y sus subArboles
+	T* buscarEnNodo(NodoArbolB<T>* nodo, const std::string& valor,
+		std::function<bool(const T*, const std::string&)> comparador) {
+		if (!nodo) return nullptr;
 
-        // Buscar la clave en el nodo actual
-        for (auto& clave : nodo->claves) {
-            if (comparador(clave, valor)) {
-                return clave;
-            }
-        }
+		// Buscar la clave en el nodo actual
+		for (auto& clave : nodo->claves) {
+			if (comparador(clave, valor)) {
+				return clave;
+			}
+		}
 
-        // Si es hoja y no se encontrO, no existe
-        if (nodo->esHoja) {
-            return nullptr;
-        }
+		// Si es hoja y no se encontrO, no existe
+		if (nodo->esHoja) {
+			return nullptr;
+		}
 
-        // Determinar subArbol donde podrIa estar la clave
-        int i = 0;
-        while (i < nodo->claves.size() && !comparador(nodo->claves[i], valor)) {
-            i++;
-        }
+		// Determinar subArbol donde podrIa estar la clave
+		int i = 0;
+		while (i < nodo->claves.size() && !comparador(nodo->claves[i], valor)) {
+			i++;
+		}
 
-        // Buscar en el hijo correspondiente
-        return buscarEnNodo(nodo->hijos[i < nodo->hijos.size() ? i : nodo->hijos.size()-1], valor, comparador);
-    }
+		// Buscar en el hijo correspondiente
+		return buscarEnNodo(nodo->hijos[i < nodo->hijos.size() ? i : nodo->hijos.size() - 1], valor, comparador);
+	}
 
 public:
-    // Constructor
-    ArbolB(int _grado) : raiz(nullptr), grado(_grado) {
-        if (grado < 2) grado = 2; // MInimo grado 2
-    }
+	// Constructor
+	ArbolB(int _grado) : raiz(nullptr), grado(_grado) {
+		if (grado < 2) grado = 2; // MInimo grado 2
+	}
 
-    // Destructor
-    ~ArbolB() {
-        if (raiz) delete raiz;
-    }
+	// Destructor
+	~ArbolB() {
+		if (raiz) delete raiz;
+	}
 
-    // Construir Arbol desde un vector de elementos
-    void construirDesdeVector(std::vector<T*>& elementos) {
-        // Crear raIz
-        raiz = new NodoArbolB<T>();
-        
-        // Si hay pocos elementos, los ponemos en la raIz
-        if (elementos.size() <= 2 * grado - 1) {
-            for (auto& elem : elementos) {
-                raiz->claves.push_back(elem);
-            }
-            return;
-        }
+	// Construir Arbol desde un vector de elementos
+	void construirDesdeVector(std::vector<T*>& elementos) {
+		// Crear raIz
+		raiz = new NodoArbolB<T>();
 
-        // Si hay muchos elementos, crear estructura de Arbol
-        raiz->esHoja = false;
-        
-        int elementosPorNodo = grado;
-        int totalElementos = elementos.size();
-        int posActual = 0;
-        
-        // Crear nodos hoja y distribuir elementos
-        while (posActual < totalElementos) {
-            NodoArbolB<T>* nodoHoja = new NodoArbolB<T>(true);
-            
-            // Llenar nodo con elementos
-            for (int i = 0; i < elementosPorNodo && posActual < totalElementos; i++) {
-                nodoHoja->claves.push_back(elementos[posActual++]);
-            }
-            
-            // Agregar nodo como hijo de la raIz
-            raiz->hijos.push_back(nodoHoja);
-            
-            // Si no es el primer hijo, promover una clave a la raIz
-            if (raiz->hijos.size() > 1 && !nodoHoja->claves.empty()) {
-                raiz->claves.push_back(nodoHoja->claves.front());
-            }
-        }
-    }
+		// Si hay pocos elementos, los ponemos en la raIz
+		if (elementos.size() <= 2 * grado - 1) {
+			for (auto& elem : elementos) {
+				raiz->claves.push_back(elem);
+			}
+			return;
+		}
 
-    // Buscar elemento en el Arbol
-    T* buscar(const std::string& valor, std::function<bool(const T*, const std::string&)> comparador) {
-        return buscarEnNodo(raiz, valor, comparador);
-    }
+		// Si hay muchos elementos, crear estructura de Arbol
+		raiz->esHoja = false;
 
-    // Mostrar estructura del Arbol
-    void mostrar() {
-        if (!raiz) {
-            std::cout << "Arbol vacIo" << std::endl;
-            return;
-        }
+		int elementosPorNodo = grado;
+		int totalElementos = elementos.size();
+		int posActual = 0;
 
-        // Recorrer por niveles
-        std::queue<NodoArbolB<T>*> cola;
-        cola.push(raiz);
+		// Crear nodos hoja y distribuir elementos
+		while (posActual < totalElementos) {
+			NodoArbolB<T>* nodoHoja = new NodoArbolB<T>(true);
 
-        int nivel = 0;
-        while (!cola.empty()) {
-            int nodosEnNivel = cola.size();
-            std::cout << "Nivel " << nivel << ": ";
+			// Llenar nodo con elementos
+			for (int i = 0; i < elementosPorNodo && posActual < totalElementos; i++) {
+				nodoHoja->claves.push_back(elementos[posActual++]);
+			}
 
-            for (int i = 0; i < nodosEnNivel; i++) {
-                NodoArbolB<T>* nodoActual = cola.front();
-                cola.pop();
+			// Agregar nodo como hijo de la raIz
+			raiz->hijos.push_back(nodoHoja);
 
-                // Mostrar claves del nodo
-                std::cout << "[ ";
-                for (auto& clave : nodoActual->claves) {
-                    if (auto persona = dynamic_cast<Persona*>(clave)) {
-                        std::cout << persona->getNombres() << " ";
-                    } else {
-                        std::cout << "objeto ";
-                    }
-                }
-                std::cout << "] ";
+			// Si no es el primer hijo, promover una clave a la raIz
+			if (raiz->hijos.size() > 1 && !nodoHoja->claves.empty()) {
+				raiz->claves.push_back(nodoHoja->claves.front());
+			}
+		}
+	}
 
-                // Encolar hijos
-                for (auto& hijo : nodoActual->hijos) {
-                    cola.push(hijo);
-                }
-            }
-            std::cout << std::endl;
-            nivel++;
-        }
-    }
+	// Buscar elemento en el Arbol
+	T* buscar(const std::string& valor, std::function<bool(const T*, const std::string&)> comparador) {
+		return buscarEnNodo(raiz, valor, comparador);
+	}
 
-    int altura() const {
-        if (!raiz) return 0;
+	// Mostrar estructura del Arbol
+	void mostrar() {
+		if (!raiz) {
+			std::cout << "Arbol vacIo" << std::endl;
+			return;
+		}
 
-        // Aproximamos la altura basada en el número de nodos
-        int nodosEstimados = 0;
-        for (auto& hijo : raiz->hijos) {
-            nodosEstimados++;
-            if (!hijo->esHoja) {
-                nodosEstimados += hijo->hijos.size();
-            }
-        }
+		// Recorrer por niveles
+		std::queue<NodoArbolB<T>*> cola;
+		cola.push(raiz);
 
-        // La altura del árbol es aproximadamente log(n)
-        return raiz->hijos.empty() ? 1 : 2 + (nodosEstimados > 0 ? 1 : 0);
-    }
+		int nivel = 0;
+		while (!cola.empty()) {
+			int nodosEnNivel = cola.size();
+			std::cout << "Nivel " << nivel << ": ";
+
+			for (int i = 0; i < nodosEnNivel; i++) {
+				NodoArbolB<T>* nodoActual = cola.front();
+				cola.pop();
+
+				// Mostrar claves del nodo
+				std::cout << "[ ";
+				for (auto& clave : nodoActual->claves) {
+					if (auto persona = dynamic_cast<Persona*>(clave)) {
+						std::cout << persona->getNombres() << " ";
+					}
+					else {
+						std::cout << "objeto ";
+					}
+				}
+				std::cout << "] ";
+
+				// Encolar hijos
+				for (auto& hijo : nodoActual->hijos) {
+					cola.push(hijo);
+				}
+			}
+			std::cout << std::endl;
+			nivel++;
+		}
+	}
+
+	int altura() const {
+		if (!raiz) return 0;
+
+		// Aproximamos la altura basada en el número de nodos
+		int nodosEstimados = 0;
+		for (auto& hijo : raiz->hijos) {
+			nodosEstimados++;
+			if (!hijo->esHoja) {
+				nodosEstimados += hijo->hijos.size();
+			}
+		}
+
+		// La altura del árbol es aproximadamente log(n)
+		return raiz->hijos.empty() ? 1 : 2 + (nodosEstimados > 0 ? 1 : 0);
+	}
 };
 
 
@@ -261,27 +262,27 @@ double Utilidades::ConvertirADouble(const std::string& texto) {
 
 // Metodo para formatear un monto a string con separadores de miles y decimales
 std::string Utilidades::FormatearMonto(double monto, int decimales) {
-    std::ostringstream oss;
-    oss << std::fixed << std::setprecision(decimales) << monto;
+	std::ostringstream oss;
+	oss << std::fixed << std::setprecision(decimales) << monto;
 
-    std::string resultado = oss.str();
+	std::string resultado = oss.str();
 
-    // Agregar separadores de miles
-    size_t posDecimal = resultado.find('.');
-    if (posDecimal == std::string::npos) {
-        posDecimal = resultado.length();
-    }
+	// Agregar separadores de miles
+	size_t posDecimal = resultado.find('.');
+	if (posDecimal == std::string::npos) {
+		posDecimal = resultado.length();
+	}
 
-    // Usar size_t para el indice del bucle para evitar la conversion
-    if (posDecimal > 3) { // Verificar que hay suficientes digitos para insertar comas
-        for (size_t i = posDecimal - 3; i > 0; i -= 3) {
-            resultado.insert(i, ",");
-            // Evitar el problema del unsigned underflow cuando i es menor que 3
-            if (i <= 3) break;
-        }
-    }
+	// Usar size_t para el indice del bucle para evitar la conversion
+	if (posDecimal > 3) { // Verificar que hay suficientes digitos para insertar comas
+		for (size_t i = posDecimal - 3; i > 0; i -= 3) {
+			resultado.insert(i, ",");
+			// Evitar el problema del unsigned underflow cuando i es menor que 3
+			if (i <= 3) break;
+		}
+	}
 
-    return resultado;
+	return resultado;
 }
 
 // Metodo para formatear la fecha 
@@ -368,7 +369,7 @@ std::string Utilidades::Regresar() {
 // Funcion para mover el cursor en la consola
 void Utilidades::gotoxy(int x, int y) {
 	COORD coord;
-	coord.X = x; coord.Y = y;
+	coord.X = x; coord.Y = y + 2;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
@@ -401,136 +402,138 @@ void Utilidades::mostrarMenuAyuda() {
 
 // Implementacion didactica de hash para archivos
 std::string Utilidades::calcularSHA1(const std::string& rutaArchivo) {
-    std::ifstream archivo(rutaArchivo, std::ios::binary);
-    if (!archivo) {
-        return "ERROR_ARCHIVO_NO_ENCONTRADO";
-    }
+	std::ifstream archivo(rutaArchivo, std::ios::binary);
+	if (!archivo) {
+		return "ERROR_ARCHIVO_NO_ENCONTRADO";
+	}
 
-    // --- Principios basicos del hashing ---
-    // 1. Inicializacion de valores semilla
-    // Usamos valores primos como semilla para mejor distribucion
-    std::size_t h1 = 0x01234567;
-    std::size_t h2 = 0x89ABCDEF;
-    std::size_t h3 = 0xFEDCBA98;
-    std::size_t h4 = 0x76543210;
-    
-    // 2. Variables para el procesamiento por bloques
-    unsigned char buffer[64]; // Tamaño de bloque tipico: 64 bytes
-    std::size_t totalBytes = 0;
-    std::size_t bytesLeidos = 0;
-    
-    // 3. Lectura y procesamiento por bloques (simulando hash real)
-    while ((bytesLeidos = archivo.read(reinterpret_cast<char*>(buffer), 
-                                      sizeof(buffer)).gcount()) > 0) {
-        // Procesamos cada byte con operaciones de hash
-        for (std::size_t i = 0; i < bytesLeidos; ++i) {
-            // Aplicamos funcion de mezcla a cada byte
-            h1 = ((h1 << 5) | (h1 >> 27)) ^ buffer[i];  // Rotacion circular y XOR
-            h2 = ((h2 << 7) | (h2 >> 25)) + buffer[i];  // Rotacion y suma
-            h3 = h3 * 33 + ~buffer[i];                  // Multiplicacion y negacion
-            h4 = ((h4 >> 3) | (h4 << 29)) ^ buffer[i];  // Rotacion inversa y XOR
-            
-            // Mezclamos los estados del hash periodicamente
-            if (i % 16 == 15) {
-                std::size_t temp = h1;
-                h1 = h2 ^ h3;
-                h2 = h3 + h4;
-                h3 = h4 ^ temp;
-                h4 = temp + h1;
-            }
-        }
-        
-        totalBytes += bytesLeidos;
-    }
-    
-    // 4. Finalizacion: incorporamos el tamaño al hash (importante en hashes criptograficos)
-    h1 ^= totalBytes;
-    h2 += totalBytes;
-    h3 ^= (h1 ^ h2);
-    h4 += (h2 ^ h3);
-    
-    // 5. Mezclado final para garantizar avalancha (pequeños cambios → grandes diferencias)
-    for (int i = 0; i < 3; ++i) {
-        h1 = ((h1 << 13) | (h1 >> 19)) + h4;
-        h2 = ((h2 << 17) | (h2 >> 15)) ^ h1;
-        h3 = ((h3 << 7) | (h3 >> 25)) + h2;
-        h4 = ((h4 << 11) | (h4 >> 21)) ^ h3;
-    }
-    
-    // 6. Convertir a representacion hexadecimal (32 caracteres)
-    std::stringstream ss;
-    ss << std::hex << std::setfill('0') 
-       << std::setw(8) << h1 
-       << std::setw(8) << h2 
-       << std::setw(8) << h3 
-       << std::setw(8) << h4;
-    
-    // 7. Añadir el tamaño del archivo como informacion extra
-    return ss.str() + "-" + std::to_string(totalBytes);
+	// --- Principios basicos del hashing ---
+	// 1. Inicializacion de valores semilla
+	// Usamos valores primos como semilla para mejor distribucion
+	std::size_t h1 = 0x01234567;
+	std::size_t h2 = 0x89ABCDEF;
+	std::size_t h3 = 0xFEDCBA98;
+	std::size_t h4 = 0x76543210;
+
+	// 2. Variables para el procesamiento por bloques
+	unsigned char buffer[64]; // Tamaño de bloque tipico: 64 bytes
+	std::size_t totalBytes = 0;
+	std::size_t bytesLeidos = 0;
+
+	// 3. Lectura y procesamiento por bloques (simulando hash real)
+	while ((bytesLeidos = archivo.read(reinterpret_cast<char*>(buffer),
+		sizeof(buffer)).gcount()) > 0) {
+		// Procesamos cada byte con operaciones de hash
+		for (std::size_t i = 0; i < bytesLeidos; ++i) {
+			// Aplicamos funcion de mezcla a cada byte
+			h1 = ((h1 << 5) | (h1 >> 27)) ^ buffer[i];  // Rotacion circular y XOR
+			h2 = ((h2 << 7) | (h2 >> 25)) + buffer[i];  // Rotacion y suma
+			h3 = h3 * 33 + ~buffer[i];                  // Multiplicacion y negacion
+			h4 = ((h4 >> 3) | (h4 << 29)) ^ buffer[i];  // Rotacion inversa y XOR
+
+			// Mezclamos los estados del hash periodicamente
+			if (i % 16 == 15) {
+				std::size_t temp = h1;
+				h1 = h2 ^ h3;
+				h2 = h3 + h4;
+				h3 = h4 ^ temp;
+				h4 = temp + h1;
+			}
+		}
+
+		totalBytes += bytesLeidos;
+	}
+
+	// 4. Finalizacion: incorporamos el tamaño al hash (importante en hashes criptograficos)
+	h1 ^= totalBytes;
+	h2 += totalBytes;
+	h3 ^= (h1 ^ h2);
+	h4 += (h2 ^ h3);
+
+	// 5. Mezclado final para garantizar avalancha (pequeños cambios → grandes diferencias)
+	for (int i = 0; i < 3; ++i) {
+		h1 = ((h1 << 13) | (h1 >> 19)) + h4;
+		h2 = ((h2 << 17) | (h2 >> 15)) ^ h1;
+		h3 = ((h3 << 7) | (h3 >> 25)) + h2;
+		h4 = ((h4 << 11) | (h4 >> 21)) ^ h3;
+	}
+
+	// 6. Convertir a representacion hexadecimal (32 caracteres)
+	std::stringstream ss;
+	ss << std::hex << std::setfill('0')
+		<< std::setw(8) << h1
+		<< std::setw(8) << h2
+		<< std::setw(8) << h3
+		<< std::setw(8) << h4;
+
+	// 7. Añadir el tamaño del archivo como informacion extra
+	return ss.str() + "-" + std::to_string(totalBytes);
 }
 
 // Verificar si el hash coincide con el del archivo
 bool Utilidades::verificarSHA1(const std::string& rutaArchivo, const std::string& hashEsperado) {
-    std::string hashActual = calcularSHA1(rutaArchivo);
-    
-    // Informe detallado para fines educativos
-    if (hashActual == hashEsperado) {
-        std::cout << "Hash verificado exitosamente." << std::endl;
-        std::cout << "  • Hash esperado/recibido: " << hashEsperado << std::endl;
-        std::cout << "  • Hash actual/calculado: " << hashActual << std::endl;
-        return true;
-    } else {
-        std::cout << "¡ADVERTENCIA! Hash no coincide." << std::endl;
-        std::cout << "  • Hash esperado/recibido: " << hashEsperado << std::endl;
-        std::cout << "  • Hash actual/calculado: " << hashActual << std::endl;
-        return false;
-    }
+	std::string hashActual = calcularSHA1(rutaArchivo);
+
+	// Informe detallado para fines educativos
+	if (hashActual == hashEsperado) {
+		std::cout << "Hash verificado exitosamente." << std::endl;
+		std::cout << "  • Hash esperado/recibido: " << hashEsperado << std::endl;
+		std::cout << "  • Hash actual/calculado: " << hashActual << std::endl;
+		return true;
+	}
+	else {
+		std::cout << "¡ADVERTENCIA! Hash no coincide." << std::endl;
+		std::cout << "  • Hash esperado/recibido: " << hashEsperado << std::endl;
+		std::cout << "  • Hash actual/calculado: " << hashActual << std::endl;
+		return false;
+	}
 }
 
 // Guardar hash en un archivo separado con metadatos educativos
 void Utilidades::guardarHashArchivo(const std::string& rutaArchivo, const std::string& hash) {
-    std::string rutaHash = rutaArchivo + ".hash";
-    std::ofstream archivoHash(rutaHash);
-    
-    if (archivoHash) {
-        // Añadimos cabecera informativa con fecha
-        time_t tiempoActual = time(nullptr);
-        struct tm timeinfo;
-        localtime_s(&timeinfo, &tiempoActual);  // Version segura
-        char buffer[128];
-        std::strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeinfo);
-        
-        archivoHash << "# Hash de integridad del archivo: " << rutaArchivo << std::endl;
-        archivoHash << "# Generado: " << buffer << std::endl;
-        archivoHash << "# Formato: [hash-tamaño_bytes]" << std::endl;
-        archivoHash << hash;
-        archivoHash.close();
-        std::cout << "Hash guardado en: " << rutaHash << std::endl;
-    } else {
-        std::cerr << "Error al guardar el hash" << std::endl;
-    }
+	std::string rutaHash = rutaArchivo + ".hash";
+	std::ofstream archivoHash(rutaHash);
+
+	if (archivoHash) {
+		// Añadimos cabecera informativa con fecha
+		time_t tiempoActual = time(nullptr);
+		struct tm timeinfo;
+		localtime_s(&timeinfo, &tiempoActual);  // Version segura
+		char buffer[128];
+		std::strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeinfo);
+
+		archivoHash << "# Hash de integridad del archivo: " << rutaArchivo << std::endl;
+		archivoHash << "# Generado: " << buffer << std::endl;
+		archivoHash << "# Formato: [hash-tamaño_bytes]" << std::endl;
+		archivoHash << hash;
+		archivoHash.close();
+		std::cout << "Hash guardado en: " << rutaHash << std::endl;
+	}
+	else {
+		std::cerr << "Error al guardar el hash" << std::endl;
+	}
 }
 
 // Leer hash desde un archivo, saltando lineas de comentarios
 std::string Utilidades::leerHashArchivo(const std::string& rutaHashArchivo) {
-    std::ifstream archivoHash(rutaHashArchivo);
-    if (!archivoHash) {
-        return "";
-    }
-    
-    std::string linea;
-    std::string hash;
-    
-    // Leer linea por linea hasta encontrar una que no sea comentario
-    while (std::getline(archivoHash, linea)) {
-        // Saltamos lineas que empiezan con # (comentarios)
-        if (!linea.empty() && linea[0] != '#') {
-            hash = linea;
-            break;
-        }
-    }
-    
-    return hash;
+	std::ifstream archivoHash(rutaHashArchivo);
+	if (!archivoHash) {
+		return "";
+	}
+
+	std::string linea;
+	std::string hash;
+
+	// Leer linea por linea hasta encontrar una que no sea comentario
+	while (std::getline(archivoHash, linea)) {
+		// Saltamos lineas que empiezan con # (comentarios)
+		if (!linea.empty() && linea[0] != '#') {
+			hash = linea;
+			break;
+		}
+	}
+
+	return hash;
 }
 
 template<typename T>
@@ -570,206 +573,231 @@ void mostrarMenuOrdenar(std::vector<T*>& vec,
 
 // Implementación de la función PorArbolB mejorada
 void Utilidades::PorArbolB(NodoPersona* cabeza) {
-    if (!cabeza) {
-        std::cout << "No hay datos para mostrar." << std::endl;
-        system("pause");
-        return;
-    }
+	if (!cabeza) {
+		std::cout << "No hay datos para mostrar." << std::endl;
+		system("pause");
+		return;
+	}
 
-    // Opciones de criterios de ordenamiento (sin tildes)
-    std::vector<std::string> criterios = { "Cedula", "Nombre", "Apellido", "Fecha de nacimiento" };
-    int selCriterio = 0;
+	// Opciones de criterios de ordenamiento (sin tildes)
+	std::vector<std::string> criterios = { "Cedula", "Nombre", "Apellido", "Fecha de nacimiento" };
+	int selCriterio = 0;
 
-    // Recolectar personas de la lista
-    std::vector<Persona*> personas;
-    NodoPersona* actual = cabeza;
-    while (actual) {
-        if (actual->persona && actual->persona->isValidInstance()) {
-            personas.push_back(actual->persona);
-        }
-        actual = actual->siguiente;
-    }
+	// Recolectar personas de la lista
+	std::vector<Persona*> personas;
+	NodoPersona* actual = cabeza;
+	while (actual) {
+		if (actual->persona && actual->persona->isValidInstance()) {
+			personas.push_back(actual->persona);
+		}
+		actual = actual->siguiente;
+	}
 
-    if (personas.empty()) {
-        std::cout << "No hay personas validas para procesar." << std::endl;
-        system("pause");
-        return;
-    }
+	if (personas.empty()) {
+		std::cout << "No hay personas validas para procesar." << std::endl;
+		system("pause");
+		return;
+	}
 
-    // Función local para mostrar menú sin parpadeo
-    auto mostrarMenuCriterios = [&criterios, &selCriterio]() {
-        system("cls");
-        std::cout << "=== ARBOL B DIDACTICO ===" << std::endl;
-        std::cout << "Seleccione criterio de ordenamiento:" << std::endl;
+	// Función local para mostrar menú sin parpadeo
+	auto mostrarMenuCriterios = [&criterios, &selCriterio]() {
+		system("cls");
+		std::cout << "=== ARBOL B DIDACTICO ===" << std::endl;
+		std::cout << "Seleccione criterio de ordenamiento:" << std::endl;
 
-        for (size_t i = 0; i < criterios.size(); i++) {
-            if (i == selCriterio)
-                std::cout << " > " << criterios[i] << std::endl;
-            else
-                std::cout << "   " << criterios[i] << std::endl;
-        }
-        };
+		for (size_t i = 0; i < criterios.size(); i++) {
+			if (i == selCriterio)
+				std::cout << " > " << criterios[i] << std::endl;
+			else
+				std::cout << "   " << criterios[i] << std::endl;
+		}
+		};
 
-    // Menú inicial
-    mostrarMenuCriterios();
+	// Menú inicial
+	mostrarMenuCriterios();
 
-    // Navegación del menú
-    while (true) {
-        int tecla = _getch();
+	// Navegación del menú
+	while (true) {
+		int tecla = _getch();
 
-        if (tecla == 224) {
-            tecla = _getch();
-            if (tecla == 72) // Flecha arriba
-                selCriterio = (selCriterio - 1 + criterios.size()) % criterios.size();
-            else if (tecla == 80) // Flecha abajo
-                selCriterio = (selCriterio + 1) % criterios.size();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 72) // Flecha arriba
+				selCriterio = (selCriterio - 1 + criterios.size()) % criterios.size();
+			else if (tecla == 80) // Flecha abajo
+				selCriterio = (selCriterio + 1) % criterios.size();
 
-            // Redibujar todo el menú
-            mostrarMenuCriterios();
-        }
-        else if (tecla == 13) break; // Enter
-        else if (tecla == 27) return; // ESC
-    }
+			// Redibujar todo el menú
+			mostrarMenuCriterios();
+		}
+		else if (tecla == 13) break; // Enter
+		else if (tecla == 27) return; // ESC
+	}
 
-    // Resto del código para definir comparadores, construir árbol, etc...
-    std::function<bool(const Persona*, const Persona*)> criterioOrdenamiento;
-    std::function<bool(const Persona*, const std::string&)> criterioBusqueda;
+	// Resto del código para definir comparadores, construir árbol, etc...
+	std::function<bool(const Persona*, const Persona*)> criterioOrdenamiento;
+	std::function<bool(const Persona*, const std::string&)> criterioBusqueda;
 
-    switch (selCriterio) {
-    case 0: // Cedula
-        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
-            return a->getCedula() < b->getCedula();
-            };
-        criterioBusqueda = [](const Persona* p, const std::string& cedula) {
-            return p->getCedula() == cedula;
-            };
-        break;
-    case 1: // Nombre
-        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
-            return Utilidades::ConvertirAMinusculas(a->getNombres()) <
-                Utilidades::ConvertirAMinusculas(b->getNombres());
-            };
-        criterioBusqueda = [](const Persona* p, const std::string& nombre) {
-            return Utilidades::ConvertirAMinusculas(p->getNombres()).find(
-                Utilidades::ConvertirAMinusculas(nombre)) != std::string::npos;
-            };
-        break;
-    case 2: // Apellido
-        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
-            return Utilidades::ConvertirAMinusculas(a->getApellidos()) <
-                Utilidades::ConvertirAMinusculas(b->getApellidos());
-            };
-        criterioBusqueda = [](const Persona* p, const std::string& apellido) {
-            return Utilidades::ConvertirAMinusculas(p->getApellidos()).find(
-                Utilidades::ConvertirAMinusculas(apellido)) != std::string::npos;
-            };
-        break;
-    case 3: // Fecha de nacimiento
-        criterioOrdenamiento = [](const Persona* a, const Persona* b) {
-            return a->getFechaNacimiento() < b->getFechaNacimiento();
-            };
-        criterioBusqueda = [](const Persona* p, const std::string& fecha) {
-            return p->getFechaNacimiento() == fecha;
-            };
-        break;
-    }
+	switch (selCriterio) {
+	case 0: // Cedula
+		criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+			return a->getCedula() < b->getCedula();
+			};
+		criterioBusqueda = [](const Persona* p, const std::string& cedula) {
+			return p->getCedula() == cedula;
+			};
+		break;
+	case 1: // Nombre
+		criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+			return Utilidades::ConvertirAMinusculas(a->getNombres()) <
+				Utilidades::ConvertirAMinusculas(b->getNombres());
+			};
+		criterioBusqueda = [](const Persona* p, const std::string& nombre) {
+			return Utilidades::ConvertirAMinusculas(p->getNombres()).find(
+				Utilidades::ConvertirAMinusculas(nombre)) != std::string::npos;
+			};
+		break;
+	case 2: // Apellido
+		criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+			return Utilidades::ConvertirAMinusculas(a->getApellidos()) <
+				Utilidades::ConvertirAMinusculas(b->getApellidos());
+			};
+		criterioBusqueda = [](const Persona* p, const std::string& apellido) {
+			return Utilidades::ConvertirAMinusculas(p->getApellidos()).find(
+				Utilidades::ConvertirAMinusculas(apellido)) != std::string::npos;
+			};
+		break;
+	case 3: // Fecha de nacimiento
+		criterioOrdenamiento = [](const Persona* a, const Persona* b) {
+			return a->getFechaNacimiento() < b->getFechaNacimiento();
+			};
+		criterioBusqueda = [](const Persona* p, const std::string& fecha) {
+			return p->getFechaNacimiento() == fecha;
+			};
+		break;
+	}
 
-    // Ordenar y crear árbol
-    std::sort(personas.begin(), personas.end(), criterioOrdenamiento);
+	// Ordenar y crear árbol
+	std::sort(personas.begin(), personas.end(), criterioOrdenamiento);
 
-    auto inicio = std::chrono::high_resolution_clock::now();
-    ArbolB<Persona> arbol(3);
-    arbol.construirDesdeVector(personas);
-    auto fin = std::chrono::high_resolution_clock::now();
-    auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(fin - inicio).count();
+	auto inicio = std::chrono::high_resolution_clock::now();
+	ArbolB<Persona> arbol(3);
+	arbol.construirDesdeVector(personas);
+	auto fin = std::chrono::high_resolution_clock::now();
+	auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(fin - inicio).count();
 
-    // Submenú de operaciones con mismo enfoque que el menú principal
-    std::vector<std::string> opcionesArbol = { "Buscar persona", "Volver" };
-    int selOpcion = 0;
+	// Submenú de operaciones con mismo enfoque que el menú principal
+	std::vector<std::string> opcionesArbol = { "Buscar persona", "Volver" };
+	int selOpcion = 0;
 
-    // Función local para mostrar menú completo
-    auto mostrarMenuCompleto = [&criterios, &selCriterio, &arbol, &duracion, &opcionesArbol, &selOpcion]() {
-        system("cls");
-        std::cout << "=== ARBOL B DIDACTICO ===" << std::endl;
-        std::cout << "Ordenado por: " << criterios[selCriterio] << std::endl;
-        arbol.mostrar();
-        std::cout << "\nTiempo de construccion: " << duracion << " milisegundos." << std::endl;
-        
-        std::cout << "\nSeleccione operacion:" << std::endl;
-        for (size_t i = 0; i < opcionesArbol.size(); i++) {
-            if (i == selOpcion)
-                std::cout << " > " << opcionesArbol[i] << std::endl;
-            else
-                std::cout << "   " << opcionesArbol[i] << std::endl;
-        }
-    };
+	// Función local para mostrar menú completo
+	auto mostrarMenuCompleto = [&criterios, &selCriterio, &arbol, &duracion, &opcionesArbol, &selOpcion]() {
+		system("cls");
+		std::cout << "=== ARBOL B DIDACTICO ===" << std::endl;
+		std::cout << "Ordenado por: " << criterios[selCriterio] << std::endl;
+		arbol.mostrar();
+		std::cout << "\nTiempo de construccion: " << duracion << " milisegundos." << std::endl;
 
-    // Mostrar menú inicial
-    mostrarMenuCompleto();
+		std::cout << "\nSeleccione operacion:" << std::endl;
+		for (size_t i = 0; i < opcionesArbol.size(); i++) {
+			if (i == selOpcion)
+				std::cout << " > " << opcionesArbol[i] << std::endl;
+			else
+				std::cout << "   " << opcionesArbol[i] << std::endl;
+		}
+		};
 
-    while (true) {
-        int tecla = _getch();
-        if (tecla == 224) {
-            tecla = _getch();
-            if (tecla == 72) // Flecha arriba
-                selOpcion = (selOpcion - 1 + opcionesArbol.size()) % opcionesArbol.size();
-            else if (tecla == 80) // Flecha abajo
-                selOpcion = (selOpcion + 1) % opcionesArbol.size();
-                
-            // Redibujamos el menú completo con la nueva selección
-            mostrarMenuCompleto();
-        }
-        else if (tecla == 13) { // Enter
-            if (selOpcion == 0) { // Buscar persona
-                // Coordenadas para el área de entrada
-                int baseY = arbol.altura() + 8 + opcionesArbol.size();
-                Utilidades::gotoxy(0, baseY);
-                std::cout << std::string(80, ' '); // Limpiar línea
-                Utilidades::gotoxy(0, baseY);
-                
-                std::string criterioBusquedaStr;
-                // Si criterios es igual a Fecha de nacimiento imprimir "DD/MM/AAAA"
-                if (selCriterio == 3) {
-                    std::cout << "Usar el siguiente formato para buscar por fecha DD/MM/AAAA: ";
-                }
-                std::cout << "Ingrese " << criterios[selCriterio] << " a buscar: ";
-                
-                std::cin >> criterioBusquedaStr;
-                
-                // Búsqueda y medición de tiempo
-                auto inicioBusqueda = std::chrono::high_resolution_clock::now();
-                Persona* encontrado = arbol.buscar(criterioBusquedaStr, criterioBusqueda);
-                auto finBusqueda = std::chrono::high_resolution_clock::now();
-                auto duracionBusqueda = std::chrono::duration_cast<std::chrono::milliseconds>
-                                        (finBusqueda - inicioBusqueda).count();
-                
-                // Mostrar resultados
-                Utilidades::gotoxy(0, baseY + 1);
-                if (encontrado) {
-                    std::cout << "Persona encontrada:" << std::endl;
-                    std::cout << "Cedula: " << encontrado->getCedula() << std::endl;
-                    std::cout << "Nombre: " << encontrado->getNombres() << std::endl;
-                    std::cout << "Apellidos: " << encontrado->getApellidos() << std::endl;
-                    std::cout << "Fecha de nacimiento: " << encontrado->getFechaNacimiento() << std::endl;
-                    std::cout << "Correo: " << encontrado->getCorreo() << std::endl;
-                } else {
-                    std::cout << "Persona no encontrada." << std::endl;
-                }
-                
-                std::cout << "Tiempo de busqueda: " << duracionBusqueda << " milisegundos." << std::endl;
-                std::cout << "\nPresione Enter para continuar...";
-                std::cin.ignore();
-                std::cin.get();
-                
-                // Redibujar menú completo
-                mostrarMenuCompleto();
-            }
-            else {
-                break; // Volver
-            }
-        }
-        else if (tecla == 27) { // ESC
-            break;
-        }
-    }
+	// Mostrar menú inicial
+	mostrarMenuCompleto();
+
+	while (true) {
+		int tecla = _getch();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 72) // Flecha arriba
+				selOpcion = (selOpcion - 1 + opcionesArbol.size()) % opcionesArbol.size();
+			else if (tecla == 80) // Flecha abajo
+				selOpcion = (selOpcion + 1) % opcionesArbol.size();
+
+			// Redibujamos el menú completo con la nueva selección
+			mostrarMenuCompleto();
+		}
+		else if (tecla == 13) { // Enter
+			if (selOpcion == 0) { // Buscar persona
+				// Coordenadas para el área de entrada
+				int baseY = arbol.altura() + 8 + opcionesArbol.size();
+				Utilidades::gotoxy(0, baseY);
+				std::cout << std::string(80, ' '); // Limpiar línea
+				Utilidades::gotoxy(0, baseY);
+
+				std::string criterioBusquedaStr;
+				// Si criterios es igual a Fecha de nacimiento imprimir "DD/MM/AAAA"
+				if (selCriterio == 3) {
+					std::cout << "Usar el siguiente formato para buscar por fecha DD/MM/AAAA: ";
+				}
+				std::cout << "Ingrese " << criterios[selCriterio] << " a buscar: ";
+
+				std::cin >> criterioBusquedaStr;
+
+				// Búsqueda y medición de tiempo
+				auto inicioBusqueda = std::chrono::high_resolution_clock::now();
+				Persona* encontrado = arbol.buscar(criterioBusquedaStr, criterioBusqueda);
+				auto finBusqueda = std::chrono::high_resolution_clock::now();
+				auto duracionBusqueda = std::chrono::duration_cast<std::chrono::milliseconds>
+					(finBusqueda - inicioBusqueda).count();
+
+				// Mostrar resultados
+				Utilidades::gotoxy(0, baseY + 1);
+				if (encontrado) {
+					std::cout << "Persona encontrada:" << std::endl;
+					std::cout << "Cedula: " << encontrado->getCedula() << std::endl;
+					std::cout << "Nombre: " << encontrado->getNombres() << std::endl;
+					std::cout << "Apellidos: " << encontrado->getApellidos() << std::endl;
+					std::cout << "Fecha de nacimiento: " << encontrado->getFechaNacimiento() << std::endl;
+					std::cout << "Correo: " << encontrado->getCorreo() << std::endl;
+				}
+				else {
+					std::cout << "Persona no encontrada." << std::endl;
+				}
+
+				std::cout << "Tiempo de busqueda: " << duracionBusqueda << " milisegundos." << std::endl;
+				std::cout << "\nPresione Enter para continuar...";
+				std::cin.ignore();
+				std::cin.get();
+
+				// Redibujar menú completo
+				mostrarMenuCompleto();
+			}
+			else {
+				break; // Volver
+			}
+		}
+		else if (tecla == 27) { // ESC
+			break;
+		}
+	}
+}
+
+// Función para limpiar la pantalla preservando la zona de la marquesina
+void Utilidades::limpiarPantallaPreservandoMarquesina(int lineasMarquesina) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+	// Calcular el ancho y alto de la pantalla
+	int ancho = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	int alto = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+
+	// Limpiar desde la línea posterior a la marquesina
+	COORD startCoords = { 0, (SHORT)lineasMarquesina };
+	SetConsoleCursorPosition(hConsole, startCoords);
+
+	// Rellenar con espacios desde después de la marquesina
+	DWORD charsWritten;
+	int espaciosAEscribir = ancho * (alto - lineasMarquesina);
+	std::string espacios(espaciosAEscribir, ' ');
+	WriteConsoleA(hConsole, espacios.c_str(), espaciosAEscribir, &charsWritten, NULL);
+
+	// Volver a posicionar el cursor justo después de la marquesina
+	SetConsoleCursorPosition(hConsole, startCoords);
 }

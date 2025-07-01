@@ -89,11 +89,11 @@ public:
 		{
 			nuevaCabeza->setSiguiente(cabezaCorriente);
 			nuevaCabeza->setAnterior(nullptr);
-			if(cabezaCorriente)
+			if (cabezaCorriente)
 				cabezaCorriente->setAnterior(nuevaCabeza);
 		}
 		cabezaCorriente = nuevaCabeza;
-		return cabezaCorriente; 
+		return cabezaCorriente;
 	}
 
 	// Getters  
@@ -129,12 +129,12 @@ public:
 	// Busca una persona por sus cuentas
 	int buscarPersonaPorCuentas(const string& numeroCuenta) const;
 	int guardarCuentas(std::ofstream& archivo, std::string tipo) const; // Guarda las cuentas de la persona en un archivo, sea ahorros o corriente
-	bool crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada) ; // Metodo para crear y agregar una cuenta de ahorros
-	bool crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada) ; // Metodo para crear y agregar una cuenta corriente
+	bool crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada); // Metodo para crear y agregar una cuenta de ahorros
+	bool crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada); // Metodo para crear y agregar una cuenta corriente
 	bool crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada); // Metodo para crear una cuenta sin ingresar datos de la persona
 	bool crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada); // Metodo para crear una cuenta corriente sin ingresar datos de la persona
-	std::string crearNumeroCuenta(Cuenta<double>* nuevaCuenta) ; // Metodo para crear un numero de cuenta unico
-
+	std::string crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::string& sucursal); // Metodo para crear un numero de cuenta unico
+	std::string seleccionSucursal(); // Metodo para seleccionar la sucursal de la cuenta
 	/*
 	// Metodo unificado para crear y agregar cuenta de ahorros
 	bool crearYAgregarCuentaAhorros(Persona* persona) {
