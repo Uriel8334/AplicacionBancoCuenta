@@ -133,6 +133,7 @@
     <ClCompile Include="CuentaAhorros.cpp" />
     <ClCompile Include="CuentaCorriente.cpp" />
     <ClCompile Include="Fecha.cpp" />
+    <ClCompile Include="GeneradorQRBanco.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Marquesina.cpp" />
     <ClCompile Include="Persona.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="CuentaAhorros.h" />
     <ClInclude Include="CuentaCorriente.h" />
     <ClInclude Include="Fecha.h" />
+    <ClInclude Include="GeneradorQRBanco.h" />
     <ClInclude Include="Marquesina.h" />
     <ClInclude Include="NodoPersona.h" />
     <ClInclude Include="Persona.h" />

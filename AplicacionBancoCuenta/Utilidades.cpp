@@ -17,6 +17,8 @@
 #include <chrono>
 #include <queue>
 #include <algorithm>
+#include "GeneradorQRBanco.h"
+#include "Marquesina.h"
 
 // Nodo para el Arbol B
 template<typename T>
@@ -185,6 +187,73 @@ public:
 	}
 };
 
+
+// Variable externa para acceso a la marquesina global
+extern Marquesina* marquesinaGlobal;
+
+// Control de operaciones críticas
+void Utilidades::iniciarOperacionCritica()
+{
+    if (marquesinaGlobal)
+    {
+        marquesinaGlobal->marcarOperacionCritica();
+        // Pequeña pausa para asegurar que la marquesina se detenga
+        Sleep(10);
+    }
+}
+
+void Utilidades::finalizarOperacionCritica()
+{
+    if (marquesinaGlobal)
+    {
+        marquesinaGlobal->finalizarOperacionCritica();
+    }
+}
+
+// Función gotoxy mejorada y thread-safe
+void Utilidades::gotoxy(int x, int y)
+{
+    // Marcar operación crítica de cursor
+    iniciarOperacionCritica();
+    
+    COORD coord;
+    coord.X = x; 
+    coord.Y = y + 2; // Offset para la marquesina
+    
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(hConsole, coord);
+    
+    // Finalizar operación crítica después de una pausa mínima
+    Sleep(1);
+    finalizarOperacionCritica();
+}
+
+// Función mejorada para limpiar pantalla
+void Utilidades::limpiarPantallaPreservandoMarquesina(int lineasMarquesina)
+{
+    iniciarOperacionCritica();
+    
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    
+    int ancho = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    int alto = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+    
+    COORD startCoords = { 0, (SHORT)lineasMarquesina };
+    SetConsoleCursorPosition(hConsole, startCoords);
+    
+    DWORD caracteresEscritos;
+    int espaciosAEscribir = ancho * (alto - lineasMarquesina);
+    
+    // Usar API más eficiente
+    FillConsoleOutputCharacter(hConsole, ' ', espaciosAEscribir, startCoords, &caracteresEscritos);
+    FillConsoleOutputAttribute(hConsole, csbi.wAttributes, espaciosAEscribir, startCoords, &caracteresEscritos);
+    
+    SetConsoleCursorPosition(hConsole, startCoords);
+    
+    finalizarOperacionCritica();
+}
 
 Utilidades::Utilidades() {
 	// Constructor vacio
@@ -364,13 +433,6 @@ std::string Utilidades::ConvertirAMinusculas(const std::string& texto) {
 // metodo para regresar al menu
 std::string Utilidades::Regresar() {
 	return "Regresar al menu principal";
-}
-
-// Funcion para mover el cursor en la consola
-void Utilidades::gotoxy(int x, int y) {
-	COORD coord;
-	coord.X = x; coord.Y = y + 2;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 // Funcion para abrir la aplicacion de menu de ayuda 
@@ -778,26 +840,107 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 	}
 }
 
-// Función para limpiar la pantalla preservando la zona de la marquesina
-void Utilidades::limpiarPantallaPreservandoMarquesina(int lineasMarquesina) {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(hConsole, &csbi);
+// Generar QR para Persona y numero de cuenta 
+bool Utilidades::generarQRPersona(const Persona& persona, const std::string& numeroCuenta) {
+	try {
+		// Validar datos
+		if (!GeneradorQRBanco::esNumeroCuentaValido(numeroCuenta)) {
+			std::cout << "Numero de cuenta invalido." << std::endl;
+			return false;
+		}
 
-	// Calcular el ancho y alto de la pantalla
-	int ancho = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	int alto = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+		std::string nombreCompleto = persona.getNombres() + " " + persona.getApellidos();
+		if (!GeneradorQRBanco::esNombreValido(nombreCompleto)) {
+			std::cout << "Nombre invalido para QR." << std::endl;
+			return false;
+		}
 
-	// Limpiar desde la línea posterior a la marquesina
-	COORD startCoords = { 0, (SHORT)lineasMarquesina };
-	SetConsoleCursorPosition(hConsole, startCoords);
+		// Crear y generar QR
+		GeneradorQRBanco qr(persona, numeroCuenta);
+		qr.generar();
+		qr.imprimir();
 
-	// Rellenar con espacios desde después de la marquesina
-	DWORD charsWritten;
-	int espaciosAEscribir = ancho * (alto - lineasMarquesina);
-	std::string espacios(espaciosAEscribir, ' ');
-	WriteConsoleA(hConsole, espacios.c_str(), espaciosAEscribir, &charsWritten, NULL);
+		// Preguntar si desea guardar
+		std::cout << "\nDesea guardar el QR? (s/n): ";
+		char opcion = _getch();
+		std::cout << opcion << std::endl;
 
-	// Volver a posicionar el cursor justo después de la marquesina
-	SetConsoleCursorPosition(hConsole, startCoords);
+		if (opcion == 's' || opcion == 'S') {
+			std::string archivoBase = "QR_" + numeroCuenta;
+			qr.guardarComoSVG(archivoBase + ".svg");
+			qr.guardarInformacionCuenta(archivoBase + "_info.txt");
+		}
+
+		return true;
+	}
+	catch (const std::exception& e) {
+		std::cout << "Error generando QR: " << e.what() << std::endl;
+		return false;
+	}
+}
+
+// Método para generar QR con datos manuales
+bool Utilidades::generarQRManual() {
+	limpiarPantallaPreservandoMarquesina();
+
+	std::cout << "=== GENERADOR DE QR BANCARIO ===" << std::endl;
+	std::cout << "NOTA: Solo se incluyen datos basicos (nombre y cuenta)" << std::endl;
+	std::cout << std::string(50, '=') << std::endl;
+
+	std::string numeroCuenta, nombreCompleto;
+
+	// Solicitar número de cuenta - CORREGIDO para 10 dígitos exactos
+	do {
+		std::cout << "\nIngrese el numero de cuenta (exactamente 10 digitos): ";
+		std::getline(std::cin, numeroCuenta);
+
+		if (!GeneradorQRBanco::esNumeroCuentaValido(numeroCuenta)) {
+			std::cout << "Numero de cuenta invalido. Debe contener exactamente 10 digitos numericos." << std::endl;
+		}
+	} while (!GeneradorQRBanco::esNumeroCuentaValido(numeroCuenta));
+
+	// Solicitar nombre del usuario
+	do {
+		std::cout << "Ingrese el nombre completo (2-60 caracteres): ";
+		std::getline(std::cin, nombreCompleto);
+
+		if (!GeneradorQRBanco::esNombreValido(nombreCompleto)) {
+			std::cout << "Nombre invalido. Solo letras, espacios y guiones (2-60 caracteres)." << std::endl;
+		}
+	} while (!GeneradorQRBanco::esNombreValido(nombreCompleto));
+
+	try {
+		// Generar QR
+		std::cout << "\nGenerando codigo QR..." << std::endl;
+
+		GeneradorQRBanco qr(nombreCompleto, numeroCuenta);
+		qr.generar();
+		qr.imprimir();
+
+		// Opciones de guardado
+		std::cout << "\nDesea guardar el QR? (s/n): ";
+		char opcion = _getch();
+		std::cout << opcion << std::endl;
+
+		if (opcion == 's' || opcion == 'S') {
+			std::string archivoBase = "QR_" + numeroCuenta;
+			qr.guardarComoSVG(archivoBase + ".svg");
+			qr.guardarInformacionCuenta(archivoBase + "_info.txt");
+
+			std::cout << "\nArchivos generados exitosamente:" << std::endl;
+			std::cout << "   - " << archivoBase << ".svg (imagen del QR)" << std::endl;
+			std::cout << "   - " << archivoBase << "_info.txt (informacion de cuenta)" << std::endl;
+		}
+
+		std::cout << "\nProceso completado. El QR contiene unicamente:" << std::endl;
+		std::cout << "   - Nombre: " << nombreCompleto << std::endl;
+		std::cout << "   - Numero de cuenta: " << numeroCuenta << std::endl;
+		std::cout << "\nSin datos sensibles incluidos." << std::endl;
+
+		return true;
+	}
+	catch (const std::exception& e) {
+		std::cout << "Error generando QR: " << e.what() << std::endl;
+		return false;
+	}
 }

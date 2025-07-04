@@ -502,3 +502,17 @@ Fecha de nacimiento: 29/02/2000
 Correo: vanidad*4567@gmail.com
 Direccion: san carlos 
 -----------------------------
+Cedula: 0401865381
+Nombres: Uriel Alejandro 
+Apellidos: Andrade
+Fecha de nacimiento: 03/09/2001
+Correo: uaandrade@espe.edu.ec
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel alejandro 
+Apellidos: andrade hermosa
+Fecha de nacimiento: 03/09/2001
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------

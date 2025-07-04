@@ -135,6 +135,9 @@ public:
 	bool crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada); // Metodo para crear una cuenta corriente sin ingresar datos de la persona
 	std::string crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::string& sucursal); // Metodo para crear un numero de cuenta unico
 	std::string seleccionSucursal(); // Metodo para seleccionar la sucursal de la cuenta
+
+	std::string msgIngresoDatos() const; // Mensaje para ingresar datos de la persona
+
 	/*
 	// Metodo unificado para crear y agregar cuenta de ahorros
 	bool crearYAgregarCuentaAhorros(Persona* persona) {

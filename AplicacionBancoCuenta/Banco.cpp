@@ -43,7 +43,7 @@ void Banco::agregarPersonaConCuenta() {
 	// Menu con cursor
 	while (true) {
 		system("cls");
-		std::cout << "Seleccione el tipo de cuenta a crear para la persona:\n\n";
+		std::cout << "\n\nSeleccione el tipo de cuenta a crear para la persona:\n\n";
 		for (int i = 0; i < numOpciones; i++) {
 			if (i == seleccion)
 				std::cout << " > " << opciones[i] << std::endl;
@@ -88,7 +88,7 @@ void Banco::agregarPersonaConCuenta() {
 			std::string cedulaTemp;
 			while (true) {
 				system("cls");
-				std::cout << "----- INGRESE SUS DATOS -----\n";
+				std::cout << "\n\n----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
 				int digitos = 0;
@@ -254,7 +254,7 @@ void Banco::agregarPersonaConCuenta() {
 			std::string cedulaTemp;
 			while (true) {
 				system("cls");
-				std::cout << "----- INGRESE SUS DATOS -----\n";
+				std::cout << "\n\n----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
 				int digitos = 0;

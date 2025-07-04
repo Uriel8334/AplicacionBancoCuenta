@@ -178,7 +178,7 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	do {
 		system("cls");
-		cout << "----- INGRESE SUS DATOS -----\n";
+		std::cout << msgIngresoDatos() << endl;
 		cout << "Por seguridad ingrese nuevamente su cedula (10 digitos): ";
 
 		cedula.clear();
@@ -236,7 +236,7 @@ std::string Persona::ingresarNombres(std::string& nombres) {
 	// Ingreso nombres y validacion
 	do {
 		system("cls");
-		cout << "----- INGRESE SUS DATOS -----\n";
+		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los nombres: ";
 		nombres.clear();
 		bool espacioPermitido = false; // Solo permite un espacio entre palabras
@@ -304,7 +304,7 @@ std::string Persona::ingresarApellidos(std::string& apellidos) {
 	// Ingreso apellidos y validacion
 	do {
 		system("cls");
-		cout << "----- INGRESE SUS DATOS -----\n";
+		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los apellidos: ";
 		apellidos.clear();
 		bool espacioPermitido = false; // Solo permite un espacio entre palabras
@@ -385,7 +385,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 
 	while (!fechaSeleccionada) {
 		system("cls");
-		std::cout << "----- INGRESE SUS DATOS -----\n";
+		std::cout << msgIngresoDatos() << endl;
 		std::cout << "Use Flechas Izquierda/Derecha para cambiar [DIA|MES|AÑO]\n";
 		std::cout << "Flechas Arriba/Abajo para aumentar/disminuir\n";
 		std::cout << "Enter para confirmar\n\n";
@@ -474,7 +474,7 @@ std::string Persona::ingresarCorreo(std::string& correo)
 	// Ingreso correo y validacion con getch, simbolos validos, sin espacios ni dos puntos seguidos, y limites de longitud
 	do {
 		system("cls");
-		cout << "----- INGRESE SUS DATOS -----\n";
+		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese el correo: ";
 		correo.clear();
 		int atCount = 0;
@@ -604,7 +604,7 @@ std::string Persona::ingresarDireccion(std::string& direccion)
 	// Ingreso de direccion con getch, maximo 100 caracteres, permitiendo letras, numeros, espacios y simbolos comunes en Ecuador
 	do {
 		system("cls");
-		cout << "----- INGRESE SUS DATOS -----\n";
+		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese la direccion: ";
 		direccion.clear();
 		const int maxDireccion = 100;
@@ -1304,7 +1304,7 @@ std::string Persona::seleccionSucursal() {
 	int seleccion = 0;
 
 	system("cls");
-	std::cout << "Seleccione la sucursal donde se encuentra:\n\n";
+	std::cout << "\n\nSeleccione la sucursal donde se encuentra:\n\n";
 
 	// Mostrar opciones inicialmente
 	for (int i = 0; i < numOpciones; i++) {
@@ -1352,4 +1352,9 @@ std::string Persona::seleccionSucursal() {
 			return "210"; // Retorna código de sucursal por defecto
 		}
 	}
+}
+
+
+std::string Persona::msgIngresoDatos() const {
+	return "\n\n----- INGRESO DE DATOS -----\n";
 }
