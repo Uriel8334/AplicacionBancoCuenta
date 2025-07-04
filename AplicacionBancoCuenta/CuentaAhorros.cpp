@@ -1,4 +1,3 @@
-/// @file CuentaAhorros.cpp
 #include <iostream>
 #include <string>
 #include <fstream>
