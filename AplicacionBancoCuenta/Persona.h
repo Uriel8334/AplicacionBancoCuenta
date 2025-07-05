@@ -112,11 +112,11 @@ public:
 
 	void ingresarDatos(const std::string& cedulaEsperada); // Metodo para ingresar los datos de la persona con una cedula esperada
 	std::string ingresarCedula(std::string& cedula); // Metodo para ingresar la cedula de la persona
-	std::string ingresarNombres(std::string& nombres); // Metodo para ingresar los nombres de la persona
-	std::string ingresarApellidos(std::string& apellidos); // Metodo para ingresar los apellidos de la persona
+	std::string ingresarNombres(std::string& nombres) const; // Metodo para ingresar los nombres de la persona
+	std::string ingresarApellidos(std::string& apellidos) const; // Metodo para ingresar los apellidos de la persona
 	std::string ingresarFechaNacimiento(std::string& fechaNacimiento); // Metodo para ingresar la fecha de nacimiento de la persona
-	std::string ingresarCorreo(std::string& correo); // Metodo para ingresar el correo de la persona
-	std::string ingresarDireccion(std::string& direccion); // Metodo para ingresar la direccion de la persona
+	std::string ingresarCorreo(std::string& correo) const; // Metodo para ingresar el correo de la persona
+	std::string ingresarDireccion(std::string& direccion) const; // Metodo para ingresar la direccion de la persona
 	bool corregirDatos(); // Metodo para corregir los datos de la persona
 
 	void mostrarDatos() const; // Muestra los datos de la persona  

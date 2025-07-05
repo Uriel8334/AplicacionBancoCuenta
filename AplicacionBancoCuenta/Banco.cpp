@@ -922,7 +922,7 @@ void Banco::buscarCuenta() {
 }
 
 // Busqueda recursiva por fecha de creacion
-void buscarCuentasPorFechaRec(NodoPersona* nodo, const std::string& fecha, int& encontrados) {
+static void buscarCuentasPorFechaRec(NodoPersona* nodo, const std::string& fecha, int& encontrados) {
 	if (!nodo) return;
 	nodo->persona->buscarPersonaPorFecha(fecha);
 	// Puedes incrementar encontrados dentro de buscarPersonaPorFecha si lo deseas

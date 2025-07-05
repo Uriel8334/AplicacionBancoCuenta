@@ -99,7 +99,7 @@ void Marquesina::actualizarTexto(const std::string& nuevoTexto)
 	}
 }
 
-std::wstring stringToWideString(const std::string& str)
+static std::wstring stringToWideString(const std::string& str)
 {
 	if (str.empty())
 		return L"";
@@ -192,7 +192,7 @@ bool Marquesina::archivoModificado()
 	return false;
 }
 
-bool Marquesina::esSafeZone(int fila)
+bool Marquesina::esSafeZone(int fila) const
 {
 	return (fila >= posY && fila <= posY + 1);
 }
@@ -263,7 +263,7 @@ void Marquesina::renderizarMarquesina()
 		WriteConsoleOutputAttribute(hConsole, &colorTurquesa, 1, charPos, &caracteresEscritos);
 	}
 
-	posicionTexto = (posicionTexto + 1) % textoBuffer.length();
+	posicionTexto = (static_cast<unsigned long long>(posicionTexto) + 1) % textoBuffer.length();
 }
 
 std::vector<ElementoMarquesina> Marquesina::parsearHTML(const std::string& contenido)

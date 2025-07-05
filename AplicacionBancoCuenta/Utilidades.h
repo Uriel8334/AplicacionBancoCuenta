@@ -8,6 +8,8 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include "CodigoQR.h"
+
 
 class NodoPersona;
 class Persona;
@@ -87,15 +89,16 @@ public:
 	// Generar QR para Persona y numero de cuenta 
     static bool generarQRPersona(const Persona& persona, const std::string& numeroCuenta);
 
-    // Método para generar QR con datos manuales
-    static bool generarQRManual();
-
     // Control de marquesina para operaciones críticas
     static void iniciarOperacionCritica();
     static void finalizarOperacionCritica();
     
     // Función para limpiar pantalla de forma segura
     static void limpiarPantallaPreservandoMarquesina(int lineasMarquesina = 2);
+
+
+    // Función auxiliar para generar PDF del código QR
+    static bool generarQR(const Persona& persona, const std::string& numeroCuenta);
 };
 
 #endif // UTILIDADES_H

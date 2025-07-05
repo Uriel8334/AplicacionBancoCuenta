@@ -48,7 +48,7 @@
     <ClCompile Include="Marquesina.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="GeneradorQRBanco.cpp">
+    <ClCompile Include="CodigoQR.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClInclude Include="Marquesina.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="GeneradorQRBanco.h">
+    <ClInclude Include="CodigoQR.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

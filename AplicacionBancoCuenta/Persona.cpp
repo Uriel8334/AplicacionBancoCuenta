@@ -232,7 +232,7 @@ std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 /// </summary>
 /// <param name="nombres"></param>
 /// <returns></returns>
-std::string Persona::ingresarNombres(std::string& nombres) {
+std::string Persona::ingresarNombres(std::string& nombres) const {
 	// Ingreso nombres y validacion
 	do {
 		system("cls");
@@ -300,7 +300,7 @@ std::string Persona::ingresarNombres(std::string& nombres) {
 /// </summary>
 /// <param name="apellidos"></param>
 /// <returns></returns>
-std::string Persona::ingresarApellidos(std::string& apellidos) {
+std::string Persona::ingresarApellidos(std::string& apellidos) const {
 	// Ingreso apellidos y validacion
 	do {
 		system("cls");
@@ -469,7 +469,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 /// </summary>
 /// <param name="correo"></param>
 /// <returns></returns>
-std::string Persona::ingresarCorreo(std::string& correo)
+std::string Persona::ingresarCorreo(std::string& correo) const
 {
 	// Ingreso correo y validacion con getch, simbolos validos, sin espacios ni dos puntos seguidos, y limites de longitud
 	do {
@@ -599,7 +599,7 @@ std::string Persona::ingresarCorreo(std::string& correo)
 /// </summary>
 /// <param name="direccion"></param>
 /// <returns></returns>
-std::string Persona::ingresarDireccion(std::string& direccion)
+std::string Persona::ingresarDireccion(std::string& direccion) const
 {
 	// Ingreso de direccion con getch, maximo 100 caracteres, permitiendo letras, numeros, espacios y simbolos comunes en Ecuador
 	do {

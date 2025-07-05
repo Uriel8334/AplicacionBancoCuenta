@@ -46,7 +46,7 @@ private:
     bool archivoModificado();
 
     // NUEVO: Método para verificar si es seguro escribir
-    bool esSafeZone(int fila);
+    bool esSafeZone(int fila) const;
 
     // NUEVO: Métodos internos de gestión
     void actualizarBuffer();

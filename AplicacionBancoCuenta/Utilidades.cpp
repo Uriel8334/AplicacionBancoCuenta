@@ -7,17 +7,11 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
-#include <sstream>
-#include <iomanip>
-#include <algorithm>
-#include <cctype>
 #include <regex>
 #include <string>
 #include <ctime>
 #include <chrono>
 #include <queue>
-#include <algorithm>
-#include "GeneradorQRBanco.h"
 #include "Marquesina.h"
 
 // Nodo para el Arbol B
@@ -216,7 +210,7 @@ void Utilidades::gotoxy(int x, int y)
     // Marcar operación crítica de cursor
     iniciarOperacionCritica();
     
-    COORD coord;
+	COORD coord{};
     coord.X = x; 
     coord.Y = y + 2; // Offset para la marquesina
     
@@ -264,7 +258,7 @@ Utilidades::~Utilidades() {
 }
 
 // Funcion para formatear valores monetarios con formato americano ($1,000.23)
-std::string formatearValorMonetario(double valor) {
+static std::string formatearValorMonetario(double valor) {
 	std::stringstream ss;
 	ss.imbue(std::locale("en_US.UTF-8")); // Usar locale americano (comas para miles, punto para decimales)
 	ss << std::fixed << std::setprecision(2) << valor;
@@ -272,7 +266,7 @@ std::string formatearValorMonetario(double valor) {
 }
 
 // Funcion para formatear valores en centavos a formato monetario
-std::string formatearCentavosAMonetario(int valorEnCentavos) {
+static std::string formatearCentavosAMonetario(int valorEnCentavos) {
 	return formatearValorMonetario(valorEnCentavos / 100.0);
 }
 
@@ -457,7 +451,7 @@ void Utilidades::mostrarMenuAyuda() {
 	// Ejecutamos el menu de ayuda
 	HINSTANCE resultado = ShellExecuteA(NULL, "open", ruta.c_str(), NULL, NULL, SW_SHOWNORMAL);
 
-	if ((int)resultado <= 32) {
+	if (reinterpret_cast<INT_PTR>(resultado) <= 32) {
 		std::cerr << "Error al abrir el menu de ayuda. Codigo: " << (int)resultado << std::endl;
 	}
 }
@@ -478,7 +472,7 @@ std::string Utilidades::calcularSHA1(const std::string& rutaArchivo) {
 	std::size_t h4 = 0x76543210;
 
 	// 2. Variables para el procesamiento por bloques
-	unsigned char buffer[64]; // Tamaño de bloque tipico: 64 bytes
+	unsigned char buffer[64]{}; // Tamaño de bloque tipico: 64 bytes
 	std::size_t totalBytes = 0;
 	std::size_t bytesLeidos = 0;
 
@@ -619,8 +613,8 @@ void mostrarMenuOrdenar(std::vector<T*>& vec,
 		int tecla = _getch();
 		if (tecla == 224) {
 			tecla = _getch();
-			if (tecla == 72) seleccion = (seleccion - 1 + opciones.size()) % opciones.size();
-			else if (tecla == 80) seleccion = (seleccion + 1) % opciones.size();
+			if (tecla == 72) seleccion = (static_cast<unsigned long long>(seleccion) - 1 + opciones.size()) % opciones.size();
+			else if (tecla == 80) seleccion = (static_cast<unsigned long long>(seleccion) + 1) % opciones.size();
 		}
 		else if (tecla == 13) {
 			Utilidades::burbuja<T>(vec, criterios[seleccion]);
@@ -685,9 +679,9 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 		if (tecla == 224) {
 			tecla = _getch();
 			if (tecla == 72) // Flecha arriba
-				selCriterio = (selCriterio - 1 + criterios.size()) % criterios.size();
+				selCriterio = (static_cast<unsigned long long>(selCriterio) - 1 + criterios.size()) % criterios.size();
 			else if (tecla == 80) // Flecha abajo
-				selCriterio = (selCriterio + 1) % criterios.size();
+				selCriterio = (static_cast<unsigned long long>(selCriterio) + 1) % criterios.size();
 
 			// Redibujar todo el menú
 			mostrarMenuCriterios();
@@ -777,9 +771,9 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 		if (tecla == 224) {
 			tecla = _getch();
 			if (tecla == 72) // Flecha arriba
-				selOpcion = (selOpcion - 1 + opcionesArbol.size()) % opcionesArbol.size();
+				selOpcion = (static_cast<unsigned long long>(selOpcion) - 1 + opcionesArbol.size()) % opcionesArbol.size();
 			else if (tecla == 80) // Flecha abajo
-				selOpcion = (selOpcion + 1) % opcionesArbol.size();
+				selOpcion = (static_cast<unsigned long long>(selOpcion) + 1) % opcionesArbol.size();
 
 			// Redibujamos el menú completo con la nueva selección
 			mostrarMenuCompleto();
@@ -787,7 +781,7 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 		else if (tecla == 13) { // Enter
 			if (selOpcion == 0) { // Buscar persona
 				// Coordenadas para el área de entrada
-				int baseY = arbol.altura() + 8 + opcionesArbol.size();
+				int baseY = static_cast<unsigned long long>(arbol.altura()) + 8 + opcionesArbol.size();
 				Utilidades::gotoxy(0, baseY);
 				std::cout << std::string(80, ' '); // Limpiar línea
 				Utilidades::gotoxy(0, baseY);
@@ -841,106 +835,93 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 }
 
 // Generar QR para Persona y numero de cuenta 
-bool Utilidades::generarQRPersona(const Persona& persona, const std::string& numeroCuenta) {
+// Generar QR para Persona y numero de cuenta 
+bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuenta) {
 	try {
-		// Validar datos
-		if (!GeneradorQRBanco::esNumeroCuentaValido(numeroCuenta)) {
-			std::cout << "Numero de cuenta invalido." << std::endl;
-			return false;
-		}
-
-		std::string nombreCompleto = persona.getNombres() + " " + persona.getApellidos();
-		if (!GeneradorQRBanco::esNombreValido(nombreCompleto)) {
-			std::cout << "Nombre invalido para QR." << std::endl;
-			return false;
-		}
+		Utilidades::limpiarPantallaPreservandoMarquesina();
 
 		// Crear y generar QR
-		GeneradorQRBanco qr(persona, numeroCuenta);
-		qr.generar();
-		qr.imprimir();
+		CodigoQR::GeneradorQRTextoPlano qr(
+			persona.getNombres() + " " + persona.getApellidos(),
+			numeroCuenta
+		);
+		qr.generarQR();
 
-		// Preguntar si desea guardar
-		std::cout << "\nDesea guardar el QR? (s/n): ";
-		char opcion = _getch();
-		std::cout << opcion << std::endl;
+		// Mostrar información y QR
+		std::cout << "\n\n=== CODIGO QR GENERADO ===\n\n";
+		std::cout << "NOMBRE: " << persona.getNombres() << " "
+			<< persona.getApellidos() << "\n";
+		std::cout << "N. CUENTA: " << numeroCuenta << "\n\n";
 
-		if (opcion == 's' || opcion == 'S') {
-			std::string archivoBase = "QR_" + numeroCuenta;
-			qr.guardarComoSVG(archivoBase + ".svg");
-			qr.guardarInformacionCuenta(archivoBase + "_info.txt");
+		qr.imprimirEnConsola();
+
+		// Opciones para el QR
+		std::string opcionesQRGen[] = {
+			"Generar PDF del QR",
+			"Volver al menu principal"
+		};
+		int numOpcionesQRGen = sizeof(opcionesQRGen) / sizeof(opcionesQRGen[0]);
+		int seleccionQRGen = 0;
+
+		while (true) {
+			std::cout << "\n=== OPCIONES ===\n";
+			for (int i = 0; i < numOpcionesQRGen; i++) {
+				if (i == seleccionQRGen)
+					std::cout << " > " << opcionesQRGen[i] << std::endl;
+				else
+					std::cout << "   " << opcionesQRGen[i] << std::endl;
+			}
+
+			int teclaQRGen = _getch();
+			if (teclaQRGen == 224) {
+				teclaQRGen = _getch();
+				if (teclaQRGen == 72) // Arriba
+					seleccionQRGen = (seleccionQRGen - 1 + numOpcionesQRGen) % numOpcionesQRGen;
+				else if (teclaQRGen == 80) // Abajo
+					seleccionQRGen = (seleccionQRGen + 1) % numOpcionesQRGen;
+			}
+			else if (teclaQRGen == 13) { // ENTER
+				if (seleccionQRGen == 0) { // Generar PDF
+					// Crear nombre del archivo
+					std::string nombreArchivo = "QR_" +
+						persona.getNombres() + "_" +
+						persona.getApellidos();
+
+					// Reemplazar espacios con guiones bajos
+					std::replace(nombreArchivo.begin(), nombreArchivo.end(), ' ', '_');
+
+					// Ruta especifica para guardar
+					std::string rutaBase = "C:\\Users\\Uriel Andrade\\Desktop\\BancoApp\\Codigos QR";
+
+					// Crear directorio si no existe
+					std::string comando = "mkdir \"" + rutaBase + "\" 2>nul";
+					system(comando.c_str());
+
+					// Ruta completa del archivo
+					std::string rutaCompleta = rutaBase + "\\" + nombreArchivo + ".pdf";
+
+					// Generar el PDF
+					qr.generarPDFQR(qr.qr,rutaCompleta);
+
+					std::cout << "\nArchivo PDF guardado exitosamente en:\n" << rutaCompleta << std::endl;
+					system("pause");
+				}
+				else { // Volver al menu
+					return true;
+				}
+			}
+			else if (teclaQRGen == 27) { // ESC
+				return false;
+			}
 		}
-
-		return true;
 	}
 	catch (const std::exception& e) {
+		Utilidades::limpiarPantallaPreservandoMarquesina();
 		std::cout << "Error generando QR: " << e.what() << std::endl;
+		system("pause");
 		return false;
 	}
+
+	return true;
 }
 
-// Método para generar QR con datos manuales
-bool Utilidades::generarQRManual() {
-	limpiarPantallaPreservandoMarquesina();
-
-	std::cout << "=== GENERADOR DE QR BANCARIO ===" << std::endl;
-	std::cout << "NOTA: Solo se incluyen datos basicos (nombre y cuenta)" << std::endl;
-	std::cout << std::string(50, '=') << std::endl;
-
-	std::string numeroCuenta, nombreCompleto;
-
-	// Solicitar número de cuenta - CORREGIDO para 10 dígitos exactos
-	do {
-		std::cout << "\nIngrese el numero de cuenta (exactamente 10 digitos): ";
-		std::getline(std::cin, numeroCuenta);
-
-		if (!GeneradorQRBanco::esNumeroCuentaValido(numeroCuenta)) {
-			std::cout << "Numero de cuenta invalido. Debe contener exactamente 10 digitos numericos." << std::endl;
-		}
-	} while (!GeneradorQRBanco::esNumeroCuentaValido(numeroCuenta));
-
-	// Solicitar nombre del usuario
-	do {
-		std::cout << "Ingrese el nombre completo (2-60 caracteres): ";
-		std::getline(std::cin, nombreCompleto);
-
-		if (!GeneradorQRBanco::esNombreValido(nombreCompleto)) {
-			std::cout << "Nombre invalido. Solo letras, espacios y guiones (2-60 caracteres)." << std::endl;
-		}
-	} while (!GeneradorQRBanco::esNombreValido(nombreCompleto));
-
-	try {
-		// Generar QR
-		std::cout << "\nGenerando codigo QR..." << std::endl;
-
-		GeneradorQRBanco qr(nombreCompleto, numeroCuenta);
-		qr.generar();
-		qr.imprimir();
-
-		// Opciones de guardado
-		std::cout << "\nDesea guardar el QR? (s/n): ";
-		char opcion = _getch();
-		std::cout << opcion << std::endl;
-
-		if (opcion == 's' || opcion == 'S') {
-			std::string archivoBase = "QR_" + numeroCuenta;
-			qr.guardarComoSVG(archivoBase + ".svg");
-			qr.guardarInformacionCuenta(archivoBase + "_info.txt");
-
-			std::cout << "\nArchivos generados exitosamente:" << std::endl;
-			std::cout << "   - " << archivoBase << ".svg (imagen del QR)" << std::endl;
-			std::cout << "   - " << archivoBase << "_info.txt (informacion de cuenta)" << std::endl;
-		}
-
-		std::cout << "\nProceso completado. El QR contiene unicamente:" << std::endl;
-		std::cout << "   - Nombre: " << nombreCompleto << std::endl;
-		std::cout << "   - Numero de cuenta: " << numeroCuenta << std::endl;
-		std::cout << "\nSin datos sensibles incluidos." << std::endl;
-
-		return true;
-	}
-	catch (const std::exception& e) {
-		std::cout << "Error generando QR: " << e.what() << std::endl;
-		return false;
-	}
-}

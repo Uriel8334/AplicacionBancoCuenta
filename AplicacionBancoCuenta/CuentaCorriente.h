@@ -30,7 +30,7 @@ public:
 	CuentaCorriente* setAnterior(CuentaCorriente* cuentaAnterior) { this->anterior = anterior; return this; }
 
 	// GETTERS
-	double getMontoMinimo() { return this->montoMinimo; }
+	double getMontoMinimo() const { return this->montoMinimo; }
 	std::string getNumeroCuenta() const { return this->numeroCuenta; }
 	double getSaldo() const { return this->saldo; }
 	std::string getFechaApertura() const { return this->fechaApertura.toString(); }

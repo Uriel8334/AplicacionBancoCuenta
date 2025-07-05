@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <conio.h>
+#include <limits>
 #include "Cuenta.h"
 #include "Validar.h"
 #include "Cifrado.h"
@@ -17,14 +18,31 @@ using namespace std;
 /// Metodo para depositar una cantidad en la cuenta de ahorros
 /// </summary>
 /// <param name="cantidad"></param>
-void CuentaAhorros::depositar(double cantidad) {
-	if (cantidad > 0) {
-		this->saldo += cantidad;
+/// <summary>
+/// Metodo para depositar una cantidad en la cuenta de ahorros
+/// </summary>
+/// <param name="cantidad"></param>
+void CuentaAhorros::depositar(double cantidad) { 
+
+    if (cantidad <= 0) {  
+        std::cout << "El monto debe ser mayor a cero.\n";  
+        return;  
+    }  
+
+	// Convertir a un tipo más amplio para evitar desbordamiento  
+	long double nuevoSaldo = static_cast<long double>(saldo) + static_cast<long double>(cantidad);
+
+	// Verificar si el nuevo saldo excede el límite de la cuenta (15000.00 dólares)
+	constexpr double LIMITE_MAXIMO = 15000.00;
+	if (nuevoSaldo > LIMITE_MAXIMO) {
+		std::cout << "Error: El saldo no puede exceder el límite de $15,000.00\n";
+		return;
 	}
-	else {
-		std::cout << "La cantidad a depositar debe ser positiva." << std::endl;
-	}
+
+    saldo = static_cast<double>(nuevoSaldo);  
+    std::cout << "Depósito realizado con éxito. Nuevo saldo: $" << formatearSaldo() << std::endl;  
 }
+
 /// <summary>
 /// Metodo para retirar una cantidad de la cuenta de ahorros
 /// </summary>

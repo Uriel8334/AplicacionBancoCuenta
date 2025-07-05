@@ -1,4 +1,4 @@
-#include <iostream>
+Ôªø#include <iostream>
 #include <string>
 #include "Persona.h"
 #include <conio.h> // getch()
@@ -8,11 +8,11 @@
 #include "Cifrado.h" // Asegurate de incluir este archivo de cabecera
 #include <algorithm>
 #include "Marquesina.h"
-#include "GeneradorQRBanco.h"
+#include "CodigoQR.h"
 // Funcion para mostrar el menu sin parpadeo y limpiar toda la linea
 static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y) {
-	Utilidades::limpiarPantallaPreservandoMarquesina(); // Ya maneja las operaciones crÌticas
-
+	Utilidades::limpiarPantallaPreservandoMarquesina(); // Ya maneja las operaciones cr√≠ticas
+	Utilidades::iniciarOperacionCritica(); // Iniciar operaci√≥n cr√≠tica para evitar parpadeo
 	const int anchoLinea = 80;
 	for (int i = 0; i < numOpciones; i++) {
 		Utilidades::gotoxy(0, y + i); // Ya thread-safe
@@ -25,6 +25,7 @@ static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, 
 	}
 	Utilidades::gotoxy(0, y + numOpciones);
 	std::cout << std::string(anchoLinea, ' ');
+	Utilidades::finalizarOperacionCritica(); // Finalizar operaci√≥n cr√≠tica
 }
 
 // Funcion para buscar cuenta por cedula o numero de cuenta (retorna la cuenta y tipo)
@@ -138,7 +139,7 @@ static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 				}
 
 				// Obtener cuenta seleccionada
-				auto& cuentaSelec = cuentas[selCuenta - 1];
+				auto& cuentaSelec = cuentas[static_cast<std::vector<std::pair<bool, void*>, std::allocator<std::pair<bool, void*>>>::size_type>(selCuenta) - 1];
 				if (cuentaSelec.first) { // Cuenta de ahorro
 					cuentaAhorros = static_cast<CuentaAhorros*>(cuentaSelec.second);
 					cuentaCorriente = nullptr;
@@ -231,7 +232,7 @@ static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 }
 
 // Funcion para mostrar personas
-void mostrarPersonas(const std::vector<Persona*>& personas) {
+static void mostrarPersonas(const std::vector<Persona*>& personas) {
 	for (auto p : personas) {
 		std::cout << p->getNombres() << " " << p->getApellidos() << " - " << p->getFechaNacimiento() << "\n";
 	}
@@ -266,7 +267,7 @@ int main() {
 	for (int i = 0; i < numOpciones; i++)
 		std::cout << std::endl;
 
-	// ConfiguraciÛn de la consola
+	// Configuraci√≥n de la consola
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	int anchoConsola = csbi.srWindow.Right - csbi.srWindow.Left + 1;
@@ -276,7 +277,7 @@ int main() {
 	marquesinaGlobal->iniciar();
 
 	// Dejar espacio para la marquesina
-	std::cout << std::endl << std::endl; // 2 lÌneas para la marquesina
+	std::cout << std::endl << std::endl; // 2 l√≠neas para la marquesina
 
 
 
@@ -804,9 +805,9 @@ int main() {
 					if (tecla == 224) {
 						tecla = _getch();
 						if (tecla == 75) // Izquierda
-							seleccion = (seleccion - 1 + opcionesPersona.size()) % opcionesPersona.size();
+							seleccion = (seleccion - 1 + static_cast<int>(opcionesPersona.size())) % static_cast<int>(opcionesPersona.size());
 						else if (tecla == 77) // Derecha
-							seleccion = (seleccion + 1) % opcionesPersona.size();
+							seleccion = (static_cast<unsigned long long>(seleccion) + 1) % opcionesPersona.size();
 						else if (tecla == 72) // Arriba
 							ascendente = true;
 						else if (tecla == 80) // Abajo
@@ -886,10 +887,10 @@ int main() {
 					else {
 						bool valido = Utilidades::verificarSHA1(rutaArchivo, hashGuardado);
 						if (valido) {
-							std::cout << "°Verificacion exitosa! El archivo es legitimo y no ha sido modificado." << std::endl;
+							std::cout << "¬°Verificacion exitosa! El archivo es legitimo y no ha sido modificado." << std::endl;
 						}
 						else {
-							std::cout << "°ADVERTENCIA! El hash no coincide. El archivo puede haber sido modificado." << std::endl;
+							std::cout << "¬°ADVERTENCIA! El hash no coincide. El archivo puede haber sido modificado." << std::endl;
 						}
 					}
 				}
@@ -908,76 +909,64 @@ int main() {
 				Utilidades::PorArbolB(banco.getListaPersonas());
 				break;
 			}
-			case 11: { // Generar QR 
-				// Verificar si hay personas registradas
+			case 11: // Generar QR
+			{
+				// Verificar que haya personas en la base de datos
 				if (banco.getListaPersonas() == nullptr) {
-					Utilidades::limpiarPantallaPreservandoMarquesina();
-					std::cout << "No hay personas registradas. Cree una cuenta primero.\n";
+					system("cls");
+					std::cout << "No hay personas registradas en el sistema.\n";
 					system("pause");
 					break;
 				}
 
-				NodoPersona* cabeza = banco.getListaPersonas();
-				std::vector<std::string> opcionesPersona = { "Nombre", "Apellido" }; // Omitimos fecha de nacimiento
+				// Recolectar todas las personas validas
+				std::vector<Persona*> personasOrdenadas;
+				NodoPersona* nodoActual = banco.getListaPersonas();
 
-				// Criterios de ordenamiento para personas (sin fecha de nacimiento)
-				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersona = {
-					[](const Persona* a, const Persona* b) {
-						std::string na = a->getNombres(), nb = b->getNombres();
-						std::transform(na.begin(), na.end(), na.begin(), ::tolower);
-						std::transform(nb.begin(), nb.end(), nb.begin(), ::tolower);
-						return na < nb;
-					},
-					[](const Persona* a, const Persona* b) {
-						std::string aa = a->getApellidos(), ab = b->getApellidos();
-						std::transform(aa.begin(), aa.end(), aa.begin(), ::tolower);
-						std::transform(ab.begin(), ab.end(), ab.begin(), ::tolower);
-						return aa < ab;
+				while (nodoActual) {
+					if (nodoActual->persona && nodoActual->persona->isValidInstance()) {
+						personasOrdenadas.push_back(nodoActual->persona);
 					}
+					nodoActual = nodoActual->siguiente;
+				}
+
+				if (personasOrdenadas.empty()) {
+					Utilidades::limpiarPantallaPreservandoMarquesina();
+					std::cout << "No hay personas validas para mostrar.\n";
+					system("pause");
+					break;
+				}
+
+				// Opciones simplificadas: solo Nombres y Apellidos
+				std::vector<std::string> opcionesPersona = {
+					"Nombres", "Apellidos"
+				};
+
+				int seleccionCriterio = 0;
+				int seleccionPersona = 0;
+				bool ascendente = true;
+
+				// Criterios de ordenamiento solo para nombres y apellidos
+				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersona = {
+					[](const Persona* a, const Persona* b) { return a->getNombres() < b->getNombres(); },
+					[](const Persona* a, const Persona* b) { return a->getApellidos() < b->getApellidos(); }
 				};
 
 				std::vector<std::function<bool(const Persona*, const Persona*)>> criteriosPersonaDesc = {
-					[](const Persona* a, const Persona* b) {
-						std::string na = a->getNombres(), nb = b->getNombres();
-						std::transform(na.begin(), na.end(), na.begin(), ::tolower);
-						std::transform(nb.begin(), nb.end(), nb.begin(), ::tolower);
-						return na > nb;
-					},
-					[](const Persona* a, const Persona* b) {
-						std::string aa = a->getApellidos(), ab = b->getApellidos();
-						std::transform(aa.begin(), aa.end(), aa.begin(), ::tolower);
-						std::transform(ab.begin(), ab.end(), ab.begin(), ::tolower);
-						return aa > ab;
-					}
+					[](const Persona* a, const Persona* b) { return a->getNombres() > b->getNombres(); },
+					[](const Persona* a, const Persona* b) { return a->getApellidos() > b->getApellidos(); }
 				};
 
-				// Variables para navegaciÛn
-				int seleccionCriterio = 0;
-				bool ascendente = true;
-				int seleccionPersona = 0;
-				std::vector<Persona*> personasOrdenadas;
-
-				// FunciÛn para recolectar y ordenar personas
+				// Funcion para actualizar la lista ordenada
 				auto actualizarListaPersonas = [&]() {
-					personasOrdenadas.clear();
-					NodoPersona* actual = cabeza;
-					while (actual) {
-						if (actual->persona) {
-							personasOrdenadas.push_back(actual->persona);
-						}
-						actual = actual->siguiente;
+					if (ascendente) {
+						Utilidades::burbuja<Persona>(personasOrdenadas, criteriosPersona[seleccionCriterio]);
+					}
+					else {
+						Utilidades::burbuja<Persona>(personasOrdenadas, criteriosPersonaDesc[seleccionCriterio]);
 					}
 
-					if (!personasOrdenadas.empty()) {
-						if (ascendente) {
-							Utilidades::burbuja<Persona>(personasOrdenadas, criteriosPersona[seleccionCriterio]);
-						}
-						else {
-							Utilidades::burbuja<Persona>(personasOrdenadas, criteriosPersonaDesc[seleccionCriterio]);
-						}
-					}
-
-					// Asegurar que la selecciÛn estÈ dentro del rango
+					// Asegurar seleccion dentro del rango
 					if (seleccionPersona >= static_cast<int>(personasOrdenadas.size())) {
 						seleccionPersona = static_cast<int>(personasOrdenadas.size()) - 1;
 					}
@@ -986,22 +975,14 @@ int main() {
 					}
 					};
 
-				// Bucle principal del explorador
+				// Bucle para explorador de personas
 				while (true) {
 					actualizarListaPersonas();
 
-					if (personasOrdenadas.empty()) {
-						Utilidades::limpiarPantallaPreservandoMarquesina();
-						std::cout << "No hay personas v·lidas para mostrar.\n";
-						system("pause");
-						break;
-					}
-
 					Utilidades::limpiarPantallaPreservandoMarquesina();
-
-					// Mostrar encabezado con criterios de ordenamiento
-					std::cout << "=== GENERADOR QR - SELECCIONAR PERSONA ===\n\n";
+					std::cout << "=== EXPLORADOR DE PERSONAS - SELECCIONAR PERSONA ===\n\n";
 					std::cout << "Ordenar por: ";
+
 					for (size_t i = 0; i < opcionesPersona.size(); ++i) {
 						if (i == seleccionCriterio)
 							std::cout << " >" << opcionesPersona[i] << "< ";
@@ -1009,10 +990,11 @@ int main() {
 							std::cout << "  " << opcionesPersona[i] << "  ";
 						if (i < opcionesPersona.size() - 1) std::cout << "|";
 					}
-					std::cout << " (" << (ascendente ? "Ascendente" : "Descendente") << ")\n";
-					std::cout << std::string(60, '-') << "\n";
 
-					// Mostrar lista de personas con selecciÛn
+					std::cout << " (" << (ascendente ? "Ascendente" : "Descendente") << ")\n";
+					std::cout << std::string(50, '-') << "\n";
+
+					// Mostrar SOLO nombres y apellidos
 					for (size_t i = 0; i < personasOrdenadas.size(); ++i) {
 						Persona* p = personasOrdenadas[i];
 						if (static_cast<int>(i) == seleccionPersona) {
@@ -1024,161 +1006,130 @@ int main() {
 					}
 
 					std::cout << "\nControles:\n";
-					std::cout << "IZQUIERDA/DERECHA: cambiar criterio | ARRIBA/ABAJO: cambiar orden\n";
-					std::cout << "W/S: navegar personas | ENTER: generar QR | ESC: salir\n";
+					std::cout << "Tecla izq, dere: cambiar criterio | Tecla arriba/abajo: navegar personas\n";
+					std::cout << "ESPACIO: cambiar orden | ENTER: seleccionar | ESC: cancelar\n";
 
 					int tecla = _getch();
 					if (tecla == 224) {
 						tecla = _getch();
 						if (tecla == 75) { // Izquierda
-							seleccionCriterio = (seleccionCriterio - 1 + opcionesPersona.size()) % opcionesPersona.size();
+							seleccionCriterio = (seleccionCriterio - 1 + static_cast<int>(opcionesPersona.size())) % static_cast<int>(opcionesPersona.size());
 						}
 						else if (tecla == 77) { // Derecha
-							seleccionCriterio = (seleccionCriterio + 1) % opcionesPersona.size();
+							seleccionCriterio = (static_cast<unsigned long long>(seleccionCriterio) + 1) % opcionesPersona.size();
 						}
 						else if (tecla == 72) { // Arriba
-							ascendente = true;
+							seleccionPersona = (seleccionPersona - 1 + static_cast<int>(personasOrdenadas.size())) % static_cast<int>(personasOrdenadas.size());
 						}
 						else if (tecla == 80) { // Abajo
-							ascendente = false;
+							seleccionPersona = (static_cast<unsigned long long>(seleccionPersona) + 1) % personasOrdenadas.size();
 						}
 					}
-					else if (tecla == 'w' || tecla == 'W') {
-						seleccionPersona = (seleccionPersona - 1 + personasOrdenadas.size()) % personasOrdenadas.size();
-					}
-					else if (tecla == 's' || tecla == 'S') {
-						seleccionPersona = (seleccionPersona + 1) % personasOrdenadas.size();
-					}
-					else if (tecla == 13) { // Enter - Generar QR
+					else if (tecla == 13) { // ENTER
+						// Seleccionamos la persona
 						Persona* personaSeleccionada = personasOrdenadas[seleccionPersona];
 
-						// Buscar cuenta de la persona seleccionada
-						std::string numeroCuentaQR = "";
+						// Recopilar cuentas disponibles - mostrando solo nombres y numeros
+						std::vector<std::string> cuentasDisponibles;
 
-						// Buscar primera cuenta disponible (ahorros o corriente)
+						// Recopilar cuentas de ahorro
 						CuentaAhorros* cuentaAhorros = personaSeleccionada->getCabezaAhorros();
-						if (cuentaAhorros && cuentaAhorros->getCuentaAhorros()) {
-							numeroCuentaQR = cuentaAhorros->getCuentaAhorros()->getNumeroCuenta();
+						while (cuentaAhorros) {
+							if (cuentaAhorros->getCuentaAhorros()) {
+								cuentasDisponibles.push_back("Ahorro: " + cuentaAhorros->getCuentaAhorros()->getNumeroCuenta());
+							}
+							cuentaAhorros = cuentaAhorros->getSiguiente();
 						}
-						else {
-							CuentaCorriente* cuentaCorriente = personaSeleccionada->getCabezaCorriente();
-							if (cuentaCorriente && cuentaCorriente->getCuentaCorriente()) {
-								numeroCuentaQR = cuentaCorriente->getCuentaCorriente()->getNumeroCuenta();
+
+						// Recopilar cuentas corrientes
+						CuentaCorriente* cuentaCorriente = personaSeleccionada->getCabezaCorriente();
+						while (cuentaCorriente) {
+							if (cuentaCorriente->getCuentaCorriente()) {
+								cuentasDisponibles.push_back("Corriente: " + cuentaCorriente->getCuentaCorriente()->getNumeroCuenta());
+							}
+							cuentaCorriente = cuentaCorriente->getSiguiente();
+						}
+
+						// Si no hay cuentas, mostrar mensaje y volver
+						if (cuentasDisponibles.empty()) {
+							Utilidades::limpiarPantallaPreservandoMarquesina();
+							std::cout << "La persona seleccionada no tiene cuentas asociadas.\n";
+							system("pause");
+							continue;
+						}
+
+						// Menu para seleccionar cuenta
+						int seleccionCuenta = 0;
+						std::string numeroCuentaQR;
+
+						while (true) {
+							Utilidades::limpiarPantallaPreservandoMarquesina();
+							std::cout << "=== SELECCIONAR CUENTA PARA QR ===\n\n";
+							std::cout << "Titular: " << personaSeleccionada->getNombres() << " "
+								<< personaSeleccionada->getApellidos() << "\n\n";
+							std::cout << "Seleccione una cuenta:\n\n";
+
+							for (size_t i = 0; i < cuentasDisponibles.size(); i++) {
+								if (i == seleccionCuenta)
+									std::cout << " > " << cuentasDisponibles[i] << "\n";
+								else
+									std::cout << "   " << cuentasDisponibles[i] << "\n";
+							}
+
+							int teclaCuenta = _getch();
+							if (teclaCuenta == 224) {
+								teclaCuenta = _getch();
+								if (teclaCuenta == 72) // Arriba
+									seleccionCuenta = (seleccionCuenta - 1 + static_cast<int>(cuentasDisponibles.size())) % static_cast<int>(cuentasDisponibles.size());
+								else if (teclaCuenta == 80) // Abajo
+									seleccionCuenta = (static_cast<unsigned long long>(seleccionCuenta) + 1) % cuentasDisponibles.size();
+							}
+							else if (teclaCuenta == 13) { // ENTER
+								// Extraer numero de cuenta de la seleccion
+								std::string seleccion = cuentasDisponibles[seleccionCuenta];
+								numeroCuentaQR = seleccion.substr(seleccion.find(": ") + 2);
+								break;
+							}
+							else if (teclaCuenta == 27) { // ESC
+								numeroCuentaQR = "";
+								break;
 							}
 						}
 
 						if (numeroCuentaQR.empty()) {
-							Utilidades::limpiarPantallaPreservandoMarquesina();
-							std::cout << "Error: La persona seleccionada no tiene cuentas asociadas.\n";
-							system("pause");
-							continue;
+							continue; // Volver a seleccion de persona
 						}
 
-						// Limpiar pantalla y generar QR
+						// Generar QR directamente aqui en main.cpp
 						Utilidades::limpiarPantallaPreservandoMarquesina();
 
+						// Reemplazar el bloque de c√≥digo seleccionado por:
 						try {
-							// Crear y generar QR (sin fecha de nacimiento)
-							GeneradorQRBanco qr(*personaSeleccionada, numeroCuentaQR);
-							qr.generar();
-
-							int teclaQR = 0;
-
-							std::cout << "=== CODIGO QR GENERADO EXITOSAMENTE ===\n\n";
-							qr.imprimir();
-
-							// Men˙ de opciones para el QR generado
-							std::string opcionesQR[] = { 
-								"Mostrar QR nuevamente", 
-								"Cambiar a formato JSON",
-								"Cambiar a formato estructurado",
-								"Guardar como SVG", 
-								"Volver al explorador" 
-							};
-							int numOpcionesQR = sizeof(opcionesQR) / sizeof(opcionesQR[0]);
-							int seleccionQR = 0;
-
-							while (true) {
-								std::cout << "\n=== OPCIONES DEL QR ===\n";
-								for (int i = 0; i < numOpcionesQR; i++) {
-									if (i == seleccionQR)
-										std::cout << " > " << opcionesQR[i] << std::endl;
-									else
-										std::cout << "   " << opcionesQR[i] << std::endl;
-								}
-
-								int teclaQR = _getch();
-								if (teclaQR == 224) {
-									teclaQR = _getch();
-									if (teclaQR == 72) // Flecha arriba
-										seleccionQR = (seleccionQR - 1 + numOpcionesQR) % numOpcionesQR;
-									else if (teclaQR == 80) // Flecha abajo
-										seleccionQR = (seleccionQR + 1) % numOpcionesQR;
-								}
-								else if (teclaQR == 13) { // Enter
-									if (seleccionQR == 0) { // Mostrar QR nuevamente
-										Utilidades::limpiarPantallaPreservandoMarquesina();
-										std::cout << "=== CODIGO QR ===\n\n";
-										qr.imprimir();
-									}
-									else if (seleccionQR == 1) { // Cambiar a JSON
-										qr.setFormatoSalida(true);
-										qr.generar();
-										Utilidades::limpiarPantallaPreservandoMarquesina();
-										std::cout << "=== QR REGENERADO EN FORMATO JSON ===\n\n";
-										qr.imprimir();
-									}
-									else if (seleccionQR == 2) { // Cambiar a estructurado
-										qr.setFormatoSalida(false);
-										qr.generar();
-										Utilidades::limpiarPantallaPreservandoMarquesina();
-										std::cout << "=== QR REGENERADO EN FORMATO ESTRUCTURADO ===\n\n";
-										qr.imprimir();
-									}
-									else if (seleccionQR == 3) { // Guardar como SVG
-										std::string archivoBase = "QR_" + numeroCuentaQR + "_" +
-											personaSeleccionada->getNombres() + "_" +
-											personaSeleccionada->getApellidos();
-
-										// Reemplazar espacios con guiones bajos
-										std::replace(archivoBase.begin(), archivoBase.end(), ' ', '_');
-
-										qr.guardarComoSVG(archivoBase + ".svg");
-										qr.guardarInformacionCuenta(archivoBase + "_info.txt");
-
-										std::cout << "\nArchivos guardados exitosamente:\n";
-										std::cout << "- " << archivoBase << ".svg\n";
-										std::cout << "- " << archivoBase << "_info.txt\n";
-										system("pause");
-									}
-									else if (seleccionQR == 4) { // Volver al explorador
-										break;
-									}
-								}
-								else if (teclaQR == 27) { // ESC
-									break;
-								}
+							// Generar QR usando la funci√≥n de Utilidades
+							if (!Utilidades::generarQR(*personaSeleccionada, numeroCuentaQR)) {
+								// Si se cancel√≥ con ESC, volvemos al explorador de personas
+								continue;
 							}
-
-							if (seleccionQR == 4 || teclaQR == 27) {
-								continue; // Volver al explorador
-							}
-
+							break; // Si termin√≥ correctamente o se seleccion√≥ "Volver al men√∫ principal"
 						}
 						catch (const std::exception& e) {
 							Utilidades::limpiarPantallaPreservandoMarquesina();
-							std::cout << "Error al generar QR: " << e.what() << std::endl;
+							std::cout << "\n\nError generando QR: " << e.what() << std::endl;
 							system("pause");
-							continue;
 						}
+
+						break;
 					}
 					else if (tecla == 27) { // ESC
-						break;
+						break; // Cancelar
+					}
+					else if (tecla == 32) { // ESPACIO - cambiar orden
+						ascendente = !ascendente;
 					}
 				}
 				break;
 			}
-			case 12: // Salir
+			case 12: // Salir			
 			{
 				system("cls");
 				std::cout << "Saliendo del sistema...\n";
