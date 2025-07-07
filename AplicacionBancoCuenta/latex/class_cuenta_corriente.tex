@@ -1,0 +1,658 @@
+\doxysection{Cuenta\+Corriente Class Reference}
+\hypertarget{class_cuenta_corriente}{}\label{class_cuenta_corriente}\index{CuentaCorriente@{CuentaCorriente}}
+
+
+Clase que representa una cuenta corriente bancaria.  
+
+
+
+
+{\ttfamily \#include $<$Cuenta\+Corriente.\+h$>$}
+
+Inheritance diagram for Cuenta\+Corriente\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_cuenta_corriente}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cuenta_corriente_ad9534ee33e150fb6438138692c95e2d1}{Cuenta\+Corriente}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente_a012de5bfafda83788e17847b6d839af9}{Cuenta\+Corriente}} (std\+::string \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numero\+Cuenta}}, double \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}, const std\+::string \&fecha\+Apertura, const std\+::string \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estado\+Cuenta}}, double monto\+Minimo)
+\begin{DoxyCompactList}\small\item\em Constructor con parametros. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_a04d8ec91757409c6179455c4d792a8c8}{set\+Monto\+Minimo}} (double monto\+Minimo)
+\begin{DoxyCompactList}\small\item\em Establece el monto minimo de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_affb38bb2cc109c829fbacc52aa2854d3}{set\+Numero\+Cuenta}} (std\+::string \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numero\+Cuenta}})
+\begin{DoxyCompactList}\small\item\em Establece el numero de cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_a9ac47267c9f871962e405b60b669effd}{set\+Saldo}} (double \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}})
+\begin{DoxyCompactList}\small\item\em Establece el saldo de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_a7569cee08ff67be0bdf05d316ff2da4c}{set\+Fecha\+Apertura}} (const std\+::string \&fecha)
+\begin{DoxyCompactList}\small\item\em Establece la fecha de apertura de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_a57821e00973133f89debebdc5d1f7a27}{set\+Estado\+Cuenta}} (const std\+::string \&\mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estado\+Cuenta}})
+\begin{DoxyCompactList}\small\item\em Establece el estado de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_corriente_aaa0063ee23566bf6bdc4d3dd1be52df0}{set\+Cuenta\+Corriente}} (\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}cuenta\+Corriente)
+\begin{DoxyCompactList}\small\item\em Devuelve una referencia a esta cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_corriente_a7e3b5cf0c308dec711421b9aba104dc8}{set\+Siguiente}} (\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}cuenta\+Siguiente)
+\begin{DoxyCompactList}\small\item\em Establece la siguiente cuenta en la lista enlazada. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_corriente_acea36955d26ae28c10b5a0f274a9cd03}{set\+Anterior}} (\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}cuenta\+Anterior)
+\begin{DoxyCompactList}\small\item\em Establece la cuenta anterior en la lista enlazada. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_corriente_ac97c507af21d0942daa38c585963dad5}{get\+Monto\+Minimo}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el monto minimo de la cuenta. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_corriente_aba774d7f86d2fa6da4366fa7d96547fa}{get\+Numero\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_corriente_a482f51848262d083ab4c424e6b7c3e31}{get\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el saldo actual de la cuenta. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_corriente_a93c05ab02ea1a79bf0d8ee20e2df8e0c}{get\+Fecha\+Apertura}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha de apertura. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_corriente_adaca422298b54960e14c7348a679c41f}{get\+Estado\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el estado actual de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_corriente_a15858f600adab33e85350cffb70ed62f}{get\+Cuenta\+Corriente}} ()
+\begin{DoxyCompactList}\small\item\em Obtiene una referencia a esta cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_corriente_a44c794f1c85f4ff345d3d0b77354c369}{get\+Siguiente}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la siguiente cuenta en la lista enlazada. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_corriente_aae04370806d7f52aff647653b1e3b78c}{get\+Anterior}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la cuenta anterior en la lista enlazada. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_a1b10f73a8f42786f7d5169c054cc952c}{depositar}} (double cantidad)
+\begin{DoxyCompactList}\small\item\em Realiza un deposito en la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_aaaabfc11943a72b843e751ac425b56e0}{retirar}} (double cantidad)
+\begin{DoxyCompactList}\small\item\em Realiza un retiro de la cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_corriente_a64ec4ce675feeb3ff423ab3db0286227}{consultar\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Consulta el saldo disponible. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_corriente_a1acf2732a95ffd7a6fcf9af1a9e4591d}{consultar\+Estado}} () const
+\begin{DoxyCompactList}\small\item\em Consulta el estado actual de la cuenta. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_corriente_a5162565cbd96536c8b9f99fb88877574}{formatear\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Formatea el saldo para presentacion. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_corriente_a784d599bf90fbec4a66a4406681c88bb}{formatear\+Con\+Comas}} (double \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}) const
+\begin{DoxyCompactList}\small\item\em Formatea un numero con separador de miles (comas) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_a5fb6b2ecb94671099052b2c8e1a015bd}{mostrar\+Informacion}} (const std\+::string \&cedula, bool limpiar\+Pantalla) const
+\begin{DoxyCompactList}\small\item\em Muestra la informacion detallada de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_ac35432473b9be0f269f3bffdf7a6e678}{guardar\+En\+Archivo}} (const std\+::string \&nombre\+Archivo) const override
+\begin{DoxyCompactList}\small\item\em Guarda los datos de la cuenta en un archivo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_adf57d73245439c20f04b2261f25b1a62}{cargar\+Desde\+Archivo}} (const std\+::string \&nombre\+Archivo) override
+\begin{DoxyCompactList}\small\item\em Carga los datos de la cuenta desde un archivo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_corriente_ae244c7e2262cdf044e5aa4cdfc6635de}{es\+Monto\+Minimo}} (double monto\+Minimo)
+\begin{DoxyCompactList}\small\item\em Verifica si el saldo cumple con el requisito de monto minimo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_cuenta}{Cuenta$<$ double $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{class_cuenta_a9e8eb69906fa334132a76b6d25ffcaae}{get\+Numero\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_ab3fa296ea7e22ec677f3998ff17684a8}{get\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el saldo actual. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha}{Fecha}} \mbox{\hyperlink{class_cuenta_a87d707df5ca54179381fad09d55ea38b}{get\+Fecha\+Apertura}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha de apertura. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_acc8a233f48241a8d757d70172b80813a}{get\+Estado\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el estado actual de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_a0c887fe657734aa2d435f36c9d6c5124}{get\+Siguiente}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el puntero al siguiente nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_aa798056d9b1f0db4d7db63a6b9b9472e}{get\+Anterior}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el puntero al nodo anterior. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ab30fcc3c60b171460f3160bfb9b9524b}{set\+Numero\+Cuenta}} (const std\+::string \&numero)
+\begin{DoxyCompactList}\small\item\em Establece el numero de cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_a9da5555b6815e9fa5b604ff58476564d}{set\+Saldo}} (double nuevo\+Saldo)
+\begin{DoxyCompactList}\small\item\em Establece el saldo de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha}{Fecha}} \mbox{\hyperlink{class_cuenta_a207774598d28de5d8a5be35157da77e2}{set\+Fecha\+Apertura}} (const std\+::string \&fecha\+Str)
+\begin{DoxyCompactList}\small\item\em Establece la fecha de apertura. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_a8538df3276c6427036fd85092525a2d0}{set\+Estado\+Cuenta}} (const std\+::string \&estado)
+\begin{DoxyCompactList}\small\item\em Establece el estado de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_a916c21c68c522a14b8ec99b4722c7c26}{set\+Siguiente}} (\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*}sig)
+\begin{DoxyCompactList}\small\item\em Establece el puntero al siguiente nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_a04791338fd26606cd9915736b356bac9}{set\+Anterior}} (\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*}ant)
+\begin{DoxyCompactList}\small\item\em Establece el puntero al nodo anterior. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_cuenta}{Cuenta$<$ double $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_cuenta_a81f703a3656a58893da941235fa3300d}{\texorpdfstring{$\sim$}{\string~}\+Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Destructor virtual. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_cuenta}{Cuenta$<$ double $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries numero\+Cuenta}
+\begin{DoxyCompactList}\small\item\em Numero identificador unico de la cuenta. \end{DoxyCompactList}\item 
+double {\bfseries saldo}
+\begin{DoxyCompactList}\small\item\em Saldo actual disponible en la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha}{Fecha}} {\bfseries fecha\+Apertura}
+\begin{DoxyCompactList}\small\item\em \doxylink{class_fecha}{Fecha} en que se abrio la cuenta. \end{DoxyCompactList}\item 
+std\+::string {\bfseries estado\+Cuenta}
+\begin{DoxyCompactList}\small\item\em Estado actual de la cuenta (activa, inactiva, bloqueada, etc.) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} {\bfseries siguiente}
+\begin{DoxyCompactList}\small\item\em Puntero al siguiente nodo en la lista doblemente enlazada. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} {\bfseries anterior}
+\begin{DoxyCompactList}\small\item\em Puntero al nodo anterior en la lista doblemente enlazada. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que representa una cuenta corriente bancaria. 
+
+Esta clase hereda de la clase abstracta \doxylink{class_cuenta}{Cuenta$<$double$>$} e implementa las funcionalidades especificas de una cuenta corriente, incluyendo la verificacion de monto minimo y operaciones bancarias basicas. 
+
+\label{doc-constructors}
+\Hypertarget{class_cuenta_corriente_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_cuenta_corriente_ad9534ee33e150fb6438138692c95e2d1}\index{CuentaCorriente@{CuentaCorriente}!CuentaCorriente@{CuentaCorriente}}
+\index{CuentaCorriente@{CuentaCorriente}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{CuentaCorriente()}{CuentaCorriente()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_ad9534ee33e150fb6438138692c95e2d1} 
+Cuenta\+Corriente\+::\+Cuenta\+Corriente (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor por defecto. 
+
+Inicializa una cuenta corriente con valores predeterminados \Hypertarget{class_cuenta_corriente_a012de5bfafda83788e17847b6d839af9}\index{CuentaCorriente@{CuentaCorriente}!CuentaCorriente@{CuentaCorriente}}
+\index{CuentaCorriente@{CuentaCorriente}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{CuentaCorriente()}{CuentaCorriente()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a012de5bfafda83788e17847b6d839af9} 
+Cuenta\+Corriente\+::\+Cuenta\+Corriente (\begin{DoxyParamCaption}\item[{std\+::string}]{numero\+Cuenta}{, }\item[{double}]{saldo}{, }\item[{const std\+::string \&}]{fecha\+Apertura}{, }\item[{const std\+::string}]{estado\+Cuenta}{, }\item[{double}]{monto\+Minimo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor con parametros. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em numero\+Cuenta} & Numero identificador de la cuenta \\
+\hline
+{\em saldo} & Saldo inicial de la cuenta \\
+\hline
+{\em fecha\+Apertura} & \doxylink{class_fecha}{Fecha} de apertura en formato de cadena \\
+\hline
+{\em estado\+Cuenta} & Estado inicial de la cuenta \\
+\hline
+{\em monto\+Minimo} & Monto minimo requerido para la cuenta \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_cuenta_corriente_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cuenta_corriente_adf57d73245439c20f04b2261f25b1a62}\index{CuentaCorriente@{CuentaCorriente}!cargarDesdeArchivo@{cargarDesdeArchivo}}
+\index{cargarDesdeArchivo@{cargarDesdeArchivo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{cargarDesdeArchivo()}{cargarDesdeArchivo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_adf57d73245439c20f04b2261f25b1a62} 
+void Cuenta\+Corriente\+::cargar\+Desde\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Carga los datos de la cuenta desde un archivo. 
+
+Carga la informacion de la cuenta corriente desde un archivo binario.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre\+Archivo} & Nombre del archivo desde donde cargar los datos\\
+\hline
+{\em nombre\+Archivo} & Ruta del archivo desde donde se cargara la informacion \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a255597a08fc4416a9316b3af7c8d8f01}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_a1acf2732a95ffd7a6fcf9af1a9e4591d}\index{CuentaCorriente@{CuentaCorriente}!consultarEstado@{consultarEstado}}
+\index{consultarEstado@{consultarEstado}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{consultarEstado()}{consultarEstado()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a1acf2732a95ffd7a6fcf9af1a9e4591d} 
+std\+::string Cuenta\+Corriente\+::consultar\+Estado (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Consulta el estado actual de la cuenta. 
+
+Metodo para consultar el estado de la cuenta corriente.
+
+\begin{DoxyReturn}{Returns}
+Estado de la cuenta como cadena
+
+std\+::string Retorna "{}\+ACTIVA"{} si no hay un estado explicito, o el estado actual de la cuenta 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_cuenta_afb6a369ee1b5d0f1afeeb33e2284389f}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_a64ec4ce675feeb3ff423ab3db0286227}\index{CuentaCorriente@{CuentaCorriente}!consultarSaldo@{consultarSaldo}}
+\index{consultarSaldo@{consultarSaldo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{consultarSaldo()}{consultarSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a64ec4ce675feeb3ff423ab3db0286227} 
+double Cuenta\+Corriente\+::consultar\+Saldo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Consulta el saldo disponible. 
+
+Metodo para consultar el saldo actual de la cuenta corriente.
+
+\begin{DoxyReturn}{Returns}
+Saldo actual de la cuenta
+
+double Retorna el saldo actual de la cuenta 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a184eb70ffcafeaefbfb8f28c81ba3e1d}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_a1b10f73a8f42786f7d5169c054cc952c}\index{CuentaCorriente@{CuentaCorriente}!depositar@{depositar}}
+\index{depositar@{depositar}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{depositar()}{depositar()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a1b10f73a8f42786f7d5169c054cc952c} 
+void Cuenta\+Corriente\+::depositar (\begin{DoxyParamCaption}\item[{double}]{cantidad}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Realiza un deposito en la cuenta. 
+
+Metodo para depositar una cantidad en la cuenta corriente.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a depositar\\
+\hline
+\end{DoxyParams}
+Verifica que el monto a depositar sea positivo antes de añadirlo al saldo
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a depositar en la cuenta \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a1fdd97d3ef39c81820601098f4330c30}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_ae244c7e2262cdf044e5aa4cdfc6635de}\index{CuentaCorriente@{CuentaCorriente}!esMontoMinimo@{esMontoMinimo}}
+\index{esMontoMinimo@{esMontoMinimo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{esMontoMinimo()}{esMontoMinimo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_ae244c7e2262cdf044e5aa4cdfc6635de} 
+void Cuenta\+Corriente\+::es\+Monto\+Minimo (\begin{DoxyParamCaption}\item[{double}]{monto}{}\end{DoxyParamCaption})}
+
+
+
+Verifica si el saldo cumple con el requisito de monto minimo. 
+
+Verifica si el monto minimo es valido y lo asigna.
+
+
+\begin{DoxyParams}{Parameters}
+{\em monto\+Minimo} & Valor del monto minimo a verificar\\
+\hline
+\end{DoxyParams}
+Comprueba que el monto sea al menos \$250.00 antes de asignarlo
+
+
+\begin{DoxyParams}{Parameters}
+{\em monto} & Cantidad a establecer como monto minimo \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_corriente_a784d599bf90fbec4a66a4406681c88bb}\index{CuentaCorriente@{CuentaCorriente}!formatearConComas@{formatearConComas}}
+\index{formatearConComas@{formatearConComas}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{formatearConComas()}{formatearConComas()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a784d599bf90fbec4a66a4406681c88bb} 
+std\+::string Cuenta\+Corriente\+::formatear\+Con\+Comas (\begin{DoxyParamCaption}\item[{double}]{saldo}{}\end{DoxyParamCaption}) const}
+
+
+
+Formatea un numero con separador de miles (comas) 
+
+Metodo para formatear un valor en centavos a un string con comas y dos decimales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Valor a formatear \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cadena con el valor formateado
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Valor en centavos a formatear \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Valor formateado como cadena con formato de moneda 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_a5162565cbd96536c8b9f99fb88877574}\index{CuentaCorriente@{CuentaCorriente}!formatearSaldo@{formatearSaldo}}
+\index{formatearSaldo@{formatearSaldo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{formatearSaldo()}{formatearSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a5162565cbd96536c8b9f99fb88877574} 
+std\+::string Cuenta\+Corriente\+::formatear\+Saldo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Formatea el saldo para presentacion. 
+
+Metodo para formatear el saldo de la cuenta con formato de moneda.
+
+\begin{DoxyReturn}{Returns}
+Saldo formateado como cadena
+
+std\+::string Saldo formateado con comas y dos decimales 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_aae04370806d7f52aff647653b1e3b78c}\index{CuentaCorriente@{CuentaCorriente}!getAnterior@{getAnterior}}
+\index{getAnterior@{getAnterior}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getAnterior()}{getAnterior()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_aae04370806d7f52aff647653b1e3b78c} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Cuenta\+Corriente\+::get\+Anterior (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la cuenta anterior en la lista enlazada. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a la cuenta anterior, o nullptr si no existe 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_a15858f600adab33e85350cffb70ed62f}\index{CuentaCorriente@{CuentaCorriente}!getCuentaCorriente@{getCuentaCorriente}}
+\index{getCuentaCorriente@{getCuentaCorriente}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getCuentaCorriente()}{getCuentaCorriente()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a15858f600adab33e85350cffb70ed62f} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Cuenta\+Corriente\+::get\+Cuenta\+Corriente (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene una referencia a esta cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_adaca422298b54960e14c7348a679c41f}\index{CuentaCorriente@{CuentaCorriente}!getEstadoCuenta@{getEstadoCuenta}}
+\index{getEstadoCuenta@{getEstadoCuenta}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getEstadoCuenta()}{getEstadoCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_adaca422298b54960e14c7348a679c41f} 
+std\+::string Cuenta\+Corriente\+::get\+Estado\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el estado actual de la cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Estado de la cuenta como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_a93c05ab02ea1a79bf0d8ee20e2df8e0c}\index{CuentaCorriente@{CuentaCorriente}!getFechaApertura@{getFechaApertura}}
+\index{getFechaApertura@{getFechaApertura}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getFechaApertura()}{getFechaApertura()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a93c05ab02ea1a79bf0d8ee20e2df8e0c} 
+std\+::string Cuenta\+Corriente\+::get\+Fecha\+Apertura (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la fecha de apertura. 
+
+\begin{DoxyReturn}{Returns}
+\doxylink{class_fecha}{Fecha} de apertura como cadena formateada 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_ac97c507af21d0942daa38c585963dad5}\index{CuentaCorriente@{CuentaCorriente}!getMontoMinimo@{getMontoMinimo}}
+\index{getMontoMinimo@{getMontoMinimo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getMontoMinimo()}{getMontoMinimo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_ac97c507af21d0942daa38c585963dad5} 
+double Cuenta\+Corriente\+::get\+Monto\+Minimo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el monto minimo de la cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Monto minimo actual 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_aba774d7f86d2fa6da4366fa7d96547fa}\index{CuentaCorriente@{CuentaCorriente}!getNumeroCuenta@{getNumeroCuenta}}
+\index{getNumeroCuenta@{getNumeroCuenta}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getNumeroCuenta()}{getNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_aba774d7f86d2fa6da4366fa7d96547fa} 
+std\+::string Cuenta\+Corriente\+::get\+Numero\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el numero de cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Numero de cuenta como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_a482f51848262d083ab4c424e6b7c3e31}\index{CuentaCorriente@{CuentaCorriente}!getSaldo@{getSaldo}}
+\index{getSaldo@{getSaldo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getSaldo()}{getSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a482f51848262d083ab4c424e6b7c3e31} 
+double Cuenta\+Corriente\+::get\+Saldo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el saldo actual de la cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Saldo de la cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_a44c794f1c85f4ff345d3d0b77354c369}\index{CuentaCorriente@{CuentaCorriente}!getSiguiente@{getSiguiente}}
+\index{getSiguiente@{getSiguiente}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{getSiguiente()}{getSiguiente()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a44c794f1c85f4ff345d3d0b77354c369} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Cuenta\+Corriente\+::get\+Siguiente (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la siguiente cuenta en la lista enlazada. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a la siguiente cuenta, o nullptr si no existe 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_ac35432473b9be0f269f3bffdf7a6e678}\index{CuentaCorriente@{CuentaCorriente}!guardarEnArchivo@{guardarEnArchivo}}
+\index{guardarEnArchivo@{guardarEnArchivo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{guardarEnArchivo()}{guardarEnArchivo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_ac35432473b9be0f269f3bffdf7a6e678} 
+void Cuenta\+Corriente\+::guardar\+En\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Guarda los datos de la cuenta en un archivo. 
+
+Guarda la informacion de la cuenta corriente en un archivo binario.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre\+Archivo} & Nombre del archivo donde guardar los datos\\
+\hline
+{\em nombre\+Archivo} & Ruta del archivo donde se guardara la informacion \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a2fffb74920cd26dc62b570bfbfaa11a1}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_a5fb6b2ecb94671099052b2c8e1a015bd}\index{CuentaCorriente@{CuentaCorriente}!mostrarInformacion@{mostrarInformacion}}
+\index{mostrarInformacion@{mostrarInformacion}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{mostrarInformacion()}{mostrarInformacion()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a5fb6b2ecb94671099052b2c8e1a015bd} 
+void Cuenta\+Corriente\+::mostrar\+Informacion (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{cedula}{ = {\ttfamily "{}"{}}, }\item[{bool}]{limpiar\+Pantalla}{ = {\ttfamily true}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Muestra la informacion detallada de la cuenta. 
+
+Muestra la informacion completa de la cuenta corriente.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Cedula del titular \\
+\hline
+{\em limpiar\+Pantalla} & Indica si debe limpiarse la pantalla antes de mostrar la informacion\\
+\hline
+\end{DoxyParams}
+Presenta en consola los detalles de la cuenta incluyendo numero, fecha de apertura, estado y saldo actual
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Cedula del titular (opcional) \\
+\hline
+{\em limpiar\+Pantalla} & Indica si debe limpiarse la pantalla antes de mostrar informacion (por defecto true) \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_af06abcd44cbfe8699d0982cea72f3379}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_aaaabfc11943a72b843e751ac425b56e0}\index{CuentaCorriente@{CuentaCorriente}!retirar@{retirar}}
+\index{retirar@{retirar}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{retirar()}{retirar()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_aaaabfc11943a72b843e751ac425b56e0} 
+void Cuenta\+Corriente\+::retirar (\begin{DoxyParamCaption}\item[{double}]{cantidad}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Realiza un retiro de la cuenta. 
+
+Metodo para retirar una cantidad de la cuenta corriente.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a retirar\\
+\hline
+\end{DoxyParams}
+Verifica que haya fondos suficientes antes de realizar el retiro
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a retirar de la cuenta \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_acd5f76a510d253a5e3d8ac752e800d97}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_corriente_acea36955d26ae28c10b5a0f274a9cd03}\index{CuentaCorriente@{CuentaCorriente}!setAnterior@{setAnterior}}
+\index{setAnterior@{setAnterior}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setAnterior()}{setAnterior()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_acea36955d26ae28c10b5a0f274a9cd03} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Cuenta\+Corriente\+::set\+Anterior (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}}]{cuenta\+Anterior}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la cuenta anterior en la lista enlazada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cuenta\+Anterior} & Puntero a la cuenta anterior \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_aaa0063ee23566bf6bdc4d3dd1be52df0}\index{CuentaCorriente@{CuentaCorriente}!setCuentaCorriente@{setCuentaCorriente}}
+\index{setCuentaCorriente@{setCuentaCorriente}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setCuentaCorriente()}{setCuentaCorriente()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_aaa0063ee23566bf6bdc4d3dd1be52df0} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Cuenta\+Corriente\+::set\+Cuenta\+Corriente (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}}]{cuenta\+Corriente}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Devuelve una referencia a esta cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cuenta\+Corriente} & Puntero a una cuenta corriente (no utilizado) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_corriente_a57821e00973133f89debebdc5d1f7a27}\index{CuentaCorriente@{CuentaCorriente}!setEstadoCuenta@{setEstadoCuenta}}
+\index{setEstadoCuenta@{setEstadoCuenta}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setEstadoCuenta()}{setEstadoCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a57821e00973133f89debebdc5d1f7a27} 
+void Cuenta\+Corriente\+::set\+Estado\+Cuenta (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{estado\+Cuenta}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el estado de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em estado\+Cuenta} & Nuevo estado \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_corriente_a7569cee08ff67be0bdf05d316ff2da4c}\index{CuentaCorriente@{CuentaCorriente}!setFechaApertura@{setFechaApertura}}
+\index{setFechaApertura@{setFechaApertura}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setFechaApertura()}{setFechaApertura()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a7569cee08ff67be0bdf05d316ff2da4c} 
+void Cuenta\+Corriente\+::set\+Fecha\+Apertura (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{fecha}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la fecha de apertura de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha} & Nueva fecha en formato de cadena \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_corriente_a04d8ec91757409c6179455c4d792a8c8}\index{CuentaCorriente@{CuentaCorriente}!setMontoMinimo@{setMontoMinimo}}
+\index{setMontoMinimo@{setMontoMinimo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setMontoMinimo()}{setMontoMinimo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a04d8ec91757409c6179455c4d792a8c8} 
+void Cuenta\+Corriente\+::set\+Monto\+Minimo (\begin{DoxyParamCaption}\item[{double}]{monto\+Minimo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el monto minimo de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em monto\+Minimo} & Nuevo monto minimo \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_corriente_affb38bb2cc109c829fbacc52aa2854d3}\index{CuentaCorriente@{CuentaCorriente}!setNumeroCuenta@{setNumeroCuenta}}
+\index{setNumeroCuenta@{setNumeroCuenta}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setNumeroCuenta()}{setNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_affb38bb2cc109c829fbacc52aa2854d3} 
+void Cuenta\+Corriente\+::set\+Numero\+Cuenta (\begin{DoxyParamCaption}\item[{std\+::string}]{numero\+Cuenta}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el numero de cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em numero\+Cuenta} & Nuevo numero de cuenta \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_corriente_a9ac47267c9f871962e405b60b669effd}\index{CuentaCorriente@{CuentaCorriente}!setSaldo@{setSaldo}}
+\index{setSaldo@{setSaldo}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setSaldo()}{setSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a9ac47267c9f871962e405b60b669effd} 
+void Cuenta\+Corriente\+::set\+Saldo (\begin{DoxyParamCaption}\item[{double}]{saldo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el saldo de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Nuevo saldo \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_corriente_a7e3b5cf0c308dec711421b9aba104dc8}\index{CuentaCorriente@{CuentaCorriente}!setSiguiente@{setSiguiente}}
+\index{setSiguiente@{setSiguiente}!CuentaCorriente@{CuentaCorriente}}
+\doxysubsubsection{\texorpdfstring{setSiguiente()}{setSiguiente()}}
+{\footnotesize\ttfamily \label{class_cuenta_corriente_a7e3b5cf0c308dec711421b9aba104dc8} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Cuenta\+Corriente\+::set\+Siguiente (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}}]{cuenta\+Siguiente}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la siguiente cuenta en la lista enlazada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cuenta\+Siguiente} & Puntero a la siguiente cuenta \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Cuenta\+Corriente.\+h\item 
+\mbox{\hyperlink{_cuenta_corriente_8cpp}{Cuenta\+Corriente.\+cpp}}\end{DoxyCompactItemize}

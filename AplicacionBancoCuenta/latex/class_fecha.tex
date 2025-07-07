@@ -1,0 +1,460 @@
+\doxysection{Fecha Class Reference}
+\hypertarget{class_fecha}{}\label{class_fecha}\index{Fecha@{Fecha}}
+
+
+Clase que representa y manipula fechas.  
+
+
+
+
+{\ttfamily \#include $<$Fecha.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_fecha_ae65d70b4f4a3230bd569fd64146fd018}{set\+Dia}} (int d)
+\begin{DoxyCompactList}\small\item\em Establece el dia del mes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fecha_aff02d2faaa981e2986cda85d45a0b525}{set\+Mes}} (int m)
+\begin{DoxyCompactList}\small\item\em Establece el mes del año. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fecha_a47ca2f1ef1c7e07efab00927a8864843}{set\+Anio}} (int a)
+\begin{DoxyCompactList}\small\item\em Establece el año. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_fecha_a1a19e31dbeee015e1e178ad981d0968c}{get\+Dia}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el dia del mes. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_fecha_af0bd07ca520ec7b5bd0003e0164ddb7c}{get\+Mes}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el mes del año. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_fecha_a56e3e7e4ced42919103b8b4a7a69554b}{get\+Anio}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el año. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha_a5fbc6564d9c48e73cf8d27568a2a7fc5}{Fecha}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha_a1828052bc8986aa9ab92121f3b16e014}{Fecha}} (int d, int m, int a)
+\begin{DoxyCompactList}\small\item\em Constructor con parametros. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha_a58f84aa2cfe11bc010aba9787efc0234}{Fecha}} (const std\+::string \&fecha\+Formateada)
+\begin{DoxyCompactList}\small\item\em Constructor que recibe una fecha formateada como cadena. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_fecha_a5ba8e825fbec56c60b502df8d2c16746}{es\+Bisiesto}} (int a) const
+\begin{DoxyCompactList}\small\item\em Determina si un año es bisiesto. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_fecha_a5a9c5f6ae95ac43b53b5d2171d268aa8}{es\+Fin\+De\+Semana}} (int d, int m, int a) const
+\begin{DoxyCompactList}\small\item\em Determina si una fecha corresponde a un fin de semana (sabado o domingo) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_fecha_a2db25b9577339b17bfa51ed11bacf5f1}{es\+Feriado}} (int d, int m, int a) const
+\begin{DoxyCompactList}\small\item\em Determina si una fecha es un dia feriado. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fecha_a88e09f5b9ffd52a96b4d4b57ce656768}{corregir\+Si\+No\+Laborable}} ()
+\begin{DoxyCompactList}\small\item\em Corrige la fecha actual si no es un dia laborable. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fecha_a1dd65b491ab9849d6a4c47b89dcd40e5}{avanzar\+ADia\+Laborable}} ()
+\begin{DoxyCompactList}\small\item\em Avanza la fecha hasta el siguiente dia laborable. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_fecha_a25f5545431aa5b555127eddbcb642fda}{obtener\+Fecha\+Formateada}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha actual en formato de cadena. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_fecha_a8e3a78f846f65e250aa806c0807dee5c}{es\+Fecha\+Sistema\+Manipulada}} () const
+\begin{DoxyCompactList}\small\item\em Verifica si la fecha del sistema ha sido manipulada. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fecha_a1c5e86789fd4ff625e0feb6e1f8ddbee}{set\+Fecha}} (int d, int m, int a)
+\begin{DoxyCompactList}\small\item\em Establece una fecha completa. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_fecha_a02b19f7eb4fa9b84b6aa19db43aab9f4}{get\+Es\+Fecha\+Sistema\+Manipulada}} () const
+\begin{DoxyCompactList}\small\item\em Verifica si la fecha del sistema ha sido manipulada. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_fecha_ae09eed42699147ba3ed5ccfdc8d286c7}{obtener\+Fecha\+Actual}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha actual del sistema. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_fecha_a3d335490ec84ed09ca24a9f49b858021}{to\+String}} () const
+\begin{DoxyCompactList}\small\item\em Convierte la fecha a una representacion de cadena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que representa y manipula fechas. 
+
+Esta clase permite crear, validar y manipular fechas, incluyendo funcionalidades para determinar dias laborables, feriados, y formatear fechas para su presentacion. 
+
+\label{doc-constructors}
+\Hypertarget{class_fecha_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_fecha_a5fbc6564d9c48e73cf8d27568a2a7fc5}\index{Fecha@{Fecha}!Fecha@{Fecha}}
+\index{Fecha@{Fecha}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{Fecha()}{Fecha()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{class_fecha_a5fbc6564d9c48e73cf8d27568a2a7fc5} 
+Fecha\+::\+Fecha (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Constructor por defecto. 
+
+Inicializa la fecha con la fecha actual del sistema \Hypertarget{class_fecha_a1828052bc8986aa9ab92121f3b16e014}\index{Fecha@{Fecha}!Fecha@{Fecha}}
+\index{Fecha@{Fecha}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{Fecha()}{Fecha()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{class_fecha_a1828052bc8986aa9ab92121f3b16e014} 
+Fecha\+::\+Fecha (\begin{DoxyParamCaption}\item[{int}]{d}{, }\item[{int}]{m}{, }\item[{int}]{a}{}\end{DoxyParamCaption})}
+
+
+
+Constructor con parametros. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia del mes \\
+\hline
+{\em m} & Mes del año \\
+\hline
+{\em a} & Año\\
+\hline
+{\em d} & Dia del mes (1-\/31) \\
+\hline
+{\em m} & Mes del año (1-\/12) \\
+\hline
+{\em a} & Año \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_fecha_a58f84aa2cfe11bc010aba9787efc0234}\index{Fecha@{Fecha}!Fecha@{Fecha}}
+\index{Fecha@{Fecha}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{Fecha()}{Fecha()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{class_fecha_a58f84aa2cfe11bc010aba9787efc0234} 
+Fecha\+::\+Fecha (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{fecha\+Formateada}{}\end{DoxyParamCaption})}
+
+
+
+Constructor que recibe una fecha formateada como cadena. 
+
+Constructor a partir de string formateado.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha\+Formateada} & Cadena con formato de fecha (ej. "{}\+DD/\+MM/\+AAAA"{})\\
+\hline
+{\em fecha\+Formateada} & \doxylink{class_fecha}{Fecha} en formato "{}\+DD/\+MM/\+AAAA"{} \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & Si el formato de la fecha no es valido \\
+\hline
+\end{DoxyExceptions}
+
+
+\label{doc-func-members}
+\Hypertarget{class_fecha_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_fecha_a1dd65b491ab9849d6a4c47b89dcd40e5}\index{Fecha@{Fecha}!avanzarADiaLaborable@{avanzarADiaLaborable}}
+\index{avanzarADiaLaborable@{avanzarADiaLaborable}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{avanzarADiaLaborable()}{avanzarADiaLaborable()}}
+{\footnotesize\ttfamily \label{class_fecha_a1dd65b491ab9849d6a4c47b89dcd40e5} 
+void Fecha\+::avanzar\+ADia\+Laborable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Avanza la fecha hasta el siguiente dia laborable. 
+
+Avanza la fecha al siguiente dia laborable.
+
+Incrementa la fecha hasta encontrar un dia que no sea fin de semana ni feriado
+
+Incrementa la fecha en un dia y actualiza los valores de dia, mes y año \Hypertarget{class_fecha_a88e09f5b9ffd52a96b4d4b57ce656768}\index{Fecha@{Fecha}!corregirSiNoLaborable@{corregirSiNoLaborable}}
+\index{corregirSiNoLaborable@{corregirSiNoLaborable}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{corregirSiNoLaborable()}{corregirSiNoLaborable()}}
+{\footnotesize\ttfamily \label{class_fecha_a88e09f5b9ffd52a96b4d4b57ce656768} 
+void Fecha\+::corregir\+Si\+No\+Laborable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Corrige la fecha actual si no es un dia laborable. 
+
+Ajusta la fecha actual si no es un dia laborable.
+
+Ajusta la fecha al siguiente dia laborable si la fecha actual es un fin de semana o feriado
+
+Si la fecha cae en fin de semana o es feriado, se avanza hasta el siguiente dia laborable \Hypertarget{class_fecha_a5ba8e825fbec56c60b502df8d2c16746}\index{Fecha@{Fecha}!esBisiesto@{esBisiesto}}
+\index{esBisiesto@{esBisiesto}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{esBisiesto()}{esBisiesto()}}
+{\footnotesize\ttfamily \label{class_fecha_a5ba8e825fbec56c60b502df8d2c16746} 
+bool Fecha\+::es\+Bisiesto (\begin{DoxyParamCaption}\item[{int}]{a}{}\end{DoxyParamCaption}) const}
+
+
+
+Determina si un año es bisiesto. 
+
+Verifica si un año es bisiesto.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Año a verificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el año es bisiesto, false en caso contrario
+\end{DoxyReturn}
+Un año es bisiesto si es divisible por 4 y no por 100, o si es divisible por 400
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Año a verificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el año es bisiesto, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a8e3a78f846f65e250aa806c0807dee5c}\index{Fecha@{Fecha}!esFechaSistemaManipulada@{esFechaSistemaManipulada}}
+\index{esFechaSistemaManipulada@{esFechaSistemaManipulada}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{esFechaSistemaManipulada()}{esFechaSistemaManipulada()}}
+{\footnotesize\ttfamily \label{class_fecha_a8e3a78f846f65e250aa806c0807dee5c} 
+bool Fecha\+::es\+Fecha\+Sistema\+Manipulada (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Verifica si la fecha del sistema ha sido manipulada. 
+
+Verifica si la fecha del sistema difiere de la fecha almacenada.
+
+\begin{DoxyReturn}{Returns}
+true si se detecta que la fecha del sistema ha sido manipulada, false en caso contrario
+\end{DoxyReturn}
+Esta funcion puede ser util para detectar manipulaciones en la fecha del sistema
+
+\begin{DoxyReturn}{Returns}
+true si la fecha del sistema parece manipulada, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a2db25b9577339b17bfa51ed11bacf5f1}\index{Fecha@{Fecha}!esFeriado@{esFeriado}}
+\index{esFeriado@{esFeriado}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{esFeriado()}{esFeriado()}}
+{\footnotesize\ttfamily \label{class_fecha_a2db25b9577339b17bfa51ed11bacf5f1} 
+bool Fecha\+::es\+Feriado (\begin{DoxyParamCaption}\item[{int}]{d}{, }\item[{int}]{m}{, }\item[{int}]{a}{}\end{DoxyParamCaption}) const}
+
+
+
+Determina si una fecha es un dia feriado. 
+
+Verifica si una fecha es un dia feriado.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia del mes \\
+\hline
+{\em m} & Mes del año \\
+\hline
+{\em a} & Año \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si la fecha es un dia feriado, false en caso contrario
+\end{DoxyReturn}
+Comprueba contra una lista estatica de feriados
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia del mes \\
+\hline
+{\em m} & Mes del año \\
+\hline
+{\em a} & Año \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si es un dia feriado, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a5a9c5f6ae95ac43b53b5d2171d268aa8}\index{Fecha@{Fecha}!esFinDeSemana@{esFinDeSemana}}
+\index{esFinDeSemana@{esFinDeSemana}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{esFinDeSemana()}{esFinDeSemana()}}
+{\footnotesize\ttfamily \label{class_fecha_a5a9c5f6ae95ac43b53b5d2171d268aa8} 
+bool Fecha\+::es\+Fin\+De\+Semana (\begin{DoxyParamCaption}\item[{int}]{d}{, }\item[{int}]{m}{, }\item[{int}]{a}{}\end{DoxyParamCaption}) const}
+
+
+
+Determina si una fecha corresponde a un fin de semana (sabado o domingo) 
+
+Verifica si una fecha cae en fin de semana (sabado o domingo)
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia del mes \\
+\hline
+{\em m} & Mes del año \\
+\hline
+{\em a} & Año \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si la fecha es fin de semana, false en caso contrario
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia del mes \\
+\hline
+{\em m} & Mes del año \\
+\hline
+{\em a} & Año \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si es sabado o domingo, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a56e3e7e4ced42919103b8b4a7a69554b}\index{Fecha@{Fecha}!getAnio@{getAnio}}
+\index{getAnio@{getAnio}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{getAnio()}{getAnio()}}
+{\footnotesize\ttfamily \label{class_fecha_a56e3e7e4ced42919103b8b4a7a69554b} 
+int Fecha\+::get\+Anio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el año. 
+
+\begin{DoxyReturn}{Returns}
+Año actual 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a1a19e31dbeee015e1e178ad981d0968c}\index{Fecha@{Fecha}!getDia@{getDia}}
+\index{getDia@{getDia}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{getDia()}{getDia()}}
+{\footnotesize\ttfamily \label{class_fecha_a1a19e31dbeee015e1e178ad981d0968c} 
+int Fecha\+::get\+Dia (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el dia del mes. 
+
+\begin{DoxyReturn}{Returns}
+Dia actual 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a02b19f7eb4fa9b84b6aa19db43aab9f4}\index{Fecha@{Fecha}!getEsFechaSistemaManipulada@{getEsFechaSistemaManipulada}}
+\index{getEsFechaSistemaManipulada@{getEsFechaSistemaManipulada}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{getEsFechaSistemaManipulada()}{getEsFechaSistemaManipulada()}}
+{\footnotesize\ttfamily \label{class_fecha_a02b19f7eb4fa9b84b6aa19db43aab9f4} 
+bool Fecha\+::get\+Es\+Fecha\+Sistema\+Manipulada (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Verifica si la fecha del sistema ha sido manipulada. 
+
+Obtiene el estado de posible manipulacion de la fecha.
+
+\begin{DoxyReturn}{Returns}
+true si se detecta que la fecha del sistema ha sido manipulada, false en caso contrario
+
+true si la fecha del sistema parece manipulada, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_af0bd07ca520ec7b5bd0003e0164ddb7c}\index{Fecha@{Fecha}!getMes@{getMes}}
+\index{getMes@{getMes}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{getMes()}{getMes()}}
+{\footnotesize\ttfamily \label{class_fecha_af0bd07ca520ec7b5bd0003e0164ddb7c} 
+int Fecha\+::get\+Mes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el mes del año. 
+
+\begin{DoxyReturn}{Returns}
+Mes actual 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_ae09eed42699147ba3ed5ccfdc8d286c7}\index{Fecha@{Fecha}!obtenerFechaActual@{obtenerFechaActual}}
+\index{obtenerFechaActual@{obtenerFechaActual}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{obtenerFechaActual()}{obtenerFechaActual()}}
+{\footnotesize\ttfamily \label{class_fecha_ae09eed42699147ba3ed5ccfdc8d286c7} 
+std\+::string Fecha\+::obtener\+Fecha\+Actual (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene la fecha actual del sistema. 
+
+Obtiene informacion detallada sobre la fecha actual del sistema.
+
+\begin{DoxyReturn}{Returns}
+Cadena que representa la fecha actual del sistema
+\end{DoxyReturn}
+Incluye tanto la fecha del sistema como la fecha almacenada y una indicacion de si la fecha del sistema podria estar manipulada
+
+\begin{DoxyReturn}{Returns}
+std\+::string Informacion completa sobre la fecha actual 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a25f5545431aa5b555127eddbcb642fda}\index{Fecha@{Fecha}!obtenerFechaFormateada@{obtenerFechaFormateada}}
+\index{obtenerFechaFormateada@{obtenerFechaFormateada}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{obtenerFechaFormateada()}{obtenerFechaFormateada()}}
+{\footnotesize\ttfamily \label{class_fecha_a25f5545431aa5b555127eddbcb642fda} 
+std\+::string Fecha\+::obtener\+Fecha\+Formateada (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene la fecha actual en formato de cadena. 
+
+Obtiene la fecha en formato "{}\+DD/\+MM/\+AAAA"{}.
+
+\begin{DoxyReturn}{Returns}
+Cadena que representa la fecha en un formato especifico
+
+std\+::string \doxylink{class_fecha}{Fecha} formateada como "{}\+DD/\+MM/\+AAAA"{} 
+\end{DoxyReturn}
+\Hypertarget{class_fecha_a47ca2f1ef1c7e07efab00927a8864843}\index{Fecha@{Fecha}!setAnio@{setAnio}}
+\index{setAnio@{setAnio}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{setAnio()}{setAnio()}}
+{\footnotesize\ttfamily \label{class_fecha_a47ca2f1ef1c7e07efab00927a8864843} 
+void Fecha\+::set\+Anio (\begin{DoxyParamCaption}\item[{int}]{a}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el año. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Año a establecer \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_fecha_ae65d70b4f4a3230bd569fd64146fd018}\index{Fecha@{Fecha}!setDia@{setDia}}
+\index{setDia@{setDia}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{setDia()}{setDia()}}
+{\footnotesize\ttfamily \label{class_fecha_ae65d70b4f4a3230bd569fd64146fd018} 
+void Fecha\+::set\+Dia (\begin{DoxyParamCaption}\item[{int}]{d}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el dia del mes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia a establecer \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_fecha_a1c5e86789fd4ff625e0feb6e1f8ddbee}\index{Fecha@{Fecha}!setFecha@{setFecha}}
+\index{setFecha@{setFecha}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{setFecha()}{setFecha()}}
+{\footnotesize\ttfamily \label{class_fecha_a1c5e86789fd4ff625e0feb6e1f8ddbee} 
+void Fecha\+::set\+Fecha (\begin{DoxyParamCaption}\item[{int}]{d}{, }\item[{int}]{m}{, }\item[{int}]{a}{}\end{DoxyParamCaption})}
+
+
+
+Establece una fecha completa. 
+
+Establece una nueva fecha.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Dia del mes \\
+\hline
+{\em m} & Mes del año \\
+\hline
+{\em a} & Año \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_fecha_aff02d2faaa981e2986cda85d45a0b525}\index{Fecha@{Fecha}!setMes@{setMes}}
+\index{setMes@{setMes}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{setMes()}{setMes()}}
+{\footnotesize\ttfamily \label{class_fecha_aff02d2faaa981e2986cda85d45a0b525} 
+void Fecha\+::set\+Mes (\begin{DoxyParamCaption}\item[{int}]{m}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el mes del año. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & Mes a establecer \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_fecha_a3d335490ec84ed09ca24a9f49b858021}\index{Fecha@{Fecha}!toString@{toString}}
+\index{toString@{toString}!Fecha@{Fecha}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily \label{class_fecha_a3d335490ec84ed09ca24a9f49b858021} 
+std\+::string Fecha\+::to\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Convierte la fecha a una representacion de cadena. 
+
+\begin{DoxyReturn}{Returns}
+Cadena que representa la fecha en formato DD/\+MM/\+AAAA
+
+std\+::string \doxylink{class_fecha}{Fecha} en formato "{}\+DD/\+MM/\+AAAA"{} 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Fecha.\+h\item 
+\mbox{\hyperlink{_fecha_8cpp}{Fecha.\+cpp}}\end{DoxyCompactItemize}

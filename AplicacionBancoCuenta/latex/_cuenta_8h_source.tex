@@ -1,0 +1,82 @@
+\doxysection{Cuenta.\+h}
+\hypertarget{_cuenta_8h_source}{}\label{_cuenta_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ CUENTA\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ CUENTA\_H}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <regex>}\ \textcolor{comment}{//\ Incluye\ la\ libreria\ regex\ para\ validacion\ de\ fecha}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Validar.h"{}}\ \textcolor{comment}{//\ Incluye\ la\ clase\ de\ validacion}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}Fecha.h"{}}\ \textcolor{comment}{//\ Incluye\ la\ clase\ Fecha\ para\ manejar\ fechas}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta}}\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00029\ \ \ \ \ T\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{class_fecha}{Fecha}}\ \mbox{\hyperlink{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}{fechaApertura}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00035\ \ \ \ \ std::string\ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta<T>}}*\ \mbox{\hyperlink{class_cuenta_a38c71db83880937584e688c73293bd16}{siguiente}};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta<T>}}*\ \mbox{\hyperlink{class_cuenta_a3067fbc6ff92db7c2368c362ac971447}{anterior}};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta}}()}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}}(\textcolor{stringliteral}{"{}"{}}),\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}(0),\ \mbox{\hyperlink{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}{fechaApertura}}(),\ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}}(\textcolor{stringliteral}{"{}"{}}),\ \mbox{\hyperlink{class_cuenta_a38c71db83880937584e688c73293bd16}{siguiente}}(nullptr),\ \mbox{\hyperlink{class_cuenta_a3067fbc6ff92db7c2368c362ac971447}{anterior}}(nullptr)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{class_cuenta_afb759d091eaeca6952978511e9cc0263}{Cuenta}}(std::string\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}},\ T\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}},\ \textcolor{keyword}{const}\ std::string\&\ fechaStr,\ std::string\ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}})}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}}(\mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}}),\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}(\mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}),\ \mbox{\hyperlink{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}{fechaApertura}}(fechaStr),}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}}(\mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}}),\ \mbox{\hyperlink{class_cuenta_a38c71db83880937584e688c73293bd16}{siguiente}}(nullptr),\ \mbox{\hyperlink{class_cuenta_a3067fbc6ff92db7c2368c362ac971447}{anterior}}(nullptr)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_cuenta_a81f703a3656a58893da941235fa3300d}{\string~Cuenta}}()\ \{\}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00077\ \ \ \ \ std::string\ \mbox{\hyperlink{class_cuenta_a9e8eb69906fa334132a76b6d25ffcaae}{getNumeroCuenta}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}};\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00083\ \ \ \ \ T\ \mbox{\hyperlink{class_cuenta_ab3fa296ea7e22ec677f3998ff17684a8}{getSaldo}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}};\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{class_fecha}{Fecha}}\ \mbox{\hyperlink{class_cuenta_a87d707df5ca54179381fad09d55ea38b}{getFechaApertura}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}{fechaApertura}};\ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00095\ \ \ \ \ std::string\ \mbox{\hyperlink{class_cuenta_acc8a233f48241a8d757d70172b80813a}{getEstadoCuenta}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}};\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta<T>}}*\ \mbox{\hyperlink{class_cuenta_a0c887fe657734aa2d435f36c9d6c5124}{getSiguiente}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_a38c71db83880937584e688c73293bd16}{siguiente}};\ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta<T>}}*\ \mbox{\hyperlink{class_cuenta_aa798056d9b1f0db4d7db63a6b9b9472e}{getAnterior}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_a3067fbc6ff92db7c2368c362ac971447}{anterior}};\ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00114\ \ \ \ \ std::string\ \mbox{\hyperlink{class_cuenta_ab30fcc3c60b171460f3160bfb9b9524b}{setNumeroCuenta}}(\textcolor{keyword}{const}\ std::string\&\ numero)\ \{\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}}\ =\ numero;\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numeroCuenta}};\ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00121\ \ \ \ \ T\ \mbox{\hyperlink{class_cuenta_a9da5555b6815e9fa5b604ff58476564d}{setSaldo}}(T\ nuevoSaldo)\ \{\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}\ =\ nuevoSaldo;\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}};\ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{class_fecha}{Fecha}}\ \mbox{\hyperlink{class_cuenta_a207774598d28de5d8a5be35157da77e2}{setFechaApertura}}(\textcolor{keyword}{const}\ std::string\&\ fechaStr)\ \{\ \mbox{\hyperlink{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}{fechaApertura}}\ =\ \mbox{\hyperlink{class_fecha}{Fecha}}(fechaStr);\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}{fechaApertura}};\ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00135\ \ \ \ \ std::string\ \mbox{\hyperlink{class_cuenta_a8538df3276c6427036fd85092525a2d0}{setEstadoCuenta}}(\textcolor{keyword}{const}\ std::string\&\ estado)\ \{\ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}}\ =\ estado;\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estadoCuenta}};\ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_a916c21c68c522a14b8ec99b4722c7c26}{setSiguiente}}(\mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta<T>}}*\ sig)\ \{\ \mbox{\hyperlink{class_cuenta_a38c71db83880937584e688c73293bd16}{siguiente}}\ =\ sig;\ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_a04791338fd26606cd9915736b356bac9}{setAnterior}}(\mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta<T>}}*\ ant)\ \{\ \mbox{\hyperlink{class_cuenta_a3067fbc6ff92db7c2368c362ac971447}{anterior}}\ =\ ant;\ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_a1fdd97d3ef39c81820601098f4330c30}{depositar}}(T\ cantidad)\ =\ 0;}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_acd5f76a510d253a5e3d8ac752e800d97}{retirar}}(T\ cantidad)\ =\ 0;}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_cuenta_a184eb70ffcafeaefbfb8f28c81ba3e1d}{consultarSaldo}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_cuenta_afb6a369ee1b5d0f1afeeb33e2284389f}{consultarEstado}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_a2fffb74920cd26dc62b570bfbfaa11a1}{guardarEnArchivo}}(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_a255597a08fc4416a9316b3af7c8d8f01}{cargarDesdeArchivo}}(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo)\ =\ 0;}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cuenta_af06abcd44cbfe8699d0982cea72f3379}{mostrarInformacion}}(\textcolor{keyword}{const}\ std::string\&\ cedula\ =\ \textcolor{stringliteral}{"{}"{}},\ \textcolor{keywordtype}{bool}\ limpiarPantalla\ =\ \textcolor{keyword}{true})\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00191\ \};}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CUENTA\_H}}
+
+\end{DoxyCode}

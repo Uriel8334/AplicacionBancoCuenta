@@ -1,0 +1,65 @@
+\doxysection{Validar.\+h}
+\hypertarget{_validar_8h_source}{}\label{_validar_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Validar.h}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ VALIDAR\_H}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ VALIDAR\_H}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Validar.h\ de\ cabecera\ de\ la\ clase\ Validar}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <regex>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <Windows.h>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{enum\ class}\ TipoEntrada\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ NUMERICO\_CEDULA,}
+\DoxyCodeLine{00024\ \ \ \ \ NUMERICO\_CUENTA,}
+\DoxyCodeLine{00026\ \ \ \ \ ALFABETICO,}
+\DoxyCodeLine{00028\ \ \ \ \ ALFANUMERICO,}
+\DoxyCodeLine{00030\ \ \ \ \ CORREO,}
+\DoxyCodeLine{00032\ \ \ \ \ TELEFONO}
+\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_validar}{Validar}}\ \{}
+\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#pragma\ region\ VALIDACIONES\ PARA\ CUENTA}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a0d97c7e4419db9922eb72893480bcce3}{ValidarNumeroCuenta}}(\textcolor{keyword}{const}\ std::string\ numero);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_af020b10cb505074428ccfeed84330305}{ValidarSaldo}}(\textcolor{keyword}{const}\ std::string\&\ saldoStr);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a359ea643571094179d215c6a062cf895}{ValidarEstadoCuenta}}(\textcolor{keyword}{const}\ std::string\&\ estado);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_ac7e44be86fd3880024a0ece9ae5f542c}{ValidarTipoCuenta}}(\textcolor{keyword}{const}\ std::string\&\ tipo);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a2fd94becc72e2c000b5d5b73a90e3bb2}{ValidarTipoTransaccion}}(\textcolor{keyword}{const}\ std::string\&\ tipo);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a0d1fab2fb2c0d2973d8c007f5c963b1a}{ValidarMontoTransaccion}}(\textcolor{keywordtype}{int}\ monto);}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#pragma\ endregion}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_acf0dadcd61cca896b70f98cd8c2588f3}{ValidarFecha}}(\textcolor{keyword}{const}\ std::string\&\ fecha);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a22687ba07e8e3d1c740dde0c69266ef1}{ValidarNumeroConDosDecimales}}(\textcolor{keyword}{const}\ std::string\&\ monto);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_validar_aa900783fe78990a384c8d58e216f26c4}{leerDesdePortapapeles}}();}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#pragma\ region\ VALIDACIONES\ PARA\ PERSONA}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a116e36eed020e8d524e7cec31d0ced9b}{ValidarNombrePersona}}(\textcolor{keyword}{const}\ std::string\&\ nombre);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a60591c457d06e2d3471dade2373bfb6f}{ValidarCedula}}(\textcolor{keyword}{const}\ std::string\&\ cedula);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a564f94b1a189e877c8c2bafe1e0457d8}{todosLosDigitosIguales}}(\textcolor{keyword}{const}\ std::string\&\ cedula);}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_a5fe4d90e3075b506d9cf2e8118a5ec65}{ValidarTecla}}(\textcolor{keywordtype}{char}\ tecla,\ TipoEntrada\ tipo);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_validar_af0f0f3322d05f8e5ccd19e3d02c89c83}{ValidarLeerNumeroCuenta}}();}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#pragma\ endregion}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_validar_ac6565b2867095e7dddbd8b1406c79dad}{archivoExiste}}(\textcolor{keyword}{const}\ std::string\&\ rutaArchivo);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_validar_a9ba312542ca2fd425d2eb57f355cf317}{generarNombreConIndice}}(\textcolor{keyword}{const}\ std::string\&\ rutaDirectorio,\ \textcolor{keyword}{const}\ std::string\&\ fechaFormateada);}
+\DoxyCodeLine{00160\ \};}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VALIDAR\_H}}
+
+\end{DoxyCode}

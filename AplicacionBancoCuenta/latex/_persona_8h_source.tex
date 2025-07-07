@@ -1,0 +1,259 @@
+\doxysection{Persona.\+h}
+\hypertarget{_persona_8h_source}{}\label{_persona_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once\ \ }}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ PERSONA\_H\ \ }}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ PERSONA\_H\ \ }}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}\ \ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}CuentaAhorros.h"{}}\ \ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}CuentaCorriente.h"{}}\ \ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_persona_u_i}{PersonaUI}}\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ std::function<bool(\textcolor{keyword}{const}\ std::string\&)>\ \mbox{\hyperlink{namespace_persona_u_i_a73b0da82b395582147e9df264d041441}{seleccionarSiNo}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ std::function<double(\textcolor{keywordtype}{double},\ \textcolor{keywordtype}{double},\ \textcolor{keyword}{const}\ std::string\&)>\ \mbox{\hyperlink{namespace_persona_u_i_a24b49bfd3e0188084d541563af65b314}{ingresarMonto}};}
+\DoxyCodeLine{00034\ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_persona_a7c397bbb298be9104191122f6383b643}{Persona}}\ \{}
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{string}\ cedula;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{string}\ nombres;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{string}\ apellidos;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{string}\ fechaNacimiento;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{string}\ correo;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{string}\ direccion;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ cabezaAhorros;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ cabezaCorriente;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{int}\ numCuentas\ =\ 0;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{int}\ numCorrientes\ =\ 0;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ isDestroyed\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{class_persona_a7c397bbb298be9104191122f6383b643}{Persona}}()\ :\ cabezaAhorros(nullptr),\ cabezaCorriente(nullptr),\ numCuentas(0),\ numCorrientes(0),\ isDestroyed(false)\ \{\}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{class_persona_acd1bb0de97039dd036320716fbe0b44e}{Persona}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ cedula,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ nombres,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ apellidos,}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ fechaNacimiento,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ correo,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ direccion)}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ :\ cedula(cedula),\ nombres(nombres),\ apellidos(apellidos),}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ fechaNacimiento(fechaNacimiento),\ correo(correo),\ direccion(direccion),}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ cabezaAhorros(nullptr),\ cabezaCorriente(nullptr),\ numCuentas(0),\ numCorrientes(0),\ isDestroyed(false)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{class_persona_aa7bba61c41b05166827eb1fbfc5ee0a9}{\string~Persona}}()\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Liberar\ memoria\ de\ las\ cuentas\ de\ ahorros\ \ }}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (cabezaAhorros\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ temp\ =\ cabezaAhorros;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ cabezaAhorros\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\textcolor{keyword}{>}(cabezaAhorros-\/>getSiguiente());}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ temp;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Liberar\ memoria\ de\ las\ cuentas\ corrientes}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (cabezaCorriente\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ temp\ =\ cabezaCorriente;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ cabezaCorriente\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\textcolor{keyword}{>}(cabezaCorriente-\/>getSiguiente());}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ temp;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ isDestroyed\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ Marcar\ como\ destruido\ \ }}
+\DoxyCodeLine{00126\ \ \ \ \ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_a8e477de38731fe3ddc3f6a85ebdd6d56}{isValidInstance}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !isDestroyed;\ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_acf06843bbab4704509a20212d548100c}{setCedula}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ cedula)\ \{\ this-\/>cedula\ =\ cedula;\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_aafe9a2f7ecfa137fac34ee984e1cb77d}{setNombres}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ nombres)\ \{\ this-\/>nombres\ =\ nombres;\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_aea2b65aa3570cbace03b140cedfa7603}{setApellidos}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ apellidos)\ \{\ this-\/>apellidos\ =\ apellidos;\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_abcf5453d87e4518db9efd4e100651c46}{setFechaNacimiento}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ fechaNacimiento)\ \{\ this-\/>fechaNacimiento\ =\ fechaNacimiento;\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_a99be5c867f17273330b04cb3ba0a04a1}{setCorreo}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ correo)\ \{\ this-\/>correo\ =\ correo;\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_abe59da8ea5afa31049a232f423b7f399}{setDireccion}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ direccion)\ \{\ this-\/>direccion\ =\ direccion;\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_a5f291ab3fa14b57008837081e5754d48}{setNumeCuentas}}(\textcolor{keywordtype}{int}\ numCuentas)\ \{\ this-\/>numCuentas\ =\ numCuentas;\ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_a6a7ef95c99520d1044d94ebbb376e54f}{setNumCorrientes}}(\textcolor{keywordtype}{int}\ numCorrientes)\ \{\ this-\/>numCorrientes\ =\ numCorrientes;\ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00193\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ \mbox{\hyperlink{class_persona_af5161e0a6f29b3d5c81d5cc52930d08e}{setCabezaAhorros}}(\mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ nuevaCabeza)\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nuevaCabeza)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ nuevaCabeza-\/>\mbox{\hyperlink{class_cuenta_ahorros_ad59f3394998047e8b7cbb056f5fb19eb}{setSiguiente}}(cabezaAhorros);}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ nuevaCabeza-\/>\mbox{\hyperlink{class_cuenta_ahorros_a0fa6622e4a4db1cc267b70b4166ce750}{setAnterior}}(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cabezaAhorros)}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cabezaAhorros-\/>\mbox{\hyperlink{class_cuenta_ahorros_a0fa6622e4a4db1cc267b70b4166ce750}{setAnterior}}(nuevaCabeza);}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ cabezaAhorros\ =\ nuevaCabeza;}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cabezaAhorros;}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00211\ \ \ \ \ \mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ \mbox{\hyperlink{class_persona_a34eb1732c48b3f12ea39ad4948a73ebc}{setCabezaCorriente}}(\mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ nuevaCabeza)\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nuevaCabeza)}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ nuevaCabeza-\/>\mbox{\hyperlink{class_cuenta_corriente_a7e3b5cf0c308dec711421b9aba104dc8}{setSiguiente}}(cabezaCorriente);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ nuevaCabeza-\/>\mbox{\hyperlink{class_cuenta_corriente_acea36955d26ae28c10b5a0f274a9cd03}{setAnterior}}(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cabezaCorriente)}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cabezaCorriente-\/>\mbox{\hyperlink{class_cuenta_corriente_acea36955d26ae28c10b5a0f274a9cd03}{setAnterior}}(nuevaCabeza);}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ cabezaCorriente\ =\ nuevaCabeza;}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cabezaCorriente;}
+\DoxyCodeLine{00221\ \ \ \ \ \}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_persona_acd215c1b3685860818dfa2bcb247ea2a}{getCedula}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>cedula;\ \}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_persona_aee0d377cdc4b0bf6da3cac89f8353e3e}{getNombres}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>nombres;\ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_persona_ac1ca8afc28d04160c19e330773648a68}{getApellidos}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>apellidos;\ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_persona_a24d22ec722f371ffd5b40c3f25deccec}{getFechaNacimiento}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>fechaNacimiento;\ \}}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_persona_a0e5340c554ea5e9f7ed4f933e8b37f8e}{getCorreo}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>correo;\ \}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_persona_a39bd3fe27da999e2afbd2fdc72abe311}{getDireccion}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>direccion;\ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_persona_a8cead7f362a439d5b63845a969facfa3}{getNumCuentas}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>numCuentas;\ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_persona_aa2b1f07e90d36f3c6f1a322e5f6752b7}{getNumCorrientes}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>numCorrientes;\ \}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00275\ \ \ \ \ \mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ \mbox{\hyperlink{class_persona_ae91b148de8054d0a410bf571d2e2fd6a}{getCabezaAhorros}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>cabezaAhorros;\ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00281\ \ \ \ \ \mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ \mbox{\hyperlink{class_persona_af877417eda5331085b6781c37a33c6e5}{getCabezaCorriente}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ this-\/>cabezaCorriente;\ \}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_ac288b381f50c8524fef8ecee596182c1}{ingresarDatos}}();}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_ac288b381f50c8524fef8ecee596182c1}{ingresarDatos}}(\textcolor{keyword}{const}\ std::string\&\ cedulaEsperada);}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00299\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_ab3483dd525de072121b3bc748ffe4454}{ingresarCedula}}(std::string\&\ cedula);}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00306\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_ab3e88d99855d6dfa46e2075bc3fc0c75}{ingresarNombres}}(std::string\&\ nombres)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00313\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_a9233daa72bb6301147a8e44edf6520ff}{ingresarApellidos}}(std::string\&\ apellidos)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00320\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_a7bb21a6ff12b10d4a2cf5222a61a2e55}{ingresarFechaNacimiento}}(std::string\&\ fechaNacimiento);}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00327\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_a5d95ddc16d653ffe1ea5be38e413b73c}{ingresarCorreo}}(std::string\&\ correo)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00334\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_aa38e8ef90837e5e062a37680394ce1d3}{ingresarDireccion}}(std::string\&\ direccion)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_a503b23d7530c96037b1aed861daa45b9}{corregirDatos}}();}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_abf0efe995e0f80dbead58b5dcdf73f2a}{mostrarDatos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_persona_a5f6a06db57218e4ae997d407672eb643}{mostrarCuentas}}(\textcolor{keyword}{const}\ std::string\&\ tipoCuenta)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_ab43b3f30d3cd0b1c301b9dad267a7b89}{guardarEnArchivo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_persona_a7ce730dcd9d1edfba6ee109b69b703e2}{buscarPersonaPorCriterio}}(\textcolor{keyword}{const}\ std::string\&\ criterioBusqueda,\ \textcolor{keyword}{const}\ std::string\&\ numeroCuenta,\ \textcolor{keyword}{const}\ std::string\&\ fechaApertura,\ \textcolor{keywordtype}{double}\ saldo)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_persona_ab3777cf190ae61cf3b958b795de2ffe9}{buscarPersonaPorFecha}}(\textcolor{keyword}{const}\ std::string\&\ fechaApertura)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_persona_aae82acba2a5261184ac1d39304ea19d4}{buscarPersonaPorCuentas}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ numeroCuenta)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_persona_a1af9ea937eb81b5077ebc70b3f2f9c3c}{guardarCuentas}}(std::ofstream\&\ archivo,\ std::string\ tipo)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_ac7afb3d8cd4ad7273dbcbaf094e7c55f}{crearAgregarCuentaAhorros}}(\mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ nuevaCuenta,\ \textcolor{keyword}{const}\ std::string\&\ cedulaEsperada);}
+\DoxyCodeLine{00397\ }
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_aa52714179afc12a2f484033f6b318cc4}{crearAgregarCuentaCorriente}}(\mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ nuevaCuenta,\ \textcolor{keyword}{const}\ std::string\&\ cedulaEsperada);}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_a850f35f678f3f48d7e5e100a4f15d189}{crearSoloCuentaAhorros}}(\mbox{\hyperlink{class_cuenta_ahorros}{CuentaAhorros}}*\ nuevaCuenta,\ \textcolor{keyword}{const}\ std::string\&\ cedulaEsperada);}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00420\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_persona_ac917fcf4152f80a260b33ca73c811951}{crearSoloCuentaCorriente}}(\mbox{\hyperlink{class_cuenta_corriente}{CuentaCorriente}}*\ nuevaCuenta,\ \textcolor{keyword}{const}\ std::string\&\ cedulaEsperada);}
+\DoxyCodeLine{00421\ }
+\DoxyCodeLine{00428\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_a033c43926972b094f3dfa5c57417a48d}{crearNumeroCuenta}}(\mbox{\hyperlink{class_cuenta}{Cuenta<double>}}*\ nuevaCuenta,\ \textcolor{keyword}{const}\ std::string\&\ sucursal);}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00434\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_aadbf7f9d320628b99f2b46e0893c39a0}{seleccionSucursal}}();}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00440\ \ \ \ \ std::string\ \mbox{\hyperlink{class_persona_a680a8c4822a467dde229e6b195c9601b}{msgIngresoDatos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00443\ \textcolor{comment}{\ \ \ \ //\ Metodo\ unificado\ para\ crear\ y\ agregar\ cuenta\ de\ ahorros}}
+\DoxyCodeLine{00444\ \textcolor{comment}{\ \ \ \ bool\ crearYAgregarCuentaAhorros(Persona*\ persona)\ \{}}
+\DoxyCodeLine{00445\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Verificar\ limite}}
+\DoxyCodeLine{00446\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (numCuentas\ >=\ 5)\ \{}}
+\DoxyCodeLine{00447\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}No\ puede\ tener\ mas\ de\ 5\ cuentas\ de\ ahorros.\(\backslash\)n"{};}}
+\DoxyCodeLine{00448\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{00449\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00450\ \textcolor{comment}{}}
+\DoxyCodeLine{00451\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Crear\ la\ cuenta\ directamente\ como\ objeto\ dinamico}}
+\DoxyCodeLine{00452\ \textcolor{comment}{\ \ \ \ \ \ \ \ CuentaAhorros*\ nuevaCuenta;}}
+\DoxyCodeLine{00453\ \textcolor{comment}{}}
+\DoxyCodeLine{00454\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Llamar\ al\ metodo\ crearCuenta()\ del\ objeto\ nuevaCuenta}}
+\DoxyCodeLine{00455\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ que\ configura\ numero\ de\ cuenta,\ fecha,\ saldo\ inicial,\ etc.}}
+\DoxyCodeLine{00456\ \textcolor{comment}{\ \ \ \ \ \ \ \ nuevaCuenta-\/>crearCuenta(persona);}}
+\DoxyCodeLine{00457\ \textcolor{comment}{}}
+\DoxyCodeLine{00458\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Crear\ el\ nodo\ y\ agregarlo\ a\ la\ lista\ directamente}}
+\DoxyCodeLine{00459\ \textcolor{comment}{\ \ \ \ \ \ \ \ NodoCuentaAhorros*\ nuevo\ =\ new\ NodoCuentaAhorros(nuevaCuenta);}}
+\DoxyCodeLine{00460\ \textcolor{comment}{}}
+\DoxyCodeLine{00461\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Verificacion\ de\ seguridad}}
+\DoxyCodeLine{00462\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (nuevo-\/>cuenta\ ==\ nullptr)\ \{}}
+\DoxyCodeLine{00463\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}[ERROR]\ Cuenta\ no\ inicializada"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00464\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ delete\ nuevo;}}
+\DoxyCodeLine{00465\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{00466\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00467\ \textcolor{comment}{}}
+\DoxyCodeLine{00468\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Agregar\ a\ la\ lista\ con\ las\ validaciones\ normales}}
+\DoxyCodeLine{00469\ \textcolor{comment}{\ \ \ \ \ \ \ \ nuevo-\/>siguiente\ =\ cabezaAhorros;}}
+\DoxyCodeLine{00470\ \textcolor{comment}{\ \ \ \ \ \ \ \ nuevo-\/>anterior\ =\ nullptr;}}
+\DoxyCodeLine{00471\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (cabezaAhorros\ !=\ nullptr)\ \{}}
+\DoxyCodeLine{00472\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ cabezaAhorros-\/>anterior\ =\ nuevo;}}
+\DoxyCodeLine{00473\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00474\ \textcolor{comment}{\ \ \ \ \ \ \ \ cabezaAhorros\ =\ nuevo;}}
+\DoxyCodeLine{00475\ \textcolor{comment}{\ \ \ \ \ \ \ \ numCuentas++;}}
+\DoxyCodeLine{00476\ \textcolor{comment}{}}
+\DoxyCodeLine{00477\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::cout\ <<\ "{}Cuenta\ de\ Ahorros\ creada\ y\ agregada\ con\ exito."{}\ <<\ std::endl;}}
+\DoxyCodeLine{00478\ \textcolor{comment}{\ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{00479\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{00480\ \textcolor{comment}{}}
+\DoxyCodeLine{00481\ \textcolor{comment}{\ \ \ \ //\ Metodo\ unificado\ para\ crear\ y\ agregar\ cuenta\ corriente}}
+\DoxyCodeLine{00482\ \textcolor{comment}{\ \ \ \ bool\ crearYAgregarCuentaCorriente(Persona*\ persona)\ \{}}
+\DoxyCodeLine{00483\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ No\ hay\ limite\ para\ cuentas\ corrientes\ (a\ diferencia\ de\ las\ de\ ahorro)}}
+\DoxyCodeLine{00484\ \textcolor{comment}{}}
+\DoxyCodeLine{00485\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Crear\ la\ cuenta\ directamente\ como\ objeto\ dinamico}}
+\DoxyCodeLine{00486\ \textcolor{comment}{\ \ \ \ \ \ \ \ CuentaCorriente*\ nuevaCuenta;}}
+\DoxyCodeLine{00487\ \textcolor{comment}{}}
+\DoxyCodeLine{00488\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Llamar\ al\ metodo\ crearCuenta()\ del\ objeto\ nuevaCuenta}}
+\DoxyCodeLine{00489\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ que\ configura\ numero\ de\ cuenta,\ fecha,\ saldo\ inicial,\ etc.}}
+\DoxyCodeLine{00490\ \textcolor{comment}{\ \ \ \ \ \ \ \ nuevaCuenta-\/>crearCuenta(persona);}}
+\DoxyCodeLine{00491\ \textcolor{comment}{}}
+\DoxyCodeLine{00492\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Crear\ el\ nodo\ y\ agregarlo\ a\ la\ lista\ directamente}}
+\DoxyCodeLine{00493\ \textcolor{comment}{\ \ \ \ \ \ \ \ //NodoCuentaCorriente*\ nuevo\ =\ new\ NodoCuentaCorriente(nuevaCuenta);}}
+\DoxyCodeLine{00494\ \textcolor{comment}{}}
+\DoxyCodeLine{00495\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Verificacion\ de\ seguridad}}
+\DoxyCodeLine{00496\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (nuevo-\/>cuenta\ ==\ nullptr)\ \{}}
+\DoxyCodeLine{00497\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}[ERROR]\ Cuenta\ corriente\ no\ inicializada"{}\ <<\ std::endl;}}
+\DoxyCodeLine{00498\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ delete\ nuevo;}}
+\DoxyCodeLine{00499\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{00500\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00501\ \textcolor{comment}{}}
+\DoxyCodeLine{00502\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Agregar\ a\ la\ lista\ con\ las\ validaciones\ normales}}
+\DoxyCodeLine{00503\ \textcolor{comment}{\ \ \ \ \ \ \ \ nuevo-\/>siguiente\ =\ cabezaCorriente;}}
+\DoxyCodeLine{00504\ \textcolor{comment}{\ \ \ \ \ \ \ \ nuevo-\/>anterior\ =\ nullptr;}}
+\DoxyCodeLine{00505\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (cabezaCorriente\ !=\ nullptr)\ \{}}
+\DoxyCodeLine{00506\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ cabezaCorriente-\/>anterior\ =\ nuevo;}}
+\DoxyCodeLine{00507\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00508\ \textcolor{comment}{\ \ \ \ \ \ \ \ cabezaCorriente\ =\ nuevo;}}
+\DoxyCodeLine{00509\ \textcolor{comment}{}}
+\DoxyCodeLine{00510\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::cout\ <<\ "{}Cuenta\ Corriente\ creada\ y\ agregada\ con\ exito."{}\ <<\ std::endl;}}
+\DoxyCodeLine{00511\ \textcolor{comment}{\ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{00512\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{00513\ \textcolor{comment}{}}
+\DoxyCodeLine{00514\ \textcolor{comment}{\ \ \ \ void\ seleccionarFecha();}}
+\DoxyCodeLine{00515\ \textcolor{comment}{\ \ \ \ \};\ */}}
+\DoxyCodeLine{00516\ \};}
+\DoxyCodeLine{00517\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PERSONA\_H}}
+
+\end{DoxyCode}

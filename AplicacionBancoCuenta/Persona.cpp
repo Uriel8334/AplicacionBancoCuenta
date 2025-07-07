@@ -1,9 +1,9 @@
 /**
  * @file Persona.cpp
- * @brief ImplementaciÛn de la clase Persona para manejo de datos personales y cuentas bancarias
+ * @brief Implementaci√≥n de la clase Persona para manejo de datos personales y cuentas bancarias
  *
  * Este archivo implementa la funcionalidad para gestionar datos personales,
- * validar informaciÛn de usuarios y administrar las cuentas bancarias asociadas
+ * validar informaci√≥n de usuarios y administrar las cuentas bancarias asociadas
  * a una persona, incluyendo cuentas de ahorro y cuentas corrientes.
  */
 #include <iostream>
@@ -26,15 +26,15 @@
   * @namespace PersonaUI
   * @brief Proporciona elementos de interfaz de usuario para la clase Persona
   *
-  * Este namespace contiene funciones lambda para la interacciÛn con el usuario,
+  * Este namespace contiene funciones lambda para la interacci√≥n con el usuario,
   * como selectores y validadores de entrada.
   */
 namespace PersonaUI {
 	/**
-	 * @brief Lambda para mostrar un selector de opciones SÌ/No con navegaciÛn por teclado
+	 * @brief Lambda para mostrar un selector de opciones S√≠/No con navegaci√≥n por teclado
 	 *
 	 * @param mensaje Mensaje a mostrar al usuario antes de las opciones
-	 * @return bool true si selecciona "SÌ", false si selecciona "No"
+	 * @return bool true si selecciona "S√≠", false si selecciona "No"
 	 */
 	const std::function<bool(const std::string&)> seleccionarSiNo = [](const std::string& mensaje) -> bool {
 		int seleccion = 0;
@@ -70,14 +70,14 @@ namespace PersonaUI {
 		};
 
 	/**
-	 * @brief Lambda para ingresar y validar montos numÈricos con lÌmites
+	 * @brief Lambda para ingresar y validar montos num√©ricos con l√≠mites
 	 *
-	 * Permite ingresar valores numÈricos con formato de moneda y validaciÛn en tiempo real.
+	 * Permite ingresar valores num√©ricos con formato de moneda y validaci√≥n en tiempo real.
 	 *
-	 * @param min Valor mÌnimo permitido
-	 * @param max Valor m·ximo permitido
+	 * @param min Valor m√≠nimo permitido
+	 * @param max Valor m√°ximo permitido
 	 * @param mensaje Mensaje a mostrar al usuario
-	 * @return double Valor ingresado dentro de los lÌmites especificados
+	 * @return double Valor ingresado dentro de los l√≠mites especificados
 	 */
 	const std::function<double(double, double, const std::string&)> ingresarMonto = [](double min, double max, const std::string& mensaje) -> double {
 		std::string entrada;
@@ -156,19 +156,19 @@ using namespace std;
 /**
  * @brief Inicia el proceso de ingreso de datos para una persona
  *
- * Llama al mÈtodo sobrecargado utilizando la cÈdula actual como par·metro.
+ * Llama al m√©todo sobrecargado utilizando la c√©dula actual como par√°metro.
  */
 void Persona::ingresarDatos() {
 	ingresarDatos(this->cedula); // O puedes pasar "" si prefieres no validar
 }
 
 /**
- * @brief MÈtodo para ingresar los datos de la persona, validando contra una cÈdula esperada
+ * @brief M√©todo para ingresar los datos de la persona, validando contra una c√©dula esperada
  *
- * Permite el ingreso completo de los datos personales con validaciÛn de cada campo.
+ * Permite el ingreso completo de los datos personales con validaci√≥n de cada campo.
  * Si los datos son correctos, los guarda en el objeto y en un archivo.
  *
- * @param cedulaEsperada CÈdula que se espera que ingrese el usuario para validaciÛn
+ * @param cedulaEsperada C√©dula que se espera que ingrese el usuario para validaci√≥n
  */
 void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 	do {
@@ -208,12 +208,12 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 }
 
 /**
- * @brief Solicita y valida el ingreso de la cÈdula del usuario
+ * @brief Solicita y valida el ingreso de la c√©dula del usuario
  *
- * Verifica que la cÈdula ingresada sea v·lida y coincida con la cÈdula esperada.
+ * Verifica que la c√©dula ingresada sea v√°lida y coincida con la c√©dula esperada.
  *
- * @param cedulaIngresada CÈdula previamente ingresada para comparaciÛn
- * @return std::string CÈdula validada
+ * @param cedulaIngresada C√©dula previamente ingresada para comparaci√≥n
+ * @return std::string C√©dula validada
  */
 std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	do {
@@ -270,10 +270,10 @@ std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 /**
  * @brief Solicita y valida el ingreso de los nombres de la persona
  *
- * Valida que los nombres solo contengan letras y espacios, no estÈn vacÌos
+ * Valida que los nombres solo contengan letras y espacios, no est√©n vac√≠os
  * y cumplan con requisitos de formato.
  *
- * @param nombres Referencia a la variable donde se almacenar·n los nombres
+ * @param nombres Referencia a la variable donde se almacenar√°n los nombres
  * @return std::string Nombres validados
  */
 std::string Persona::ingresarNombres(std::string& nombres) const {
@@ -342,10 +342,10 @@ std::string Persona::ingresarNombres(std::string& nombres) const {
 /**
  * @brief Solicita y valida el ingreso de los apellidos de la persona
  *
- * Valida que los apellidos solo contengan letras y espacios, no estÈn vacÌos
+ * Valida que los apellidos solo contengan letras y espacios, no est√©n vac√≠os
  * y cumplan con requisitos de formato.
  *
- * @param apellidos Referencia a la variable donde se almacenar·n los apellidos
+ * @param apellidos Referencia a la variable donde se almacenar√°n los apellidos
  * @return std::string Apellidos validados
  */
 std::string Persona::ingresarApellidos(std::string& apellidos) const {
@@ -416,7 +416,7 @@ std::string Persona::ingresarApellidos(std::string& apellidos) const {
  *
  * Implementa un selector interactivo de fecha y valida que no sea una fecha futura.
  *
- * @param fechaNacimiento Referencia a la variable donde se almacenar· la fecha
+ * @param fechaNacimiento Referencia a la variable donde se almacenar√° la fecha
  * @return std::string Fecha de nacimiento validada en formato DD/MM/AAAA
  */
 std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
@@ -431,13 +431,13 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	bool fechaSeleccionada = false;
 	const int anioMaximo = anioActual + 100;
 
-	// campo = 0 (Dia), 1 (Mes), 2 (AÒo)
+	// campo = 0 (Dia), 1 (Mes), 2 (A√±o)
 	int campo = 0;
 
 	while (!fechaSeleccionada) {
 		system("cls");
 		std::cout << msgIngresoDatos() << endl;
-		std::cout << "Use Flechas Izquierda/Derecha para cambiar [DIA|MES|A—O]\n";
+		std::cout << "Use Flechas Izquierda/Derecha para cambiar [DIA|MES|A√ëO]\n";
 		std::cout << "Flechas Arriba/Abajo para aumentar/disminuir\n";
 		std::cout << "Enter para confirmar\n\n";
 
@@ -516,12 +516,12 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 }
 
 /**
- * @brief Solicita y valida el ingreso del correo electrÛnico
+ * @brief Solicita y valida el ingreso del correo electr√≥nico
  *
- * Verifica que el formato del correo sea v·lido seg˙n est·ndares internacionales.
+ * Verifica que el formato del correo sea v√°lido seg√∫n est√°ndares internacionales.
  *
- * @param correo Referencia a la variable donde se almacenar· el correo
- * @return std::string Correo electrÛnico validado
+ * @param correo Referencia a la variable donde se almacenar√° el correo
+ * @return std::string Correo electr√≥nico validado
  */
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
@@ -561,7 +561,7 @@ std::string Persona::ingresarCorreo(std::string& correo) const
                 SetConsoleCursorPosition(h, pos);
                 std::cout << "                   ";
             }
-            // Regresar el cursor justo despuÈs del '@'
+            // Regresar el cursor justo despu√©s del '@'
             COORD pos = { (SHORT)x, (SHORT)y };
             SetConsoleCursorPosition(h, pos);
         };
@@ -620,7 +620,7 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 
         correo = correoBase;
 
-        // ValidaciÛn b·sica de correo
+        // Validaci√≥n b√°sica de correo
         size_t atPos = correo.find('@');
         bool formatoValido = atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1;
         if (!correo.empty()) {
@@ -640,16 +640,16 @@ std::string Persona::ingresarCorreo(std::string& correo) const
         }
     } while (true);
 
-    return correo;
+	return correo; // Retorna el correo ingresado
 }
 
 /**
- * @brief Solicita y valida el ingreso de la direcciÛn
+ * @brief Solicita y valida el ingreso de la direcci√≥n
  *
- * Permite el ingreso de una direcciÛn con caracteres especiales comunes en direcciones.
+ * Permite el ingreso de una direcci√≥n con caracteres especiales comunes en direcciones.
  *
- * @param direccion Referencia a la variable donde se almacenar· la direcciÛn
- * @return std::string DirecciÛn validada
+ * @param direccion Referencia a la variable donde se almacenar√° la direcci√≥n
+ * @return std::string Direcci√≥n validada
  */
 std::string Persona::ingresarDireccion(std::string& direccion) const
 {
@@ -687,7 +687,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
 					(tecla >= 'a' && tecla <= 'z') ||
 					(tecla >= '0' && tecla <= '9') ||
 					tecla == ' ' || tecla == '.' || tecla == '-' ||
-					tecla == '#' || tecla == ',' || tecla == 'N' || tecla == 'n' || tecla == '∫'
+					tecla == '#' || tecla == ',' || tecla == 'N' || tecla == 'n' || tecla == '¬∫'
 					)
 				) {
 				direccion += tecla;
@@ -714,7 +714,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
  */
 bool Persona::corregirDatos()
 {
-	if (PersonaUI::seleccionarSiNo("øLos datos ingresados son correctos?")) {
+	if (PersonaUI::seleccionarSiNo("¬øLos datos ingresados son correctos?")) {
 		return false; // Si selecciona "Si", retorna false para no repetir el ingreso de datos
 	}
 	else {
@@ -736,10 +736,10 @@ void Persona::mostrarDatos() const {
 }
 
 /**
- * @brief Muestra las cuentas asociadas a la persona seg˙n su tipo
+ * @brief Muestra las cuentas asociadas a la persona seg√∫n su tipo
  *
  * @param tipoCuenta Tipo de cuenta a mostrar: "Ahorros", "Corriente" o "Ambas"
- * @return int N˙mero de cuentas encontradas
+ * @return int N√∫mero de cuentas encontradas
  */
 int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 {
@@ -810,13 +810,13 @@ void Persona::guardarEnArchivo() const {
 }
 
 /**
- * @brief Busca cuentas asociadas a la persona seg˙n un criterio especÌfico
+ * @brief Busca cuentas asociadas a la persona seg√∫n un criterio espec√≠fico
  *
- * @param criterioBusqueda Criterio de b˙squeda: "Numero de cuenta", "Fecha de apertura", "Saldo mayor a" o "Tipo de cuenta"
- * @param numeroCuenta N˙mero de cuenta a buscar (o tipo de cuenta si el criterio es "Tipo de cuenta")
+ * @param criterioBusqueda Criterio de b√∫squeda: "Numero de cuenta", "Fecha de apertura", "Saldo mayor a" o "Tipo de cuenta"
+ * @param numeroCuenta N√∫mero de cuenta a buscar (o tipo de cuenta si el criterio es "Tipo de cuenta")
  * @param fechaApertura Fecha de apertura a buscar
- * @param saldo Valor de saldo mÌnimo para la b˙squeda
- * @return int N˙mero de cuentas que cumplen con el criterio
+ * @param saldo Valor de saldo m√≠nimo para la b√∫squeda
+ * @return int N√∫mero de cuentas que cumplen con el criterio
  */
 int Persona::buscarPersonaPorCriterio(const std::string& criterioBusqueda, const std::string& numeroCuenta, const std::string& fechaApertura, double saldo) const {
 
@@ -875,7 +875,7 @@ int Persona::buscarPersonaPorCriterio(const std::string& criterioBusqueda, const
 }
 
 /**
- * @brief Busca cuentas con una fecha de apertura especÌfica
+ * @brief Busca cuentas con una fecha de apertura espec√≠fica
  *
  * @param fecha Fecha de apertura a buscar en formato DD/MM/AAAA
  */
@@ -923,10 +923,10 @@ void Persona::buscarPersonaPorFecha(const std::string& fecha) const {
 }
 
 /**
- * @brief Busca cuentas por n˙mero de cuenta
+ * @brief Busca cuentas por n√∫mero de cuenta
  *
- * @param numeroCuenta N˙mero de cuenta a buscar
- * @return int N˙mero de cuentas encontradas
+ * @param numeroCuenta N√∫mero de cuenta a buscar
+ * @return int N√∫mero de cuentas encontradas
  */
 int Persona::buscarPersonaPorCuentas(const string& numeroCuenta) const {
 	// Evita acceso a un objeto destruido
@@ -956,7 +956,7 @@ int Persona::buscarPersonaPorCuentas(const string& numeroCuenta) const {
  *
  * @param archivo Referencia al archivo de salida abierto
  * @param tipo Tipo de cuentas a guardar: "AHORROS" o "CORRIENTE"
- * @return int N˙mero de cuentas guardadas
+ * @return int N√∫mero de cuentas guardadas
  */
 int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
 	if (!archivo.is_open() || !isValidInstance()) {
@@ -972,7 +972,7 @@ int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
 				archivo << "SALDO:" << actual->consultarSaldo() << "\n";
 				archivo << "FECHA_APERTURA:" << actual->getFechaApertura().toString() << "\n";
 				archivo << "ESTADO:" << actual->consultarEstado() << "\n";
-				// Aqui se podrian aÒadir otros campos especificos de cada tipo de cuenta
+				// Aqui se podrian a√±adir otros campos especificos de cada tipo de cuenta
 				archivo << "CUENTA_" << tipo << "_FIN\n";
 				contador++;
 			}
@@ -995,10 +995,10 @@ int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
  * @brief Crea y agrega una cuenta de ahorros para la persona
  *
  * Valida los datos de la persona y configura una nueva cuenta de ahorros
- * con todos los par·metros necesarios, incluyendo depÛsito inicial opcional.
+ * con todos los par√°metros necesarios, incluyendo dep√≥sito inicial opcional.
  *
  * @param nuevaCuenta Puntero a la nueva cuenta de ahorros
- * @param cedulaEsperada CÈdula esperada para validaciÛn
+ * @param cedulaEsperada C√©dula esperada para validaci√≥n
  * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
  */
 bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada)
@@ -1079,10 +1079,10 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
  * @brief Crea y agrega una cuenta corriente para la persona
  *
  * Valida los datos de la persona y configura una nueva cuenta corriente
- * con todos los par·metros necesarios, incluyendo depÛsito inicial mÌnimo.
+ * con todos los par√°metros necesarios, incluyendo dep√≥sito inicial m√≠nimo.
  *
  * @param nuevaCuenta Puntero a la nueva cuenta corriente
- * @param cedulaEsperada CÈdula esperada para validaciÛn
+ * @param cedulaEsperada C√©dula esperada para validaci√≥n
  * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
  */
 bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada) {
@@ -1149,7 +1149,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
  * @brief Crea una cuenta de ahorros sin solicitar datos personales adicionales
  *
  * @param nuevaCuenta Puntero a la nueva cuenta de ahorros
- * @param cedulaEsperada CÈdula esperada para validaciÛn
+ * @param cedulaEsperada C√©dula esperada para validaci√≥n
  * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
  */
 bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada)
@@ -1228,7 +1228,7 @@ bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::stri
  * @brief Crea una cuenta corriente sin solicitar datos personales adicionales
  *
  * @param nuevaCuenta Puntero a la nueva cuenta corriente
- * @param cedulaEsperada CÈdula esperada para validaciÛn
+ * @param cedulaEsperada C√©dula esperada para validaci√≥n
  * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
  */
 bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada)
@@ -1289,19 +1289,19 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 }
 
 /**
- * @brief Genera un n˙mero de cuenta ˙nico para una nueva cuenta
+ * @brief Genera un n√∫mero de cuenta √∫nico para una nueva cuenta
  *
- * Crea un n˙mero de cuenta basado en el cÛdigo de sucursal, un secuencial
- * y un dÌgito verificador calculado.
+ * Crea un n√∫mero de cuenta basado en el c√≥digo de sucursal, un secuencial
+ * y un d√≠gito verificador calculado.
  *
  * @param nuevaCuenta Puntero a la nueva cuenta
- * @param sucursal CÛdigo de la sucursal seleccionada
- * @return std::string N˙mero de cuenta generado
+ * @param sucursal C√≥digo de la sucursal seleccionada
+ * @return std::string N√∫mero de cuenta generado
  */
 std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::string& sucursal) {
-	// Validar que la sucursal estÈ entre las permitidas
+	// Validar que la sucursal est√© entre las permitidas
 	if (sucursal != "210" && sucursal != "220" && sucursal != "480" && sucursal != "560") {
-		std::cerr << "Error: CÛdigo de sucursal no v·lido. Use 210, 220, 480 o 560." << std::endl;
+		std::cerr << "Error: C√≥digo de sucursal no v√°lido. Use 210, 220, 480 o 560." << std::endl;
 		return "";
 	}
 
@@ -1321,52 +1321,52 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 		actualCorriente = actualCorriente->getSiguiente();
 	}
 
-	// Buscar el mayor n˙mero de cuenta para la sucursal especificada
+	// Buscar el mayor n√∫mero de cuenta para la sucursal especificada
 	int mayorNumCuenta = 0;
 
 	for (auto cuenta : cuentas) {
 		std::string numCuenta = cuenta->getNumeroCuenta();
 
-		// Verificar si el n˙mero de cuenta tiene el formato correcto
+		// Verificar si el n√∫mero de cuenta tiene el formato correcto
 		if (numCuenta.length() == 10 && numCuenta.substr(0, 3) == sucursal) {
 			try {
-				// Extraer los 6 dÌgitos del n˙mero de cuenta (posiciÛn 3 a 8)
+				// Extraer los 6 d√≠gitos del n√∫mero de cuenta (posici√≥n 3 a 8)
 				int numSecuencial = std::stoi(numCuenta.substr(3, 6));
 				if (numSecuencial > mayorNumCuenta) {
 					mayorNumCuenta = numSecuencial;
 				}
 			}
 			catch (const std::exception& e) {
-				std::cerr << "Error al procesar n˙mero de cuenta: " << e.what() << std::endl;
+				std::cerr << "Error al procesar n√∫mero de cuenta: " << e.what() << std::endl;
 			}
 		}
 	}
 
-	// Incrementar para obtener el siguiente n˙mero secuencial
+	// Incrementar para obtener el siguiente n√∫mero secuencial
 	mayorNumCuenta++;
 
-	// Formatear el n˙mero de cuenta con ceros a la izquierda
+	// Formatear el n√∫mero de cuenta con ceros a la izquierda
 	std::ostringstream oss;
 	oss << sucursal << std::setw(6) << std::setfill('0') << mayorNumCuenta;
 	std::string base = oss.str();
 
-	// Calcular dÌgito verificador: suma de todos los dÌgitos mÛdulo 10
+	// Calcular d√≠gito verificador: suma de todos los d√≠gitos m√≥dulo 10
 	int suma = 0;
 	for (char c : base) {
 		suma += (c - '0');
 	}
 	int digitoVerificador = suma % 10;
 
-	// Formar el n˙mero de cuenta completo
+	// Formar el n√∫mero de cuenta completo
 	numeroCuentaStr = base + std::to_string(digitoVerificador);
 
-	// Verificar que el n˙mero de cuenta sea v·lido
+	// Verificar que el n√∫mero de cuenta sea v√°lido
 	if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
-		std::cerr << "Error: El n˙mero de cuenta generado no es v·lido." << std::endl;
+		std::cerr << "Error: El n√∫mero de cuenta generado no es v√°lido." << std::endl;
 		return "";
 	}
 
-	// Asignar el n˙mero de cuenta al objeto
+	// Asignar el n√∫mero de cuenta al objeto
 	nuevaCuenta->setNumeroCuenta(numeroCuentaStr);
 
 	return numeroCuentaStr;
@@ -1375,9 +1375,9 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 /**
  * @brief Presenta un selector de sucursal bancaria
  *
- * Muestra un men˙ interactivo para seleccionar la sucursal donde se aperturar· la cuenta.
+ * Muestra un men√∫ interactivo para seleccionar la sucursal donde se aperturar√° la cuenta.
  *
- * @return std::string CÛdigo de la sucursal seleccionada
+ * @return std::string C√≥digo de la sucursal seleccionada
  */
 std::string Persona::seleccionSucursal() {
 	std::string sucursales[] = {
@@ -1402,18 +1402,18 @@ std::string Persona::seleccionSucursal() {
 			std::cout << "   " << sucursales[i] << std::endl;
 	}
 
-	// NavegaciÛn del men˙
+	// Navegaci√≥n del men√∫
 	while (true) {
 		int tecla = _getch();
 
 		if (tecla == 224) { // Tecla especial
 			tecla = _getch();
 			if (tecla == 72) { // Flecha arriba
-				// Guardar selecciÛn anterior
+				// Guardar selecci√≥n anterior
 				int selAnterior = seleccion;
 				seleccion = (seleccion - 1 + numOpciones) % numOpciones;
 
-				// Actualizar solo las lÌneas que cambian
+				// Actualizar solo las l√≠neas que cambian
 				Utilidades::gotoxy(0, 2 + selAnterior);
 				std::cout << "   " << sucursales[selAnterior] << std::string(20, ' ');
 
@@ -1421,11 +1421,11 @@ std::string Persona::seleccionSucursal() {
 				std::cout << " > " << sucursales[seleccion] << std::string(20, ' ');
 			}
 			else if (tecla == 80) { // Flecha abajo
-				// Guardar selecciÛn anterior
+				// Guardar selecci√≥n anterior
 				int selAnterior = seleccion;
 				seleccion = (seleccion + 1) % numOpciones;
 
-				// Actualizar solo las lÌneas que cambian
+				// Actualizar solo las l√≠neas que cambian
 				Utilidades::gotoxy(0, 2 + selAnterior);
 				std::cout << "   " << sucursales[selAnterior] << std::string(20, ' ');
 
@@ -1437,13 +1437,13 @@ std::string Persona::seleccionSucursal() {
 			return codigosSucursales[seleccion];
 		}
 		else if (tecla == 27) { // ESC - valor por defecto
-			return "210"; // Retorna cÛdigo de sucursal por defecto
+			return "210"; // Retorna c√≥digo de sucursal por defecto
 		}
 	}
 }
 
 /**
- * @brief Genera un mensaje est·ndar para el ingreso de datos
+ * @brief Genera un mensaje est√°ndar para el ingreso de datos
  *
  * @return std::string Mensaje formateado
  */

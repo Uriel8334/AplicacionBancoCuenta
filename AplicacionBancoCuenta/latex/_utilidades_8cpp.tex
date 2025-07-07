@@ -1,0 +1,77 @@
+\doxysection{Utilidades.\+cpp File Reference}
+\hypertarget{_utilidades_8cpp}{}\label{_utilidades_8cpp}\index{Utilidades.cpp@{Utilidades.cpp}}
+
+
+Implementacion de diversas utilidades y estructuras de datos para el sistema bancario.  
+
+
+{\ttfamily \#include "{}Nodo\+Persona.\+h"{}}\newline
+{\ttfamily \#include "{}Persona.\+h"{}}\newline
+{\ttfamily \#include $<$windows.\+h$>$}\newline
+{\ttfamily \#include $<$conio.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+{\ttfamily \#include "{}Marquesina.\+h"{}}\newline
+{\ttfamily \#include "{}Utilidades.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_nodo_arbol_b}{Nodo\+Arbol\+B$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Implementacion de un nodo para un arbol B. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_arbol_b}{Arbol\+B$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Implementacion didactica de un arbol B para propositos educativos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\void \mbox{\hyperlink{_utilidades_8cpp_aad2f4998579152e8f6973565a216c293}{mostrar\+Menu\+Ordenar}} (std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&vec, const std\+::vector$<$ std\+::string $>$ \&opciones, const std\+::vector$<$ std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const T \texorpdfstring{$\ast$}{*})$>$ $>$ \&criterios, std\+::function$<$ void(const std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&)$>$ mostrar\+Datos)
+\begin{DoxyCompactList}\small\item\em Presenta un menu para ordenar elementos con diferentes criterios. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_utilidades_8cpp_a907ec23e6f2a4904216ad23a99d09fda}\label{_utilidades_8cpp_a907ec23e6f2a4904216ad23a99d09fda} 
+\mbox{\hyperlink{class_marquesina}{Marquesina}} \texorpdfstring{$\ast$}{*} {\bfseries marquesina\+Global}
+\begin{DoxyCompactList}\small\item\em Puntero global a la marquesina utilizada en la aplicacion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementacion de diversas utilidades y estructuras de datos para el sistema bancario. 
+
+Este archivo contiene la implementacion de clases de utilidad para el sistema bancario, incluyendo una implementacion didactica de un arbol B, funciones para manipulacion de texto, control de interfaz de usuario y generacion de codigos QR. 
+
+\label{doc-func-members}
+\Hypertarget{_utilidades_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_utilidades_8cpp_aad2f4998579152e8f6973565a216c293}\index{Utilidades.cpp@{Utilidades.cpp}!mostrarMenuOrdenar@{mostrarMenuOrdenar}}
+\index{mostrarMenuOrdenar@{mostrarMenuOrdenar}!Utilidades.cpp@{Utilidades.cpp}}
+\doxysubsubsection{\texorpdfstring{mostrarMenuOrdenar()}{mostrarMenuOrdenar()}}
+{\footnotesize\ttfamily \label{_utilidades_8cpp_aad2f4998579152e8f6973565a216c293} 
+template$<$typename T$>$ \\
+void mostrar\+Menu\+Ordenar (\begin{DoxyParamCaption}\item[{std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&}]{vec}{, }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{opciones}{, }\item[{const std\+::vector$<$ std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const T \texorpdfstring{$\ast$}{*})$>$ $>$ \&}]{criterios}{, }\item[{std\+::function$<$ void(const std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&)$>$}]{mostrar\+Datos}{}\end{DoxyParamCaption})}
+
+
+
+Presenta un menu para ordenar elementos con diferentes criterios. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Tipo de datos a ordenar \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & Vector de elementos a ordenar \\
+\hline
+{\em opciones} & Vector de nombres de criterios de ordenamiento \\
+\hline
+{\em criterios} & Vector de funciones para comparar elementos segun cada criterio \\
+\hline
+{\em mostrar\+Datos} & Funcion para mostrar los datos ordenados \\
+\hline
+\end{DoxyParams}

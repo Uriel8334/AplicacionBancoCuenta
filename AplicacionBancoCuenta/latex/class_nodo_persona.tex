@@ -1,0 +1,67 @@
+\doxysection{Nodo\+Persona Class Reference}
+\hypertarget{class_nodo_persona}{}\label{class_nodo_persona}\index{NodoPersona@{NodoPersona}}
+
+
+Clase que implementa un nodo para una lista enlazada de personas.  
+
+
+
+
+{\ttfamily \#include $<$Nodo\+Persona.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_nodo_persona_a0bc2a5e1a351e444d8015512de8e5ffc}{Nodo\+Persona}} (\mbox{\hyperlink{class_persona}{Persona}} \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Constructor que inicializa el nodo con un puntero a \doxylink{class_persona}{Persona}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_nodo_persona_a27b7961f9c84944e23ec7e39e8a0d4be}{\texorpdfstring{$\sim$}{\string~}\+Nodo\+Persona}} ()
+\begin{DoxyCompactList}\small\item\em Destructor del nodo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_nodo_persona_a701fa41afb63e41e3ca6a337c495b904}\label{class_nodo_persona_a701fa41afb63e41e3ca6a337c495b904} 
+\mbox{\hyperlink{class_persona}{Persona}} \texorpdfstring{$\ast$}{*} {\bfseries persona}
+\begin{DoxyCompactList}\small\item\em Puntero al objeto \doxylink{class_persona}{Persona} contenido en este nodo. \end{DoxyCompactList}\item 
+\Hypertarget{class_nodo_persona_a51f3252c9e7645e7bd39274288d2bb24}\label{class_nodo_persona_a51f3252c9e7645e7bd39274288d2bb24} 
+\mbox{\hyperlink{class_nodo_persona}{Nodo\+Persona}} \texorpdfstring{$\ast$}{*} {\bfseries siguiente}
+\begin{DoxyCompactList}\small\item\em Puntero al siguiente nodo en la lista enlazada. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que implementa un nodo para una lista enlazada de personas. 
+
+Esta clase forma parte de una estructura de datos tipo lista enlazada donde cada nodo contiene un puntero a un objeto \doxylink{class_persona}{Persona} y un puntero al siguiente nodo en la lista. 
+
+\label{doc-constructors}
+\Hypertarget{class_nodo_persona_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_nodo_persona_a0bc2a5e1a351e444d8015512de8e5ffc}\index{NodoPersona@{NodoPersona}!NodoPersona@{NodoPersona}}
+\index{NodoPersona@{NodoPersona}!NodoPersona@{NodoPersona}}
+\doxysubsubsection{\texorpdfstring{NodoPersona()}{NodoPersona()}}
+{\footnotesize\ttfamily \label{class_nodo_persona_a0bc2a5e1a351e444d8015512de8e5ffc} 
+Nodo\+Persona\+::\+Nodo\+Persona (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_persona}{Persona}} \texorpdfstring{$\ast$}{*}}]{p}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor que inicializa el nodo con un puntero a \doxylink{class_persona}{Persona}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Puntero al objeto \doxylink{class_persona}{Persona} que se almacenara en este nodo \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_nodo_persona_a27b7961f9c84944e23ec7e39e8a0d4be}\index{NodoPersona@{NodoPersona}!````~NodoPersona@{\texorpdfstring{$\sim$}{\string~}NodoPersona}}
+\index{````~NodoPersona@{\texorpdfstring{$\sim$}{\string~}NodoPersona}!NodoPersona@{NodoPersona}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}NodoPersona()}{\string~NodoPersona()}}
+{\footnotesize\ttfamily \label{class_nodo_persona_a27b7961f9c84944e23ec7e39e8a0d4be} 
+Nodo\+Persona\+::\texorpdfstring{$\sim$}{\string~}\+Nodo\+Persona (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Destructor del nodo. 
+
+Libera las referencias pero no destruye el objeto \doxylink{class_persona}{Persona}, ya que la responsabilidad de eliminar dicho objeto pertenece a quien lo creo. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Nodo\+Persona.\+h\end{DoxyCompactItemize}

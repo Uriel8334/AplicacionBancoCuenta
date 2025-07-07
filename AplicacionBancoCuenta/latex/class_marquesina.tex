@@ -1,0 +1,252 @@
+\doxysection{Marquesina Class Reference}
+\hypertarget{class_marquesina}{}\label{class_marquesina}\index{Marquesina@{Marquesina}}
+
+
+Clase que implementa una marquesina de texto deslizante.  
+
+
+
+
+{\ttfamily \#include $<$Marquesina.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca}{Marquesina}} (int x, int y, int ancho, const std\+::string \&archivo\+HTML, int velocidad=100)
+\begin{DoxyCompactList}\small\item\em Constructor de la marquesina. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_marquesina_aa0c9f691911680b2ce26646e8283b046}{\texorpdfstring{$\sim$}{\string~}\+Marquesina}} ()
+\begin{DoxyCompactList}\small\item\em Destructor de la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a42a7b6c33db1deb208a381eda083a476}{iniciar}} ()
+\begin{DoxyCompactList}\small\item\em Inicia la ejecucion de la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a9fed251582657d7454cb3a06fbb1ee16}{detener}} ()
+\begin{DoxyCompactList}\small\item\em Detiene permanentemente la ejecucion de la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_ae33595e3e65b83e199e04e79739989eb}{pausar}} ()
+\begin{DoxyCompactList}\small\item\em Pausa temporalmente la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_aaaa028056dca12f370ea4d828bd40171}{reanudar}} ()
+\begin{DoxyCompactList}\small\item\em Reanuda la ejecucion de la marquesina pausada. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a281562e225650be428afa5808b093653}{actualizar\+Texto}} (const std\+::string \&nuevo\+Texto)
+\begin{DoxyCompactList}\small\item\em Actualiza el texto de la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a173dc18c06673f9fb83e7bd1012dd41a}{bloquear}} ()
+\begin{DoxyCompactList}\small\item\em Bloquea temporalmente la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a1e8de27731a32d4dc7a31c10625466c0}{desbloquear}} ()
+\begin{DoxyCompactList}\small\item\em Desbloquea la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a4d1b8d42abcf0a8dea37049c159446d6}{marcar\+Operacion\+Critica}} ()
+\begin{DoxyCompactList}\small\item\em Marca el inicio de una operacion critica de cursor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a6d1b94cc50c3785f9f7a99196204fa65}{finalizar\+Operacion\+Critica}} ()
+\begin{DoxyCompactList}\small\item\em Marca el fin de una operacion critica de cursor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a62f40a4d1b82ec2c3bb5fc9ec298aec9}{forzar\+Actualizacion}} ()
+\begin{DoxyCompactList}\small\item\em Fuerza una actualizacion inmediata de la marquesina. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_marquesina_a35d47b3670a39652ab61ee262340ee2a}{mostrar\+Ruta\+Archivo}} ()
+\begin{DoxyCompactList}\small\item\em Muestra la ruta del archivo HTML (para depuracion) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_marquesina_a2f4a7ec9c37da4db63663b178089570e}{esta\+Visible}} () const
+\begin{DoxyCompactList}\small\item\em Verifica si la marquesina esta visible. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que implementa una marquesina de texto deslizante. 
+
+Permite mostrar textos con efectos de desplazamiento horizontal en consola. Funciona en un hilo separado y puede ser controlada dinamicamente (pausar, detener, etc.). Admite formateo basico a traves de archivos HTML simples. 
+
+\label{doc-constructors}
+\Hypertarget{class_marquesina_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca}\index{Marquesina@{Marquesina}!Marquesina@{Marquesina}}
+\index{Marquesina@{Marquesina}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{Marquesina()}{Marquesina()}}
+{\footnotesize\ttfamily \label{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca} 
+Marquesina\+::\+Marquesina (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{, }\item[{int}]{ancho}{, }\item[{const std\+::string \&}]{archivo\+HTML}{, }\item[{int}]{velocidad}{ = {\ttfamily 100}}\end{DoxyParamCaption})}
+
+
+
+Constructor de la marquesina. 
+
+Constructor de la clase \doxylink{class_marquesina}{Marquesina}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Posicion X en la consola \\
+\hline
+{\em y} & Posicion Y en la consola \\
+\hline
+{\em ancho} & Ancho en caracteres de la marquesina \\
+\hline
+{\em archivo\+HTML} & Ruta del archivo HTML con el contenido \\
+\hline
+{\em velocidad} & Velocidad de desplazamiento (delay en ms, por defecto 100)\\
+\hline
+{\em x} & Posicion horizontal inicial en la consola \\
+\hline
+{\em y} & Posicion vertical inicial en la consola \\
+\hline
+{\em ancho} & Ancho de la marquesina en caracteres \\
+\hline
+{\em archivo\+HTML} & Ruta al archivo HTML que contiene el texto a mostrar \\
+\hline
+{\em velocidad} & Tiempo en milisegundos entre cada actualizacion \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_marquesina_aa0c9f691911680b2ce26646e8283b046}\index{Marquesina@{Marquesina}!````~Marquesina@{\texorpdfstring{$\sim$}{\string~}Marquesina}}
+\index{````~Marquesina@{\texorpdfstring{$\sim$}{\string~}Marquesina}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Marquesina()}{\string~Marquesina()}}
+{\footnotesize\ttfamily \label{class_marquesina_aa0c9f691911680b2ce26646e8283b046} 
+Marquesina\+::\texorpdfstring{$\sim$}{\string~}\+Marquesina (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Destructor de la marquesina. 
+
+Destructor de la clase \doxylink{class_marquesina}{Marquesina}.
+
+Detiene el hilo y libera los recursos
+
+Detiene el hilo de la marquesina si esta en ejecucion 
+
+\label{doc-func-members}
+\Hypertarget{class_marquesina_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_marquesina_a281562e225650be428afa5808b093653}\index{Marquesina@{Marquesina}!actualizarTexto@{actualizarTexto}}
+\index{actualizarTexto@{actualizarTexto}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{actualizarTexto()}{actualizarTexto()}}
+{\footnotesize\ttfamily \label{class_marquesina_a281562e225650be428afa5808b093653} 
+void Marquesina\+::actualizar\+Texto (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nuevo\+Texto}{}\end{DoxyParamCaption})}
+
+
+
+Actualiza el texto de la marquesina. 
+
+Actualiza directamente el texto de la marquesina y lo guarda en el archivo HTML.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nuevo\+Texto} & Nuevo texto a mostrar\\
+\hline
+{\em nuevo\+Texto} & Nuevo texto a mostrar en la marquesina \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_marquesina_a173dc18c06673f9fb83e7bd1012dd41a}\index{Marquesina@{Marquesina}!bloquear@{bloquear}}
+\index{bloquear@{bloquear}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{bloquear()}{bloquear()}}
+{\footnotesize\ttfamily \label{class_marquesina_a173dc18c06673f9fb83e7bd1012dd41a} 
+void Marquesina\+::bloquear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Bloquea temporalmente la marquesina. 
+
+Bloquea la marquesina impidiendo cualquier actualizacion.
+
+Impide que la marquesina se dibuje en pantalla \Hypertarget{class_marquesina_a1e8de27731a32d4dc7a31c10625466c0}\index{Marquesina@{Marquesina}!desbloquear@{desbloquear}}
+\index{desbloquear@{desbloquear}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{desbloquear()}{desbloquear()}}
+{\footnotesize\ttfamily \label{class_marquesina_a1e8de27731a32d4dc7a31c10625466c0} 
+void Marquesina\+::desbloquear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Desbloquea la marquesina. 
+
+Desbloquea la marquesina permitiendo actualizaciones.
+
+Permite que la marquesina reanude su visualizacion \Hypertarget{class_marquesina_a9fed251582657d7454cb3a06fbb1ee16}\index{Marquesina@{Marquesina}!detener@{detener}}
+\index{detener@{detener}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{detener()}{detener()}}
+{\footnotesize\ttfamily \label{class_marquesina_a9fed251582657d7454cb3a06fbb1ee16} 
+void Marquesina\+::detener (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Detiene permanentemente la ejecucion de la marquesina. 
+
+Detiene la animacion de la marquesina y finaliza el hilo. \Hypertarget{class_marquesina_a2f4a7ec9c37da4db63663b178089570e}\index{Marquesina@{Marquesina}!estaVisible@{estaVisible}}
+\index{estaVisible@{estaVisible}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{estaVisible()}{estaVisible()}}
+{\footnotesize\ttfamily \label{class_marquesina_a2f4a7ec9c37da4db63663b178089570e} 
+bool Marquesina\+::esta\+Visible (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Verifica si la marquesina esta visible. 
+
+\begin{DoxyReturn}{Returns}
+true si la marquesina esta ejecutandose y es visible, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_marquesina_a6d1b94cc50c3785f9f7a99196204fa65}\index{Marquesina@{Marquesina}!finalizarOperacionCritica@{finalizarOperacionCritica}}
+\index{finalizarOperacionCritica@{finalizarOperacionCritica}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{finalizarOperacionCritica()}{finalizarOperacionCritica()}}
+{\footnotesize\ttfamily \label{class_marquesina_a6d1b94cc50c3785f9f7a99196204fa65} 
+void Marquesina\+::finalizar\+Operacion\+Critica (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Marca el fin de una operacion critica de cursor. 
+
+Marca el fin de una operacion critica. \Hypertarget{class_marquesina_a62f40a4d1b82ec2c3bb5fc9ec298aec9}\index{Marquesina@{Marquesina}!forzarActualizacion@{forzarActualizacion}}
+\index{forzarActualizacion@{forzarActualizacion}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{forzarActualizacion()}{forzarActualizacion()}}
+{\footnotesize\ttfamily \label{class_marquesina_a62f40a4d1b82ec2c3bb5fc9ec298aec9} 
+void Marquesina\+::forzar\+Actualizacion (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Fuerza una actualizacion inmediata de la marquesina. 
+
+Fuerza la recarga del contenido desde el archivo HTML.
+
+Thread-\/safe\+: utiliza un mutex para evitar problemas de concurrencia \Hypertarget{class_marquesina_a42a7b6c33db1deb208a381eda083a476}\index{Marquesina@{Marquesina}!iniciar@{iniciar}}
+\index{iniciar@{iniciar}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{iniciar()}{iniciar()}}
+{\footnotesize\ttfamily \label{class_marquesina_a42a7b6c33db1deb208a381eda083a476} 
+void Marquesina\+::iniciar (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Inicia la ejecucion de la marquesina. 
+
+Inicia la animacion de la marquesina en un hilo separado. \Hypertarget{class_marquesina_a4d1b8d42abcf0a8dea37049c159446d6}\index{Marquesina@{Marquesina}!marcarOperacionCritica@{marcarOperacionCritica}}
+\index{marcarOperacionCritica@{marcarOperacionCritica}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{marcarOperacionCritica()}{marcarOperacionCritica()}}
+{\footnotesize\ttfamily \label{class_marquesina_a4d1b8d42abcf0a8dea37049c159446d6} 
+void Marquesina\+::marcar\+Operacion\+Critica (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Marca el inicio de una operacion critica de cursor. 
+
+Marca el inicio de una operacion critica que no debe ser interrumpida.
+
+Evita que la marquesina interfiera con operaciones de posicionamiento del cursor \Hypertarget{class_marquesina_a35d47b3670a39652ab61ee262340ee2a}\index{Marquesina@{Marquesina}!mostrarRutaArchivo@{mostrarRutaArchivo}}
+\index{mostrarRutaArchivo@{mostrarRutaArchivo}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{mostrarRutaArchivo()}{mostrarRutaArchivo()}}
+{\footnotesize\ttfamily \label{class_marquesina_a35d47b3670a39652ab61ee262340ee2a} 
+void Marquesina\+::mostrar\+Ruta\+Archivo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Muestra la ruta del archivo HTML (para depuracion) 
+
+Muestra la ruta completa del archivo HTML utilizado. \Hypertarget{class_marquesina_ae33595e3e65b83e199e04e79739989eb}\index{Marquesina@{Marquesina}!pausar@{pausar}}
+\index{pausar@{pausar}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{pausar()}{pausar()}}
+{\footnotesize\ttfamily \label{class_marquesina_ae33595e3e65b83e199e04e79739989eb} 
+void Marquesina\+::pausar (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Pausa temporalmente la marquesina. 
+
+Pausa temporalmente la animacion de la marquesina. \Hypertarget{class_marquesina_aaaa028056dca12f370ea4d828bd40171}\index{Marquesina@{Marquesina}!reanudar@{reanudar}}
+\index{reanudar@{reanudar}!Marquesina@{Marquesina}}
+\doxysubsubsection{\texorpdfstring{reanudar()}{reanudar()}}
+{\footnotesize\ttfamily \label{class_marquesina_aaaa028056dca12f370ea4d828bd40171} 
+void Marquesina\+::reanudar (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reanuda la ejecucion de la marquesina pausada. 
+
+Reanuda la animacion de la marquesina despues de una pausa. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Marquesina.\+h\item 
+\mbox{\hyperlink{_marquesina_8cpp}{Marquesina.\+cpp}}\end{DoxyCompactItemize}

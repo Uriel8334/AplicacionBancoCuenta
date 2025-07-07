@@ -1,0 +1,255 @@
+\chapter{Generador\+QRBanco -\/ Guía de Referencia Rápida }
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a}{}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a}\index{GeneradorQRBanco -\/ Guía de Referencia Rápida@{GeneradorQRBanco -\/ Guía de Referencia Rápida}}
+\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md30}%
+\Hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md30}%
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md31}{}\doxysection{\texorpdfstring{Descripción}{Descripción}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md31}
+Clase optimizada para generar códigos QR bancarios siguiendo estrictamente el estándar {\bfseries{ISO/\+IEC 18004}}.\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md32}{}\doxysection{\texorpdfstring{Especificaciones Técnicas}{Especificaciones Técnicas}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md32}
+
+\begin{DoxyItemize}
+\item {\bfseries{Versión}}\+: 2 (25x25 módulos)
+\item {\bfseries{Nivel de corrección}}\+: L (7\% de corrección de errores)
+\item {\bfseries{Modo de codificación}}\+: Byte (binario)
+\item {\bfseries{Capacidad}}\+: 44 bytes de datos + 7 bytes ECC
+\item {\bfseries{Patrón de enmascaramiento}}\+: 1 (filas pares)
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md33}{}\doxysection{\texorpdfstring{Métodos Principales}{Métodos Principales}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md33}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md34}{}\doxysubsection{\texorpdfstring{Constructores}{Constructores}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md34}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Con\ objeto\ Persona}}
+\DoxyCodeLine{\mbox{\hyperlink{class_generador_q_r_banco}{GeneradorQRBanco}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_persona}{Persona}}\&\ persona,\ \textcolor{keyword}{const}\ std::string\&\ numCuenta);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Con\ strings\ directos}}
+\DoxyCodeLine{\mbox{\hyperlink{class_generador_q_r_banco}{GeneradorQRBanco}}(\textcolor{keyword}{const}\ std::string\&\ nombre,\ \textcolor{keyword}{const}\ std::string\&\ numCuenta);}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md35}{}\doxysubsection{\texorpdfstring{Métodos de Generación}{Métodos de Generación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md35}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ generar();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Genera\ la\ matriz\ QR\ completa}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ imprimir();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Imprime\ QR\ en\ consola\ con\ '█'\ y\ espacios}}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md36}{}\doxysubsection{\texorpdfstring{Métodos de Validación}{Métodos de Validación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md36}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ esNombreValido(\textcolor{keyword}{const}\ std::string\&\ nombre);}
+\DoxyCodeLine{\textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ esNumeroCuentaValido(\textcolor{keyword}{const}\ std::string\&\ cuenta);}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ verificarCompatibilidadQR();}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ generarCodigoQRCompatible();}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md37}{}\doxysubsection{\texorpdfstring{Métodos de Exportación}{Métodos de Exportación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md37}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ guardarComoSVG(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo);}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ guardarInformacionCuenta(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo);}
+\DoxyCodeLine{std::string\ obtenerContenidoQR();}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md38}{}\doxysection{\texorpdfstring{Uso Básico}{Uso Básico}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md38}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md39}{}\doxysubsection{\texorpdfstring{Ejemplo Simple}{Ejemplo Simple}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md39}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}GeneradorQRBanco.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Crear\ instancia}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_generador_q_r_banco}{GeneradorQRBanco}}\ qr(\textcolor{stringliteral}{"{}URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA"{}},\ \textcolor{stringliteral}{"{}2100000014"{}});}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Generar\ código\ QR}}
+\DoxyCodeLine{\ \ \ \ qr.generar();}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Mostrar\ en\ consola}}
+\DoxyCodeLine{\ \ \ \ qr.imprimir();}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Guardar\ archivos}}
+\DoxyCodeLine{\ \ \ \ qr.guardarComoSVG(\textcolor{stringliteral}{"{}mi\_qr.svg"{}});}
+\DoxyCodeLine{\ \ \ \ qr.guardarInformacionCuenta(\textcolor{stringliteral}{"{}mi\_info.txt"{}});}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md40}{}\doxysubsection{\texorpdfstring{Validación de Datos}{Validación de Datos}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md40}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::string\ nombre\ =\ \textcolor{stringliteral}{"{}MARIA\ GONZALEZ"{}};}
+\DoxyCodeLine{std::string\ cuenta\ =\ \textcolor{stringliteral}{"{}1234567890"{}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (GeneradorQRBanco::esNombreValido(nombre)\ \&\&\ }
+\DoxyCodeLine{\ \ \ \ GeneradorQRBanco::esNumeroCuentaValido(cuenta))\ \{}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_generador_q_r_banco}{GeneradorQRBanco}}\ qr(nombre,\ cuenta);}
+\DoxyCodeLine{\ \ \ \ qr.generar();}
+\DoxyCodeLine{\ \ \ \ qr.imprimir();}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md41}{}\doxysection{\texorpdfstring{Formato de Datos del QR}{Formato de Datos del QR}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md41}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md42}{}\doxysubsection{\texorpdfstring{Estructura del Contenido}{Estructura del Contenido}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md42}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Nombre:\ [NOMBRE\ EN\ MAYÚSCULAS]}
+\DoxyCodeLine{N.\ CUENTA:\ [10\ DÍGITOS]}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md43}{}\doxysubsection{\texorpdfstring{Ejemplo de Salida}{Ejemplo de Salida}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md43}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Nombre:\ URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA}
+\DoxyCodeLine{N.\ CUENTA:\ 2100000014}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md44}{}\doxysection{\texorpdfstring{Validaciones Implementadas}{Validaciones Implementadas}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md44}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md45}{}\doxysubsection{\texorpdfstring{Nombre}{Nombre}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md45}
+
+\begin{DoxyItemize}
+\item ✅ Longitud\+: 2-\/76 caracteres
+\item ✅ Caracteres permitidos\+: letras, espacios, guiones, puntos
+\item ✅ Conversión automática a mayúsculas
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md46}{}\doxysubsection{\texorpdfstring{Número de Cuenta}{Número de Cuenta}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md46}
+
+\begin{DoxyItemize}
+\item ✅ Longitud\+: exactamente 10 dígitos
+\item ✅ Solo caracteres numéricos (0-\/9)
+\item ✅ Sin espacios ni caracteres especiales
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md47}{}\doxysection{\texorpdfstring{Archivos Generados}{Archivos Generados}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md47}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md48}{}\doxysubsection{\texorpdfstring{Archivo de Información (\texorpdfstring{$\ast$}{*}.txt)}{Archivo de Información (\texorpdfstring{$\ast$}{*}.txt)}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md48}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{===\ INFORMACIÓN\ DE\ CUENTA\ BANCARIA\ ===}
+\DoxyCodeLine{}
+\DoxyCodeLine{BANCO\ PICHINCHA\ DIDÁCTICO}
+\DoxyCodeLine{Titular:\ URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA}
+\DoxyCodeLine{N.\ Cuenta:\ 2100000014}
+\DoxyCodeLine{Formato\ de\ datos:\ ESTRUCTURADO}
+\DoxyCodeLine{}
+\DoxyCodeLine{Contenido\ del\ código\ QR:}
+\DoxyCodeLine{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
+\DoxyCodeLine{Nombre:\ URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA}
+\DoxyCodeLine{N.\ CUENTA:\ 2100000014}
+\DoxyCodeLine{}
+\DoxyCodeLine{Detalles\ técnicos:}
+\DoxyCodeLine{-\/\ Versión\ QR:\ 2\ (25x25)}
+\DoxyCodeLine{-\/\ Estándar:\ ISO/IEC\ 18004}
+\DoxyCodeLine{-\/\ Nivel\ de\ corrección:\ L\ (7\%)}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md49}{}\doxysubsection{\texorpdfstring{Archivo SVG (\texorpdfstring{$\ast$}{*}.svg)}{Archivo SVG (\texorpdfstring{$\ast$}{*}.svg)}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md49}
+
+\begin{DoxyItemize}
+\item Formato vectorial escalable
+\item Compatible con navegadores web
+\item Optimizado para impresión
+\item Incluye zona de silencio requerida
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md50}{}\doxysection{\texorpdfstring{Salida en Consola}{Salida en Consola}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md50}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md51}{}\doxysubsection{\texorpdfstring{Ejemplo de Visualización}{Ejemplo de Visualización}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md51}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{===\ CÓDIGO\ QR\ BANCARIO\ (VERSIÓN\ 2\ -\/\ 25x25)\ ===}
+\DoxyCodeLine{Estándar:\ ISO/IEC\ 18004}
+\DoxyCodeLine{Nivel\ de\ corrección:\ L}
+\DoxyCodeLine{Contenido:}
+\DoxyCodeLine{Nombre:\ URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA}
+\DoxyCodeLine{N.\ CUENTA:\ 2100000014}
+\DoxyCodeLine{======================================================}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██████████████\ \ \ \ ██\ \ ██████████████\ \ }
+\DoxyCodeLine{\ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ ██\ \ \ \ ██\ \ ██████\ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ \ \ \ \ \ \ ██\ \ ██████\ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ ██\ \ \ \ ██\ \ ██████\ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ }
+\DoxyCodeLine{\ \ ██████████████\ \ ██\ \ ██████████████\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ████████████████████████████████████\ \ }
+\DoxyCodeLine{\ \ ...resto\ del\ código\ QR...}
+\DoxyCodeLine{\ \ ████████████████████████████████████\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{======================================================}
+\DoxyCodeLine{✓\ QR\ generado\ según\ ISO/IEC\ 18004}
+\DoxyCodeLine{✓\ Compatible\ con\ lectores\ móviles}
+\DoxyCodeLine{✓\ Datos:\ 46\ caracteres}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md52}{}\doxysection{\texorpdfstring{Métodos Internos (Privados)}{Métodos Internos (Privados)}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md52}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md53}{}\doxysubsection{\texorpdfstring{Codificación}{Codificación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md53}
+
+\begin{DoxyItemize}
+\item {\ttfamily codificar\+Datos()}\+: Convierte texto a bits según ISO/\+IEC 18004
+\item {\ttfamily generar\+ECC()}\+: Genera códigos Reed-\/\+Solomon para corrección
+\item {\ttfamily construir\+Matriz()}\+: Ensambla la matriz QR completa
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md54}{}\doxysubsection{\texorpdfstring{Patrones Estructurales}{Patrones Estructurales}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md54}
+
+\begin{DoxyItemize}
+\item {\ttfamily agregar\+Patrones\+Posicion()}\+: Patrones de esquina (finder patterns)
+\item {\ttfamily agregar\+Patrones\+Tiempo()}\+: Patrones de tiempo (timing patterns)
+\item {\ttfamily agregar\+Patrones\+Alineamiento()}\+: Patrón central (alignment pattern)
+\item {\ttfamily agregar\+Informacion\+Formato()}\+: Información de formato y corrección
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md55}{}\doxysubsection{\texorpdfstring{Enmascaramiento}{Enmascaramiento}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md55}
+
+\begin{DoxyItemize}
+\item {\ttfamily aplicar\+Enmascaramiento()}\+: Aplica máscara XOR para optimización
+\item {\ttfamily esta\+Reservado()}\+: Verifica si una posición está reservada
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md56}{}\doxysection{\texorpdfstring{Compatibilidad}{Compatibilidad}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md56}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md57}{}\doxysubsection{\texorpdfstring{Lectores Móviles}{Lectores Móviles}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md57}
+
+\begin{DoxyItemize}
+\item ✅ i\+OS (Cámara nativa, apps QR)
+\item ✅ Android (Google Lens, apps QR)
+\item ✅ Aplicaciones bancarias
+\item ✅ Navegadores web modernos
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md58}{}\doxysubsection{\texorpdfstring{Estándares Soportados}{Estándares Soportados}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md58}
+
+\begin{DoxyItemize}
+\item ✅ ISO/\+IEC 18004\+:2015
+\item ✅ JIS X 0510
+\item ✅ Nivel de corrección L estándar
+\item ✅ Codificación UTF-\/8 compatible
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md59}{}\doxysection{\texorpdfstring{Compilación}{Compilación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md59}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md60}{}\doxysubsection{\texorpdfstring{Comandos de Compilación}{Comandos de Compilación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md60}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Compilación\ básica}
+\DoxyCodeLine{g++\ -\/std=c++11\ main.cpp\ GeneradorQRBanco.cpp\ Utilidades.cpp\ Persona.cpp\ -\/o\ mi\_programa}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Con\ optimización}
+\DoxyCodeLine{g++\ -\/std=c++11\ -\/O2\ main.cpp\ GeneradorQRBanco.cpp\ Utilidades.cpp\ Persona.cpp\ -\/o\ mi\_programa}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Con\ debug}
+\DoxyCodeLine{g++\ -\/std=c++11\ -\/g\ -\/DDEBUG\ main.cpp\ GeneradorQRBanco.cpp\ Utilidades.cpp\ Persona.cpp\ -\/o\ mi\_programa}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md61}{}\doxysubsection{\texorpdfstring{Dependencias}{Dependencias}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md61}
+
+\begin{DoxyItemize}
+\item C++11 o superior
+\item No requiere librerías externas
+\item Compatible con GCC, Clang, MSVC
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md62}{}\doxysection{\texorpdfstring{Notas Importantes}{Notas Importantes}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md62}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Formato fijo}}\+: La clase está optimizada para Versión 2 (25x25) únicamente
+\item {\bfseries{Datos estructurados}}\+: Usa formato "{}\+Nombre\+: X\textbackslash{}n\+N. CUENTA\+: Y"{} para máxima compatibilidad
+\item {\bfseries{Sin caracteres especiales}}\+: Evita símbolos que puedan causar problemas en lectores móviles
+\item {\bfseries{Corrección balanceada}}\+: Nivel L proporciona buen balance entre capacidad y robustez
+\item {\bfseries{Zona de silencio}}\+: Incluye automáticamente la zona de silencio requerida
+\end{DoxyEnumerate}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md63}{}\doxysection{\texorpdfstring{Resolución de Problemas}{Resolución de Problemas}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md63}
+\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md64}{}\doxysubsection{\texorpdfstring{Errores Comunes}{Errores Comunes}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md64}
+
+\begin{DoxyItemize}
+\item {\bfseries{Nombre demasiado largo}}\+: Máximo 76 caracteres
+\item {\bfseries{\doxylink{class_cuenta}{Cuenta} inválida}}\+: Debe ser exactamente 10 dígitos
+\item {\bfseries{Caracteres especiales}}\+: Solo letras, espacios, guiones y puntos en nombres
+\item {\bfseries{Codificación}}\+: Usar UTF-\/8 para caracteres especiales
+\end{DoxyItemize}\hypertarget{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md65}{}\doxysubsection{\texorpdfstring{Verificación}{Verificación}}\label{md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a_autotoc_md65}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (qr.verificarCompatibilidadQR())\ \{}
+\DoxyCodeLine{\ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}QR\ compatible\ generado"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Revisar\ datos\ de\ entrada"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 

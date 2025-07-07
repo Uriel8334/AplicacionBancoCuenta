@@ -1,0 +1,196 @@
+\chapter{Documentación\+: Generador\+QRBanco Optimizado }
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o}{}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o}\index{Documentación: GeneradorQRBanco Optimizado@{Documentación: GeneradorQRBanco Optimizado}}
+\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md0}%
+\Hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md0}%
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md1}{}\doxysection{\texorpdfstring{Resumen}{Resumen}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md1}
+Esta es una implementación optimizada de la clase {\ttfamily \doxylink{class_generador_q_r_banco}{Generador\+QRBanco}} que genera códigos QR válidos siguiendo estrictamente el estándar {\bfseries{ISO/\+IEC 18004}}, específicamente para\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Versión 2}} (25x25 módulos)
+\item {\bfseries{Nivel de corrección L}} (Low -\/ 7\% de corrección de errores)
+\item {\bfseries{Modo Byte}} para codificación de datos
+\item {\bfseries{Formato estructurado}} optimizado para lectores móviles
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md2}{}\doxysection{\texorpdfstring{Características Principales}{Características Principales}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md2}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md3}{}\doxysubsection{\texorpdfstring{1. Cumplimiento del Estándar ISO/\+IEC 18004}{1. Cumplimiento del Estándar ISO/\+IEC 18004}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md3}
+
+\begin{DoxyItemize}
+\item ✅ Codificación en modo byte (0100)
+\item ✅ Generación de códigos Reed-\/\+Solomon para corrección de errores
+\item ✅ Patrones de posición (finder patterns) estándar
+\item ✅ Patrones de tiempo (timing patterns)
+\item ✅ Patrón de alineamiento para versión 2
+\item ✅ Información de formato con nivel de corrección L
+\item ✅ Enmascaramiento XOR con patrones estándar
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md4}{}\doxysubsection{\texorpdfstring{2. Métodos Principales}{2. Métodos Principales}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md4}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{{\ttfamily codificar\+Datos()}}{{\ttfamily codificar\+Datos()}}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md5}
+
+\begin{DoxyItemize}
+\item Convierte el texto en bits binarios usando el modo byte QR
+\item Genera la cadena\+: {\ttfamily "{}\+Nombre\+: \mbox{[}\+NOMBRE\mbox{]}\textbackslash{}n\+N. CUENTA\+: \mbox{[}\+CUENTA\mbox{]}"{}}
+\item Añade indicadores de modo (0100) y longitud según estándar
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md6}{}\doxysubsubsection{\texorpdfstring{{\ttfamily generar\+ECC()}}{{\ttfamily generar\+ECC()}}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md6}
+
+\begin{DoxyItemize}
+\item Aplica Reed-\/\+Solomon para generar códigos de corrección
+\item Utiliza 7 bytes de corrección para nivel L, versión 2
+\item Implementa tablas de logaritmos y antilogaritmos en GF(256)
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{{\ttfamily construir\+Matriz()}}{{\ttfamily construir\+Matriz()}}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md7}
+
+\begin{DoxyItemize}
+\item Genera la matriz QR completa con todos los patrones estándar
+\item Coloca datos y códigos de corrección en las posiciones correctas
+\item Añade padding según el estándar ISO/\+IEC 18004
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{{\ttfamily aplicar\+Enmascaramiento()}}{{\ttfamily aplicar\+Enmascaramiento()}}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md8}
+
+\begin{DoxyItemize}
+\item Aplica uno de los 8 esquemas de enmascarado XOR estándar
+\item Mejora la legibilidad del código QR
+\item Evita patrones problemáticos en los datos
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{{\ttfamily imprimir\+En\+Consola()}}{{\ttfamily imprimir\+En\+Consola()}}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md9}
+
+\begin{DoxyItemize}
+\item Muestra la matriz QR en consola usando caracteres \textquotesingle{}█\textquotesingle{} y espacios
+\item Incluye zona de silencio requerida
+\item Formato optimizado para visualización
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md10}{}\doxysubsection{\texorpdfstring{3. Especificaciones Técnicas}{3. Especificaciones Técnicas}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md10}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md11}{}\doxysubsubsection{\texorpdfstring{Capacidad de Datos}{Capacidad de Datos}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md11}
+
+\begin{DoxyItemize}
+\item {\bfseries{Versión 2}}\+: 25x25 módulos
+\item {\bfseries{Capacidad total}}\+: 44 bytes de datos + 7 bytes ECC = 51 bytes
+\item {\bfseries{Bits útiles}}\+: 352 bits para datos (sin ECC)
+\item {\bfseries{Caracteres texto}}\+: Aproximadamente 44 caracteres alfanuméricos
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{Patrones Estructurales}{Patrones Estructurales}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{Patrones de posición}}\+: 3 patrones de 7x7 en las esquinas
+\item {\bfseries{Separadores}}\+: Zona blanca de 1 módulo alrededor de patrones de posición
+\item {\bfseries{Patrones de tiempo}}\+: Líneas alternadas en fila/columna 6
+\item {\bfseries{Patrón de alineamiento}}\+: 1 patrón de 5x5 centrado en (18,18)
+\item {\bfseries{Información de formato}}\+: 15 bits distribuidos alrededor del patrón superior izquierdo
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md13}{}\doxysubsubsection{\texorpdfstring{Corrección de Errores}{Corrección de Errores}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md13}
+
+\begin{DoxyItemize}
+\item {\bfseries{Nivel L}}\+: 7\% de corrección de errores
+\item {\bfseries{Algoritmo}}\+: Reed-\/\+Solomon con GF(256)
+\item {\bfseries{Polinomio primitivo}}\+: 0x11D
+\item {\bfseries{Bytes ECC}}\+: 7 bytes para versión 2, nivel L
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md14}{}\doxysection{\texorpdfstring{Uso de la Clase}{Uso de la Clase}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md14}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md15}{}\doxysubsection{\texorpdfstring{Ejemplo Básico}{Ejemplo Básico}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md15}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}GeneradorQRBanco.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Crear\ instancia}}
+\DoxyCodeLine{\mbox{\hyperlink{class_generador_q_r_banco}{GeneradorQRBanco}}\ qr(\textcolor{stringliteral}{"{}URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA"{}},\ \textcolor{stringliteral}{"{}2100000014"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Generar\ código\ QR}}
+\DoxyCodeLine{qr.generar();}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Imprimir\ en\ consola}}
+\DoxyCodeLine{qr.imprimir();}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Verificar\ compatibilidad}}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ (qr.verificarCompatibilidadQR())\ \{}
+\DoxyCodeLine{\ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}✓\ Compatible\ con\ lectores\ móviles"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md16}{}\doxysubsection{\texorpdfstring{Salida Esperada}{Salida Esperada}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md16}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{===\ CÓDIGO\ QR\ BANCARIO\ (VERSIÓN\ 2\ -\/\ 25x25)\ ===}
+\DoxyCodeLine{Estándar:\ ISO/IEC\ 18004}
+\DoxyCodeLine{Nivel\ de\ corrección:\ L}
+\DoxyCodeLine{Contenido:}
+\DoxyCodeLine{Nombre:\ URIEL\ ALEJANDRO\ ANDRADE\ HERMOSA}
+\DoxyCodeLine{N.\ CUENTA:\ 2100000014}
+\DoxyCodeLine{========================================================}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██████████████\ \ \ \ ██\ \ ██████████████\ \ }
+\DoxyCodeLine{\ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ ██\ \ \ \ ██\ \ ██████\ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ \ \ \ \ \ \ ██\ \ ██████\ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ ██\ \ \ \ ██\ \ ██████\ \ ██\ \ }
+\DoxyCodeLine{\ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ }
+\DoxyCodeLine{\ \ ██████████████\ \ ██\ \ ██████████████\ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██████████████████████████████████\ \ }
+\DoxyCodeLine{\ \ ...datos\ del\ QR...}
+\DoxyCodeLine{\ \ ██████████████\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██\ \ ██████\ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██\ \ \ \ \ \ \ \ \ \ ██\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ ██████████████\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{========================================================}
+\DoxyCodeLine{✓\ QR\ generado\ según\ ISO/IEC\ 18004}
+\DoxyCodeLine{✓\ Compatible\ con\ lectores\ móviles}
+\DoxyCodeLine{✓\ Datos:\ 46\ caracteres}
+
+\end{DoxyCode}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md17}{}\doxysection{\texorpdfstring{Validación y Compatibilidad}{Validación y Compatibilidad}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md17}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md18}{}\doxysubsection{\texorpdfstring{Validaciones Implementadas}{Validaciones Implementadas}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md18}
+
+\begin{DoxyItemize}
+\item ✅ Nombre\+: 2-\/76 caracteres, solo letras y espacios
+\item ✅ \doxylink{class_cuenta}{Cuenta}\+: Exactamente 10 dígitos numéricos
+\item ✅ Formato de datos estructurado optimizado
+\item ✅ Cumplimiento del estándar ISO/\+IEC 18004
+\item ✅ Capacidad de datos dentro de los límites
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md19}{}\doxysubsection{\texorpdfstring{Compatibilidad Móvil}{Compatibilidad Móvil}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md19}
+
+\begin{DoxyItemize}
+\item ✅ Formato texto plano sin caracteres especiales problemáticos
+\item ✅ Estructura de datos clara y legible
+\item ✅ Tamaño óptimo para pantallas móviles
+\item ✅ Nivel de corrección balanceado (L)
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md20}{}\doxysection{\texorpdfstring{Archivos Generados}{Archivos Generados}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md20}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md21}{}\doxysubsection{\texorpdfstring{Información de Cuenta ({\ttfamily \texorpdfstring{$\ast$}{*}\+\_\+info.txt})}{Información de Cuenta ({\ttfamily \texorpdfstring{$\ast$}{*}\+\_\+info.txt})}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md21}
+Contiene detalles técnicos del QR generado\+:
+\begin{DoxyItemize}
+\item Información del titular y cuenta
+\item Contenido exacto del código QR
+\item Especificaciones técnicas (versión, estándar, corrección)
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md22}{}\doxysubsection{\texorpdfstring{Archivo SVG ({\ttfamily \texorpdfstring{$\ast$}{*}.svg})}{Archivo SVG ({\ttfamily \texorpdfstring{$\ast$}{*}.svg})}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md22}
+Código QR en formato vectorial escalable\+:
+\begin{DoxyItemize}
+\item Formato estándar SVG 1.\+1
+\item Optimizado para impresión y visualización
+\item Incluye metadatos descriptivos
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md23}{}\doxysection{\texorpdfstring{Diferencias con la Versión Anterior}{Diferencias con la Versión Anterior}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md23}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md24}{}\doxysubsection{\texorpdfstring{Mejoras Implementadas}{Mejoras Implementadas}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md24}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Estándar fijo}}\+: Versión 2 (25x25) con nivel L
+\item {\bfseries{Métodos especializados}}\+: Cada fase del proceso QR tiene su método
+\item {\bfseries{Corrección de errores precisa}}\+: Implementación Reed-\/\+Solomon completa
+\item {\bfseries{Enmascaramiento estándar}}\+: 8 patrones de enmascarado disponibles
+\item {\bfseries{Validación estricta}}\+: Cumplimiento exacto del estándar ISO/\+IEC 18004
+\end{DoxyEnumerate}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md25}{}\doxysubsection{\texorpdfstring{Simplificaciones}{Simplificaciones}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md25}
+
+\begin{DoxyItemize}
+\item Eliminación de selección automática de versión
+\item Enfoque en un solo nivel de corrección (L)
+\item Formato de datos fijo optimizado para banca
+\item Eliminación de dependencias externas
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md26}{}\doxysection{\texorpdfstring{Recomendaciones de Uso}{Recomendaciones de Uso}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md26}
+\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md27}{}\doxysubsection{\texorpdfstring{Para Aplicaciones Bancarias}{Para Aplicaciones Bancarias}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md27}
+
+\begin{DoxyItemize}
+\item Usar nombres completos en mayúsculas
+\item \doxylink{class_validar}{Validar} números de cuenta antes de generar QR
+\item Mantener el formato estructurado para máxima compatibilidad
+\item Generar archivos SVG para impresión profesional
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md28}{}\doxysubsection{\texorpdfstring{Para Desarrollo}{Para Desarrollo}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md28}
+
+\begin{DoxyItemize}
+\item Compilar con {\ttfamily -\/std=c++11} o superior
+\item Incluir manejo de excepciones robusto
+\item \doxylink{class_validar}{Validar} entradas antes de crear la instancia
+\item Probar con diferentes longitudes de nombre
+\end{DoxyItemize}\hypertarget{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md29}{}\doxysection{\texorpdfstring{Conclusión}{Conclusión}}\label{md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o_autotoc_md29}
+Esta implementación optimizada de {\ttfamily \doxylink{class_generador_q_r_banco}{Generador\+QRBanco}} proporciona una solución robusta y estándar para la generación de códigos QR bancarios, cumpliendo estrictamente con el estándar ISO/\+IEC 18004 y optimizada para máxima compatibilidad con lectores móviles. 

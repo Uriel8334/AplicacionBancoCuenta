@@ -1,0 +1,292 @@
+\doxysection{Banco Class Reference}
+\hypertarget{class_banco}{}\label{class_banco}\index{Banco@{Banco}}
+
+
+Clase que representa un banco con sus operaciones principales.  
+
+
+
+
+{\ttfamily \#include $<$Banco.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_banco_a686e51b219dc175e432e91559298b259}{Banco}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_banco_af69f9b0da3521d7c1e422f21dfd5829e}{\texorpdfstring{$\sim$}{\string~}\+Banco}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_nodo_persona}{Nodo\+Persona}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_banco_a0a4149e3430ba6db4e06a4c8d7eefdfb}{get\+Lista\+Personas}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la lista de personas del banco. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a2b7764295c3f7e880da1e26b8976d25e}{set\+Lista\+Personas}} (\mbox{\hyperlink{class_nodo_persona}{Nodo\+Persona}} \texorpdfstring{$\ast$}{*}nueva\+Lista)
+\begin{DoxyCompactList}\small\item\em Establece una nueva lista de personas. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a72497b696331bb5df5c7d4734cae41b7}{agregar\+Persona\+Con\+Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Agrega una nueva persona con cuenta al banco. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_aad55fc5aa091bbb607c42ac062f6a066}{guardar\+Cuentas\+En\+Archivo}} (const std\+::string \&nombre\+Archivo) const
+\begin{DoxyCompactList}\small\item\em Guarda las cuentas en un archivo con nombre especifico. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a929b2bc9d1abb497f83d45efae2ca8b0}{guardar\+Cuentas\+En\+Archivo}} ()
+\begin{DoxyCompactList}\small\item\em Guarda las cuentas en un archivo con nombre predeterminado. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a859a084ce5a7bcff65fac6a6e1c719eb}{cargar\+Cuentas\+Desde\+Archivo}} (const std\+::string \&nombre\+Archivo)
+\begin{DoxyCompactList}\small\item\em Carga las cuentas desde un archivo existente. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a9dd7a2f74fd5c9179ffaa33a3b3c75a1}{buscar\+Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Busca una cuenta en el sistema. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a7636e7e9160ca14b4b0adf7605f2427a}{buscar\+Cuentas\+Por\+Fecha}} (const std\+::string \&fecha) const
+\begin{DoxyCompactList}\small\item\em Busca cuentas por fecha de apertura. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a29df9b04dd7b719fd2086494c6202c58}{buscar\+Cuentas\+Por\+Criterio}} ()
+\begin{DoxyCompactList}\small\item\em Busca cuentas por diversos criterios. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_banco_a7539fce5aa3e6de401be5f23614544e6}{realizar\+Transferencia}} ()
+\begin{DoxyCompactList}\small\item\em Realiza transferencias entre cuentas. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_banco_a8e0ba3bbd3888deabc02acbda87b398e}{formatear\+Con\+Comas}} (double valor\+En\+Centavos) const
+\begin{DoxyCompactList}\small\item\em Formatea un valor monetario con separadores de miles. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_banco_abf60550bd5ca8ece0384da264db14d19}{obtener\+Ruta\+Escritorio}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la ruta del escritorio del usuario actual. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que representa un banco con sus operaciones principales. 
+
+Esta clase gestiona la lista de personas (clientes) del banco y proporciona funcionalidades para crear, buscar y administrar cuentas bancarias. Tambien permite realizar operaciones como transferencias y manejo de archivos para persistencia de datos. 
+
+\label{doc-constructors}
+\Hypertarget{class_banco_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_banco_a686e51b219dc175e432e91559298b259}\index{Banco@{Banco}!Banco@{Banco}}
+\index{Banco@{Banco}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{Banco()}{Banco()}}
+{\footnotesize\ttfamily \label{class_banco_a686e51b219dc175e432e91559298b259} 
+Banco\+::\+Banco (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Constructor por defecto. 
+
+Constructor por defecto de la clase \doxylink{class_banco}{Banco}.
+
+Inicializa un banco sin clientes (lista\+Personas = nullptr)
+
+Inicializa una instancia de \doxylink{class_banco}{Banco} con una lista vacia de personas \Hypertarget{class_banco_af69f9b0da3521d7c1e422f21dfd5829e}\index{Banco@{Banco}!````~Banco@{\texorpdfstring{$\sim$}{\string~}Banco}}
+\index{````~Banco@{\texorpdfstring{$\sim$}{\string~}Banco}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Banco()}{\string~Banco()}}
+{\footnotesize\ttfamily \label{class_banco_af69f9b0da3521d7c1e422f21dfd5829e} 
+Banco\+::\texorpdfstring{$\sim$}{\string~}\+Banco (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+Destructor de la clase \doxylink{class_banco}{Banco}.
+
+Libera la memoria de todos los nodos de la lista de personas
+
+Libera toda la memoria ocupada por la lista enlazada de personas 
+
+\label{doc-func-members}
+\Hypertarget{class_banco_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_banco_a72497b696331bb5df5c7d4734cae41b7}\index{Banco@{Banco}!agregarPersonaConCuenta@{agregarPersonaConCuenta}}
+\index{agregarPersonaConCuenta@{agregarPersonaConCuenta}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{agregarPersonaConCuenta()}{agregarPersonaConCuenta()}}
+{\footnotesize\ttfamily \label{class_banco_a72497b696331bb5df5c7d4734cae41b7} 
+void Banco\+::agregar\+Persona\+Con\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Agrega una nueva persona con cuenta al banco. 
+
+Agrega una nueva persona con una cuenta asociada al sistema bancario.
+
+Solicita los datos de la persona y crea una cuenta asociada a ella
+
+Este metodo presenta un menu para seleccionar el tipo de cuenta (ahorros o corriente), solicita los datos personales necesarios y crea tanto la persona como su cuenta asociada. Tambien maneja el caso de cedulas existentes, permitiendo agregar una nueva cuenta a un cliente que ya existe en el sistema. \Hypertarget{class_banco_a9dd7a2f74fd5c9179ffaa33a3b3c75a1}\index{Banco@{Banco}!buscarCuenta@{buscarCuenta}}
+\index{buscarCuenta@{buscarCuenta}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{buscarCuenta()}{buscarCuenta()}}
+{\footnotesize\ttfamily \label{class_banco_a9dd7a2f74fd5c9179ffaa33a3b3c75a1} 
+void Banco\+::buscar\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Busca una cuenta en el sistema. 
+
+Presenta un menu para buscar cuentas segun diferentes criterios.
+
+Permite buscar cuentas por diferentes criterios como numero o titular
+
+Permite buscar por fecha de creacion, por criterio personalizado, por numero de cuenta, o por cedula del titular. \Hypertarget{class_banco_a29df9b04dd7b719fd2086494c6202c58}\index{Banco@{Banco}!buscarCuentasPorCriterio@{buscarCuentasPorCriterio}}
+\index{buscarCuentasPorCriterio@{buscarCuentasPorCriterio}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{buscarCuentasPorCriterio()}{buscarCuentasPorCriterio()}}
+{\footnotesize\ttfamily \label{class_banco_a29df9b04dd7b719fd2086494c6202c58} 
+void Banco\+::buscar\+Cuentas\+Por\+Criterio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Busca cuentas por diversos criterios. 
+
+Busca cuentas segun criterios personalizados del usuario.
+
+Interfaz para buscar cuentas por numero, saldo, titular, etc.
+
+Permite buscar por numero de cuenta, fecha de apertura, saldo, tipo de cuenta o cedula del titular. \Hypertarget{class_banco_a7636e7e9160ca14b4b0adf7605f2427a}\index{Banco@{Banco}!buscarCuentasPorFecha@{buscarCuentasPorFecha}}
+\index{buscarCuentasPorFecha@{buscarCuentasPorFecha}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{buscarCuentasPorFecha()}{buscarCuentasPorFecha()}}
+{\footnotesize\ttfamily \label{class_banco_a7636e7e9160ca14b4b0adf7605f2427a} 
+void Banco\+::buscar\+Cuentas\+Por\+Fecha (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{fecha}{}\end{DoxyParamCaption}) const}
+
+
+
+Busca cuentas por fecha de apertura. 
+
+Busca cuentas por fecha de creacion.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha} & \doxylink{class_fecha}{Fecha} de apertura en formato DD/\+MM/\+AAAA\\
+\hline
+{\em fecha} & \doxylink{class_fecha}{Fecha} de apertura a buscar \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_banco_a859a084ce5a7bcff65fac6a6e1c719eb}\index{Banco@{Banco}!cargarCuentasDesdeArchivo@{cargarCuentasDesdeArchivo}}
+\index{cargarCuentasDesdeArchivo@{cargarCuentasDesdeArchivo}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{cargarCuentasDesdeArchivo()}{cargarCuentasDesdeArchivo()}}
+{\footnotesize\ttfamily \label{class_banco_a859a084ce5a7bcff65fac6a6e1c719eb} 
+void Banco\+::cargar\+Cuentas\+Desde\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption})}
+
+
+
+Carga las cuentas desde un archivo existente. 
+
+Carga las cuentas desde un archivo de respaldo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre\+Archivo} & Nombre del archivo desde donde se cargaran los datos\\
+\hline
+{\em nombre\+Archivo} & Nombre del archivo desde donde cargar los datos \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_banco_a8e0ba3bbd3888deabc02acbda87b398e}\index{Banco@{Banco}!formatearConComas@{formatearConComas}}
+\index{formatearConComas@{formatearConComas}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{formatearConComas()}{formatearConComas()}}
+{\footnotesize\ttfamily \label{class_banco_a8e0ba3bbd3888deabc02acbda87b398e} 
+std\+::string Banco\+::formatear\+Con\+Comas (\begin{DoxyParamCaption}\item[{double}]{valor\+En\+Centavos}{}\end{DoxyParamCaption}) const}
+
+
+
+Formatea un valor monetario con separadores de miles. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em valor\+En\+Centavos} & Valor monetario en centavos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String formateado con el valor monetario y separadores
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em valor\+En\+Centavos} & Valor monetario a formatear \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cadena formateada con separadores de miles y dos decimales 
+\end{DoxyReturn}
+\Hypertarget{class_banco_a0a4149e3430ba6db4e06a4c8d7eefdfb}\index{Banco@{Banco}!getListaPersonas@{getListaPersonas}}
+\index{getListaPersonas@{getListaPersonas}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{getListaPersonas()}{getListaPersonas()}}
+{\footnotesize\ttfamily \label{class_banco_a0a4149e3430ba6db4e06a4c8d7eefdfb} 
+\mbox{\hyperlink{class_nodo_persona}{Nodo\+Persona}} \texorpdfstring{$\ast$}{*} Banco\+::get\+Lista\+Personas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la lista de personas del banco. 
+
+\begin{DoxyReturn}{Returns}
+Puntero al primer nodo de la lista de personas 
+\end{DoxyReturn}
+\Hypertarget{class_banco_a929b2bc9d1abb497f83d45efae2ca8b0}\index{Banco@{Banco}!guardarCuentasEnArchivo@{guardarCuentasEnArchivo}}
+\index{guardarCuentasEnArchivo@{guardarCuentasEnArchivo}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{guardarCuentasEnArchivo()}{guardarCuentasEnArchivo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_banco_a929b2bc9d1abb497f83d45efae2ca8b0} 
+void Banco\+::guardar\+Cuentas\+En\+Archivo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Guarda las cuentas en un archivo con nombre predeterminado. 
+
+Guarda todas las cuentas en un archivo con nombre generado automaticamente.
+
+Utiliza la ruta del escritorio y un nombre por defecto
+
+Crea un respaldo con la fecha actual en el nombre y verifica que la fecha del sistema no haya sido manipulada antes de realizar el respaldo. \Hypertarget{class_banco_aad55fc5aa091bbb607c42ac062f6a066}\index{Banco@{Banco}!guardarCuentasEnArchivo@{guardarCuentasEnArchivo}}
+\index{guardarCuentasEnArchivo@{guardarCuentasEnArchivo}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{guardarCuentasEnArchivo()}{guardarCuentasEnArchivo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_banco_aad55fc5aa091bbb607c42ac062f6a066} 
+void Banco\+::guardar\+Cuentas\+En\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption}) const}
+
+
+
+Guarda las cuentas en un archivo con nombre especifico. 
+
+Guarda todas las cuentas en un archivo con nombre especifico.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre\+Archivo} & Nombre del archivo donde se guardaran los datos \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_banco_abf60550bd5ca8ece0384da264db14d19}\index{Banco@{Banco}!obtenerRutaEscritorio@{obtenerRutaEscritorio}}
+\index{obtenerRutaEscritorio@{obtenerRutaEscritorio}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{obtenerRutaEscritorio()}{obtenerRutaEscritorio()}}
+{\footnotesize\ttfamily \label{class_banco_abf60550bd5ca8ece0384da264db14d19} 
+std\+::string Banco\+::obtener\+Ruta\+Escritorio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene la ruta del escritorio del usuario actual. 
+
+Obtiene la ruta del directorio del escritorio del usuario.
+
+\begin{DoxyReturn}{Returns}
+String con la ruta completa al escritorio
+\end{DoxyReturn}
+Utiliza funciones del API de Windows para obtener la ruta
+
+Crea una carpeta "{}\+Banco\+App"{} en el escritorio si no existe, para almacenar los archivos generados por la aplicacion.
+
+\begin{DoxyReturn}{Returns}
+Ruta completa de la carpeta de la aplicacion 
+\end{DoxyReturn}
+\Hypertarget{class_banco_a7539fce5aa3e6de401be5f23614544e6}\index{Banco@{Banco}!realizarTransferencia@{realizarTransferencia}}
+\index{realizarTransferencia@{realizarTransferencia}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{realizarTransferencia()}{realizarTransferencia()}}
+{\footnotesize\ttfamily \label{class_banco_a7539fce5aa3e6de401be5f23614544e6} 
+void Banco\+::realizar\+Transferencia (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Realiza transferencias entre cuentas. 
+
+Realiza una transferencia de fondos entre dos cuentas.
+
+Permite mover fondos entre distintas cuentas bancarias
+
+Gestiona la busqueda de cuentas origen y destino, validacion de fondos, y ejecucion de la transferencia con sus respectivas actualizaciones de saldo. \Hypertarget{class_banco_a2b7764295c3f7e880da1e26b8976d25e}\index{Banco@{Banco}!setListaPersonas@{setListaPersonas}}
+\index{setListaPersonas@{setListaPersonas}!Banco@{Banco}}
+\doxysubsubsection{\texorpdfstring{setListaPersonas()}{setListaPersonas()}}
+{\footnotesize\ttfamily \label{class_banco_a2b7764295c3f7e880da1e26b8976d25e} 
+void Banco\+::set\+Lista\+Personas (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_nodo_persona}{Nodo\+Persona}} \texorpdfstring{$\ast$}{*}}]{nueva\+Lista}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece una nueva lista de personas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Lista} & Puntero al primer nodo de la nueva lista \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Banco.\+h\item 
+\mbox{\hyperlink{_banco_8cpp}{Banco.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['capacidad_20de_20datos_0',['Capacidad de Datos',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md11',1,'']]],
+  ['características_20principales_1',['Características Principales',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md2',1,'']]],
+  ['caracteristicas_20principales_2',['Caracteristicas Principales',['../index.html#features_sec',1,'']]],
+  ['clase_3',['Uso de la Clase',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md14',1,'']]],
+  ['clases_20principales_4',['Clases Principales',['../clases.html',1,'']]],
+  ['clientes_5',['Gestion de Clientes',['../index.html#cliente_mod',1,'']]],
+  ['codificación_6',['Codificación',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md53',1,'']]],
+  ['codificardatos_7',['&lt;span class=&quot;tt&quot;&gt;codificarDatos()&lt;/span&gt;',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md5',1,'']]],
+  ['comandos_20de_20compilación_8',['Comandos de Compilación',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md60',1,'']]],
+  ['compatibilidad_9',['Compatibilidad',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md56',1,'Compatibilidad'],['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md17',1,'Validación y Compatibilidad']]],
+  ['compatibilidad_20móvil_10',['Compatibilidad Móvil',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md19',1,'']]],
+  ['compilación_11',['Compilación',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md60',1,'Comandos de Compilación'],['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md59',1,'Compilación']]],
+  ['comunes_12',['Errores Comunes',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md64',1,'']]],
+  ['con_20la_20versión_20anterior_13',['Diferencias con la Versión Anterior',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md23',1,'']]],
+  ['conclusión_14',['Conclusión',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md29',1,'']]],
+  ['consola_15',['Salida en Consola',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md50',1,'']]],
+  ['constructores_16',['Constructores',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md34',1,'']]],
+  ['construirmatriz_17',['&lt;span class=&quot;tt&quot;&gt;construirMatriz()&lt;/span&gt;',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md7',1,'']]],
+  ['contenido_18',['Estructura del Contenido',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md42',1,'']]],
+  ['corrección_20de_20errores_19',['Corrección de Errores',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md13',1,'']]],
+  ['cuenta_20',['Número de Cuenta',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md46',1,'']]],
+  ['cuenta_20_5finfo_20txt_21',['Información de Cuenta (&lt;span class=&quot;tt&quot;&gt;*_info.txt&lt;/span&gt;)',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md21',1,'']]],
+  ['cuentas_22',['Gestion de Cuentas',['../index.html#cuentas_mod',1,'']]],
+  ['cumplimiento_20del_20estándar_20iso_20iec_2018004_23',['1. Cumplimiento del Estándar ISO/IEC 18004',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md3',1,'']]]
+];

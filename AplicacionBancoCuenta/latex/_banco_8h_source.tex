@@ -1,0 +1,51 @@
+\doxysection{Banco.\+h}
+\hypertarget{_banco_8h_source}{}\label{_banco_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ BANCO\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ BANCO\_H}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Persona.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}NodoPersona.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <Shlobj.h>}\ \ \textcolor{comment}{//\ Para\ SHGetKnownFolderPath}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <comdef.h>}\ \ \textcolor{comment}{//\ Para\ \_bstr\_t}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <KnownFolders.h>}\ \textcolor{comment}{//\ Para\ FOLDERID\_Desktop}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#pragma\ comment(lib,\ "{}shell32.lib"{})\ \ }\textcolor{comment}{//\ Enlazar\ con\ shell32.lib}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_banco_a686e51b219dc175e432e91559298b259}{Banco}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{class_nodo_persona}{NodoPersona}}*\ listaPersonas;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{class_banco_a686e51b219dc175e432e91559298b259}{Banco}}();}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{class_banco_af69f9b0da3521d7c1e422f21dfd5829e}{\string~Banco}}();}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{class_nodo_persona}{NodoPersona}}*\ \mbox{\hyperlink{class_banco_a0a4149e3430ba6db4e06a4c8d7eefdfb}{getListaPersonas}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ listaPersonas;\ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a2b7764295c3f7e880da1e26b8976d25e}{setListaPersonas}}(\mbox{\hyperlink{class_nodo_persona}{NodoPersona}}*\ nuevaLista)\ \{\ listaPersonas\ =\ nuevaLista;\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a72497b696331bb5df5c7d4734cae41b7}{agregarPersonaConCuenta}}();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a929b2bc9d1abb497f83d45efae2ca8b0}{guardarCuentasEnArchivo}}(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a929b2bc9d1abb497f83d45efae2ca8b0}{guardarCuentasEnArchivo}}();}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a859a084ce5a7bcff65fac6a6e1c719eb}{cargarCuentasDesdeArchivo}}(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a9dd7a2f74fd5c9179ffaa33a3b3c75a1}{buscarCuenta}}();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a7636e7e9160ca14b4b0adf7605f2427a}{buscarCuentasPorFecha}}(\textcolor{keyword}{const}\ std::string\&\ fecha)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a29df9b04dd7b719fd2086494c6202c58}{buscarCuentasPorCriterio}}();}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_banco_a7539fce5aa3e6de401be5f23614544e6}{realizarTransferencia}}();}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00111\ \ \ \ \ std::string\ \mbox{\hyperlink{class_banco_a8e0ba3bbd3888deabc02acbda87b398e}{formatearConComas}}(\textcolor{keywordtype}{double}\ valorEnCentavos)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00119\ \ \ \ \ std::string\ \mbox{\hyperlink{class_banco_abf60550bd5ca8ece0384da264db14d19}{obtenerRutaEscritorio}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00120\ \};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ BANCO\_H}}
+
+\end{DoxyCode}

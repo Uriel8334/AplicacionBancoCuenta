@@ -1,0 +1,656 @@
+\doxysection{Cuenta\+Ahorros Class Reference}
+\hypertarget{class_cuenta_ahorros}{}\label{class_cuenta_ahorros}\index{CuentaAhorros@{CuentaAhorros}}
+
+
+Clase que representa una cuenta de ahorros bancaria.  
+
+
+
+
+{\ttfamily \#include $<$Cuenta\+Ahorros.\+h$>$}
+
+Inheritance diagram for Cuenta\+Ahorros\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_cuenta_ahorros}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cuenta_ahorros_a680847a1ccdeb47bd853ca21c750add5}{Cuenta\+Ahorros}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros_a8eee2280b0b656e502f0b97ecd3cdddc}{Cuenta\+Ahorros}} (std\+::string num\+Cuenta, double \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}, const std\+::string \&fecha, const std\+::string \&estado, double tasa)
+\begin{DoxyCompactList}\small\item\em Constructor con parametros. \end{DoxyCompactList}\item 
+\Hypertarget{class_cuenta_ahorros_a292c15b6c06db82e8051ee5d5747b8d6}\label{class_cuenta_ahorros_a292c15b6c06db82e8051ee5d5747b8d6} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Cuenta\+Ahorros} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a358e4bcd48d712d389ce3deb9b7124cc}{set\+Tasa\+Interes}} (double tast)
+\begin{DoxyCompactList}\small\item\em Establece la tasa de interes de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a701dcc2f8263bd91135396cddb116789}{set\+Numero\+Cuenta}} (std\+::string num\+Cuenta)
+\begin{DoxyCompactList}\small\item\em Establece el numero de cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a9dfa68de8aa356473868e9c52b09721c}{set\+Saldo}} (double \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}})
+\begin{DoxyCompactList}\small\item\em Establece el saldo de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a2e4abf89f6c5c7593170353adb9d1cf8}{set\+Fecha\+Apertura}} (const std\+::string \&fecha)
+\begin{DoxyCompactList}\small\item\em Establece la fecha de apertura de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a7e503c70526241517f00ccbc12a31a2a}{set\+Estado\+Cuenta}} (const std\+::string \&estado)
+\begin{DoxyCompactList}\small\item\em Establece el estado de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_ahorros_ac6af028dc750dad4c7cd1885c7ebe2da}{set\+Cuenta\+Ahorros}} (\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}cuenta)
+\begin{DoxyCompactList}\small\item\em Devuelve una referencia a esta cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_ahorros_ad59f3394998047e8b7cbb056f5fb19eb}{set\+Siguiente}} (\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_cuenta_a38c71db83880937584e688c73293bd16}{siguiente}})
+\begin{DoxyCompactList}\small\item\em Establece la siguiente cuenta en la lista enlazada. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_ahorros_a0fa6622e4a4db1cc267b70b4166ce750}{set\+Anterior}} (\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_cuenta_a3067fbc6ff92db7c2368c362ac971447}{anterior}})
+\begin{DoxyCompactList}\small\item\em Establece la cuenta anterior en la lista enlazada. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a39c2c74a524ac3b1c91aae0781d9d816}{get\+Tasa\+Interes}} (double tasa)
+\begin{DoxyCompactList}\small\item\em Establece la tasa de interes (sobrecargado) \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ahorros_a399642ae6f2954e10fa690bc4027bf3c}{get\+Numero\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuenta. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ahorros_a338042c206bd7d6cc43f57008ff72329}{get\+Fecha\+Apertura}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha de apertura. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_ahorros_a6c9e11ce473055535403bf214851b167}{get\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el saldo actual de la cuenta. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ahorros_ae986e7b1fc36974bfa7258478ece1868}{get\+Estado\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el estado actual de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_ahorros_a823094ef261973cc28b7c55bbaec6510}{get\+Cuenta\+Ahorros}} ()
+\begin{DoxyCompactList}\small\item\em Obtiene una referencia a esta cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_ahorros_ae83bfb41c9572fec66c716a69762fb04}{get\+Siguiente}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la siguiente cuenta en la lista enlazada. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_ahorros_a94c792ea0e2560a10755ca76a789190f}{get\+Anterior}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la cuenta anterior en la lista enlazada. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a0d02e9c15deb0357dad0d7a2ba2abcf2}{depositar}} (double cantidad)
+\begin{DoxyCompactList}\small\item\em Realiza un deposito en la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_ab78486fdd790339add047a83f9705018}{retirar}} (double cantidad)
+\begin{DoxyCompactList}\small\item\em Realiza un retiro de la cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_ahorros_af2769e0d8cb9a35410094b8218354f67}{consultar\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Consulta el saldo disponible. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ahorros_aa11e5a220ece87807a2c2157da5fd3c3}{consultar\+Estado}} () const
+\begin{DoxyCompactList}\small\item\em Consulta el estado actual de la cuenta. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ahorros_a480fc36e1578d8c257852f629dfa72e5}{formatear\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Formatea el saldo para presentacion. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ahorros_a4804ea3882c9f403fcd9b111948c63d2}{formatear\+Con\+Comas}} (double \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}) const
+\begin{DoxyCompactList}\small\item\em Formatea un numero con separador de miles (comas) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_ac28d227b5af607eb36944ed868b5c237}{mostrar\+Informacion}} (const std\+::string \&cedula, bool limpiar\+Pantalla) const
+\begin{DoxyCompactList}\small\item\em Muestra la informacion detallada de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a2a015ce1391660edde530667fbae7873}{guardar\+En\+Archivo}} (const std\+::string \&nombre\+Archivo) const override
+\begin{DoxyCompactList}\small\item\em Guarda los datos de la cuenta en un archivo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_ahorros_a9a6eebad5676f147e069ed9db341268a}{cargar\+Desde\+Archivo}} (const std\+::string \&nombre\+Archivo) override
+\begin{DoxyCompactList}\small\item\em Carga los datos de la cuenta desde un archivo. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_cuenta_ahorros_aa8a21ac9e4e7c0b638bf60e07e60368d}{calcular\+Interes}} () const
+\begin{DoxyCompactList}\small\item\em Calcula el interes generado por la cuenta. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_cuenta}{Cuenta$<$ double $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{class_cuenta_a9e8eb69906fa334132a76b6d25ffcaae}{get\+Numero\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_ab3fa296ea7e22ec677f3998ff17684a8}{get\+Saldo}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el saldo actual. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha}{Fecha}} \mbox{\hyperlink{class_cuenta_a87d707df5ca54179381fad09d55ea38b}{get\+Fecha\+Apertura}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha de apertura. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_acc8a233f48241a8d757d70172b80813a}{get\+Estado\+Cuenta}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el estado actual de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_a0c887fe657734aa2d435f36c9d6c5124}{get\+Siguiente}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el puntero al siguiente nodo. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_aa798056d9b1f0db4d7db63a6b9b9472e}{get\+Anterior}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el puntero al nodo anterior. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_ab30fcc3c60b171460f3160bfb9b9524b}{set\+Numero\+Cuenta}} (const std\+::string \&numero)
+\begin{DoxyCompactList}\small\item\em Establece el numero de cuenta. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_cuenta_a9da5555b6815e9fa5b604ff58476564d}{set\+Saldo}} (double nuevo\+Saldo)
+\begin{DoxyCompactList}\small\item\em Establece el saldo de la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha}{Fecha}} \mbox{\hyperlink{class_cuenta_a207774598d28de5d8a5be35157da77e2}{set\+Fecha\+Apertura}} (const std\+::string \&fecha\+Str)
+\begin{DoxyCompactList}\small\item\em Establece la fecha de apertura. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cuenta_a8538df3276c6427036fd85092525a2d0}{set\+Estado\+Cuenta}} (const std\+::string \&estado)
+\begin{DoxyCompactList}\small\item\em Establece el estado de la cuenta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_a916c21c68c522a14b8ec99b4722c7c26}{set\+Siguiente}} (\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*}sig)
+\begin{DoxyCompactList}\small\item\em Establece el puntero al siguiente nodo. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cuenta_a04791338fd26606cd9915736b356bac9}{set\+Anterior}} (\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*}ant)
+\begin{DoxyCompactList}\small\item\em Establece el puntero al nodo anterior. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_cuenta}{Cuenta$<$ double $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_cuenta_a81f703a3656a58893da941235fa3300d}{\texorpdfstring{$\sim$}{\string~}\+Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Destructor virtual. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_cuenta}{Cuenta$<$ double $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries numero\+Cuenta}
+\begin{DoxyCompactList}\small\item\em Numero identificador unico de la cuenta. \end{DoxyCompactList}\item 
+double {\bfseries saldo}
+\begin{DoxyCompactList}\small\item\em Saldo actual disponible en la cuenta. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_fecha}{Fecha}} {\bfseries fecha\+Apertura}
+\begin{DoxyCompactList}\small\item\em \doxylink{class_fecha}{Fecha} en que se abrio la cuenta. \end{DoxyCompactList}\item 
+std\+::string {\bfseries estado\+Cuenta}
+\begin{DoxyCompactList}\small\item\em Estado actual de la cuenta (activa, inactiva, bloqueada, etc.) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} {\bfseries siguiente}
+\begin{DoxyCompactList}\small\item\em Puntero al siguiente nodo en la lista doblemente enlazada. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*} {\bfseries anterior}
+\begin{DoxyCompactList}\small\item\em Puntero al nodo anterior en la lista doblemente enlazada. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que representa una cuenta de ahorros bancaria. 
+
+Esta clase hereda de la clase abstracta \doxylink{class_cuenta}{Cuenta$<$double$>$} e implementa las funcionalidades especificas de una cuenta de ahorros, incluyendo el calculo de intereses y operaciones basicas bancarias. 
+
+\label{doc-constructors}
+\Hypertarget{class_cuenta_ahorros_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_cuenta_ahorros_a680847a1ccdeb47bd853ca21c750add5}\index{CuentaAhorros@{CuentaAhorros}!CuentaAhorros@{CuentaAhorros}}
+\index{CuentaAhorros@{CuentaAhorros}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{CuentaAhorros()}{CuentaAhorros()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a680847a1ccdeb47bd853ca21c750add5} 
+Cuenta\+Ahorros\+::\+Cuenta\+Ahorros (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor por defecto. 
+
+Inicializa una cuenta de ahorros con valores predeterminados \Hypertarget{class_cuenta_ahorros_a8eee2280b0b656e502f0b97ecd3cdddc}\index{CuentaAhorros@{CuentaAhorros}!CuentaAhorros@{CuentaAhorros}}
+\index{CuentaAhorros@{CuentaAhorros}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{CuentaAhorros()}{CuentaAhorros()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a8eee2280b0b656e502f0b97ecd3cdddc} 
+Cuenta\+Ahorros\+::\+Cuenta\+Ahorros (\begin{DoxyParamCaption}\item[{std\+::string}]{num\+Cuenta}{, }\item[{double}]{saldo}{, }\item[{const std\+::string \&}]{fecha}{, }\item[{const std\+::string \&}]{estado}{, }\item[{double}]{tasa}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor con parametros. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Cuenta} & Numero identificador de la cuenta \\
+\hline
+{\em saldo} & Saldo inicial de la cuenta \\
+\hline
+{\em fecha} & \doxylink{class_fecha}{Fecha} de apertura en formato de cadena \\
+\hline
+{\em estado} & Estado inicial de la cuenta \\
+\hline
+{\em tasa} & Tasa de interes anual aplicable a la cuenta \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_cuenta_ahorros_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cuenta_ahorros_aa8a21ac9e4e7c0b638bf60e07e60368d}\index{CuentaAhorros@{CuentaAhorros}!calcularInteres@{calcularInteres}}
+\index{calcularInteres@{calcularInteres}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{calcularInteres()}{calcularInteres()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_aa8a21ac9e4e7c0b638bf60e07e60368d} 
+int Cuenta\+Ahorros\+::calcular\+Interes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Calcula el interes generado por la cuenta. 
+
+Calcula el interes generado por la cuenta segun su tasa actual.
+
+\begin{DoxyReturn}{Returns}
+Interes calculado en base a la tasa y saldo actual
+
+int Valor del interes calculado basado en el saldo actual y la tasa de interes 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a9a6eebad5676f147e069ed9db341268a}\index{CuentaAhorros@{CuentaAhorros}!cargarDesdeArchivo@{cargarDesdeArchivo}}
+\index{cargarDesdeArchivo@{cargarDesdeArchivo}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{cargarDesdeArchivo()}{cargarDesdeArchivo()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a9a6eebad5676f147e069ed9db341268a} 
+void Cuenta\+Ahorros\+::cargar\+Desde\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Carga los datos de la cuenta desde un archivo. 
+
+Carga la informacion de la cuenta desde un archivo binario.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre\+Archivo} & Nombre del archivo desde donde cargar los datos\\
+\hline
+{\em nombre\+Archivo} & Ruta del archivo desde donde se cargara la informacion \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a255597a08fc4416a9316b3af7c8d8f01}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_aa11e5a220ece87807a2c2157da5fd3c3}\index{CuentaAhorros@{CuentaAhorros}!consultarEstado@{consultarEstado}}
+\index{consultarEstado@{consultarEstado}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{consultarEstado()}{consultarEstado()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_aa11e5a220ece87807a2c2157da5fd3c3} 
+std\+::string Cuenta\+Ahorros\+::consultar\+Estado (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Consulta el estado actual de la cuenta. 
+
+Metodo para consultar el estado de la cuenta de ahorros.
+
+\begin{DoxyReturn}{Returns}
+Estado de la cuenta como cadena
+
+std\+::string Retorna "{}\+ACTIVA"{} si no hay un estado explicito, o el estado actual de la cuenta 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_cuenta_afb6a369ee1b5d0f1afeeb33e2284389f}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_af2769e0d8cb9a35410094b8218354f67}\index{CuentaAhorros@{CuentaAhorros}!consultarSaldo@{consultarSaldo}}
+\index{consultarSaldo@{consultarSaldo}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{consultarSaldo()}{consultarSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_af2769e0d8cb9a35410094b8218354f67} 
+double Cuenta\+Ahorros\+::consultar\+Saldo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Consulta el saldo disponible. 
+
+Metodo para consultar el saldo actual de la cuenta de ahorros.
+
+\begin{DoxyReturn}{Returns}
+Saldo actual de la cuenta
+
+double Retorna el saldo actual de la cuenta 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a184eb70ffcafeaefbfb8f28c81ba3e1d}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_a0d02e9c15deb0357dad0d7a2ba2abcf2}\index{CuentaAhorros@{CuentaAhorros}!depositar@{depositar}}
+\index{depositar@{depositar}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{depositar()}{depositar()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a0d02e9c15deb0357dad0d7a2ba2abcf2} 
+void Cuenta\+Ahorros\+::depositar (\begin{DoxyParamCaption}\item[{double}]{cantidad}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Realiza un deposito en la cuenta. 
+
+Metodo para depositar una cantidad en la cuenta de ahorros.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a depositar\\
+\hline
+\end{DoxyParams}
+Valida que la cantidad sea positiva y que el saldo resultante no exceda el limite maximo establecido de \$15,000.\+00
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a depositar en la cuenta \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a1fdd97d3ef39c81820601098f4330c30}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_a4804ea3882c9f403fcd9b111948c63d2}\index{CuentaAhorros@{CuentaAhorros}!formatearConComas@{formatearConComas}}
+\index{formatearConComas@{formatearConComas}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{formatearConComas()}{formatearConComas()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a4804ea3882c9f403fcd9b111948c63d2} 
+std\+::string Cuenta\+Ahorros\+::formatear\+Con\+Comas (\begin{DoxyParamCaption}\item[{double}]{saldo}{}\end{DoxyParamCaption}) const}
+
+
+
+Formatea un numero con separador de miles (comas) 
+
+Metodo para formatear un valor en centavos a un string con comas y dos decimales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Valor a formatear \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cadena con el valor formateado
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Valor en centavos a formatear \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Valor formateado como cadena con formato de moneda 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a480fc36e1578d8c257852f629dfa72e5}\index{CuentaAhorros@{CuentaAhorros}!formatearSaldo@{formatearSaldo}}
+\index{formatearSaldo@{formatearSaldo}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{formatearSaldo()}{formatearSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a480fc36e1578d8c257852f629dfa72e5} 
+std\+::string Cuenta\+Ahorros\+::formatear\+Saldo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Formatea el saldo para presentacion. 
+
+Metodo para formatear el saldo de la cuenta con formato de moneda.
+
+\begin{DoxyReturn}{Returns}
+Saldo formateado como cadena
+
+std\+::string Saldo formateado con comas y dos decimales 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a94c792ea0e2560a10755ca76a789190f}\index{CuentaAhorros@{CuentaAhorros}!getAnterior@{getAnterior}}
+\index{getAnterior@{getAnterior}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getAnterior()}{getAnterior()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a94c792ea0e2560a10755ca76a789190f} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Cuenta\+Ahorros\+::get\+Anterior (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la cuenta anterior en la lista enlazada. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a la cuenta anterior, o nullptr si no existe 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a823094ef261973cc28b7c55bbaec6510}\index{CuentaAhorros@{CuentaAhorros}!getCuentaAhorros@{getCuentaAhorros}}
+\index{getCuentaAhorros@{getCuentaAhorros}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getCuentaAhorros()}{getCuentaAhorros()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a823094ef261973cc28b7c55bbaec6510} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Cuenta\+Ahorros\+::get\+Cuenta\+Ahorros (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene una referencia a esta cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_ae986e7b1fc36974bfa7258478ece1868}\index{CuentaAhorros@{CuentaAhorros}!getEstadoCuenta@{getEstadoCuenta}}
+\index{getEstadoCuenta@{getEstadoCuenta}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getEstadoCuenta()}{getEstadoCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_ae986e7b1fc36974bfa7258478ece1868} 
+std\+::string Cuenta\+Ahorros\+::get\+Estado\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el estado actual de la cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Estado de la cuenta como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a338042c206bd7d6cc43f57008ff72329}\index{CuentaAhorros@{CuentaAhorros}!getFechaApertura@{getFechaApertura}}
+\index{getFechaApertura@{getFechaApertura}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getFechaApertura()}{getFechaApertura()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a338042c206bd7d6cc43f57008ff72329} 
+std\+::string Cuenta\+Ahorros\+::get\+Fecha\+Apertura (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la fecha de apertura. 
+
+\begin{DoxyReturn}{Returns}
+\doxylink{class_fecha}{Fecha} de apertura como cadena formateada 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a399642ae6f2954e10fa690bc4027bf3c}\index{CuentaAhorros@{CuentaAhorros}!getNumeroCuenta@{getNumeroCuenta}}
+\index{getNumeroCuenta@{getNumeroCuenta}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getNumeroCuenta()}{getNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a399642ae6f2954e10fa690bc4027bf3c} 
+std\+::string Cuenta\+Ahorros\+::get\+Numero\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el numero de cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Numero de cuenta como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a6c9e11ce473055535403bf214851b167}\index{CuentaAhorros@{CuentaAhorros}!getSaldo@{getSaldo}}
+\index{getSaldo@{getSaldo}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getSaldo()}{getSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a6c9e11ce473055535403bf214851b167} 
+double Cuenta\+Ahorros\+::get\+Saldo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el saldo actual de la cuenta. 
+
+\begin{DoxyReturn}{Returns}
+Saldo de la cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_ae83bfb41c9572fec66c716a69762fb04}\index{CuentaAhorros@{CuentaAhorros}!getSiguiente@{getSiguiente}}
+\index{getSiguiente@{getSiguiente}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getSiguiente()}{getSiguiente()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_ae83bfb41c9572fec66c716a69762fb04} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Cuenta\+Ahorros\+::get\+Siguiente (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la siguiente cuenta en la lista enlazada. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a la siguiente cuenta, o nullptr si no existe 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a39c2c74a524ac3b1c91aae0781d9d816}\index{CuentaAhorros@{CuentaAhorros}!getTasaInteres@{getTasaInteres}}
+\index{getTasaInteres@{getTasaInteres}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{getTasaInteres()}{getTasaInteres()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a39c2c74a524ac3b1c91aae0781d9d816} 
+void Cuenta\+Ahorros\+::get\+Tasa\+Interes (\begin{DoxyParamCaption}\item[{double}]{tasa}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la tasa de interes (sobrecargado) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tasa} & Nueva tasa de interes \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_ahorros_a2a015ce1391660edde530667fbae7873}\index{CuentaAhorros@{CuentaAhorros}!guardarEnArchivo@{guardarEnArchivo}}
+\index{guardarEnArchivo@{guardarEnArchivo}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{guardarEnArchivo()}{guardarEnArchivo()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a2a015ce1391660edde530667fbae7873} 
+void Cuenta\+Ahorros\+::guardar\+En\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Guarda los datos de la cuenta en un archivo. 
+
+Guarda la informacion de la cuenta en un archivo binario.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre\+Archivo} & Nombre del archivo donde guardar los datos\\
+\hline
+{\em nombre\+Archivo} & Ruta del archivo donde se guardara la informacion \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_a2fffb74920cd26dc62b570bfbfaa11a1}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_ac28d227b5af607eb36944ed868b5c237}\index{CuentaAhorros@{CuentaAhorros}!mostrarInformacion@{mostrarInformacion}}
+\index{mostrarInformacion@{mostrarInformacion}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{mostrarInformacion()}{mostrarInformacion()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_ac28d227b5af607eb36944ed868b5c237} 
+void Cuenta\+Ahorros\+::mostrar\+Informacion (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{cedula}{ = {\ttfamily "{}"{}}, }\item[{bool}]{limpiar\+Pantalla}{ = {\ttfamily true}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Muestra la informacion detallada de la cuenta. 
+
+Muestra la informacion completa de la cuenta de ahorros.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Cedula del titular \\
+\hline
+{\em limpiar\+Pantalla} & Indica si debe limpiarse la pantalla antes de mostrar la informacion\\
+\hline
+\end{DoxyParams}
+Presenta en consola los detalles de la cuenta incluyendo numero, fecha de apertura, estado, saldo actual y tasa de interes
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Cedula del titular (opcional) \\
+\hline
+{\em limpiar\+Pantalla} & Indica si debe limpiarse la pantalla antes de mostrar informacion (por defecto true) \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_af06abcd44cbfe8699d0982cea72f3379}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_ab78486fdd790339add047a83f9705018}\index{CuentaAhorros@{CuentaAhorros}!retirar@{retirar}}
+\index{retirar@{retirar}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{retirar()}{retirar()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_ab78486fdd790339add047a83f9705018} 
+void Cuenta\+Ahorros\+::retirar (\begin{DoxyParamCaption}\item[{double}]{cantidad}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Realiza un retiro de la cuenta. 
+
+Metodo para retirar una cantidad de la cuenta de ahorros.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a retirar\\
+\hline
+\end{DoxyParams}
+Verifica que la cuenta tenga fondos suficientes para realizar el retiro
+
+
+\begin{DoxyParams}{Parameters}
+{\em cantidad} & Monto a retirar de la cuenta \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_cuenta_acd5f76a510d253a5e3d8ac752e800d97}{Cuenta$<$ double $>$}}.
+
+\Hypertarget{class_cuenta_ahorros_a0fa6622e4a4db1cc267b70b4166ce750}\index{CuentaAhorros@{CuentaAhorros}!setAnterior@{setAnterior}}
+\index{setAnterior@{setAnterior}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setAnterior()}{setAnterior()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a0fa6622e4a4db1cc267b70b4166ce750} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Cuenta\+Ahorros\+::set\+Anterior (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}}]{anterior}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la cuenta anterior en la lista enlazada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em anterior} & Puntero a la cuenta anterior \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_ac6af028dc750dad4c7cd1885c7ebe2da}\index{CuentaAhorros@{CuentaAhorros}!setCuentaAhorros@{setCuentaAhorros}}
+\index{setCuentaAhorros@{setCuentaAhorros}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setCuentaAhorros()}{setCuentaAhorros()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_ac6af028dc750dad4c7cd1885c7ebe2da} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Cuenta\+Ahorros\+::set\+Cuenta\+Ahorros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}}]{cuenta}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Devuelve una referencia a esta cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cuenta} & Puntero a una cuenta de ahorros (no utilizado) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a7e503c70526241517f00ccbc12a31a2a}\index{CuentaAhorros@{CuentaAhorros}!setEstadoCuenta@{setEstadoCuenta}}
+\index{setEstadoCuenta@{setEstadoCuenta}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setEstadoCuenta()}{setEstadoCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a7e503c70526241517f00ccbc12a31a2a} 
+void Cuenta\+Ahorros\+::set\+Estado\+Cuenta (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{estado}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el estado de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em estado} & Nuevo estado \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_ahorros_a2e4abf89f6c5c7593170353adb9d1cf8}\index{CuentaAhorros@{CuentaAhorros}!setFechaApertura@{setFechaApertura}}
+\index{setFechaApertura@{setFechaApertura}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setFechaApertura()}{setFechaApertura()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a2e4abf89f6c5c7593170353adb9d1cf8} 
+void Cuenta\+Ahorros\+::set\+Fecha\+Apertura (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{fecha}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la fecha de apertura de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha} & Nueva fecha en formato de cadena \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_ahorros_a701dcc2f8263bd91135396cddb116789}\index{CuentaAhorros@{CuentaAhorros}!setNumeroCuenta@{setNumeroCuenta}}
+\index{setNumeroCuenta@{setNumeroCuenta}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setNumeroCuenta()}{setNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a701dcc2f8263bd91135396cddb116789} 
+void Cuenta\+Ahorros\+::set\+Numero\+Cuenta (\begin{DoxyParamCaption}\item[{std\+::string}]{num\+Cuenta}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el numero de cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Cuenta} & Nuevo numero de cuenta \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_ahorros_a9dfa68de8aa356473868e9c52b09721c}\index{CuentaAhorros@{CuentaAhorros}!setSaldo@{setSaldo}}
+\index{setSaldo@{setSaldo}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setSaldo()}{setSaldo()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a9dfa68de8aa356473868e9c52b09721c} 
+void Cuenta\+Ahorros\+::set\+Saldo (\begin{DoxyParamCaption}\item[{double}]{saldo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el saldo de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Nuevo saldo \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cuenta_ahorros_ad59f3394998047e8b7cbb056f5fb19eb}\index{CuentaAhorros@{CuentaAhorros}!setSiguiente@{setSiguiente}}
+\index{setSiguiente@{setSiguiente}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setSiguiente()}{setSiguiente()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_ad59f3394998047e8b7cbb056f5fb19eb} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Cuenta\+Ahorros\+::set\+Siguiente (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}}]{siguiente}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la siguiente cuenta en la lista enlazada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em siguiente} & Puntero a la siguiente cuenta \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a esta cuenta 
+\end{DoxyReturn}
+\Hypertarget{class_cuenta_ahorros_a358e4bcd48d712d389ce3deb9b7124cc}\index{CuentaAhorros@{CuentaAhorros}!setTasaInteres@{setTasaInteres}}
+\index{setTasaInteres@{setTasaInteres}!CuentaAhorros@{CuentaAhorros}}
+\doxysubsubsection{\texorpdfstring{setTasaInteres()}{setTasaInteres()}}
+{\footnotesize\ttfamily \label{class_cuenta_ahorros_a358e4bcd48d712d389ce3deb9b7124cc} 
+void Cuenta\+Ahorros\+::set\+Tasa\+Interes (\begin{DoxyParamCaption}\item[{double}]{tast}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la tasa de interes de la cuenta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tast} & Nueva tasa de interes \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Cuenta\+Ahorros.\+h\item 
+\mbox{\hyperlink{_cuenta_ahorros_8cpp}{Cuenta\+Ahorros.\+cpp}}\end{DoxyCompactItemize}
