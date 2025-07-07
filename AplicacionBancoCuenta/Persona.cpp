@@ -525,127 +525,122 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
  */
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
-	// Ingreso correo y validacion con getch, simbolos validos, sin espacios ni dos puntos seguidos, y limites de longitud
-	do {
-		system("cls");
-		std::cout << msgIngresoDatos() << endl;
-		cout << "Ingrese el correo: ";
-		correo.clear();
-		int atCount = 0;
-		int localLen = 0;
-		int domainLen = 0;
-		bool enDominio = false;
-		char prevChar = '\0';
-		while (true) {
-			char tecla = _getch();
+    do {
+        system("cls");
+        std::cout << msgIngresoDatos() << std::endl;
+        std::cout << "Ingrese el correo: ";
+        correo.clear();
 
-			// Ignorar teclas especiales (flechas, etc.)
-			if (tecla == 0 || tecla == -32 || tecla == 224) {
-				int teclaCualquiera = _getch();
-				(void)teclaCualquiera; // Consumir la tecla especial
-				continue;
-			}
+        std::string correoBase = "";
+        char c;
+        int x = 0, y = 0;
+        bool eligiendo = false;
+        int seleccion = 0;
+        bool correoCompleto = false;
 
-			// Enter
-			if (tecla == 13 && !correo.empty()) {
-				cout << endl;
-				break;
-			}
-			// Backspace
-			else if (tecla == 8 && !correo.empty()) {
-				if (correo.back() == '@') {
-					atCount--;
-					enDominio = false;
-					domainLen = 0;
-				}
-				else if (!enDominio) {
-					localLen--;
-				}
-				else {
-					domainLen--;
-				}
-				correo.pop_back();
-				cout << "\b \b";
-				prevChar = correo.empty() ? '\0' : correo.back();
-			}
-			// No permitir espacios
-			else if (tecla == ' ') {
-				continue;
-			}
-			// No permitir dos puntos seguidos
-			else if (tecla == '.' && prevChar == '.') {
-				continue;
-			}
-			// Solo un '@' y no al inicio
-			else if (tecla == '@') {
-				if (atCount == 0 && !correo.empty() && !enDominio && localLen > 0) {
-					correo += tecla;
-					atCount++;
-					enDominio = true;
-					cout << tecla;
-					prevChar = tecla;
-				}
-			}
-			// Permitir simbolos validos internacionalmente en la parte local
-			else if (!enDominio &&
-				localLen < 64 &&
-				((tecla >= 'A' && tecla <= 'Z') || (tecla >= 'a' && tecla <= 'z') ||
-					(tecla >= '0' && tecla <= '9') ||
-					std::string("!#$%&'*+/=?^_`{|}~.-").find(tecla) != std::string::npos)) {
-				correo += tecla;
-				localLen++;
-				cout << tecla;
-				prevChar = tecla;
-			}
-			// Permitir simbolos validos en el dominio (solo letras, numeros, guion y punto)
-			else if (enDominio &&
-				domainLen < 255 &&
-				((tecla >= 'A' && tecla <= 'Z') || (tecla >= 'a' && tecla <= 'z') ||
-					(tecla >= '0' && tecla <= '9') ||
-					tecla == '-' || tecla == '.')) {
-				correo += tecla;
-				domainLen++;
-				cout << tecla;
-				prevChar = tecla;
-			}
-			// Ignorar cualquier otro caracter
-		}
-		// Validar formato general y restricciones
-		// No permitir dos puntos seguidos, ni al inicio/final de local o dominio
-		bool formatoValido = false;
-		std::regex pattern(R"(^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}@[A-Za-z0-9.-]{1,255}\.[A-Za-z]{2,}$)");
-		if (correo.find("..") == std::string::npos &&
-			correo.find(' ') == std::string::npos &&
-			std::regex_match(correo, pattern)) {
-			// No punto al inicio/final de local o dominio
-			auto atPos = correo.find('@');
-			if (atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1) {
-				string local = correo.substr(0, atPos);
-				string domain = correo.substr(atPos + 1);
-				if (local.front() != '.' && local.back() != '.' &&
-					domain.front() != '.' && domain.back() != '.') {
-					formatoValido = true;
-				}
-			}
-		}
-		if (!correo.empty()) { // Si el correo no esta vacio
-			if (!formatoValido) {
-				cout << "Correo invalido, presione cualquier tecla para volver a ingresar." << endl;
-				int teclaCualquiera = _getch();
-				(void)teclaCualquiera;
-			}
-			else {
-				break; // Salir del bucle si el correo es valido
-			}
-		}
-		else { // Si el correo esta vacio
-			cout << "El correo no puede estar vacio, presione cualquier tecla para volver a ingresar." << endl;
-			int teclaCualquiera = _getch();
-			(void)teclaCualquiera;
-		}
-	} while (true);
+        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        std::string dominios[] = { "gmail.com", "hotmail.com", "outlook.com" };
+        const int numDominios = 3;
 
-	return correo; // Retorna el correo ingresado
+        auto mostrarOpciones = [&](int x, int y, int seleccion) {
+            for (int i = 0; i < numDominios; ++i) {
+                COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
+                SetConsoleCursorPosition(h, pos);
+                if (i == seleccion) {
+                    std::cout << "> " << dominios[i] << " <";
+                } else {
+                    std::cout << "  " << dominios[i] << "  ";
+                }
+            }
+        };
+
+        auto limpiarOpciones = [&](int x, int y) {
+            for (int i = 0; i < numDominios; ++i) {
+                COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
+                SetConsoleCursorPosition(h, pos);
+                std::cout << "                   ";
+            }
+            // Regresar el cursor justo después del '@'
+            COORD pos = { (SHORT)x, (SHORT)y };
+            SetConsoleCursorPosition(h, pos);
+        };
+
+        while (!correoCompleto) {
+            c = _getch();
+
+            if (eligiendo) {
+                if ((unsigned char)c == 224) {
+                    char tecla = _getch();
+                    if (tecla == 72 && seleccion > 0) { // flecha arriba
+                        seleccion--;
+                    } else if (tecla == 80 && seleccion < numDominios - 1) { // flecha abajo
+                        seleccion++;
+                    }
+                    mostrarOpciones(x, y, seleccion);
+                } else if (c == 13) { // Enter para elegir dominio
+                    limpiarOpciones(x, y);
+                    correoBase += dominios[seleccion];
+                    std::cout << dominios[seleccion];
+                    eligiendo = false;
+                }
+            } else {
+                if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
+                    // Segundo enter: finalizar correo
+                    correoCompleto = true;
+                    std::cout << std::endl;
+                    break;
+                }
+                // Permitir backspace antes de elegir dominio
+                if (c == 8 && !correoBase.empty()) {
+                    if (correoBase.back() == '@') {
+                        // Si borra el arroba, limpiar opciones si estaban
+                        if (eligiendo) {
+                            limpiarOpciones(x, y);
+                            eligiendo = false;
+                        }
+                    }
+                    std::cout << "\b \b";
+                    correoBase.pop_back();
+                }
+                else if (isprint(c) && c != ' ') {
+                    std::cout << c;
+                    correoBase += c;
+                    if (c == '@') {
+                        GetConsoleScreenBufferInfo(h, &csbi);
+                        x = csbi.dwCursorPosition.X;
+                        y = csbi.dwCursorPosition.Y;
+                        eligiendo = true;
+                        seleccion = 0;
+                        mostrarOpciones(x, y, seleccion);
+                    }
+                }
+            }
+        }
+
+        correo = correoBase;
+
+        // Validación básica de correo
+        size_t atPos = correo.find('@');
+        bool formatoValido = atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1;
+        if (!correo.empty()) {
+            if (!formatoValido) {
+                std::cout << "\nCorreo invalido, presione cualquier tecla para volver a ingresar." << std::endl;
+                int teclaCualquiera = _getch();
+                (void)teclaCualquiera;
+            }
+            else {
+                break; // Salir del bucle si el correo es valido
+            }
+        }
+        else {
+            std::cout << "\nEl correo no puede estar vacio, presione cualquier tecla para volver a ingresar." << std::endl;
+            int teclaCualquiera = _getch();
+            (void)teclaCualquiera;
+        }
+    } while (true);
+
+    return correo;
 }
 
 /**
