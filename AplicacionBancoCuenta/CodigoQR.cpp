@@ -1,4 +1,12 @@
-﻿#include <algorithm>
+﻿/**
+ * @file CodigoQR.cpp
+ * @brief Implementación de las clases QrSegment y QrCode para generación de códigos QR
+ *
+ * Este archivo contiene la implementación completa de la biblioteca para
+ * generar códigos QR. Incluye algoritmos para codificación de datos,
+ * corrección de errores Reed-Solomon y generación de la matriz del código QR.
+ */
+#include <algorithm>
 #include <cassert>
 #include <climits>
 #include <cstddef>
@@ -17,6 +25,14 @@ namespace CodigoQR {
 
 	/*---- Class QrSegment ----*/
 
+	/**
+	 * @brief Constructor de Mode para definir modos de codificación QR
+	 *
+	 * @param mode Bits del modo de codificación
+	 * @param cc0 Bits del contador de caracteres para versiones 1-9
+	 * @param cc1 Bits del contador de caracteres para versiones 10-26
+	 * @param cc2 Bits del contador de caracteres para versiones 27-40
+	 */
 	QrSegment::Mode::Mode(int mode, int cc0, int cc1, int cc2) :
 		modeBits(mode) {
 		numBitsCharCount[0] = cc0;
@@ -24,23 +40,58 @@ namespace CodigoQR {
 		numBitsCharCount[2] = cc2;
 	}
 
-
+	/**
+	 * @brief Obtiene los bits que identifican este modo en un código QR
+	 *
+	 * @return Valor entero que representa los bits del modo
+	 */
 	int QrSegment::Mode::getModeBits() const {
 		return modeBits;
 	}
 
-
+	/**
+	 * @brief Obtiene la cantidad de bits necesarios para el contador de caracteres
+	 *
+	 * @param ver Versión del código QR (1-40)
+	 * @return Número de bits para el contador de caracteres
+	 */
 	int QrSegment::Mode::numCharCountBits(int ver) const {
 		return numBitsCharCount[(ver + 7) / 17];
 	}
 
+	// Constantes para los modos de codificación
+	/**
+	 * @brief Modo numérico, solo permite dígitos 0-9
+	 */
 	const QrSegment::Mode QrSegment::Mode::NUMERIC(0x1, 10, 12, 14);
+
+	/**
+	 * @brief Modo alfanumérico, permite dígitos, letras mayúsculas y algunos símbolos
+	 */
 	const QrSegment::Mode QrSegment::Mode::ALPHANUMERIC(0x2, 9, 11, 13);
+
+	/**
+	 * @brief Modo byte, permite cualquier dato en bytes
+	 */
 	const QrSegment::Mode QrSegment::Mode::BYTE(0x4, 8, 16, 16);
+
+	/**
+	 * @brief Modo Kanji, para caracteres japoneses
+	 */
 	const QrSegment::Mode QrSegment::Mode::KANJI(0x8, 8, 10, 12);
+
+	/**
+	 * @brief Modo ECI (Extended Channel Interpretation)
+	 */
 	const QrSegment::Mode QrSegment::Mode::ECI(0x7, 0, 0, 0);
 
-
+	/**
+	 * @brief Crea un segmento QR a partir de bytes de datos
+	 *
+	 * @param data Vector de bytes a codificar
+	 * @return Un segmento QR en modo BYTE
+	 * @throws std::length_error Si los datos son demasiado grandes
+	 */
 	QrSegment QrSegment::makeBytes(const vector<uint8_t>& data) {
 		if (data.size() > static_cast<unsigned int>(INT_MAX))
 			throw std::length_error("Data too long");
@@ -50,7 +101,13 @@ namespace CodigoQR {
 		return QrSegment(Mode::BYTE, static_cast<int>(data.size()), std::move(bb));
 	}
 
-
+	/**
+	 * @brief Crea un segmento QR para datos numéricos
+	 *
+	 * @param digits Cadena de caracteres con dígitos numéricos
+	 * @return Un segmento QR en modo NUMERIC
+	 * @throws std::domain_error Si la cadena contiene caracteres no numéricos
+	 */
 	QrSegment QrSegment::makeNumeric(const char* digits) {
 		BitBuffer bb;
 		int accumData = 0;
@@ -73,7 +130,13 @@ namespace CodigoQR {
 		return QrSegment(Mode::NUMERIC, charCount, std::move(bb));
 	}
 
-
+	/**
+	 * @brief Crea un segmento QR para datos alfanuméricos
+	 *
+	 * @param text Cadena de caracteres con datos alfanuméricos
+	 * @return Un segmento QR en modo ALPHANUMERIC
+	 * @throws std::domain_error Si la cadena contiene caracteres no codificables
+	 */
 	QrSegment QrSegment::makeAlphanumeric(const char* text) {
 		BitBuffer bb;
 		int accumData = 0;
@@ -96,7 +159,12 @@ namespace CodigoQR {
 		return QrSegment(Mode::ALPHANUMERIC, charCount, std::move(bb));
 	}
 
-
+	/**
+	 * @brief Crea segmentos QR automáticamente seleccionando el modo más eficiente
+	 *
+	 * @param text Cadena de caracteres a codificar
+	 * @return Vector de segmentos QR con la codificación más eficiente
+	 */
 	vector<QrSegment> QrSegment::makeSegments(const char* text) {
 		// Select the most efficient segment encoding automatically
 		vector<QrSegment> result;
@@ -114,7 +182,13 @@ namespace CodigoQR {
 		return result;
 	}
 
-
+	/**
+	 * @brief Crea un segmento ECI con el valor de asignación especificado
+	 *
+	 * @param assignVal Valor de asignación ECI
+	 * @return Un segmento QR de tipo ECI
+	 * @throws std::domain_error Si el valor está fuera del rango permitido
+	 */
 	QrSegment QrSegment::makeEci(long assignVal) {
 		BitBuffer bb;
 		if (assignVal < 0)
@@ -134,7 +208,14 @@ namespace CodigoQR {
 		return QrSegment(Mode::ECI, 0, std::move(bb));
 	}
 
-
+	/**
+	 * @brief Constructor de QrSegment con vector de bool
+	 *
+	 * @param md Modo de codificación del segmento
+	 * @param numCh Número de caracteres representados
+	 * @param dt Vector de bits que contiene los datos codificados
+	 * @throws std::domain_error Si el número de caracteres es negativo
+	 */
 	QrSegment::QrSegment(const Mode& md, int numCh, const std::vector<bool>& dt) :
 		mode(&md),
 		numChars(numCh),
@@ -143,7 +224,14 @@ namespace CodigoQR {
 			throw std::domain_error("Invalid value");
 	}
 
-
+	/**
+	 * @brief Constructor de QrSegment con movimiento del vector de datos
+	 *
+	 * @param md Modo de codificación del segmento
+	 * @param numCh Número de caracteres representados
+	 * @param dt Vector de bits que contiene los datos codificados (movido)
+	 * @throws std::domain_error Si el número de caracteres es negativo
+	 */
 	QrSegment::QrSegment(const Mode& md, int numCh, std::vector<bool>&& dt) :
 		mode(&md),
 		numChars(numCh),
@@ -152,7 +240,13 @@ namespace CodigoQR {
 			throw std::domain_error("Invalid value");
 	}
 
-
+	/**
+	 * @brief Calcula el número total de bits para un conjunto de segmentos
+	 *
+	 * @param segs Vector de segmentos QR
+	 * @param version Versión del código QR
+	 * @return Número total de bits necesarios o -1 si hay un error
+	 */
 	int QrSegment::getTotalBits(const vector<QrSegment>& segs, int version) {
 		int result = 0;
 		for (const QrSegment& seg : segs) {
@@ -169,7 +263,12 @@ namespace CodigoQR {
 		return result;
 	}
 
-
+	/**
+	 * @brief Verifica si una cadena contiene solo caracteres numéricos
+	 *
+	 * @param text Cadena de caracteres a verificar
+	 * @return true si solo contiene dígitos, false en caso contrario
+	 */
 	bool QrSegment::isNumeric(const char* text) {
 		for (; *text != '\0'; text++) {
 			char c = *text;
@@ -179,7 +278,12 @@ namespace CodigoQR {
 		return true;
 	}
 
-
+	/**
+	 * @brief Verifica si una cadena contiene solo caracteres alfanuméricos válidos
+	 *
+	 * @param text Cadena de caracteres a verificar
+	 * @return true si solo contiene caracteres alfanuméricos válidos, false en caso contrario
+	 */
 	bool QrSegment::isAlphanumeric(const char* text) {
 		for (; *text != '\0'; text++) {
 			if (std::strchr(ALPHANUMERIC_CHARSET, *text) == nullptr)
@@ -188,28 +292,49 @@ namespace CodigoQR {
 		return true;
 	}
 
-
+	/**
+	 * @brief Obtiene el modo de codificación del segmento
+	 *
+	 * @return Referencia al modo de codificación
+	 */
 	const QrSegment::Mode& QrSegment::getMode() const {
 		return *mode;
 	}
 
-
+	/**
+	 * @brief Obtiene el número de caracteres en el segmento
+	 *
+	 * @return Número de caracteres
+	 */
 	int QrSegment::getNumChars() const {
 		return numChars;
 	}
 
-
+	/**
+	 * @brief Obtiene los datos binarios del segmento
+	 *
+	 * @return Referencia al vector de bits
+	 */
 	const std::vector<bool>& QrSegment::getData() const {
 		return data;
 	}
 
-
+	/**
+	 * @brief Conjunto de caracteres permitidos en el modo alfanumérico
+	 */
 	const char* QrSegment::ALPHANUMERIC_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
 
 
 
 	/*---- Class QrCode ----*/
 
+	/**
+	 * @brief Obtiene los bits de formato para un nivel de corrección de errores
+	 *
+	 * @param ecl Nivel de corrección de errores
+	 * @return Valor entero con los bits de formato
+	 * @throws std::logic_error Si el nivel de corrección no es válido
+	 */
 	int QrCode::getFormatBits(Ecc ecl) {
 		switch (ecl) {
 		case Ecc::LOW:  return 1;
@@ -220,19 +345,43 @@ namespace CodigoQR {
 		}
 	}
 
-
+	/**
+	 * @brief Codifica texto en un código QR
+	 *
+	 * @param text Texto a codificar
+	 * @param ecl Nivel de corrección de errores
+	 * @return Objeto QrCode que contiene el código generado
+	 */
 	QrCode QrCode::encodeText(const char* text, Ecc ecl) {
 		vector<QrSegment> segs = QrSegment::makeSegments(text);
 		return encodeSegments(segs, ecl);
 	}
 
-
+	/**
+	 * @brief Codifica datos binarios en un código QR
+	 *
+	 * @param data Vector de bytes a codificar
+	 * @param ecl Nivel de corrección de errores
+	 * @return Objeto QrCode que contiene el código generado
+	 */
 	QrCode QrCode::encodeBinary(const vector<uint8_t>& data, Ecc ecl) {
 		vector<QrSegment> segs{ QrSegment::makeBytes(data) };
 		return encodeSegments(segs, ecl);
 	}
 
-
+	/**
+	 * @brief Codifica segmentos en un código QR con opciones avanzadas
+	 *
+	 * @param segs Vector de segmentos a codificar
+	 * @param ecl Nivel de corrección de errores
+	 * @param minVersion Versión mínima a usar (1-40)
+	 * @param maxVersion Versión máxima a usar (1-40)
+	 * @param mask Patrón de máscara (-1 para automático)
+	 * @param boostEcl Aumentar nivel de corrección si hay espacio
+	 * @return Objeto QrCode que contiene el código generado
+	 * @throws std::invalid_argument Si los parámetros son inválidos
+	 * @throws data_too_long Si los datos son demasiado grandes para la versión
+	 */
 	QrCode QrCode::encodeSegments(const vector<QrSegment>& segs, Ecc ecl,
 		int minVersion, int maxVersion, int mask, bool boostEcl) {
 		if (!(MIN_VERSION <= minVersion && minVersion <= maxVersion && maxVersion <= MAX_VERSION) || mask < -1 || mask > 7)
@@ -293,7 +442,15 @@ namespace CodigoQR {
 		return QrCode(version, ecl, dataCodewords, mask);
 	}
 
-
+	/**
+	 * @brief Constructor principal de QrCode
+	 *
+	 * @param ver Versión del código QR (1-40)
+	 * @param ecl Nivel de corrección de errores
+	 * @param dataCodewords Vector con los bytes de datos
+	 * @param msk Patrón de máscara (-1 para selección automática)
+	 * @throws std::domain_error Si los parámetros están fuera de rango
+	 */
 	QrCode::QrCode(int ver, Ecc ecl, const vector<uint8_t>& dataCodewords, int msk) :
 		// Initialize fields and check arguments
 		version(ver),
@@ -335,32 +492,56 @@ namespace CodigoQR {
 		isFunction.shrink_to_fit();
 	}
 
-
+	/**
+	 * @brief Obtiene la versión del código QR
+	 *
+	 * @return Versión (1-40)
+	 */
 	int QrCode::getVersion() const {
 		return version;
 	}
 
-
+	/**
+	 * @brief Obtiene el tamaño del código QR en módulos
+	 *
+	 * @return Tamaño en módulos (pixeles)
+	 */
 	int QrCode::getSize() const {
 		return size;
 	}
 
-
+	/**
+	 * @brief Obtiene el nivel de corrección de errores
+	 *
+	 * @return Nivel de corrección de errores
+	 */
 	QrCode::Ecc QrCode::getErrorCorrectionLevel() const {
 		return errorCorrectionLevel;
 	}
 
-
+	/**
+	 * @brief Obtiene el patrón de máscara utilizado
+	 *
+	 * @return Patrón de máscara (0-7)
+	 */
 	int QrCode::getMask() const {
 		return mask;
 	}
 
-
+	/**
+	 * @brief Verifica si un módulo está activo (oscuro) en las coordenadas especificadas
+	 *
+	 * @param x Coordenada X
+	 * @param y Coordenada Y
+	 * @return true si el módulo está activo, false en caso contrario
+	 */
 	bool QrCode::getModule(int x, int y) const {
 		return 0 <= x && x < size && 0 <= y && y < size && module(x, y);
 	}
 
-
+	/**
+	 * @brief Dibuja los patrones de función fijos del código QR
+	 */
 	void QrCode::drawFunctionPatterns() {
 		// Draw horizontal and vertical timing patterns
 		for (int i = 0; i < size; i++) {
@@ -389,7 +570,15 @@ namespace CodigoQR {
 		drawVersion();
 	}
 
-
+	/**
+	 * @brief Dibuja los bits de formato en el código QR
+	 *
+	 * Los bits de formato contienen información sobre el nivel de corrección de errores
+	 * y el patrón de máscara utilizado. Esta función dibuja estos bits en las posiciones
+	 * específicas requeridas por el estándar QR.
+	 *
+	 * @param msk Patrón de máscara a utilizar (0-7)
+	 */
 	void QrCode::drawFormatBits(int msk) {
 		// Calculate error correction code and pack bits
 		int data = getFormatBits(errorCorrectionLevel) << 3 | msk;  // errCorrLvl is uint2, msk is uint3
@@ -416,7 +605,12 @@ namespace CodigoQR {
 		setFunctionModule(8, size - 8, true);  // Always dark
 	}
 
-
+	/**
+	 * @brief Dibuja la información de versión si el código QR es versión 7 o superior
+	 *
+	 * Para códigos QR de versión 7 o superior, se debe incluir información
+	 * de la versión en ubicaciones específicas.
+	 */
 	void QrCode::drawVersion() {
 		if (version < 7)
 			return;
@@ -438,7 +632,15 @@ namespace CodigoQR {
 		}
 	}
 
-
+	/**
+	 * @brief Dibuja un patrón de búsqueda (finder pattern) en la posición especificada
+	 *
+	 * Los patrones de búsqueda son marcadores cuadrados ubicados en tres esquinas
+	 * del código QR que ayudan al escáner a localizar y orientar el código.
+	 *
+	 * @param x Coordenada X del centro del patrón
+	 * @param y Coordenada Y del centro del patrón
+	 */
 	void QrCode::drawFinderPattern(int x, int y) {
 		for (int dy = -4; dy <= 4; dy++) {
 			for (int dx = -4; dx <= 4; dx++) {
@@ -450,7 +652,15 @@ namespace CodigoQR {
 		}
 	}
 
-
+	/**
+	 * @brief Dibuja un patrón de alineación en la posición especificada
+	 *
+	 * Los patrones de alineación son marcadores más pequeños que ayudan
+	 * a corregir la distorsión en códigos QR de mayor tamaño.
+	 *
+	 * @param x Coordenada X del centro del patrón
+	 * @param y Coordenada Y del centro del patrón
+	 */
 	void QrCode::drawAlignmentPattern(int x, int y) {
 		for (int dy = -2; dy <= 2; dy++) {
 			for (int dx = -2; dx <= 2; dx++)
@@ -458,7 +668,16 @@ namespace CodigoQR {
 		}
 	}
 
-
+	/**
+	 * @brief Establece un módulo como parte de un patrón funcional
+	 *
+	 * Los módulos funcionales incluyen patrones de búsqueda, alineación,
+	 * temporización y formato, que no deben ser modificados por el proceso de enmascaramiento.
+	 *
+	 * @param x Coordenada X del módulo
+	 * @param y Coordenada Y del módulo
+	 * @param isDark True para un módulo oscuro, false para un módulo claro
+	 */
 	void QrCode::setFunctionModule(int x, int y, bool isDark) {
 		size_t ux = static_cast<size_t>(x);
 		size_t uy = static_cast<size_t>(y);
@@ -466,12 +685,27 @@ namespace CodigoQR {
 		isFunction.at(uy).at(ux) = true;
 	}
 
-
+	/**
+	 * @brief Obtiene el estado (oscuro o claro) de un módulo en coordenadas específicas
+	 *
+	 * @param x Coordenada X del módulo
+	 * @param y Coordenada Y del módulo
+	 * @return true si el módulo es oscuro, false si es claro
+	 */
 	bool QrCode::module(int x, int y) const {
 		return modules.at(static_cast<size_t>(y)).at(static_cast<size_t>(x));
 	}
 
-
+	/**
+	 * @brief Añade códigos de corrección de errores y realiza el entrelazado de datos
+	 *
+	 * Esta función implementa el algoritmo Reed-Solomon para generar códigos
+	 * de corrección de errores y luego entrelaza los bloques según el estándar QR.
+	 *
+	 * @param data Vector de bytes con los datos originales
+	 * @return Vector de bytes con datos y códigos de corrección entrelazados
+	 * @throws std::invalid_argument Si los datos no coinciden con la capacidad esperada
+	 */
 	vector<uint8_t> QrCode::addEccAndInterleave(const vector<uint8_t>& data) const {
 		if (data.size() != static_cast<unsigned int>(getNumDataCodewords(version, errorCorrectionLevel)))
 			throw std::invalid_argument("Invalid argument");
@@ -509,7 +743,15 @@ namespace CodigoQR {
 		return result;
 	}
 
-
+	/**
+	 * @brief Dibuja los codewords (bytes de datos y corrección) en el código QR
+	 *
+	 * Coloca los datos en el código QR siguiendo el patrón de zigzag
+	 * definido por el estándar.
+	 *
+	 * @param data Vector de bytes con datos y códigos de corrección entrelazados
+	 * @throws std::invalid_argument Si la cantidad de datos no coincide con la capacidad
+	 */
 	void QrCode::drawCodewords(const vector<uint8_t>& data) {
 		if (data.size() != static_cast<unsigned int>(getNumRawDataModules(version) / 8))
 			throw std::invalid_argument("Invalid argument");
@@ -536,7 +778,15 @@ namespace CodigoQR {
 		assert(i == data.size() * 8);
 	}
 
-
+	/**
+	 * @brief Aplica un patrón de máscara al código QR
+	 *
+	 * La máscara ayuda a evitar patrones que podrían confundir a los escáneres
+	 * alternando los bits según reglas específicas.
+	 *
+	 * @param msk Patrón de máscara a aplicar (0-7)
+	 * @throws std::domain_error Si el patrón de máscara está fuera del rango válido
+	 */
 	void QrCode::applyMask(int msk) {
 		if (msk < 0 || msk > 7)
 			throw std::domain_error("Mask value out of range");
@@ -560,7 +810,14 @@ namespace CodigoQR {
 		}
 	}
 
-
+	/**
+	 * @brief Calcula la puntuación de penalización para el código QR actual
+	 *
+	 * Las penalizaciones se basan en características como patrones repetidos,
+	 * bloques del mismo color, o desequilibrio entre módulos claros y oscuros.
+	 *
+	 * @return Puntuación de penalización (valores más bajos son mejores)
+	 */
 	long QrCode::getPenaltyScore() const {
 		long result = 0;
 
@@ -639,7 +896,11 @@ namespace CodigoQR {
 		return result;
 	}
 
-
+	/**
+	 * @brief Obtiene las posiciones de los patrones de alineación para la versión actual
+	 *
+	 * @return Vector con las coordenadas donde deben ubicarse los patrones de alineación
+	 */
 	vector<int> QrCode::getAlignmentPatternPositions() const {
 		if (version == 1)
 			return vector<int>();
@@ -654,7 +915,13 @@ namespace CodigoQR {
 		}
 	}
 
-
+	/**
+	 * @brief Calcula el número total de módulos de datos sin formato en una versión específica
+	 *
+	 * @param ver Versión del código QR (1-40)
+	 * @return Número de módulos de datos disponibles
+	 * @throws std::domain_error Si la versión está fuera del rango válido
+	 */
 	int QrCode::getNumRawDataModules(int ver) {
 		if (ver < MIN_VERSION || ver > MAX_VERSION)
 			throw std::domain_error("Version number out of range");
@@ -669,14 +936,26 @@ namespace CodigoQR {
 		return result;
 	}
 
-
+	/**
+	 * @brief Calcula el número de codewords de datos disponibles
+	 *
+	 * @param ver Versión del código QR
+	 * @param ecl Nivel de corrección de errores
+	 * @return Número de codewords disponibles para datos
+	 */
 	int QrCode::getNumDataCodewords(int ver, Ecc ecl) {
 		return getNumRawDataModules(ver) / 8
 			- ECC_CODEWORDS_PER_BLOCK[static_cast<int>(ecl)][ver]
 			* NUM_ERROR_CORRECTION_BLOCKS[static_cast<int>(ecl)][ver];
 	}
 
-
+	/**
+	 * @brief Calcula el polinomio divisor para la codificación Reed-Solomon
+	 *
+	 * @param degree Grado del polinomio (igual al número de codewords ECC)
+	 * @return Vector de coeficientes del polinomio divisor
+	 * @throws std::domain_error Si el grado está fuera del rango válido
+	 */
 	vector<uint8_t> QrCode::reedSolomonComputeDivisor(int degree) {
 		if (degree < 1 || degree > 255)
 			throw std::domain_error("Degree out of range");
@@ -701,7 +980,16 @@ namespace CodigoQR {
 		return result;
 	}
 
-
+	/**
+	 * @brief Calcula el resto de la división polinómica para la corrección Reed-Solomon
+	 *
+	 * Esta función implementa la división polinómica en el campo de Galois GF(2^8)
+	 * para calcular los bytes de corrección de errores.
+	 *
+	 * @param data Vector de bytes con los datos originales (dividendo)
+	 * @param divisor Vector de bytes representando el polinomio divisor
+	 * @return Vector de bytes con el resto de la división (bytes ECC)
+	 */
 	vector<uint8_t> QrCode::reedSolomonComputeRemainder(const vector<uint8_t>& data, const vector<uint8_t>& divisor) {
 		vector<uint8_t> result(divisor.size());
 		for (uint8_t b : data) {  // Polynomial division
@@ -715,6 +1003,16 @@ namespace CodigoQR {
 	}
 
 
+	/**
+	 * @brief Realiza la multiplicación en el campo finito GF(2^8)
+	 *
+	 * Implementa la multiplicación de dos bytes en el campo de Galois GF(2^8)
+	 * usado en la codificación Reed-Solomon.
+	 *
+	 * @param x Primer operando (byte)
+	 * @param y Segundo operando (byte)
+	 * @return Resultado de la multiplicación en GF(2^8)
+	 */
 	uint8_t QrCode::reedSolomonMultiply(uint8_t x, uint8_t y) {
 		// Russian peasant multiplication
 		int z = 0;
@@ -727,6 +1025,12 @@ namespace CodigoQR {
 	}
 
 
+	/**
+	 * @brief Cuenta el número de patrones tipo finder en una secuencia de longitudes de módulos
+	 *
+	 * @param runHistory Historial de longitudes de secuencias de módulos
+	 * @return Número de patrones encontrados (usado para calcular penalizaciones)
+	 */
 	int QrCode::finderPenaltyCountPatterns(const std::array<int, 7>& runHistory) const {
 		int n = runHistory.at(1);
 		assert(n <= size * 3);
@@ -736,6 +1040,14 @@ namespace CodigoQR {
 	}
 
 
+	/**
+	 * @brief Termina una secuencia de módulos y cuenta patrones tipo finder
+	 *
+	 * @param currentRunColor Color actual de la secuencia (true=oscuro, false=claro)
+	 * @param currentRunLength Longitud de la secuencia actual
+	 * @param runHistory Historial de longitudes de secuencias
+	 * @return Número de patrones encontrados
+	 */
 	int QrCode::finderPenaltyTerminateAndCount(bool currentRunColor, int currentRunLength, std::array<int, 7>& runHistory) const {
 		if (currentRunColor) {  // Terminate dark run
 			finderPenaltyAddHistory(currentRunLength, runHistory);
@@ -747,6 +1059,12 @@ namespace CodigoQR {
 	}
 
 
+	/**
+	 * @brief Añade una longitud de secuencia al historial de secuencias
+	 *
+	 * @param currentRunLength Longitud de la secuencia actual a añadir
+	 * @param runHistory Historial de longitudes de secuencias
+	 */
 	void QrCode::finderPenaltyAddHistory(int currentRunLength, std::array<int, 7>& runHistory) const {
 		if (runHistory.at(0) == 0)
 			currentRunLength += size;  // Add light border to initial run
@@ -755,19 +1073,42 @@ namespace CodigoQR {
 	}
 
 
+	/**
+	 * @brief Verifica si un bit específico está activado en un valor
+	 *
+	 * @param x Valor entero a examinar
+	 * @param i Posición del bit a verificar (0 = LSB)
+	 * @return true si el bit está activado, false en caso contrario
+	 */
 	bool QrCode::getBit(long x, int i) {
 		return ((x >> i) & 1) != 0;
 	}
 
 
-	/*---- Tables of constants ----*/
+	/*---- Constantes ----*/
 
+	/**
+	 * @brief Penalización por grupos de módulos del mismo color en línea
+	 */
 	const int QrCode::PENALTY_N1 = 3;
+
+
+	/**
+	 * @brief Penalización por bloques 2x2 del mismo color
+	 */
 	const int QrCode::PENALTY_N2 = 3;
+
+	/**
+	 * @brief Penalización por patrones similares a los patrones de búsqueda
+	 */
 	const int QrCode::PENALTY_N3 = 40;
+
+	/**
+	 * @brief Penalización por desequilibrio entre módulos claros y oscuros
+	 */
 	const int QrCode::PENALTY_N4 = 10;
 
-
+	
 	const int8_t QrCode::ECC_CODEWORDS_PER_BLOCK[4][41] = {
 		// Version: (note that index 0 is for padding, and is set to an illegal value)
 		//0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
@@ -786,18 +1127,30 @@ namespace CodigoQR {
 		{-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81},  // High
 	};
 
-
+	/**
+	 * @brief Constructor para la excepción de datos demasiado largos
+	 *
+	 * @param msg Mensaje de error descriptivo
+	 */
 	data_too_long::data_too_long(const std::string& msg) :
 		std::length_error(msg) {}
 
-
-
 	/*---- Class BitBuffer ----*/
-
+	/**
+	 * @brief Constructor por defecto para BitBuffer
+	 *
+	 * Crea un buffer de bits vacío
+	 */
 	BitBuffer::BitBuffer()
 		: std::vector<bool>() {}
 
-
+	/**
+	 * @brief Añade bits al buffer a partir de un valor entero
+	 *
+	 * @param val Valor entero del que se extraerán los bits
+	 * @param len Número de bits a añadir (empezando por el MSB)
+	 * @throws std::domain_error Si len está fuera de rango o val requiere más de len bits
+	 */
 	void BitBuffer::appendBits(std::uint32_t val, int len) {
 		if (len < 0 || len > 31 || val >> len != 0)
 			throw std::domain_error("Value out of range");

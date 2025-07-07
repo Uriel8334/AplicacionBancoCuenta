@@ -1,4 +1,4 @@
-/// @file CuentaAhorros.cpp
+/// @file CuentaCorriente.cpp
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -14,10 +14,13 @@
 using namespace std;
 
 #pragma region METODOS ESPECIFICOS DE LA CLASE
-/// <summary>
-/// Metodo para depositar una cantidad en la cuenta de ahorros
-/// </summary>
-/// <param name="cantidad"></param>
+/**
+ * @brief Método para depositar una cantidad en la cuenta corriente
+ *
+ * Verifica que el monto a depositar sea positivo antes de añadirlo al saldo
+ *
+ * @param cantidad Monto a depositar en la cuenta
+ */
 void CuentaCorriente::depositar(double cantidad) {
 	if (cantidad > 0) {
 		this->saldo += cantidad;
@@ -26,10 +29,14 @@ void CuentaCorriente::depositar(double cantidad) {
 		std::cout << "La cantidad a depositar debe ser positiva." << std::endl;
 	}
 }
-/// <summary>
-/// Metodo para retirar una cantidad de la cuenta de ahorros
-/// </summary>
-/// <param name="cantidad"></param>
+
+/**
+ * @brief Método para retirar una cantidad de la cuenta corriente
+ *
+ * Verifica que haya fondos suficientes antes de realizar el retiro
+ *
+ * @param cantidad Monto a retirar de la cuenta
+ */
 void CuentaCorriente::retirar(double cantidad) {
 	if (cantidad <= this->saldo) {
 		this->saldo -= cantidad;
@@ -39,34 +46,39 @@ void CuentaCorriente::retirar(double cantidad) {
 	}
 }
 
-/// <summary>
-/// Metodo para consultar el saldo de la cuenta de ahorros
-/// </summary>
-/// <returns></returns>
+/**
+ * @brief Método para consultar el saldo actual de la cuenta corriente
+ *
+ * @return double Retorna el saldo actual de la cuenta
+ */
 double CuentaCorriente::consultarSaldo() const {
 	return this->saldo;
 }
-/// <summary>
-/// Metodo para consultar el estado de la cuenta de ahorros
-/// </summary>
-/// <returns></returns>
+
+/**
+ * @brief Método para consultar el estado de la cuenta corriente
+ *
+ * @return std::string Retorna "ACTIVA" si no hay un estado explícito, o el estado actual de la cuenta
+ */
 std::string CuentaCorriente::consultarEstado() const {
 	return this->estadoCuenta.empty() ? "ACTIVA" : this->estadoCuenta;
 }
 
-/// <summary>
-/// Metodo para formatear el saldo de la cuenta de ahorros
-/// </summary>
-/// <returns></returns>
+/**
+ * @brief Método para formatear el saldo de la cuenta con formato de moneda
+ *
+ * @return std::string Saldo formateado con comas y dos decimales
+ */
 std::string CuentaCorriente::formatearSaldo() const {
 	return formatearConComas(this->saldo);
 }
 
-/// <summary>
-/// Metodo para formatear un valor en centavos a un string con comas y dos decimales
-/// </summary>
-/// <param name="saldo"></param>
-/// <returns></returns>
+/**
+ * @brief Método para formatear un valor en centavos a un string con comas y dos decimales
+ *
+ * @param saldo Valor en centavos a formatear
+ * @return std::string Valor formateado como cadena con formato de moneda
+ */
 std::string CuentaCorriente::formatearConComas(double saldo) const {
 	// Convertir de centavos a valor decimal
 	double valorReal = saldo / 100.0;
@@ -76,13 +88,17 @@ std::string CuentaCorriente::formatearConComas(double saldo) const {
 	return oss.str();
 }
 
-/// <summary>
-/// Metodo para mostrar la informacion de la cuenta de ahorros
-/// </summary>
-/// <param name="cedula"></param>
-/// <param name="limpiarPantalla"></param>
+/**
+ * @brief Muestra la información completa de la cuenta corriente
+ *
+ * Presenta en consola los detalles de la cuenta incluyendo número, fecha de apertura,
+ * estado y saldo actual
+ *
+ * @param cedula Cédula del titular (opcional)
+ * @param limpiarPantalla Indica si debe limpiarse la pantalla antes de mostrar información (por defecto true)
+ */
 void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool limpiarPantalla = true) const {
-	
+
 	// Validacion basica
 	if (this == nullptr) {
 		return;
@@ -126,10 +142,11 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 	std::system("cls");
 }
 
-/// <summary>
-/// Metodo para guardar la cuenta de ahorros en un archivo binario
-/// </summary>
-/// <param name="nombreArchivo"></param>
+/**
+ * @brief Guarda la información de la cuenta corriente en un archivo binario
+ *
+ * @param nombreArchivo Ruta del archivo donde se guardará la información
+ */
 void CuentaCorriente::guardarEnArchivo(const std::string& nombreArchivo) const {
 	std::ofstream archivo(nombreArchivo, std::ios::binary);
 	if (archivo.is_open()) {
@@ -146,10 +163,11 @@ void CuentaCorriente::guardarEnArchivo(const std::string& nombreArchivo) const {
 	}
 }
 
-/// <summary>
-/// Metodo para cargar la cuenta de ahorros desde un archivo binario
-/// </summary>
-/// <param name="nombreArchivo"></param>
+/**
+ * @brief Carga la información de la cuenta corriente desde un archivo binario
+ *
+ * @param nombreArchivo Ruta del archivo desde donde se cargará la información
+ */
 void CuentaCorriente::cargarDesdeArchivo(const std::string& nombreArchivo) {
 	std::ifstream archivo(nombreArchivo, std::ios::binary);
 	if (archivo.is_open()) {
@@ -168,10 +186,13 @@ void CuentaCorriente::cargarDesdeArchivo(const std::string& nombreArchivo) {
 	}
 }
 
-/// <summary>
-/// Metodo para saber si el monto minimo es valido
-/// </summary>
-/// <param name="monto"></param>
+/**
+ * @brief Verifica si el monto mínimo es válido y lo asigna
+ *
+ * Comprueba que el monto sea al menos $250.00 antes de asignarlo
+ *
+ * @param monto Cantidad a establecer como monto mínimo
+ */
 void CuentaCorriente::esMontoMinimo(double monto) {
 	// monto debe ser positivo y mayor o igual $250.00
 	if (monto < 250.00) {
@@ -183,7 +204,3 @@ void CuentaCorriente::esMontoMinimo(double monto) {
 	}
 }
 #pragma endregion
-
-
-
-

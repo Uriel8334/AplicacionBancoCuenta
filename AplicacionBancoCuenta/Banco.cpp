@@ -1,3 +1,9 @@
+/**
+ * @file Banco.cpp
+ * @brief Implementación de la clase Banco que gestiona el sistema bancario
+ * @author Sistema Bancario, Uriel Andrade, Kerly Chuqui, Abner Proano
+ * @date 2025
+ */
 #include "Banco.h"
 #include "CuentaAhorros.h"
 #include "CuentaCorriente.h"
@@ -11,9 +17,18 @@
 #include "NodoPersona.h"
 #include <iomanip>
 
-// Constructor y destructor de la clase Banco
+ /**
+  * @brief Constructor por defecto de la clase Banco
+  *
+  * Inicializa una instancia de Banco con una lista vacía de personas
+  */
 Banco::Banco() : listaPersonas(nullptr) {} // Constructor
 
+/**
+ * @brief Destructor de la clase Banco
+ *
+ * Libera toda la memoria ocupada por la lista enlazada de personas
+ */
 Banco::~Banco() { // Destructor
 	// Liberar memoria de la lista enlazada
 	NodoPersona* actual = listaPersonas;
@@ -24,7 +39,14 @@ Banco::~Banco() { // Destructor
 	}
 }
 
-// Metodo para agregar una persona con cuenta
+/**
+ * @brief Agrega una nueva persona con una cuenta asociada al sistema bancario
+ *
+ * Este método presenta un menú para seleccionar el tipo de cuenta (ahorros o corriente),
+ * solicita los datos personales necesarios y crea tanto la persona como su cuenta asociada.
+ * También maneja el caso de cédulas existentes, permitiendo agregar una nueva cuenta a un
+ * cliente que ya existe en el sistema.
+ */
 void Banco::agregarPersonaConCuenta() {
 	// variables locales
 
@@ -418,7 +440,11 @@ void Banco::agregarPersonaConCuenta() {
 	}
 }
 
-// Metodo para guardar cuentas en un archivo
+/**
+ * @brief Guarda todas las cuentas en un archivo con nombre específico
+ *
+ * @param nombreArchivo Nombre del archivo donde se guardarán los datos
+ */
 void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
 	std::string rutaEscritorio = obtenerRutaEscritorio();
 	std::string rutaCompleta = rutaEscritorio + nombreArchivo + ".bak";
@@ -466,6 +492,13 @@ void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
 	archivo.close();
 	std::cout << "Respaldo guardado correctamente en " << rutaCompleta << "\n";
 }
+
+/**
+ * @brief Guarda todas las cuentas en un archivo con nombre generado automáticamente
+ *
+ * Crea un respaldo con la fecha actual en el nombre y verifica que la fecha
+ * del sistema no haya sido manipulada antes de realizar el respaldo.
+ */
 
 void Banco::guardarCuentasEnArchivo() {
 	Fecha fechaActual;
@@ -527,7 +560,11 @@ void Banco::guardarCuentasEnArchivo() {
 	std::cout << "Respaldo guardado correctamente en " << rutaCompleta << "\n";
 }
 
-// Metodo para cargar cuentas desde un archivo
+/**
+ * @brief Carga las cuentas desde un archivo de respaldo
+ *
+ * @param nombreArchivo Nombre del archivo desde donde cargar los datos
+ */
 void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
 	std::string rutaEscritorio = obtenerRutaEscritorio();
 	std::string rutaCompleta = rutaEscritorio + nombreArchivo + ".bak";
@@ -658,7 +695,12 @@ void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
 	std::cout << "Se cargaron " << contadorPersonas << " personas desde el archivo.\n";
 }
 
-// Metodo para buscar cuentas
+/**
+ * @brief Presenta un menú para buscar cuentas según diferentes criterios
+ *
+ * Permite buscar por fecha de creación, por criterio personalizado,
+ * por número de cuenta, o por cédula del titular.
+ */
 void Banco::buscarCuenta() {
 	CuentaAhorros* cuentaAhorros = nullptr;
 	CuentaCorriente* cuentaCorriente = nullptr;
@@ -921,7 +963,13 @@ void Banco::buscarCuenta() {
 	}
 }
 
-// Busqueda recursiva por fecha de creacion
+/**
+ * @brief Función auxiliar para buscar cuentas por fecha de forma recursiva
+ *
+ * @param nodo Nodo actual en la recursión
+ * @param fecha Fecha a buscar
+ * @param encontrados Referencia a contador de resultados encontrados
+ */
 static void buscarCuentasPorFechaRec(NodoPersona* nodo, const std::string& fecha, int& encontrados) {
 	if (!nodo) return;
 	nodo->persona->buscarPersonaPorFecha(fecha);
@@ -929,7 +977,11 @@ static void buscarCuentasPorFechaRec(NodoPersona* nodo, const std::string& fecha
 	buscarCuentasPorFechaRec(nodo->siguiente, fecha, encontrados);
 }
 
-// Metodo para buscar cuentas por fecha de creacion
+/**
+ * @brief Busca cuentas por fecha de creación
+ *
+ * @param fecha Fecha de apertura a buscar
+ */
 void Banco::buscarCuentasPorFecha(const std::string& fecha) const {
 	int encontrados = 0;
 	buscarCuentasPorFechaRec(listaPersonas, fecha, encontrados);
@@ -938,7 +990,12 @@ void Banco::buscarCuentasPorFecha(const std::string& fecha) const {
 	}
 }
 
-// Metodo para buscar cuentas por criterio
+/**
+ * @brief Busca cuentas según criterios personalizados del usuario
+ *
+ * Permite buscar por número de cuenta, fecha de apertura, saldo,
+ * tipo de cuenta o cédula del titular.
+ */
 void Banco::buscarCuentasPorCriterio() {
 	std::string criterios[] = {
 		"Numero de cuenta",
@@ -1234,7 +1291,12 @@ void Banco::buscarCuentasPorCriterio() {
 	system("pause");
 }
 
-// Metodo para realizar transferencias entre cuentas
+/**
+ * @brief Realiza una transferencia de fondos entre dos cuentas
+ *
+ * Gestiona la búsqueda de cuentas origen y destino, validación de fondos,
+ * y ejecución de la transferencia con sus respectivas actualizaciones de saldo.
+ */
 void Banco::realizarTransferencia() {
 	// Verificar que existan personas con cuentas
 	if (!listaPersonas) {
@@ -1656,7 +1718,12 @@ void Banco::realizarTransferencia() {
 	system("pause");
 }
 
-// Metodo helper para formatear valores con comas (para cuentas corrientes)
+/**
+ * @brief Formatea un valor monetario con separadores de miles
+ *
+ * @param valorEnCentavos Valor monetario a formatear
+ * @return Cadena formateada con separadores de miles y dos decimales
+ */
 std::string Banco::formatearConComas(double valorEnCentavos) const {
 	std::ostringstream oss;
 	oss.imbue(std::locale(""));
@@ -1664,7 +1731,14 @@ std::string Banco::formatearConComas(double valorEnCentavos) const {
 	return oss.str();
 }
 
-// Implementacion de la funcion para obtener la ruta del escritorio
+/**
+ * @brief Obtiene la ruta del directorio del escritorio del usuario
+ *
+ * Crea una carpeta "BancoApp" en el escritorio si no existe, para
+ * almacenar los archivos generados por la aplicación.
+ *
+ * @return Ruta completa de la carpeta de la aplicación
+ */
 std::string Banco::obtenerRutaEscritorio() const {
 	PWSTR path = NULL;
 	std::string rutaEscritorio = "";

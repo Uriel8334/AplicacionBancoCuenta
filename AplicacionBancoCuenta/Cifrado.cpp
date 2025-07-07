@@ -1,13 +1,21 @@
-// Cifrado.cpp
+/**
+ * @file Cifrado.cpp
+ * @brief Implementación de la clase Cifrado que proporciona funcionalidades de cifrado/descifrado
+ */
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
 #include "Cifrado.h"
 #include "Banco.h"
 
-// Clase Cifrado con cifrado Cesar lineal
-
-// Funcion para cifrar el archivo usando cifrado Cesar
+ /**
+  * @brief Cifra un archivo usando el algoritmo César
+  *
+  * @param rutaEntrada Ruta del archivo original a cifrar
+  * @param rutaSalida Ruta donde se guardará el archivo cifrado
+  * @param clave Carácter que determina el desplazamiento para el cifrado
+  * @throws std::runtime_error Si hay problemas al abrir los archivos
+  */
 void Cifrado::CifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char clave) {
     std::ifstream archivoEntrada(rutaEntrada, std::ios::binary);
     if (!archivoEntrada) {
@@ -34,7 +42,14 @@ void Cifrado::CifrarArchivo(const std::string& rutaEntrada, const std::string& r
     archivoSalida.close();
 }
 
-// Funcion para descifrar usando cifrado Cesar (operacion inversa)
+/**
+ * @brief Descifra un archivo cifrado previamente con el algoritmo César
+ *
+ * @param rutaEntrada Ruta del archivo cifrado
+ * @param rutaSalida Ruta donde se guardará el archivo descifrado
+ * @param clave Carácter usado originalmente para el cifrado
+ * @throws std::runtime_error Si hay problemas al abrir los archivos
+ */
 void Cifrado::desifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char clave) {
     std::ifstream archivoEntrada(rutaEntrada, std::ios::binary);
     if (!archivoEntrada) {
@@ -61,7 +76,16 @@ void Cifrado::desifrarArchivo(const std::string& rutaEntrada, const std::string&
     archivoSalida.close();
 }
 
-// El resto de los metodos se mantienen igual
+/**
+ * @brief Guarda y cifra los datos del banco en un archivo
+ *
+ * Exporta los datos del banco a un archivo temporal, lo cifra y elimina el
+ * archivo temporal después del proceso.
+ *
+ * @param banco Referencia al objeto Banco con los datos a guardar
+ * @param nombreArchivo Nombre del archivo de salida (sin extensión)
+ * @param claveCifrado Clave de cifrado a utilizar
+ */
 void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado) {
     // Obtener la ruta del escritorio usando el metodo de Banco
     std::string rutaEscritorio = banco.obtenerRutaEscritorio();
@@ -89,8 +113,14 @@ void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreA
     }
 }
 
-
-
+/**
+ * @brief Descifra un archivo y carga los datos en el objeto Banco
+ *
+ * @param banco Referencia al objeto Banco donde se cargarán los datos
+ * @param nombreArchivo Nombre del archivo cifrado (sin extensión)
+ * @param claveCifrado Clave utilizada para el cifrado original
+ * @return true si el proceso se completó exitosamente, false en caso contrario
+ */
 bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchivo, char claveCifrado) {
     // Obtener la ruta del escritorio usando el metodo de Banco
     std::string rutaEscritorio = banco.obtenerRutaEscritorio();
@@ -130,7 +160,18 @@ bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchi
     }
 }
 
-// nuevo metodo para descifrar sin cargar datos al banco
+/**
+ * @brief Descifra un archivo sin cargar los datos en el banco
+ *
+ * Permite descifrar un archivo y guardarlo con diferentes extensiones
+ * según la opción elegida.
+ *
+ * @param banco Referencia al objeto Banco (usado solo para obtener rutas)
+ * @param nombreArchivo Nombre del archivo cifrado (sin extensión)
+ * @param claveCifrado Clave utilizada para el cifrado original
+ * @param opcion Formato de salida: 0 para .bak, 1 para .txt
+ * @return true si el proceso se completó exitosamente, false en caso contrario
+ */
 bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado, int opcion) {
     // Obtener la ruta del escritorio usando el metodo de Banco
     std::string rutaEscritorio = banco.obtenerRutaEscritorio();

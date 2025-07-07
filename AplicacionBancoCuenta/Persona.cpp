@@ -1,3 +1,11 @@
+/**
+ * @file Persona.cpp
+ * @brief Implementación de la clase Persona para manejo de datos personales y cuentas bancarias
+ *
+ * Este archivo implementa la funcionalidad para gestionar datos personales,
+ * validar información de usuarios y administrar las cuentas bancarias asociadas
+ * a una persona, incluyendo cuentas de ahorro y cuentas corrientes.
+ */
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,8 +22,20 @@
 #include "Fecha.h"
 #include "Persona.h"
 
+ /**
+  * @namespace PersonaUI
+  * @brief Proporciona elementos de interfaz de usuario para la clase Persona
+  *
+  * Este namespace contiene funciones lambda para la interacción con el usuario,
+  * como selectores y validadores de entrada.
+  */
 namespace PersonaUI {
-	// Lambda para cursor de seleccion de si o no
+	/**
+	 * @brief Lambda para mostrar un selector de opciones Sí/No con navegación por teclado
+	 *
+	 * @param mensaje Mensaje a mostrar al usuario antes de las opciones
+	 * @return bool true si selecciona "Sí", false si selecciona "No"
+	 */
 	const std::function<bool(const std::string&)> seleccionarSiNo = [](const std::string& mensaje) -> bool {
 		int seleccion = 0;
 		int tecla = 0;
@@ -49,7 +69,16 @@ namespace PersonaUI {
 		return (seleccion == 0); // Retorna true si selecciona "Si"
 		};
 
-	// Lambda para ingresar montos con validacion en tiempo real
+	/**
+	 * @brief Lambda para ingresar y validar montos numéricos con límites
+	 *
+	 * Permite ingresar valores numéricos con formato de moneda y validación en tiempo real.
+	 *
+	 * @param min Valor mínimo permitido
+	 * @param max Valor máximo permitido
+	 * @param mensaje Mensaje a mostrar al usuario
+	 * @return double Valor ingresado dentro de los límites especificados
+	 */
 	const std::function<double(double, double, const std::string&)> ingresarMonto = [](double min, double max, const std::string& mensaje) -> double {
 		std::string entrada;
 		bool tienePunto = false;
@@ -124,15 +153,23 @@ namespace PersonaUI {
 
 using namespace std;
 
-// Metodo para ingresar Datos de la persona
+/**
+ * @brief Inicia el proceso de ingreso de datos para una persona
+ *
+ * Llama al método sobrecargado utilizando la cédula actual como parámetro.
+ */
 void Persona::ingresarDatos() {
 	ingresarDatos(this->cedula); // O puedes pasar "" si prefieres no validar
 }
 
-/// <summary>
-/// Metodo para ingresar los datos de la persona, validando la cedula ingresada previamente.
-/// </summary>
-/// <param name="cedulaEsperada"></param>
+/**
+ * @brief Método para ingresar los datos de la persona, validando contra una cédula esperada
+ *
+ * Permite el ingreso completo de los datos personales con validación de cada campo.
+ * Si los datos son correctos, los guarda en el objeto y en un archivo.
+ *
+ * @param cedulaEsperada Cédula que se espera que ingrese el usuario para validación
+ */
 void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 	do {
 		std::string cedulaTemp = cedulaEsperada; // Cedula esperada para validar
@@ -170,11 +207,14 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 	} while (true);
 }
 
-/// <summary>
-/// Metodo para ingresar la cedula de la persona, validando que sea correcta y que coincida con la cedula esperada.
-/// </summary>
-/// <param name="cedulaIngresada"></param>
-/// <returns></returns>
+/**
+ * @brief Solicita y valida el ingreso de la cédula del usuario
+ *
+ * Verifica que la cédula ingresada sea válida y coincida con la cédula esperada.
+ *
+ * @param cedulaIngresada Cédula previamente ingresada para comparación
+ * @return std::string Cédula validada
+ */
 std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	do {
 		system("cls");
@@ -227,11 +267,15 @@ std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	return cedula; // Retorna la cedula ingresada
 }
 
-/// <summary>
-/// Metodo para ingresar los nombres de la persona, validando que no esten vacios y que sean correctos.
-/// </summary>
-/// <param name="nombres"></param>
-/// <returns></returns>
+/**
+ * @brief Solicita y valida el ingreso de los nombres de la persona
+ *
+ * Valida que los nombres solo contengan letras y espacios, no estén vacíos
+ * y cumplan con requisitos de formato.
+ *
+ * @param nombres Referencia a la variable donde se almacenarán los nombres
+ * @return std::string Nombres validados
+ */
 std::string Persona::ingresarNombres(std::string& nombres) const {
 	// Ingreso nombres y validacion
 	do {
@@ -295,11 +339,15 @@ std::string Persona::ingresarNombres(std::string& nombres) const {
 	return nombres; // Retorna los nombres ingresados
 }
 
-/// <summary>
-/// Metodo para ingresar los apellidos de la persona, validando que no esten vacios y que sean correctos.
-/// </summary>
-/// <param name="apellidos"></param>
-/// <returns></returns>
+/**
+ * @brief Solicita y valida el ingreso de los apellidos de la persona
+ *
+ * Valida que los apellidos solo contengan letras y espacios, no estén vacíos
+ * y cumplan con requisitos de formato.
+ *
+ * @param apellidos Referencia a la variable donde se almacenarán los apellidos
+ * @return std::string Apellidos validados
+ */
 std::string Persona::ingresarApellidos(std::string& apellidos) const {
 	// Ingreso apellidos y validacion
 	do {
@@ -363,11 +411,14 @@ std::string Persona::ingresarApellidos(std::string& apellidos) const {
 	return apellidos; // Retorna los apellidos ingresados
 }
 
-/// <summary>
-/// Metodo para ingresar la fecha de nacimiento de la persona, validando que sea correcta y no futura.
-/// </summary>
-/// <param name="fechaNacimiento"></param>
-/// <returns></returns>
+/**
+ * @brief Solicita y valida el ingreso de la fecha de nacimiento
+ *
+ * Implementa un selector interactivo de fecha y valida que no sea una fecha futura.
+ *
+ * @param fechaNacimiento Referencia a la variable donde se almacenará la fecha
+ * @return std::string Fecha de nacimiento validada en formato DD/MM/AAAA
+ */
 std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	SYSTEMTIME st;
 	GetLocalTime(&st);
@@ -464,11 +515,14 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	return this->fechaNacimiento; // Retorna la fecha de nacimiento ingresada
 }
 
-/// <summary>
-/// Metodo para ingresar el correo de la persona, validando que sea correcto y cumpla con los requisitos.
-/// </summary>
-/// <param name="correo"></param>
-/// <returns></returns>
+/**
+ * @brief Solicita y valida el ingreso del correo electrónico
+ *
+ * Verifica que el formato del correo sea válido según estándares internacionales.
+ *
+ * @param correo Referencia a la variable donde se almacenará el correo
+ * @return std::string Correo electrónico validado
+ */
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
 	// Ingreso correo y validacion con getch, simbolos validos, sin espacios ni dos puntos seguidos, y limites de longitud
@@ -594,11 +648,14 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 	return correo; // Retorna el correo ingresado
 }
 
-/// <summary>
-/// Metodo para ingresar la direccion de la persona, validando que no este vacia y sea correcta.
-/// </summary>
-/// <param name="direccion"></param>
-/// <returns></returns>
+/**
+ * @brief Solicita y valida el ingreso de la dirección
+ *
+ * Permite el ingreso de una dirección con caracteres especiales comunes en direcciones.
+ *
+ * @param direccion Referencia a la variable donde se almacenará la dirección
+ * @return std::string Dirección validada
+ */
 std::string Persona::ingresarDireccion(std::string& direccion) const
 {
 	// Ingreso de direccion con getch, maximo 100 caracteres, permitiendo letras, numeros, espacios y simbolos comunes en Ecuador
@@ -655,11 +712,11 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
 	return direccion; // Retorna la direccion ingresada
 }
 
-/// <summary>
-/// Metodo para corregir los datos de la persona.
-/// </summary>
-/// <returns></returns>
-/// @param seleccion Si es true, se repite el ingreso de datos; si es false, se finaliza el ingreso.
+/**
+ * @brief Muestra un selector para confirmar o corregir los datos ingresados
+ *
+ * @return bool true si se deben corregir los datos, false si son correctos
+ */
 bool Persona::corregirDatos()
 {
 	if (PersonaUI::seleccionarSiNo("¿Los datos ingresados son correctos?")) {
@@ -670,11 +727,9 @@ bool Persona::corregirDatos()
 	}
 }
 
-
-/// <summary>
-/// Metodo para mostrar los datos de la persona.
-/// </summary>
-/// @param cedula Cedula de la persona
+/**
+ * @brief Muestra en pantalla los datos actuales de la persona
+ */
 void Persona::mostrarDatos() const {
 	cout << "\n----- DATOS DEL USUARIO -----\n";
 	cout << "Cedula: " << cedula << endl;
@@ -685,11 +740,12 @@ void Persona::mostrarDatos() const {
 	cout << "Direccion: " << direccion << endl;
 }
 
-/// <summary>
-/// Metodo para mostrar las cuentas de la persona, filtrando por tipo de cuenta.
-/// </summary>
-/// <param name="tipoCuenta"></param>
-/// <returns></returns>
+/**
+ * @brief Muestra las cuentas asociadas a la persona según su tipo
+ *
+ * @param tipoCuenta Tipo de cuenta a mostrar: "Ahorros", "Corriente" o "Ambas"
+ * @return int Número de cuentas encontradas
+ */
 int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 {
 	int cuentasEncontradas = 0;
@@ -736,9 +792,11 @@ int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 	return cuentasEncontradas; // Retorna el numero de cuentas encontradas
 }
 
-/// <summary>
-/// Metodo para guardar los datos de la persona en un archivo.
-/// </summary>
+/**
+ * @brief Guarda los datos de la persona en un archivo de texto
+ *
+ * Almacena todos los datos personales en el archivo "personas.txt".
+ */
 void Persona::guardarEnArchivo() const {
 	ofstream archivo("personas.txt", ios::app);
 	if (archivo.is_open()) {
@@ -756,14 +814,15 @@ void Persona::guardarEnArchivo() const {
 	}
 }
 
-/// <summary>
-/// Metodo para buscar una persona por un criterio especifico.
-/// </summary>
-/// <param name="criterioBusqueda"></param>
-/// <param name="numeroCuenta"></param>
-/// <param name="fechaApertura"></param>
-/// <param name="saldo"></param>
-/// <returns></returns>
+/**
+ * @brief Busca cuentas asociadas a la persona según un criterio específico
+ *
+ * @param criterioBusqueda Criterio de búsqueda: "Numero de cuenta", "Fecha de apertura", "Saldo mayor a" o "Tipo de cuenta"
+ * @param numeroCuenta Número de cuenta a buscar (o tipo de cuenta si el criterio es "Tipo de cuenta")
+ * @param fechaApertura Fecha de apertura a buscar
+ * @param saldo Valor de saldo mínimo para la búsqueda
+ * @return int Número de cuentas que cumplen con el criterio
+ */
 int Persona::buscarPersonaPorCriterio(const std::string& criterioBusqueda, const std::string& numeroCuenta, const std::string& fechaApertura, double saldo) const {
 
 	int cuentasEncontradas = 0;
@@ -820,10 +879,11 @@ int Persona::buscarPersonaPorCriterio(const std::string& criterioBusqueda, const
 	return cuentasEncontradas;
 }
 
-/// <summary>
-/// Metodo para buscar una persona por fecha de apertura de cuentas.
-/// </summary>
-/// <param name="fecha"></param>
+/**
+ * @brief Busca cuentas con una fecha de apertura específica
+ *
+ * @param fecha Fecha de apertura a buscar en formato DD/MM/AAAA
+ */
 void Persona::buscarPersonaPorFecha(const std::string& fecha) const {
 	// Agregar validacion de instancia destruida
 	if (!isValidInstance()) {
@@ -867,11 +927,12 @@ void Persona::buscarPersonaPorFecha(const std::string& fecha) const {
 	buscarFecha(cabezaCorriente, "Corriente");
 }
 
-/// <summary>
-/// Metodo para buscar una persona por numero de cuenta.
-/// </summary>
-/// <param name="numeroCuenta"></param>
-/// <returns></returns>
+/**
+ * @brief Busca cuentas por número de cuenta
+ *
+ * @param numeroCuenta Número de cuenta a buscar
+ * @return int Número de cuentas encontradas
+ */
 int Persona::buscarPersonaPorCuentas(const string& numeroCuenta) const {
 	// Evita acceso a un objeto destruido
 	if (!isValidInstance()) {
@@ -895,11 +956,13 @@ int Persona::buscarPersonaPorCuentas(const string& numeroCuenta) const {
 	return encontrados;
 }
 
-/// <summary>
-/// Metodo para guardar las cuentas de la persona en un archivo.
-/// </summary>
-/// <param name="archivo"></param>
-/// <returns></returns>
+/**
+ * @brief Guarda las cuentas asociadas a la persona en un archivo
+ *
+ * @param archivo Referencia al archivo de salida abierto
+ * @param tipo Tipo de cuentas a guardar: "AHORROS" o "CORRIENTE"
+ * @return int Número de cuentas guardadas
+ */
 int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
 	if (!archivo.is_open() || !isValidInstance()) {
 		return 0;
@@ -933,12 +996,16 @@ int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
 	return contador;
 }
 
-/// <summary>
-/// Metodo para crear y agregar una cuenta de ahorros a la persona.
-/// </summary>
-/// <param name="nuevaCuenta"></param>
-/// <param name="cedulaEsperada"></param>
-/// <returns></returns>
+/**
+ * @brief Crea y agrega una cuenta de ahorros para la persona
+ *
+ * Valida los datos de la persona y configura una nueva cuenta de ahorros
+ * con todos los parámetros necesarios, incluyendo depósito inicial opcional.
+ *
+ * @param nuevaCuenta Puntero a la nueva cuenta de ahorros
+ * @param cedulaEsperada Cédula esperada para validación
+ * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
+ */
 bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada)
 {
 	const int MAX_CUENTAS = 5; // Definir el maximo de cuentas permitidas
@@ -1013,12 +1080,16 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 	}
 }
 
-/// <summary>
-/// Metodo para crear y agregar una cuenta corriente a la persona, validando que no se supere el maximo de cuentas permitidas.
-/// </summary>
-/// <param name="nuevaCuenta"></param>
-/// <param name="cedulaEsperada"></param>
-/// <returns></returns>
+/**
+ * @brief Crea y agrega una cuenta corriente para la persona
+ *
+ * Valida los datos de la persona y configura una nueva cuenta corriente
+ * con todos los parámetros necesarios, incluyendo depósito inicial mínimo.
+ *
+ * @param nuevaCuenta Puntero a la nueva cuenta corriente
+ * @param cedulaEsperada Cédula esperada para validación
+ * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
+ */
 bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada) {
 
 	ingresarDatos(cedulaEsperada);
@@ -1079,6 +1150,13 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 
 }
 
+/**
+ * @brief Crea una cuenta de ahorros sin solicitar datos personales adicionales
+ *
+ * @param nuevaCuenta Puntero a la nueva cuenta de ahorros
+ * @param cedulaEsperada Cédula esperada para validación
+ * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
+ */
 bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada)
 {
 	const int MAX_CUENTAS = 5;
@@ -1151,6 +1229,13 @@ bool Persona::crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::stri
 	}
 }
 
+/**
+ * @brief Crea una cuenta corriente sin solicitar datos personales adicionales
+ *
+ * @param nuevaCuenta Puntero a la nueva cuenta corriente
+ * @param cedulaEsperada Cédula esperada para validación
+ * @return bool true si la cuenta fue creada exitosamente, false en caso contrario
+ */
 bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada)
 {
 	// Verificacion de puntero nulo primero
@@ -1208,13 +1293,16 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 	}
 }
 
-
-/// <summary>
-/// Metodo para crear un numero de cuenta unico para una nueva cuenta, asegurando que no se repita con las cuentas existentes.
-/// </summary>
-/// <param name="nuevaCuenta"></param>
-/// <param name="sucursal"></param>
-/// <returns></returns>
+/**
+ * @brief Genera un número de cuenta único para una nueva cuenta
+ *
+ * Crea un número de cuenta basado en el código de sucursal, un secuencial
+ * y un dígito verificador calculado.
+ *
+ * @param nuevaCuenta Puntero a la nueva cuenta
+ * @param sucursal Código de la sucursal seleccionada
+ * @return std::string Número de cuenta generado
+ */
 std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::string& sucursal) {
 	// Validar que la sucursal esté entre las permitidas
 	if (sucursal != "210" && sucursal != "220" && sucursal != "480" && sucursal != "560") {
@@ -1289,8 +1377,13 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 	return numeroCuentaStr;
 }
 
-
-// Función para seleccionar sucursal mediante navegación con cursor
+/**
+ * @brief Presenta un selector de sucursal bancaria
+ *
+ * Muestra un menú interactivo para seleccionar la sucursal donde se aperturará la cuenta.
+ *
+ * @return std::string Código de la sucursal seleccionada
+ */
 std::string Persona::seleccionSucursal() {
 	std::string sucursales[] = {
 		"Sucursal Quicentro Shopping",
@@ -1354,7 +1447,11 @@ std::string Persona::seleccionSucursal() {
 	}
 }
 
-
+/**
+ * @brief Genera un mensaje estándar para el ingreso de datos
+ *
+ * @return std::string Mensaje formateado
+ */
 std::string Persona::msgIngresoDatos() const {
 	return "\n\n----- INGRESO DE DATOS -----\n";
 }

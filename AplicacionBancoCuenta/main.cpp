@@ -1,15 +1,39 @@
-﻿#include <iostream>
+﻿/**
+ * @file main.cpp
+ * @brief Sistema de gestión bancaria con interfaz de consola
+ *
+ * Este archivo implementa la aplicación principal del sistema bancario, proporcionando
+ * un menú interactivo para gestionar cuentas, realizar transferencias, buscar información,
+ * y generar reportes. Incluye una marquesina en la parte superior para mensajes importantes.
+ *
+ * @author Uriel Andrade
+ * @author Kerly Chuqui
+ * @author Abner Proano
+ */
+#include <iostream>
 #include <string>
 #include "Persona.h"
 #include <conio.h> // getch()
 #include <windows.h> // SetConsoleCursorPosition
 #include "Banco.h"
 #include "Utilidades.h"
-#include "Cifrado.h" // Asegurate de incluir este archivo de cabecera
+#include "Cifrado.h" 
 #include <algorithm>
 #include "Marquesina.h"
 #include "CodigoQR.h"
-// Funcion para mostrar el menu sin parpadeo y limpiar toda la linea
+
+ /**
+  * @brief Muestra el menú principal en la consola sin parpadeo
+  *
+  * Utiliza técnicas para evitar parpadeo al actualizar la interfaz, realizando
+  * operaciones críticas y limpiando líneas completas.
+  *
+  * @param seleccion Índice de la opción seleccionada actualmente
+  * @param opciones Arreglo con las opciones del menú
+  * @param numOpciones Número total de opciones disponibles
+  * @param x Posición X donde comenzar a mostrar las opciones
+  * @param y Posición Y donde comenzar a mostrar las opciones
+  */
 static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y) {
 	Utilidades::limpiarPantallaPreservandoMarquesina(); // Ya maneja las operaciones críticas
 	Utilidades::iniciarOperacionCritica(); // Iniciar operación crítica para evitar parpadeo
@@ -28,7 +52,18 @@ static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, 
 	Utilidades::finalizarOperacionCritica(); // Finalizar operación crítica
 }
 
-// Funcion para buscar cuenta por cedula o numero de cuenta (retorna la cuenta y tipo)
+/**
+ * @brief Busca una cuenta bancaria para realizar operaciones
+ *
+ * Permite al usuario buscar una cuenta por cédula o número de cuenta,
+ * y devuelve la cuenta encontrada para realizar operaciones sobre ella.
+ *
+ * @param banco Referencia al objeto Banco donde buscar la cuenta
+ * @param cuentaAhorros Referencia a puntero que se actualizará con la cuenta de ahorros encontrada
+ * @param cuentaCorriente Referencia a puntero que se actualizará con la cuenta corriente encontrada
+ * @param cedula Referencia a string que se actualizará con la cédula del titular
+ * @return bool true si se encontró una cuenta válida, false en caso contrario
+ */
 static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, CuentaCorriente*& cuentaCorriente, std::string& cedula) {
 	system("cls");
 	std::cout << "\n===== OPERACIONES DE CUENTA =====\n\n";
@@ -231,15 +266,30 @@ static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 	return true;
 }
 
-// Funcion para mostrar personas
+/**
+ * @brief Muestra información de personas en consola
+ *
+ * Imprime los datos básicos de las personas del vector proporcionado.
+ *
+ * @param personas Vector de punteros a objetos Persona a mostrar
+ */
 static void mostrarPersonas(const std::vector<Persona*>& personas) {
 	for (auto p : personas) {
 		std::cout << p->getNombres() << " " << p->getApellidos() << " - " << p->getFechaNacimiento() << "\n";
 	}
 }
 
+/** @brief Puntero global a la marquesina utilizada en la aplicación */
 Marquesina* marquesinaGlobal = nullptr;
 
+/**
+ * @brief Función principal que inicia la aplicación bancaria
+ *
+ * Configura la interfaz de usuario, crea la marquesina, y gestiona el
+ * menú principal y sus submenús para realizar todas las operaciones bancarias.
+ *
+ * @return int Código de salida del programa (0 si termina correctamente)
+ */
 int main() {
 	std::string opciones[] = {
 		"Crear Cuenta",

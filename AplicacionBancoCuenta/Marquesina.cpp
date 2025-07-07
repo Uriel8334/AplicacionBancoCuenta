@@ -1,3 +1,11 @@
+/**
+ * @file Marquesina.cpp
+ * @brief Implementación de una marquesina de texto desplazable para consola
+ *
+ * Esta clase permite mostrar un texto que se desplaza horizontalmente en una consola
+ * de Windows, con soporte para colores y formato. Los datos se pueden cargar desde
+ * un archivo HTML y se actualizan automáticamente cuando el archivo cambia.
+ */
 #include "Marquesina.h"
 #include <fstream>
 #include <iostream>
@@ -6,6 +14,15 @@
 #include <regex>
 #include <string>
 
+ /**
+  * @brief Constructor de la clase Marquesina
+  *
+  * @param x Posición horizontal inicial en la consola
+  * @param y Posición vertical inicial en la consola
+  * @param ancho Ancho de la marquesina en caracteres
+  * @param archivoHTML Ruta al archivo HTML que contiene el texto a mostrar
+  * @param velocidad Tiempo en milisegundos entre cada actualización
+  */
 Marquesina::Marquesina(int x, int y, int ancho, const std::string& archivoHTML, int velocidad)
 	: posX(x), posY(y), ancho(ancho), archivoHTML(archivoHTML), velocidad(velocidad),
 	ejecutando(false), pausado(false), bloqueado(false), operacionCritica(false),
@@ -16,11 +33,19 @@ Marquesina::Marquesina(int x, int y, int ancho, const std::string& archivoHTML, 
 	actualizarBuffer();
 }
 
+/**
+ * @brief Destructor de la clase Marquesina
+ *
+ * Detiene el hilo de la marquesina si está en ejecución
+ */
 Marquesina::~Marquesina()
 {
 	detener();
 }
 
+/**
+ * @brief Inicia la animación de la marquesina en un hilo separado
+ */
 void Marquesina::iniciar()
 {
 	if (!ejecutando)
@@ -33,6 +58,9 @@ void Marquesina::iniciar()
 	}
 }
 
+/**
+ * @brief Detiene la animación de la marquesina y finaliza el hilo
+ */
 void Marquesina::detener()
 {
 	if (ejecutando)
@@ -45,37 +73,59 @@ void Marquesina::detener()
 	}
 }
 
+/**
+ * @brief Pausa temporalmente la animación de la marquesina
+ */
 void Marquesina::pausar()
 {
 	pausado = true;
 }
 
+/**
+ * @brief Reanuda la animación de la marquesina después de una pausa
+ */
 void Marquesina::reanudar()
 {
 	pausado = false;
 }
 
+/**
+ * @brief Bloquea la marquesina impidiendo cualquier actualización
+ */
 void Marquesina::bloquear()
 {
 	bloqueado = true;
 }
 
+/**
+ * @brief Desbloquea la marquesina permitiendo actualizaciones
+ */
 void Marquesina::desbloquear()
 {
 	bloqueado = false;
 }
 
-// NUEVOS: Métodos para operaciones críticas
+/**
+ * @brief Marca el inicio de una operación crítica que no debe ser interrumpida
+ */
 void Marquesina::marcarOperacionCritica()
 {
 	operacionCritica = true;
 }
 
+/**
+ * @brief Marca el fin de una operación crítica
+ */
 void Marquesina::finalizarOperacionCritica()
 {
 	operacionCritica = false;
 }
 
+/**
+ * @brief Fuerza la recarga del contenido desde el archivo HTML
+ *
+ * Thread-safe: utiliza un mutex para evitar problemas de concurrencia
+ */
 void Marquesina::forzarActualizacion()
 {
 	std::lock_guard<std::mutex> lock(mtx);
@@ -83,6 +133,11 @@ void Marquesina::forzarActualizacion()
 	actualizarBuffer();
 }
 
+/**
+ * @brief Actualiza directamente el texto de la marquesina y lo guarda en el archivo HTML
+ *
+ * @param nuevoTexto Nuevo texto a mostrar en la marquesina
+ */
 void Marquesina::actualizarTexto(const std::string& nuevoTexto)
 {
 	std::lock_guard<std::mutex> lock(mtx);
@@ -99,6 +154,12 @@ void Marquesina::actualizarTexto(const std::string& nuevoTexto)
 	}
 }
 
+/**
+ * @brief Convierte una cadena estándar a cadena wide para compatibilidad con APIs de Windows
+ *
+ * @param str Cadena estándar a convertir
+ * @return std::wstring Cadena wide resultante
+ */
 static std::wstring stringToWideString(const std::string& str)
 {
 	if (str.empty())
@@ -110,6 +171,9 @@ static std::wstring stringToWideString(const std::string& str)
 	return wstr;
 }
 
+/**
+ * @brief Muestra la ruta completa del archivo HTML utilizado
+ */
 void Marquesina::mostrarRutaArchivo()
 {
 	char path[MAX_PATH];
@@ -117,6 +181,11 @@ void Marquesina::mostrarRutaArchivo()
 	std::cout << "Ruta completa del archivo HTML: " << path << std::endl;
 }
 
+/**
+ * @brief Carga el contenido de la marquesina desde el archivo HTML
+ *
+ * Si el archivo no existe, crea uno con contenido predeterminado
+ */
 void Marquesina::cargarDesdeHTML()
 {
 	std::ifstream archivo(archivoHTML);
@@ -162,6 +231,11 @@ void Marquesina::cargarDesdeHTML()
 	}
 }
 
+/**
+ * @brief Verifica si el archivo HTML ha sido modificado desde la última carga
+ *
+ * @return bool true si el archivo ha sido modificado, false en caso contrario
+ */
 bool Marquesina::archivoModificado()
 {
 	FILETIME nuevoTiempo;
@@ -192,12 +266,22 @@ bool Marquesina::archivoModificado()
 	return false;
 }
 
+/**
+ * @brief Determina si una fila está dentro de la zona segura de la marquesina
+ *
+ * @param fila Número de fila a verificar
+ * @return bool true si la fila está en la zona segura, false en caso contrario
+ */
 bool Marquesina::esSafeZone(int fila) const
 {
 	return (fila >= posY && fila <= posY + 1);
 }
 
-// NUEVO: Actualizar buffer interno
+/**
+ * @brief Actualiza el buffer interno con el contenido actual de la marquesina
+ *
+ * Thread-safe: utiliza un mutex para evitar problemas de concurrencia
+ */
 void Marquesina::actualizarBuffer()
 {
 	std::lock_guard<std::mutex> lock(mtx);
@@ -209,12 +293,16 @@ void Marquesina::actualizarBuffer()
 	bufferActualizado = true;
 }
 
-// NUEVO: Renderizado separado y más seguro
+/**
+ * @brief Renderiza la marquesina en la consola
+ *
+ * Utiliza las APIs de Windows para escribir directamente en el buffer de la consola
+ */
 void Marquesina::renderizarMarquesina()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	
+
 	// Verificar estado de la consola antes de proceder
 	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
 		return;
@@ -231,11 +319,11 @@ void Marquesina::renderizarMarquesina()
 
 	// Operación completamente atómica
 	COORD marquesinaPos = { (SHORT)posX, (SHORT)posY };
-	
+
 	// Usar API de Windows más eficiente
 	DWORD caracteresEscritos;
 	std::string lineaLimpia(ancho, ' ');
-	
+
 	// Escribir línea completa en una sola operación
 	WriteConsoleOutputCharacterA(
 		hConsole,
@@ -255,7 +343,7 @@ void Marquesina::renderizarMarquesina()
 
 	// Escribir texto con color
 	WORD colorTurquesa = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-	
+
 	for (size_t i = 0; i < textoVisible.length() && i < ancho; ++i)
 	{
 		COORD charPos = { (SHORT)(posX + i), (SHORT)posY };
@@ -266,6 +354,14 @@ void Marquesina::renderizarMarquesina()
 	posicionTexto = (static_cast<unsigned long long>(posicionTexto) + 1) % textoBuffer.length();
 }
 
+/**
+ * @brief Analiza el contenido HTML y extrae los elementos de la marquesina
+ *
+ * Procesa etiquetas de color y formato para convertirlas en elementos visuales
+ *
+ * @param contenido Contenido HTML a analizar
+ * @return std::vector<ElementoMarquesina> Lista de elementos extraídos del HTML
+ */
 std::vector<ElementoMarquesina> Marquesina::parsearHTML(const std::string& contenido)
 {
 	std::vector<ElementoMarquesina> resultado;
@@ -345,6 +441,12 @@ std::vector<ElementoMarquesina> Marquesina::parsearHTML(const std::string& conte
 	return resultado;
 }
 
+/**
+ * @brief Función principal que ejecuta la marquesina en un hilo separado
+ *
+ * Se ejecuta continuamente mientras la marquesina esté activa, manejando
+ * actualizaciones y renderizado con medidas de seguridad
+ */
 void Marquesina::ejecutarMarquesina()
 {
 	while (ejecutando)
@@ -364,7 +466,7 @@ void Marquesina::ejecutarMarquesina()
 		}
 
 		// Renderizar solo si es completamente seguro
-		try 
+		try
 		{
 			renderizarMarquesina();
 		}

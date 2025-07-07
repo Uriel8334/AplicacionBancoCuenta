@@ -10,78 +10,152 @@
 #include <stdexcept>
 #include <Windows.h>
 
+/**
+ * @enum TipoEntrada
+ * @brief Enumeración que define los tipos de entrada para validación
+ *
+ * Define los distintos tipos de datos que pueden ser validados
+ * por las funciones de la clase Validar.
+ */
 enum class TipoEntrada {
-	NUMERICO_CEDULA,
-	NUMERICO_CUENTA,
-	ALFABETICO,
-	ALFANUMERICO,
-	CORREO,
-	TELEFONO
+    /** @brief Entrada numérica para cédulas de identidad */
+    NUMERICO_CEDULA,
+    /** @brief Entrada numérica para números de cuenta */
+    NUMERICO_CUENTA,
+    /** @brief Entrada que solo acepta caracteres alfabéticos */
+    ALFABETICO,
+    /** @brief Entrada que acepta caracteres alfanuméricos */
+    ALFANUMERICO,
+    /** @brief Entrada para direcciones de correo electrónico */
+    CORREO,
+    /** @brief Entrada para números telefónicos */
+    TELEFONO
 };
 
+/**
+ * @class Validar
+ * @brief Clase estática que proporciona métodos de validación para datos bancarios
+ *
+ * Esta clase contiene métodos estáticos para validar diferentes tipos de datos
+ * utilizados en un sistema bancario, como números de cuenta, cédulas, fechas,
+ * montos, etc. Se organiza en regiones según el tipo de validación.
+ */
 class Validar {
 public:
 #pragma region VALIDACIONES PARA CUENTA
-	// Valida que el numero de cuenta sea valido 
-	static bool ValidarNumeroCuenta(const std::string numero);
+    /**
+     * @brief Valida que el número de cuenta tenga un formato válido
+     * @param numero Número de cuenta a validar
+     * @return true si el número de cuenta es válido, false en caso contrario
+     */
+    static bool ValidarNumeroCuenta(const std::string numero);
 
-	// Valida que el saldo sea valido, valor entero, no decimal de dolares USD
-	static bool ValidarSaldo(const std::string& saldoStr);
+    /**
+     * @brief Valida que el saldo tenga un formato válido
+     * @param saldoStr Saldo en formato de cadena
+     * @return true si el formato del saldo es válido, false en caso contrario
+     */
+    static bool ValidarSaldo(const std::string& saldoStr);
 
-	// Valida el estado de la cuenta 
-	static bool ValidarEstadoCuenta(const std::string& estado);
+    /**
+     * @brief Valida que el estado de la cuenta sea válido
+     * @param estado Estado de la cuenta a validar
+     * @return true si el estado es válido, false en caso contrario
+     */
+    static bool ValidarEstadoCuenta(const std::string& estado);
 
-	// Valida el tipo de cuenta, ahorros o corriente
-	static bool ValidarTipoCuenta(const std::string& tipo);
+    /**
+     * @brief Valida que el tipo de cuenta sea válido
+     * @param tipo Tipo de cuenta ("ahorros" o "corriente")
+     * @return true si el tipo de cuenta es válido, false en caso contrario
+     */
+    static bool ValidarTipoCuenta(const std::string& tipo);
 
-	// Valida el tipo de transaccion, retiro o deposito
-	static bool ValidarTipoTransaccion(const std::string& tipo);
+    /**
+     * @brief Valida que el tipo de transacción sea válido
+     * @param tipo Tipo de transacción ("retiro" o "deposito")
+     * @return true si el tipo de transacción es válido, false en caso contrario
+     */
+    static bool ValidarTipoTransaccion(const std::string& tipo);
 
-	// Valida el monto/numero de transaccion, solo numeros enteros
-	static bool ValidarMontoTransaccion(int monto);
+    /**
+     * @brief Valida que el monto de la transacción sea válido
+     * @param monto Valor entero del monto de la transacción
+     * @return true si el monto es válido, false en caso contrario
+     */
+    static bool ValidarMontoTransaccion(int monto);
 #pragma endregion
 
-	// Valida el formato de la fecha 
-	static bool ValidarFecha(const std::string& fecha);
+    /**
+     * @brief Valida que el formato de la fecha sea correcto
+     * @param fecha Fecha en formato de cadena (DD/MM/AAAA)
+     * @return true si el formato de fecha es válido, false en caso contrario
+     */
+    static bool ValidarFecha(const std::string& fecha);
 
-	//Validar el numero con dos decimales para el monto o saldo 
-	static bool ValidarNumeroConDosDecimales(const std::string& monto);
+    /**
+     * @brief Valida que un número tenga exactamente dos decimales
+     * @param monto Valor numérico en formato de cadena
+     * @return true si el número tiene formato correcto con dos decimales, false en caso contrario
+     */
+    static bool ValidarNumeroConDosDecimales(const std::string& monto);
 
-	// Valida el poder copiar y pegar el monto desde el portapapeles
-	static std::string leerDesdePortapapeles();
+    /**
+     * @brief Lee un texto desde el portapapeles del sistema
+     * @return Cadena con el contenido del portapapeles
+     */
+    static std::string leerDesdePortapapeles();
 
 #pragma region VALIDACIONES PARA PERSONA
-	// Valida que el nombre del cliente sea valido, solo letras y espacios
-	static bool ValidarNombrePersona(const std::string& nombre);
+    /**
+     * @brief Valida que el nombre de una persona sea válido
+     * @param nombre Nombre a validar
+     * @return true si el nombre es válido (solo letras y espacios), false en caso contrario
+     */
+    static bool ValidarNombrePersona(const std::string& nombre);
 
-	// Validar el numero de cedula de 10 digitos 
-	static bool ValidarCedula(const std::string& cedula);
+    /**
+     * @brief Valida que una cédula de identidad tenga formato válido
+     * @param cedula Número de cédula a validar
+     * @return true si la cédula es válida, false en caso contrario
+     */
+    static bool ValidarCedula(const std::string& cedula);
 
-	static bool todosLosDigitosIguales(const std::string& cedula);
+    /**
+     * @brief Verifica si todos los dígitos de una cédula son iguales
+     * @param cedula Número de cédula a verificar
+     * @return true si todos los dígitos son iguales, false en caso contrario
+     */
+    static bool todosLosDigitosIguales(const std::string& cedula);
 
-	// Valida el numero de celular de 10 digitos
-	/*static bool ValidarCelular(const std::string& celular);
+    /**
+     * @brief Valida la tecla ingresada según el tipo de entrada esperado
+     * @param tecla Carácter ingresado
+     * @param tipo Tipo de entrada esperada según enumeración TipoEntrada
+     * @return true si la tecla es válida para el tipo de entrada, false en caso contrario
+     */
+    static bool ValidarTecla(char tecla, TipoEntrada tipo);
 
-	// Valida el correo electronico, solo letras, numeros y caracteres especiales
-	static bool ValidarCorreo(const std::string& correo);
-
-	// Valida el formato de la fecha de nacimiento que no sea mayor a la fecha actual, que sea menor a 130 años y mayor a 0 años
-	static bool ValidarFechaNacimiento(const std::string& fechaNacimiento);*/
-
-	// Valida la tecla que se ingresa
-	static bool ValidarTecla(char tecla, TipoEntrada tipo);
-
-	// Valida la busqueda del numero de cuenta
-	static std::string ValidarLeerNumeroCuenta();
+    /**
+     * @brief Valida y lee un número de cuenta desde la entrada estándar
+     * @return Número de cuenta validado
+     */
+    static std::string ValidarLeerNumeroCuenta();
 #pragma endregion
 
-	// Verifica si un archivo ya existe
-	static bool archivoExiste(const std::string& rutaArchivo);
+    /**
+     * @brief Verifica si un archivo existe en el sistema
+     * @param rutaArchivo Ruta completa del archivo
+     * @return true si el archivo existe, false en caso contrario
+     */
+    static bool archivoExiste(const std::string& rutaArchivo);
 
-	// Genera un nombre de respaldo unico
-	static std::string generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada);
-
-
-
+    /**
+     * @brief Genera un nombre único para archivos de respaldo
+     * @param rutaDirectorio Directorio donde se guardará el archivo
+     * @param fechaFormateada Fecha formateada para incluir en el nombre
+     * @return Nombre único para el archivo de respaldo
+     */
+    static std::string generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada);
 };
 #endif // VALIDAR_H

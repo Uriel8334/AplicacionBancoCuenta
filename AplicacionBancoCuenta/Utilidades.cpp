@@ -1,4 +1,11 @@
-﻿#include "Utilidades.h"
+﻿/**
+ * @file Utilidades.cpp
+ * @brief Implementación de diversas utilidades y estructuras de datos para el sistema bancario
+ *
+ * Este archivo contiene la implementación de clases de utilidad para el sistema bancario,
+ * incluyendo una implementación didáctica de un Árbol B, funciones para manipulación de
+ * texto, control de interfaz de usuario y generación de códigos QR.
+ */
 #include "NodoPersona.h"
 #include "Persona.h"
 #include <windows.h>
@@ -13,19 +20,37 @@
 #include <chrono>
 #include <queue>
 #include "Marquesina.h"
+#include "Utilidades.h"
 
-// Nodo para el Arbol B
+ /**
+  * @class NodoArbolB
+  * @brief Implementación de un nodo para un Árbol B
+  *
+  * Clase genérica que representa un nodo en una estructura de árbol B,
+  * almacenando punteros a objetos y referencias a nodos hijos.
+  *
+  * @tparam T Tipo de datos almacenados en el nodo
+  */
 template<typename T>
 class NodoArbolB {
 public:
-	bool esHoja;                       // Indica si es un nodo hoja
-	std::vector<T*> claves;            // Claves del nodo (punteros a objetos)
+
+	/** @brief Indica si este nodo es una hoja (no tiene hijos) */
+	bool esHoja;
+	/** @brief Vector de punteros a las claves (objetos) almacenados en este nodo */
+	std::vector<T*> claves;
+	/** @brief Vector de punteros a los nodos hijos */
 	std::vector<NodoArbolB<T>*> hijos; // Punteros a los hijos
 
-	// Constructor
+	/**
+	 * @brief Constructor del nodo de Árbol B
+	 * @param hoja Define si el nodo es una hoja (por defecto true)
+	 */
 	NodoArbolB(bool hoja = true) : esHoja(hoja) {}
 
-	// Destructor
+	/**
+	 * @brief Destructor, libera la memoria de los nodos hijos recursivamente
+	 */
 	~NodoArbolB() {
 		for (auto& hijo : hijos) {
 			delete hijo;
@@ -33,14 +58,32 @@ public:
 	}
 };
 
-// ImplementaciOn didActica de Arbol B
+/**
+ * @class ArbolB
+ * @brief Implementación didáctica de un Árbol B para propósitos educativos
+ *
+ * Esta clase implementa una versión simplificada de un Árbol B para
+ * ilustrar sus principios básicos de funcionamiento. Permite buscar elementos
+ * y visualizar la estructura del árbol.
+ *
+ * @tparam T Tipo de datos almacenados en el árbol
+ */
 template<typename T>
 class ArbolB {
 private:
+	/** @brief Nodo raíz del árbol */
 	NodoArbolB<T>* raiz;
-	int grado; // Grado mInimo (determina nUmero de claves por nodo)
+	/** @brief Grado mínimo del árbol (determina el número de claves por nodo) */
+	int grado;
 
-	// Busca una clave en el nodo y sus subArboles
+	/**
+	 * @brief Busca una clave en un nodo y sus subárboles
+	 *
+	 * @param nodo Nodo actual en el que buscar
+	 * @param valor Valor a buscar
+	 * @param comparador Función para comparar elementos
+	 * @return T* Puntero al objeto encontrado o nullptr si no existe
+	 */
 	T* buscarEnNodo(NodoArbolB<T>* nodo, const std::string& valor,
 		std::function<bool(const T*, const std::string&)> comparador) {
 		if (!nodo) return nullptr;
@@ -68,17 +111,26 @@ private:
 	}
 
 public:
-	// Constructor
+	/**
+	 * @brief Constructor del Árbol B
+	 * @param _grado Grado mínimo del árbol (determina el número de claves por nodo)
+	 */
 	ArbolB(int _grado) : raiz(nullptr), grado(_grado) {
 		if (grado < 2) grado = 2; // MInimo grado 2
 	}
 
-	// Destructor
+	/**
+	 * @brief Destructor, libera la memoria de todos los nodos
+	 */
 	~ArbolB() {
 		if (raiz) delete raiz;
 	}
 
-	// Construir Arbol desde un vector de elementos
+	/**
+	 * @brief Construye el árbol a partir de un vector de elementos
+	 *
+	 * @param elementos Vector de punteros a los elementos para construir el árbol
+	 */
 	void construirDesdeVector(std::vector<T*>& elementos) {
 		// Crear raIz
 		raiz = new NodoArbolB<T>();
@@ -117,12 +169,20 @@ public:
 		}
 	}
 
-	// Buscar elemento en el Arbol
+	/**
+	 * @brief Busca un elemento en el árbol
+	 *
+	 * @param valor Valor a buscar
+	 * @param comparador Función para comparar elementos
+	 * @return T* Puntero al objeto encontrado o nullptr si no existe
+	 */
 	T* buscar(const std::string& valor, std::function<bool(const T*, const std::string&)> comparador) {
 		return buscarEnNodo(raiz, valor, comparador);
 	}
 
-	// Mostrar estructura del Arbol
+	/**
+	 * @brief Muestra la estructura del árbol por niveles
+	 */
 	void mostrar() {
 		if (!raiz) {
 			std::cout << "Arbol vacIo" << std::endl;
@@ -164,6 +224,10 @@ public:
 		}
 	}
 
+	/**
+	 * @brief Calcula la altura aproximada del árbol
+	 * @return int Altura aproximada del árbol
+	 */
 	int altura() const {
 		if (!raiz) return 0;
 
@@ -185,92 +249,100 @@ public:
 // Variable externa para acceso a la marquesina global
 extern Marquesina* marquesinaGlobal;
 
-// Control de operaciones críticas
+
+/**
+* @brief Marca el inicio de una operación crítica que no debe ser interrumpida
+*
+* Notifica a la marquesina para pausar actualizaciones durante operaciones críticas
+*/
 void Utilidades::iniciarOperacionCritica()
 {
-    if (marquesinaGlobal)
-    {
-        marquesinaGlobal->marcarOperacionCritica();
-        // Pequeña pausa para asegurar que la marquesina se detenga
-        Sleep(10);
-    }
+	if (marquesinaGlobal)
+	{
+		marquesinaGlobal->marcarOperacionCritica();
+		// Pequeña pausa para asegurar que la marquesina se detenga
+		Sleep(10);
+	}
 }
 
+/**
+ * @brief Marca el fin de una operación crítica
+ *
+ * Notifica a la marquesina para reanudar actualizaciones normales
+ */
 void Utilidades::finalizarOperacionCritica()
 {
-    if (marquesinaGlobal)
-    {
-        marquesinaGlobal->finalizarOperacionCritica();
-    }
+	if (marquesinaGlobal)
+	{
+		marquesinaGlobal->finalizarOperacionCritica();
+	}
 }
 
-// Función gotoxy mejorada y thread-safe
+/**
+ * @brief Posiciona el cursor en coordenadas específicas de la consola
+ *
+ * Versión mejorada y thread-safe de la función gotoxy tradicional
+ *
+ * @param x Posición horizontal (columna)
+ * @param y Posición vertical (fila)
+ */
 void Utilidades::gotoxy(int x, int y)
 {
-    // Marcar operación crítica de cursor
-    iniciarOperacionCritica();
-    
+	// Marcar operación crítica de cursor
+	iniciarOperacionCritica();
+
 	COORD coord{};
-    coord.X = x; 
-    coord.Y = y + 2; // Offset para la marquesina
-    
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(hConsole, coord);
-    
-    // Finalizar operación crítica después de una pausa mínima
-    Sleep(1);
-    finalizarOperacionCritica();
+	coord.X = x;
+	coord.Y = y + 2; // Offset para la marquesina
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(hConsole, coord);
+
+	// Finalizar operación crítica después de una pausa mínima
+	Sleep(1);
+	finalizarOperacionCritica();
 }
 
-// Función mejorada para limpiar pantalla
+/**
+ * @brief Limpia la pantalla preservando el área de la marquesina
+ *
+ * @param lineasMarquesina Número de líneas reservadas para la marquesina
+ */
 void Utilidades::limpiarPantallaPreservandoMarquesina(int lineasMarquesina)
 {
-    iniciarOperacionCritica();
-    
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(hConsole, &csbi);
-    
-    int ancho = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    int alto = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-    
-    COORD startCoords = { 0, (SHORT)lineasMarquesina };
-    SetConsoleCursorPosition(hConsole, startCoords);
-    
-    DWORD caracteresEscritos;
-    int espaciosAEscribir = ancho * (alto - lineasMarquesina);
-    
-    // Usar API más eficiente
-    FillConsoleOutputCharacter(hConsole, ' ', espaciosAEscribir, startCoords, &caracteresEscritos);
-    FillConsoleOutputAttribute(hConsole, csbi.wAttributes, espaciosAEscribir, startCoords, &caracteresEscritos);
-    
-    SetConsoleCursorPosition(hConsole, startCoords);
-    
-    finalizarOperacionCritica();
+	iniciarOperacionCritica();
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+	int ancho = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	int alto = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+
+	COORD startCoords = { 0, (SHORT)lineasMarquesina };
+	SetConsoleCursorPosition(hConsole, startCoords);
+
+	DWORD caracteresEscritos;
+	int espaciosAEscribir = ancho * (alto - lineasMarquesina);
+
+	// Usar API más eficiente
+	FillConsoleOutputCharacter(hConsole, ' ', espaciosAEscribir, startCoords, &caracteresEscritos);
+	FillConsoleOutputAttribute(hConsole, csbi.wAttributes, espaciosAEscribir, startCoords, &caracteresEscritos);
+
+	SetConsoleCursorPosition(hConsole, startCoords);
+
+	finalizarOperacionCritica();
 }
 
-Utilidades::Utilidades() {
-	// Constructor vacio
-}
 
-Utilidades::~Utilidades() {
-	// Destructor vacio
-}
-
-// Funcion para formatear valores monetarios con formato americano ($1,000.23)
-static std::string formatearValorMonetario(double valor) {
-	std::stringstream ss;
-	ss.imbue(std::locale("en_US.UTF-8")); // Usar locale americano (comas para miles, punto para decimales)
-	ss << std::fixed << std::setprecision(2) << valor;
-	return ss.str();
-}
-
-// Funcion para formatear valores en centavos a formato monetario
-static std::string formatearCentavosAMonetario(int valorEnCentavos) {
-	return formatearValorMonetario(valorEnCentavos / 100.0);
-}
-
-// Metodo para convertir un string a double
+/**
+ * @brief Convierte una cadena a valor numérico double
+ *
+ * Maneja excepciones y realiza validaciones para evitar errores
+ *
+ * @param texto Cadena a convertir
+ * @return double Valor numérico obtenido, 0.0 en caso de error
+ */
 double Utilidades::ConvertirADouble(const std::string& texto) {
 	// Verificar si el texto esta vacio
 	if (texto.empty()) {
@@ -323,7 +395,13 @@ double Utilidades::ConvertirADouble(const std::string& texto) {
 	}
 }
 
-// Metodo para formatear un monto a string con separadores de miles y decimales
+/**
+ * @brief Formatea un valor numérico con separadores de miles y decimales
+ *
+ * @param monto Valor a formatear
+ * @param decimales Número de decimales a mostrar
+ * @return std::string Valor formateado como texto
+ */
 std::string Utilidades::FormatearMonto(double monto, int decimales) {
 	std::ostringstream oss;
 	oss << std::fixed << std::setprecision(decimales) << monto;
@@ -348,7 +426,14 @@ std::string Utilidades::FormatearMonto(double monto, int decimales) {
 	return resultado;
 }
 
-// Metodo para formatear la fecha 
+/**
+ * @brief Formatea una fecha a partir de sus componentes
+ *
+ * @param dia Día del mes
+ * @param mes Mes del año
+ * @param anio Año
+ * @return std::string Fecha formateada como "DD/MM/AAAA"
+ */
 std::string Utilidades::FormatearFecha(int dia, int mes, int anio) {
 	std::ostringstream oss;
 	oss << std::setfill('0') << std::setw(2) << dia << "/"
@@ -358,7 +443,12 @@ std::string Utilidades::FormatearFecha(int dia, int mes, int anio) {
 	return oss.str();
 }
 
-// metodo para comprobar si es numerico
+/**
+ * @brief Verifica si una cadena representa un valor numérico válido
+ *
+ * @param texto Cadena a verificar
+ * @return bool true si es numérico, false en caso contrario
+ */
 bool Utilidades::EsNumerico(const std::string& texto) {
 	if (texto.empty()) {
 		return false;
@@ -391,14 +481,24 @@ bool Utilidades::EsNumerico(const std::string& texto) {
 	return tieneDigito;
 }
 
-// metodo para validar el correo 
+/**
+ * @brief Valida si una cadena es un correo electrónico válido
+ *
+ * @param correo Cadena a validar
+ * @return bool true si es un correo válido, false en caso contrario
+ */
 bool Utilidades::EsCorreoValido(const std::string& correo) {
 	// Expresion regular simple para validar correos electronicos
 	const std::regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
 	return std::regex_match(correo, pattern);
 }
 
-// Metodo para eliminar espacios 
+/**
+ * @brief Elimina todos los espacios de una cadena
+ *
+ * @param texto Cadena original
+ * @return std::string Cadena sin espacios
+ */
 std::string Utilidades::EliminarEspacios(const std::string& texto) {
 	std::string resultado = texto;
 	resultado.erase(std::remove_if(resultado.begin(), resultado.end(),
@@ -407,7 +507,12 @@ std::string Utilidades::EliminarEspacios(const std::string& texto) {
 	return resultado;
 }
 
-// Metodo para convertir a mayusculas 
+/**
+ * @brief Convierte todos los caracteres de una cadena a mayúsculas
+ *
+ * @param texto Cadena original
+ * @return std::string Cadena en mayúsculas
+ */
 std::string Utilidades::ConvertirAMayusculas(const std::string& texto) {
 	std::string resultado = texto;
 	std::transform(resultado.begin(), resultado.end(), resultado.begin(),
@@ -415,7 +520,12 @@ std::string Utilidades::ConvertirAMayusculas(const std::string& texto) {
 	return resultado;
 }
 
-// Metodo para convertir a minusculas 
+/**
+ * @brief Convierte todos los caracteres de una cadena a minúsculas
+ *
+ * @param texto Cadena original
+ * @return std::string Cadena en minúsculas
+ */
 std::string Utilidades::ConvertirAMinusculas(const std::string& texto) {
 	std::string resultado = texto;
 	std::transform(resultado.begin(), resultado.end(), resultado.begin(),
@@ -423,13 +533,20 @@ std::string Utilidades::ConvertirAMinusculas(const std::string& texto) {
 	return resultado;
 }
 
-
-// metodo para regresar al menu
+/**
+ * @brief Devuelve un mensaje para regresar al menú principal
+ *
+ * @return std::string Mensaje estándar
+ */
 std::string Utilidades::Regresar() {
 	return "Regresar al menu principal";
 }
 
-// Funcion para abrir la aplicacion de menu de ayuda 
+/**
+ * @brief Muestra el menú de ayuda del sistema
+ *
+ * Ejecuta la aplicación externa de ayuda desde la misma ruta del programa
+ */
 void Utilidades::mostrarMenuAyuda() {
 	char path[MAX_PATH];
 
@@ -456,7 +573,14 @@ void Utilidades::mostrarMenuAyuda() {
 	}
 }
 
-// Implementacion didactica de hash para archivos
+/**
+ * @brief Calcula un hash simplificado de un archivo
+ *
+ * Implementación didáctica de un algoritmo de hash para archivos
+ *
+ * @param rutaArchivo Ruta al archivo a procesar
+ * @return std::string Hash generado
+ */
 std::string Utilidades::calcularSHA1(const std::string& rutaArchivo) {
 	std::ifstream archivo(rutaArchivo, std::ios::binary);
 	if (!archivo) {
@@ -526,7 +650,13 @@ std::string Utilidades::calcularSHA1(const std::string& rutaArchivo) {
 	return ss.str() + "-" + std::to_string(totalBytes);
 }
 
-// Verificar si el hash coincide con el del archivo
+/**
+ * @brief Verifica si el hash de un archivo coincide con uno esperado
+ *
+ * @param rutaArchivo Ruta al archivo a verificar
+ * @param hashEsperado Hash esperado para comparación
+ * @return bool true si los hashes coinciden, false en caso contrario
+ */
 bool Utilidades::verificarSHA1(const std::string& rutaArchivo, const std::string& hashEsperado) {
 	std::string hashActual = calcularSHA1(rutaArchivo);
 
@@ -545,7 +675,12 @@ bool Utilidades::verificarSHA1(const std::string& rutaArchivo, const std::string
 	}
 }
 
-// Guardar hash en un archivo separado con metadatos educativos
+/**
+ * @brief Guarda el hash de un archivo en un archivo separado
+ *
+ * @param rutaArchivo Ruta al archivo original
+ * @param hash Hash a guardar
+ */
 void Utilidades::guardarHashArchivo(const std::string& rutaArchivo, const std::string& hash) {
 	std::string rutaHash = rutaArchivo + ".hash";
 	std::ofstream archivoHash(rutaHash);
@@ -570,7 +705,12 @@ void Utilidades::guardarHashArchivo(const std::string& rutaArchivo, const std::s
 	}
 }
 
-// Leer hash desde un archivo, saltando lineas de comentarios
+/**
+ * @brief Lee el hash desde un archivo de hash
+ *
+ * @param rutaHashArchivo Ruta al archivo de hash
+ * @return std::string Hash leído o cadena vacía en caso de error
+ */
 std::string Utilidades::leerHashArchivo(const std::string& rutaHashArchivo) {
 	std::ifstream archivoHash(rutaHashArchivo);
 	if (!archivoHash) {
@@ -592,42 +732,14 @@ std::string Utilidades::leerHashArchivo(const std::string& rutaHashArchivo) {
 	return hash;
 }
 
-template<typename T>
-void mostrarMenuOrdenar(std::vector<T*>& vec,
-	const std::vector<std::string>& opciones,
-	const std::vector<std::function<bool(const T*, const T*)>>& criterios,
-	std::function<void(const std::vector<T*>&)> mostrarDatos)
-{
-	int seleccion = 0;
-	while (true) {
-		system("cls");
-		std::cout << "Ordenar por:\n";
-		for (size_t i = 0; i < opciones.size(); ++i) {
-			if (i == seleccion)
-				std::cout << " > " << opciones[i] << "\n";
-			else
-				std::cout << "   " << opciones[i] << "\n";
-		}
-		std::cout << "\nESC para salir\n";
 
-		int tecla = _getch();
-		if (tecla == 224) {
-			tecla = _getch();
-			if (tecla == 72) seleccion = (static_cast<unsigned long long>(seleccion) - 1 + opciones.size()) % opciones.size();
-			else if (tecla == 80) seleccion = (static_cast<unsigned long long>(seleccion) + 1) % opciones.size();
-		}
-		else if (tecla == 13) {
-			Utilidades::burbuja<T>(vec, criterios[seleccion]);
-			mostrarDatos(vec);
-			system("pause");
-		}
-		else if (tecla == 27) {
-			break;
-		}
-	}
-}
-
-// Implementación de la función PorArbolB mejorada
+/**
+ * @brief Presenta datos usando una estructura de árbol B para visualización
+ *
+ * Construye un árbol B a partir de una lista de personas y permite buscar en él
+ *
+ * @param cabeza Puntero al primer nodo de la lista de personas
+ */
 void Utilidades::PorArbolB(NodoPersona* cabeza) {
 	if (!cabeza) {
 		std::cout << "No hay datos para mostrar." << std::endl;
@@ -834,8 +946,16 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 	}
 }
 
-// Generar QR para Persona y numero de cuenta 
-// Generar QR para Persona y numero de cuenta 
+/**
+ * @brief Genera un código QR para una persona y su cuenta bancaria
+ *
+ * Esta función toma los datos de una persona y un número de cuenta para generar
+ * un código QR que puede ser mostrado en pantalla o guardado como PDF.
+ *
+ * @param persona Referencia al objeto Persona cuyos datos se incluirán en el QR
+ * @param numeroCuentaQR Número de cuenta a incluir en el QR
+ * @return bool true si la generación fue exitosa, false si se canceló o hubo error
+ */
 bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuenta) {
 	try {
 		Utilidades::limpiarPantallaPreservandoMarquesina();
@@ -901,7 +1021,7 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 					std::string rutaCompleta = rutaBase + "\\" + nombreArchivo + ".pdf";
 
 					// Generar el PDF
-					qr.generarPDFQR(qr.qr,rutaCompleta);
+					qr.generarPDFQR(qr.qr, rutaCompleta);
 
 					std::cout << "\nArchivo PDF guardado exitosamente en:\n" << rutaCompleta << std::endl;
 					system("pause");
@@ -925,3 +1045,68 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 	return true;
 }
 
+
+
+/**
+ * @brief Formatea un valor monetario con formato americano ($1,000.23)
+ *
+ * @param valor Valor a formatear
+ * @return std::string Valor formateado con separador de miles y dos decimales
+ */
+static std::string formatearValorMonetario(double valor) {
+	std::stringstream ss;
+	ss.imbue(std::locale("en_US.UTF-8")); // Usar locale americano (comas para miles, punto para decimales)
+	ss << std::fixed << std::setprecision(2) << valor;
+	return ss.str();
+}
+
+/**
+ * @brief Formatea un valor en centavos a formato monetario
+ *
+ * @param valorEnCentavos Valor en centavos a formatear
+ * @return std::string Valor formateado como moneda
+ */
+static std::string formatearCentavosAMonetario(int valorEnCentavos) {
+	return formatearValorMonetario(valorEnCentavos / 100.0);
+}
+
+/**
+ * @brief Presenta un menú para ordenar elementos con diferentes criterios
+ *
+ * @tparam T Tipo de datos a ordenar
+ * @param vec Vector de elementos a ordenar
+ * @param opciones Vector de nombres de criterios de ordenamiento
+ * @param criterios Vector de funciones para comparar elementos según cada criterio
+ * @param mostrarDatos Función para mostrar los datos ordenados
+ */
+template<typename T>
+void mostrarMenuOrdenar(std::vector<T*>& vec, const std::vector<std::string>& opciones, const std::vector<std::function<bool(const T*, const T*)>>& criterios, std::function<void(const std::vector<T*>&)> mostrarDatos)
+{
+	int seleccion = 0;
+	while (true) {
+		system("cls");
+		std::cout << "Ordenar por:\n";
+		for (size_t i = 0; i < opciones.size(); ++i) {
+			if (i == seleccion)
+				std::cout << " > " << opciones[i] << "\n";
+			else
+				std::cout << "   " << opciones[i] << "\n";
+		}
+		std::cout << "\nESC para salir\n";
+
+		int tecla = _getch();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 72) seleccion = (static_cast<unsigned long long>(seleccion) - 1 + opciones.size()) % opciones.size();
+			else if (tecla == 80) seleccion = (static_cast<unsigned long long>(seleccion) + 1) % opciones.size();
+		}
+		else if (tecla == 13) {
+			Utilidades::burbuja<T>(vec, criterios[seleccion]);
+			mostrarDatos(vec);
+			system("pause");
+		}
+		else if (tecla == 27) {
+			break;
+		}
+	}
+}

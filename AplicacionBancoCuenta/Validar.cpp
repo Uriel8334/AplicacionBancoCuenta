@@ -1,3 +1,11 @@
+/**
+ * @file Validar.cpp
+ * @brief Implementación de funciones de validación para datos bancarios
+ *
+ * Este archivo contiene la implementación de diversas funciones para validar
+ * información bancaria como números de cuenta, cédulas, montos, fechas, etc.
+ * Las validaciones están organizadas por categorías para facilitar su uso.
+ */
 #include "Validar.h"
 #include <regex>
 #include <cctype>
@@ -8,14 +16,14 @@
 #include <iomanip>
 #include <fstream>
 
-
-
-#pragma region VALIDACIONES PARA CUENTA
-
-#pragma endregion
-
-
-// Valida que el numero de cuenta sea valido: exactamente 10 digitos, tipo string
+ /**
+  * @brief Valida que un número de cuenta tenga el formato correcto
+  *
+  * Un número de cuenta válido debe contener exactamente 10 dígitos numéricos.
+  *
+  * @param numero Número de cuenta a validar
+  * @return bool true si el número de cuenta es válido, false en caso contrario
+  */
 bool Validar::ValidarNumeroCuenta(const std::string numero) {
     if (numero.length() != 10) {
         return false;
@@ -28,7 +36,15 @@ bool Validar::ValidarNumeroCuenta(const std::string numero) {
     return true;
 }
 
-// Valida que el saldo solo contenga digitos y, opcionalmente, un punto decimal
+/**
+ * @brief Valida que una cadena represente un saldo válido
+ *
+ * Un saldo válido debe contener solo dígitos y opcionalmente un punto decimal
+ * seguido de uno o dos dígitos. Además, el valor numérico debe ser no negativo.
+ *
+ * @param saldoStr Cadena que representa el saldo a validar
+ * @return bool true si el saldo es válido, false en caso contrario
+ */
 bool Validar::ValidarSaldo(const std::string& saldoStr) {
     std::regex regex("^[0-9]+(\\.[0-9]{1,2})?$");
     if (!std::regex_match(saldoStr, regex)) {
@@ -46,30 +62,66 @@ bool Validar::ValidarSaldo(const std::string& saldoStr) {
     return true;
 }
 
-// Valida el estado de la cuenta
+/**
+ * @brief Valida que el estado de una cuenta sea válido
+ *
+ * Un estado válido debe ser "Activa" o "Inactiva" (case sensitive).
+ *
+ * @param estado Estado de cuenta a validar
+ * @return bool true si el estado es válido, false en caso contrario
+ */
 bool Validar::ValidarEstadoCuenta(const std::string& estado) {
     std::regex regex("^(Activa|Inactiva)$");
     return std::regex_match(estado, regex);
 }
 
-// Valida el tipo de cuenta, ahorros o corriente
+/**
+ * @brief Valida que el tipo de cuenta sea válido
+ *
+ * Un tipo de cuenta válido debe ser "Ahorros" o "Corriente" (case sensitive).
+ *
+ * @param tipo Tipo de cuenta a validar
+ * @return bool true si el tipo es válido, false en caso contrario
+ */
 bool Validar::ValidarTipoCuenta(const std::string& tipo) {
     std::regex regex("^(Ahorros|Corriente)$");
     return std::regex_match(tipo, regex);
 }
 
-// Valida el tipo de transaccion, retiro o deposito
+/**
+ * @brief Valida que el tipo de transacción sea válido
+ *
+ * Un tipo de transacción válido debe ser "Retiro" o "Deposito" (case sensitive).
+ *
+ * @param tipo Tipo de transacción a validar
+ * @return bool true si el tipo es válido, false en caso contrario
+ */
 bool Validar::ValidarTipoTransaccion(const std::string& tipo) {
     std::regex regex("^(Retiro|Deposito)$");
     return std::regex_match(tipo, regex);
 }
 
-// Valida el monto de transaccion, solo numeros enteros
+/**
+ * @brief Valida que un monto de transacción sea válido
+ *
+ * Un monto válido debe ser un valor entero no negativo.
+ *
+ * @param saldo Monto a validar
+ * @return bool true si el monto es válido, false en caso contrario
+ */
 bool Validar::ValidarMontoTransaccion(int saldo) {
     return saldo >= 0;
 }
 
-// Valida la fecha sea acorde al sistema operativo
+/**
+ * @brief Valida que una fecha tenga formato correcto y sea una fecha válida
+ *
+ * Verifica que la fecha tenga el formato "dd/mm/aaaa", que sea una fecha
+ * existente en el calendario y que no sea futura respecto a la fecha del sistema.
+ *
+ * @param fecha Fecha a validar en formato "dd/mm/aaaa"
+ * @return bool true si la fecha es válida, false en caso contrario
+ */
 bool Validar::ValidarFecha(const std::string& fecha) {
     // Validar formato dd/mm/aaaa
     std::regex regex("^([0]?[1-9]|[12][0-9]|3[01])/([0]?[1-9]|1[0-2])/([0-9]{4})$");
@@ -112,14 +164,28 @@ bool Validar::ValidarFecha(const std::string& fecha) {
     return true;
 }
 
-// Valida el numero con dos decimales para el monto o saldo
+/**
+ * @brief Valida que una cadena represente un número con hasta dos decimales
+ *
+ * Un valor válido debe contener solo dígitos y opcionalmente un punto decimal
+ * seguido de uno o dos dígitos.
+ *
+ * @param monto Cadena que representa el monto a validar
+ * @return bool true si el formato es válido, false en caso contrario
+ */
 bool Validar::ValidarNumeroConDosDecimales(const std::string& monto) {
     // Permite numeros positivos, opcionalmente con hasta dos decimales
     std::regex regex("^[0-9]+(\\.[0-9]{1,2})?$");
     return std::regex_match(monto, regex);
 }
 
-// Valida el poder copiar y pegar el monto desde el portapapeles
+/**
+ * @brief Lee texto desde el portapapeles del sistema
+ *
+ * Útil para permitir operaciones de pegado en formularios.
+ *
+ * @return std::string Texto contenido en el portapapeles o cadena vacía si hay error
+ */
 std::string Validar::leerDesdePortapapeles() {
     if (!OpenClipboard(nullptr)) return "";
     HANDLE hData = GetClipboardData(CF_TEXT);
@@ -140,6 +206,14 @@ std::string Validar::leerDesdePortapapeles() {
     return text;
 }
 
+/**
+ * @brief Lee y valida interactivamente un número de cuenta
+ *
+ * Permite al usuario ingresar un número de cuenta de hasta 10 dígitos,
+ * con validación en tiempo real.
+ *
+ * @return std::string Número de cuenta ingresado
+ */
 std::string Validar::ValidarLeerNumeroCuenta() {
     // Lee un numero de cuenta hasta 10 digitos
     std::string numeroCuenta;
@@ -166,7 +240,14 @@ std::string Validar::ValidarLeerNumeroCuenta() {
 
 #pragma region VALIDACIONES PARA PERSONA 
 
-// Valida que el nombre de la persona sea valido, solo letras y espacios
+/**
+ * @brief Valida que un nombre de persona tenga formato correcto
+ *
+ * Un nombre válido debe contener solo letras y espacios.
+ *
+ * @param nombre Nombre a validar
+ * @return bool true si el nombre es válido, false en caso contrario
+ */
 bool Validar::ValidarNombrePersona(const std::string& nombre) {
     std::regex regex("^[a-zA-Z ]+$");
     return std::regex_match(nombre, regex);
@@ -175,6 +256,15 @@ bool Validar::ValidarNombrePersona(const std::string& nombre) {
 // Validar el numero de cedula de 10 digitos, solo numeros para Ecuador 
 // modelo usado https://medium.com/@bryansuarez/c%C3%B3mo-validar-c%C3%A9dula-y-ruc-en-ecuador-b62c5666186f
 // https://www.skypack.dev/view/udv-ec
+/**
+ * @brief Valida que una cédula ecuatoriana tenga formato correcto
+ *
+ * Implementa el algoritmo oficial de validación de cédulas ecuatorianas,
+ * verificando longitud, código de provincia, dígito verificador y otros requisitos.
+ *
+ * @param cedula Cédula a validar (debe tener 10 dígitos)
+ * @return bool true si la cédula es válida, false en caso contrario
+ */
 bool Validar::ValidarCedula(const std::string& cedula) {
     // Paso 1: longitud y solo digitos
     if (cedula.length() != 10 || !std::all_of(cedula.begin(), cedula.end(), ::isdigit)) {
@@ -222,7 +312,15 @@ bool Validar::ValidarCedula(const std::string& cedula) {
 
 #pragma region Funciones internas de ValidarPersona
 
-// Valida que la cedula no tenga todos los digitos iguales
+/**
+ * @brief Verifica si todos los dígitos de una cadena son iguales
+ *
+ * Función auxiliar utilizada en la validación de cédulas para detectar
+ * cédulas inválidas como "0000000000" o "9999999999".
+ *
+ * @param cedula Cadena de dígitos a verificar
+ * @return bool true si todos los dígitos son iguales, false en caso contrario
+ */
 bool Validar::todosLosDigitosIguales(const std::string& cedula) {
     return std::all_of(cedula.begin(), cedula.end(), [primero = cedula[0]](char c) {
         return c == primero;
@@ -236,7 +334,15 @@ bool Validar::todosLosDigitosIguales(const std::string& cedula) {
 
 #pragma endregion
 
-// Funcion para validar la tecla ingresada
+/**
+ * @brief Valida si una tecla es aceptable según el tipo de entrada requerido
+ *
+ * Permite filtrar caracteres según el contexto de entrada (numérico, alfabético, etc.).
+ *
+ * @param tecla Carácter a validar
+ * @param tipo Tipo de entrada que determina las reglas de validación
+ * @return bool true si la tecla es válida para el tipo de entrada, false en caso contrario
+ */
 bool Validar::ValidarTecla(char tecla, TipoEntrada tipo) {
     switch (tipo)
     {
@@ -263,12 +369,27 @@ bool Validar::ValidarTecla(char tecla, TipoEntrada tipo) {
     }
 }
 
+/**
+ * @brief Verifica si un archivo existe en el sistema de archivos
+ *
+ * @param rutaArchivo Ruta completa al archivo
+ * @return bool true si el archivo existe, false en caso contrario
+ */
 bool Validar::archivoExiste(const std::string& rutaArchivo) {
     std::ifstream f(rutaArchivo.c_str());
     return f.is_open();
 }
 
-
+/**
+ * @brief Genera un nombre de archivo único basado en fecha y un índice incremental
+ *
+ * Útil para crear nombres de archivo para respaldos, evitando colisiones
+ * al agregar un índice numérico si ya existe un archivo con el mismo nombre.
+ *
+ * @param rutaDirectorio Directorio donde se almacenará el archivo
+ * @param fechaFormateada Fecha en formato de texto para incluir en el nombre
+ * @return std::string Nombre de archivo único
+ */
 std::string Validar::generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada)
 {
     // Por ejemplo: "Respaldo" + "00" + "_" + "30_05_2025" + ".bak"

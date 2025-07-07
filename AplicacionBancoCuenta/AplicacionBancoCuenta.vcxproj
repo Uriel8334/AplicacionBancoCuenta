@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AplicacionBancoCuenta.cpp" />
     <ClCompile Include="Banco.cpp" />
     <ClCompile Include="Cifrado.cpp" />
     <ClCompile Include="CuentaAhorros.cpp" />
