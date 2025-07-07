@@ -152,6 +152,7 @@
     <ClInclude Include="Persona.h" />
     <ClInclude Include="Utilidades.h" />
     <ClInclude Include="Validar.h" />
+    <ClInclude Include="_CdocsMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
