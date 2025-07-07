@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file main.cpp
  * @brief Sistema de gestión bancaria con interfaz de consola
  *
@@ -291,6 +291,9 @@ Marquesina* marquesinaGlobal = nullptr;
  * @return int Código de salida del programa (0 si termina correctamente)
  */
 int main() {
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
+
 	std::string opciones[] = {
 		"Crear Cuenta",
 		"Buscar Cuenta",

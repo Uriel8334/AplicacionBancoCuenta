@@ -1,0 +1,115 @@
+\doxysection{Generador\+QRBanco\+\_\+fixed.\+h}
+\hypertarget{_generador_q_r_banco__fixed_8h_source}{}\label{_generador_q_r_banco__fixed_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ GENERADORQRBANCO\_H}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ GENERADORQRBANCO\_H}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}Persona.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_generador_q_r_banco}{GeneradorQRBanco}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \ \ std::vector<std::vector<bool>>\ matrix;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ size;}
+\DoxyCodeLine{00019\ \ \ \ \ std::string\ numeroCuenta;}
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ nombreCompleto;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Tabla\ de\ caracteres\ alfanuméricos\ para\ QR}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ alphanumeric\ =\ \textcolor{stringliteral}{"{}0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\ \$\%*+-\/./:"{}};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//\ Patrones\ de\ máscara\ para\ mejorar\ la\ legibilidad}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{enum}\ PatronMascara\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ MASCARA\_000\ =\ 0,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ MASCARA\_001\ =\ 1,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ MASCARA\_010\ =\ 2,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ MASCARA\_011\ =\ 3,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ MASCARA\_100\ =\ 4,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ MASCARA\_101\ =\ 5,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ MASCARA\_110\ =\ 6,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ MASCARA\_111\ =\ 7}
+\DoxyCodeLine{00035\ \ \ \ \ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{comment}{//\ Enum\ para\ formato\ de\ datos}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{enum\ class}\ FormatoDatos\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ ESTRUCTURADO,\ \ \textcolor{comment}{//\ Formato\ legible\ estructurado}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ JSON\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Formato\ JSON\ estándar}}
+\DoxyCodeLine{00041\ \ \ \ \ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ FormatoDatos\ formatoSalida;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ Métodos\ privados\ para\ construcción\ del\ QR}}
+\DoxyCodeLine{00046\ \ \ \ \ std::string\ convertirAMayusculas(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{int}\ calcularLongitudDatos();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ Métodos\ principales\ para\ generación\ QR\ según\ ISO/IEC\ 18004}}
+\DoxyCodeLine{00050\ \ \ \ \ std::vector<bool>\ codificarDatos();\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Codifica\ datos\ en\ modo\ byte}}
+\DoxyCodeLine{00051\ \ \ \ \ std::vector<bool>\ generarECC(\textcolor{keyword}{const}\ std::vector<bool>\&\ datos);\ \ \textcolor{comment}{//\ Genera\ Reed-\/Solomon\ ECC}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ construirMatriz();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construye\ matriz\ QR\ completa}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ aplicarEnmascaramiento(\textcolor{keywordtype}{int}\ patron);\ \ \ \ \ \textcolor{comment}{//\ Aplica\ enmascaramiento\ XOR}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ imprimirEnConsola();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Imprime\ QR\ en\ consola\ con\ '█'\ y\ espacios}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Métodos\ de\ codificación\ y\ generación\ QR\ optimizados\ para\ móviles}}
+\DoxyCodeLine{00057\ \ \ \ \ std::vector<bool>\ codificarDatosBancarios();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarPatronesPosicion();}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarSeparadores();}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarPatronesTiempo();}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarInformacionFormato();}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarModuloOscuro();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ estaReservado(\textcolor{keywordtype}{int}\ fila,\ \textcolor{keywordtype}{int}\ col);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ colocarDatos(\textcolor{keyword}{const}\ std::vector<bool>\&\ data);}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ aplicarMascara(PatronMascara\ patron);}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ obtenerCapacidadDatos();}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{comment}{//\ Métodos\ para\ datos\ según\ ISO/IEC\ 18004}}
+\DoxyCodeLine{00069\ \ \ \ \ std::string\ generarDatosEstructurados();}
+\DoxyCodeLine{00070\ \ \ \ \ std::string\ generarFormatoEstructurado();\ \textcolor{comment}{//\ Optimizado\ para\ mostrar\ solo\ NOMBRE\ y\ N.\ CUENTA}}
+\DoxyCodeLine{00071\ \ \ \ \ std::string\ generarFormatoJSON();\ \textcolor{comment}{//\ Optimizado\ para\ formato\ compacto}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//\ Métodos\ para\ construcción\ estándar\ ISO/IEC\ 18004}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarPatronesAlineamiento();\ \textcolor{comment}{//\ Implementación\ completa\ para\ versiones\ 2-\/5}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ agregarInformacionVersion();}
+\DoxyCodeLine{00076\ \ \ \ \ std::vector<bool>\ generarCodigoCorreccion(\textcolor{keyword}{const}\ std::vector<bool>\&\ datos);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{comment}{//\ Constructores}}
+\DoxyCodeLine{00080\ \ \ \ \ GeneradorQRBanco(\textcolor{keyword}{const}\ Persona\&\ persona,\ \textcolor{keyword}{const}\ std::string\&\ numCuenta);}
+\DoxyCodeLine{00081\ \ \ \ \ GeneradorQRBanco(\textcolor{keyword}{const}\ std::string\&\ nombreCompleto,\ \textcolor{keyword}{const}\ std::string\&\ numCuenta);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//\ Métodos\ principales}}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ generar();\ \textcolor{comment}{//\ Genera\ código\ QR\ según\ estándar\ ISO/IEC\ 18004}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ imprimir();\ \textcolor{comment}{//\ Muestra\ QR\ en\ consola\ con\ símbolos\ especiales}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{comment}{//\ Métodos\ para\ guardar\ y\ exportar\ QR}}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ guardarComoSVG(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo);}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ guardarInformacionCuenta(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo);}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ guardarComoPNG(\textcolor{keyword}{const}\ std::string\&\ nombreArchivo);}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{comment}{//\ Método\ para\ cambiar\ el\ formato\ de\ salida}}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ setFormatoSalida(\textcolor{keywordtype}{bool}\ useJSON);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//\ Método\ para\ obtener\ el\ contenido\ codificado\ en\ el\ QR}}
+\DoxyCodeLine{00099\ \ \ \ \ std::string\ obtenerContenidoQR()\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ generarDatosEstructurados();}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{comment}{//\ Métodos\ de\ validación\ y\ compatibilidad}}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ esNumeroCuentaValido(\textcolor{keyword}{const}\ std::string\&\ cuenta);\ \textcolor{comment}{//\ Valida\ exactamente\ 10\ dígitos\ numéricos}}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ esNombreValido(\textcolor{keyword}{const}\ std::string\&\ nombre);}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{bool}\ generarCodigoQRCompatible();\ \textcolor{comment}{//\ Optimizado\ para\ estándar\ ISO/IEC\ 18004}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{bool}\ verificarCompatibilidadQR();\ \textcolor{comment}{//\ Verifica\ compatibilidad\ con\ lectores\ móviles}}
+\DoxyCodeLine{00108\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GENERADORQRBANCO\_H}}
+
+\end{DoxyCode}

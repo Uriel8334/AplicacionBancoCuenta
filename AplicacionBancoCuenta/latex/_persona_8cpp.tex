@@ -1,0 +1,40 @@
+\doxysection{Persona.\+cpp File Reference}
+\hypertarget{_persona_8cpp}{}\label{_persona_8cpp}\index{Persona.cpp@{Persona.cpp}}
+
+
+Implementacion de la clase \doxylink{class_persona}{Persona} para manejo de datos personales y cuentas bancarias.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$conio.\+h$>$}\newline
+{\ttfamily \#include $<$windows.\+h$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include "{}Validar.\+h"{}}\newline
+{\ttfamily \#include "{}Fecha.\+h"{}}\newline
+{\ttfamily \#include "{}Persona.\+h"{}}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_persona_u_i}{Persona\+UI}}
+\begin{DoxyCompactList}\small\item\em Proporciona elementos de interfaz de usuario para la clase \doxylink{class_persona}{Persona}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::function$<$ bool(const std\+::string \&)$>$ \mbox{\hyperlink{namespace_persona_u_i_a73b0da82b395582147e9df264d041441}{Persona\+UI\+::seleccionar\+Si\+No}}
+\begin{DoxyCompactList}\small\item\em Lambda para mostrar un selector de opciones Si/\+No con navegacion por teclado. \end{DoxyCompactList}\item 
+const std\+::function$<$ double(double, double, const std\+::string \&)$>$ \mbox{\hyperlink{namespace_persona_u_i_a24b49bfd3e0188084d541563af65b314}{Persona\+UI\+::ingresar\+Monto}}
+\begin{DoxyCompactList}\small\item\em Lambda para ingresar y validar montos numericos con limites. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementacion de la clase \doxylink{class_persona}{Persona} para manejo de datos personales y cuentas bancarias. 
+
+Este archivo implementa la funcionalidad para gestionar datos personales, validar informacion de usuarios y administrar las cuentas bancarias asociadas a una persona, incluyendo cuentas de ahorro y cuentas corrientes. 

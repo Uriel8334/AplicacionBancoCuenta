@@ -1,0 +1,28 @@
+\doxysection{Cifrado.\+h}
+\hypertarget{_cifrado_8h_source}{}\label{_cifrado_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ CIFRADO\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ CIFRADO\_H}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_cifrado}{Cifrado}}\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cifrado_a33663a55cf8c58b6ce202c6827c131ab}{CifrarArchivo}}(\textcolor{keyword}{const}\ std::string\&\ rutaEntrada,\ \textcolor{keyword}{const}\ std::string\&\ rutaSalida,\ \textcolor{keywordtype}{char}\ clave);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cifrado_a273e0d4695ff86f9f239821c298a8130}{desifrarArchivo}}(\textcolor{keyword}{const}\ std::string\&\ rutaEntrada,\ \textcolor{keyword}{const}\ std::string\&\ rutaSalida,\ \textcolor{keywordtype}{char}\ valor);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_cifrado_a73b2ac7d646bd2784f90c21d4809f556}{cifrarYGuardarDatos}}(\textcolor{keyword}{const}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_banco}{Banco}}\&\ banco,\ \textcolor{keyword}{const}\ std::string\&\ nombreArchivo,\ \textcolor{keywordtype}{char}\ claveCifrado);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_cifrado_ae3a262fd643b343e371ba1256fe19a4a}{descifrarYCargarDatos}}(\textcolor{keyword}{class}\ \mbox{\hyperlink{class_banco}{Banco}}\&\ banco,\ \textcolor{keyword}{const}\ std::string\&\ nombreArchivo,\ \textcolor{keywordtype}{char}\ claveCifrado);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_cifrado_a96f623add554f4e4653896f59a1f2e3b}{descifrarSinCargarDatos}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_banco}{Banco}}\&\ banco,\ \textcolor{keyword}{const}\ std::string\&\ nombreArchivo,\ \textcolor{keywordtype}{char}\ claveCifrado,\ \textcolor{keywordtype}{int}\ opcion);}
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CIFRADO\_H}}
+
+\end{DoxyCode}

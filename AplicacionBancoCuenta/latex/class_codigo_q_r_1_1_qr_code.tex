@@ -1,0 +1,350 @@
+\doxysection{Codigo\+QR\+::Qr\+Code Class Reference}
+\hypertarget{class_codigo_q_r_1_1_qr_code}{}\label{class_codigo_q_r_1_1_qr_code}\index{CodigoQR::QrCode@{CodigoQR::QrCode}}
+
+
+Representa un codigo QR completo con todos sus elementos.  
+
+
+
+
+{\ttfamily \#include $<$Codigo\+QR.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}} \{ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a41bc94cbd8eebea13ce0491b2ac11b88}{LOW}} = 0
+, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5ac87f3be66ffc3c0d4249f1c2cc5f3cce}{MEDIUM}}
+, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a8927abb1f5ad5fce6a9eccbcf2b0a12d}{QUARTILE}}
+, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5ab89de3b4b81c4facfac906edf29aec8c}{HIGH}}
+ \}
+\begin{DoxyCompactList}\small\item\em Niveles de correccion de errores para codigos QR. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_ae3c5e459012cf16099d0495e6ec55f3d}{Qr\+Code}} (int ver, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}} ecl, const std\+::vector$<$ std\+::uint8\+\_\+t $>$ \&data\+Codewords, int msk)
+\begin{DoxyCompactList}\small\item\em Constructor para crear un codigo QR. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_ab3e6b7f329beae7de0230620e8d36c1e}{get\+Version}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la version del codigo QR. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_a231f954a9c7a5b229b8fd4034920d444}{get\+Size}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el tamaño del codigo QR en modulos. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_a91c2f430bb0e4e08bc0b484f42b76c86}{get\+Error\+Correction\+Level}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el nivel de correccion de errores. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aafcc6966ab3694342e01e63b92302805}{get\+Mask}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el patron de mascara utilizado. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_a2878045cd44f8729258ec0d91f605bd4}{get\+Module}} (int x, int y) const
+\begin{DoxyCompactList}\small\item\em Verifica si un modulo esta activo (negro) en la posicion dada. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_a2e0b49d1bf2e2717e440c620cc077d08}{encode\+Text}} (const char \texorpdfstring{$\ast$}{*}text, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}} ecl)
+\begin{DoxyCompactList}\small\item\em Codifica texto en un codigo QR. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_a13965bf97abf44f1d80e2e6e8bec4d34}{encode\+Binary}} (const std\+::vector$<$ std\+::uint8\+\_\+t $>$ \&data, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}} ecl)
+\begin{DoxyCompactList}\small\item\em Codifica datos binarios en un codigo QR. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_ab1f1a487960da72f667a99c2283e709e}{encode\+Segments}} (const std\+::vector$<$ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} $>$ \&segs, \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}} ecl, int min\+Version=1, int max\+Version=40, int mask=-\/1, bool boost\+Ecl=true)
+\begin{DoxyCompactList}\small\item\em Codifica segmentos en un codigo QR. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_codigo_q_r_1_1_qr_code_ad64ae598ea4b1010a7131a6b46f6eb63}\label{class_codigo_q_r_1_1_qr_code_ad64ae598ea4b1010a7131a6b46f6eb63} 
+static constexpr int {\bfseries MIN\+\_\+\+VERSION} = 1
+\begin{DoxyCompactList}\small\item\em Version minima de codigo QR (1) \end{DoxyCompactList}\item 
+\Hypertarget{class_codigo_q_r_1_1_qr_code_af41dc03d11ddb0fe3cf5b9279a391e11}\label{class_codigo_q_r_1_1_qr_code_af41dc03d11ddb0fe3cf5b9279a391e11} 
+static constexpr int {\bfseries MAX\+\_\+\+VERSION} = 40
+\begin{DoxyCompactList}\small\item\em Version maxima de codigo QR (40) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Representa un codigo QR completo con todos sus elementos. 
+
+Esta clase implementa la funcionalidad para crear y manipular codigos QR con diferentes niveles de correccion de errores y versiones. 
+
+\label{doc-enum-members}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!Ecc@{Ecc}}
+\index{Ecc@{Ecc}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{Ecc}{Ecc}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5} 
+enum class \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Codigo\+QR\+::\+Qr\+Code\+::\+Ecc}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Niveles de correccion de errores para codigos QR. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOW@{LOW}!CodigoQR::QrCode@{CodigoQR::QrCode}}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!LOW@{LOW}}}\Hypertarget{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a41bc94cbd8eebea13ce0491b2ac11b88}\label{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a41bc94cbd8eebea13ce0491b2ac11b88} 
+LOW&El codigo QR puede tolerar aproximadamente 7\% de palabras codigo erroneas \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MEDIUM@{MEDIUM}!CodigoQR::QrCode@{CodigoQR::QrCode}}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!MEDIUM@{MEDIUM}}}\Hypertarget{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5ac87f3be66ffc3c0d4249f1c2cc5f3cce}\label{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5ac87f3be66ffc3c0d4249f1c2cc5f3cce} 
+MEDIUM&El codigo QR puede tolerar aproximadamente 15\% de palabras codigo erroneas \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{QUARTILE@{QUARTILE}!CodigoQR::QrCode@{CodigoQR::QrCode}}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!QUARTILE@{QUARTILE}}}\Hypertarget{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a8927abb1f5ad5fce6a9eccbcf2b0a12d}\label{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a8927abb1f5ad5fce6a9eccbcf2b0a12d} 
+QUARTILE&El codigo QR puede tolerar aproximadamente 25\% de palabras codigo erroneas \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HIGH@{HIGH}!CodigoQR::QrCode@{CodigoQR::QrCode}}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!HIGH@{HIGH}}}\Hypertarget{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5ab89de3b4b81c4facfac906edf29aec8c}\label{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5ab89de3b4b81c4facfac906edf29aec8c} 
+HIGH&El codigo QR puede tolerar aproximadamente 30\% de palabras codigo erroneas \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\label{doc-constructors}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_ae3c5e459012cf16099d0495e6ec55f3d}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!QrCode@{QrCode}}
+\index{QrCode@{QrCode}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{QrCode()}{QrCode()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_ae3c5e459012cf16099d0495e6ec55f3d} 
+Codigo\+QR\+::\+Qr\+Code\+::\+Qr\+Code (\begin{DoxyParamCaption}\item[{int}]{ver}{, }\item[{\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}}}]{ecl}{, }\item[{const std\+::vector$<$ std\+::uint8\+\_\+t $>$ \&}]{data\+Codewords}{, }\item[{int}]{msk}{}\end{DoxyParamCaption})}
+
+
+
+Constructor para crear un codigo QR. 
+
+Constructor principal de \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ver} & Version (1-\/40) \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+{\em data\+Codewords} & Datos codificados \\
+\hline
+{\em msk} & Patron de mascara\\
+\hline
+{\em ver} & Version del codigo QR (1-\/40) \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+{\em data\+Codewords} & Vector con los bytes de datos \\
+\hline
+{\em msk} & Patron de mascara (-\/1 para seleccion automatica) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::domain\+\_\+error} & Si los parametros estan fuera de rango \\
+\hline
+\end{DoxyExceptions}
+
+
+\label{doc-func-members}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_a13965bf97abf44f1d80e2e6e8bec4d34}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!encodeBinary@{encodeBinary}}
+\index{encodeBinary@{encodeBinary}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{encodeBinary()}{encodeBinary()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_a13965bf97abf44f1d80e2e6e8bec4d34} 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}} Codigo\+QR\+::\+Qr\+Code\+::encode\+Binary (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::uint8\+\_\+t $>$ \&}]{data}{, }\item[{\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}}}]{ecl}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Codifica datos binarios en un codigo QR. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Datos binarios a codificar \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code} con el codigo generado
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Vector de bytes a codificar \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code} que contiene el codigo generado 
+\end{DoxyReturn}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_ab1f1a487960da72f667a99c2283e709e}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!encodeSegments@{encodeSegments}}
+\index{encodeSegments@{encodeSegments}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{encodeSegments()}{encodeSegments()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_ab1f1a487960da72f667a99c2283e709e} 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}} Codigo\+QR\+::\+Qr\+Code\+::encode\+Segments (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} $>$ \&}]{segs}{, }\item[{\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}}}]{ecl}{, }\item[{int}]{min\+Version}{ = {\ttfamily 1}, }\item[{int}]{max\+Version}{ = {\ttfamily 40}, }\item[{int}]{mask}{ = {\ttfamily -\/1}, }\item[{bool}]{boost\+Ecl}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Codifica segmentos en un codigo QR. 
+
+Codifica segmentos en un codigo QR con opciones avanzadas.
+
+
+\begin{DoxyParams}{Parameters}
+{\em segs} & Segmentos a codificar \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+{\em min\+Version} & Version minima (1-\/40) \\
+\hline
+{\em max\+Version} & Version maxima (1-\/40) \\
+\hline
+{\em mask} & Patron de mascara (-\/1 para automatico) \\
+\hline
+{\em boost\+Ecl} & Permitir mejora automatica del nivel de correccion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code} con el codigo generado
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em segs} & Vector de segmentos a codificar \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+{\em min\+Version} & Version minima a usar (1-\/40) \\
+\hline
+{\em max\+Version} & Version maxima a usar (1-\/40) \\
+\hline
+{\em mask} & Patron de mascara (-\/1 para automatico) \\
+\hline
+{\em boost\+Ecl} & Aumentar nivel de correccion si hay espacio \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code} que contiene el codigo generado 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::invalid\+\_\+argument} & Si los parametros son invalidos \\
+\hline
+{\em \doxylink{class_codigo_q_r_1_1data__too__long}{data\+\_\+too\+\_\+long}} & Si los datos son demasiado grandes para la version \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_a2e0b49d1bf2e2717e440c620cc077d08}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!encodeText@{encodeText}}
+\index{encodeText@{encodeText}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{encodeText()}{encodeText()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_a2e0b49d1bf2e2717e440c620cc077d08} 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Qr\+Code}} Codigo\+QR\+::\+Qr\+Code\+::encode\+Text (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{text}{, }\item[{\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Ecc}}}]{ecl}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Codifica texto en un codigo QR. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & Texto a codificar \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code} con el codigo generado
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em text} & Texto a codificar \\
+\hline
+{\em ecl} & Nivel de correccion de errores \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Objeto \doxylink{class_codigo_q_r_1_1_qr_code}{Qr\+Code} que contiene el codigo generado 
+\end{DoxyReturn}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_a91c2f430bb0e4e08bc0b484f42b76c86}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!getErrorCorrectionLevel@{getErrorCorrectionLevel}}
+\index{getErrorCorrectionLevel@{getErrorCorrectionLevel}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{getErrorCorrectionLevel()}{getErrorCorrectionLevel()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_a91c2f430bb0e4e08bc0b484f42b76c86} 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5}{Qr\+Code\+::\+Ecc}} Codigo\+QR\+::\+Qr\+Code\+::get\+Error\+Correction\+Level (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene el nivel de correccion de errores. 
+
+\begin{DoxyReturn}{Returns}
+Nivel de correccion
+
+Nivel de correccion de errores 
+\end{DoxyReturn}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_aafcc6966ab3694342e01e63b92302805}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!getMask@{getMask}}
+\index{getMask@{getMask}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{getMask()}{getMask()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_aafcc6966ab3694342e01e63b92302805} 
+int Codigo\+QR\+::\+Qr\+Code\+::get\+Mask (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene el patron de mascara utilizado. 
+
+\begin{DoxyReturn}{Returns}
+indice del patron de mascara (0-\/7)
+
+Patron de mascara (0-\/7) 
+\end{DoxyReturn}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_a2878045cd44f8729258ec0d91f605bd4}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!getModule@{getModule}}
+\index{getModule@{getModule}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{getModule()}{getModule()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_a2878045cd44f8729258ec0d91f605bd4} 
+bool Codigo\+QR\+::\+Qr\+Code\+::get\+Module (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption}) const}
+
+
+
+Verifica si un modulo esta activo (negro) en la posicion dada. 
+
+Verifica si un modulo esta activo (oscuro) en las coordenadas especificadas.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Coordenada horizontal \\
+\hline
+{\em y} & Coordenada vertical \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el modulo esta activo, false si es blanco
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Coordenada X \\
+\hline
+{\em y} & Coordenada Y \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el modulo esta activo, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_a231f954a9c7a5b229b8fd4034920d444}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!getSize@{getSize}}
+\index{getSize@{getSize}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{getSize()}{getSize()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_a231f954a9c7a5b229b8fd4034920d444} 
+int Codigo\+QR\+::\+Qr\+Code\+::get\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene el tamaño del codigo QR en modulos. 
+
+Obtiene el tamaÃ±o del codigo QR en modulos.
+
+\begin{DoxyReturn}{Returns}
+Tamaño (ancho/alto en modulos)
+
+TamaÃ±o en modulos (pixeles) 
+\end{DoxyReturn}
+\Hypertarget{class_codigo_q_r_1_1_qr_code_ab3e6b7f329beae7de0230620e8d36c1e}\index{CodigoQR::QrCode@{CodigoQR::QrCode}!getVersion@{getVersion}}
+\index{getVersion@{getVersion}!CodigoQR::QrCode@{CodigoQR::QrCode}}
+\doxysubsubsection{\texorpdfstring{getVersion()}{getVersion()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_code_ab3e6b7f329beae7de0230620e8d36c1e} 
+int Codigo\+QR\+::\+Qr\+Code\+::get\+Version (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Obtiene la version del codigo QR. 
+
+\begin{DoxyReturn}{Returns}
+Version (1-\/40) 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Codigo\+QR.\+h\item 
+\mbox{\hyperlink{_codigo_q_r_8cpp}{Codigo\+QR.\+cpp}}\end{DoxyCompactItemize}

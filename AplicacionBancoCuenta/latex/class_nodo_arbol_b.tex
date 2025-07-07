@@ -1,0 +1,67 @@
+\doxysection{Nodo\+ArbolB\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_nodo_arbol_b}{}\label{class_nodo_arbol_b}\index{NodoArbolB$<$ T $>$@{NodoArbolB$<$ T $>$}}
+
+
+Implementacion de un nodo para un arbol B.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_nodo_arbol_b_a3756b7a43249b6e7dddfb27dadd14e65}{Nodo\+ArbolB}} (bool hoja=true)
+\begin{DoxyCompactList}\small\item\em Constructor del nodo de arbol B. \end{DoxyCompactList}\item 
+\Hypertarget{class_nodo_arbol_b_a42d2dcb929463d0111df4c37118b5793}\label{class_nodo_arbol_b_a42d2dcb929463d0111df4c37118b5793} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Nodo\+ArbolB} ()
+\begin{DoxyCompactList}\small\item\em Destructor, libera la memoria de los nodos hijos recursivamente. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_nodo_arbol_b_a81114061c20c10d1374c4169cbba0a90}\label{class_nodo_arbol_b_a81114061c20c10d1374c4169cbba0a90} 
+bool {\bfseries es\+Hoja}
+\begin{DoxyCompactList}\small\item\em Indica si este nodo es una hoja (no tiene hijos) \end{DoxyCompactList}\item 
+\Hypertarget{class_nodo_arbol_b_ac09774b8ad71129c789ce0070b3b59e5}\label{class_nodo_arbol_b_ac09774b8ad71129c789ce0070b3b59e5} 
+std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ {\bfseries claves}
+\begin{DoxyCompactList}\small\item\em Vector de punteros a las claves (objetos) almacenados en este nodo. \end{DoxyCompactList}\item 
+\Hypertarget{class_nodo_arbol_b_a60d70f7b25a6b16f44830257645e2490}\label{class_nodo_arbol_b_a60d70f7b25a6b16f44830257645e2490} 
+std\+::vector$<$ \mbox{\hyperlink{class_nodo_arbol_b}{Nodo\+ArbolB}}$<$ T $>$ \texorpdfstring{$\ast$}{*} $>$ {\bfseries hijos}
+\begin{DoxyCompactList}\small\item\em Vector de punteros a los nodos hijos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Nodo\+Arbol\+B$<$ T $>$}
+Implementacion de un nodo para un arbol B. 
+
+Clase generica que representa un nodo en una estructura de arbol B, almacenando punteros a objetos y referencias a nodos hijos.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Tipo de datos almacenados en el nodo \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{class_nodo_arbol_b_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_nodo_arbol_b_a3756b7a43249b6e7dddfb27dadd14e65}\index{NodoArbolB$<$ T $>$@{NodoArbolB$<$ T $>$}!NodoArbolB@{NodoArbolB}}
+\index{NodoArbolB@{NodoArbolB}!NodoArbolB$<$ T $>$@{NodoArbolB$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{NodoArbolB()}{NodoArbolB()}}
+{\footnotesize\ttfamily \label{class_nodo_arbol_b_a3756b7a43249b6e7dddfb27dadd14e65} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{class_nodo_arbol_b}{Nodo\+ArbolB}}$<$ T $>$\mbox{\hyperlink{class_nodo_arbol_b}{\+::\+Nodo\+ArbolB}} (\begin{DoxyParamCaption}\item[{bool}]{hoja}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor del nodo de arbol B. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hoja} & Define si el nodo es una hoja (por defecto true) \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_utilidades_8cpp}{Utilidades.\+cpp}}\end{DoxyCompactItemize}

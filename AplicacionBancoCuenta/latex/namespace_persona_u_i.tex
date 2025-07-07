@@ -1,0 +1,94 @@
+\doxysection{Persona\+UI Namespace Reference}
+\hypertarget{namespace_persona_u_i}{}\label{namespace_persona_u_i}\index{PersonaUI@{PersonaUI}}
+
+
+Proporciona elementos de interfaz de usuario para la clase \doxylink{class_persona}{Persona}.  
+
+
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::function$<$ bool(const std\+::string \&)$>$ \mbox{\hyperlink{namespace_persona_u_i_a73b0da82b395582147e9df264d041441}{seleccionar\+Si\+No}}
+\begin{DoxyCompactList}\small\item\em Lambda para mostrar un selector de opciones Si/\+No con navegacion por teclado. \end{DoxyCompactList}\item 
+const std\+::function$<$ double(double, double, const std\+::string \&)$>$ \mbox{\hyperlink{namespace_persona_u_i_a24b49bfd3e0188084d541563af65b314}{ingresar\+Monto}}
+\begin{DoxyCompactList}\small\item\em Lambda para ingresar y validar montos numericos con limites. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Proporciona elementos de interfaz de usuario para la clase \doxylink{class_persona}{Persona}. 
+
+Namespace que contiene funciones de utilidad para la interfaz de usuario de \doxylink{class_persona}{Persona}.
+
+Este namespace contiene funciones lambda para la interaccion con el usuario, como selectores y validadores de entrada.
+
+Proporciona funciones lambda reutilizables para interactuar con el usuario en el contexto de la gestion de personas y cuentas. 
+
+\label{doc-var-members}
+\Hypertarget{namespace_persona_u_i_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespace_persona_u_i_a24b49bfd3e0188084d541563af65b314}\index{PersonaUI@{PersonaUI}!ingresarMonto@{ingresarMonto}}
+\index{ingresarMonto@{ingresarMonto}!PersonaUI@{PersonaUI}}
+\doxysubsubsection{\texorpdfstring{ingresarMonto}{ingresarMonto}}
+{\footnotesize\ttfamily \label{namespace_persona_u_i_a24b49bfd3e0188084d541563af65b314} 
+const std\+::function$<$ double(double, double, const std\+::string \&)$>$ Persona\+UI\+::ingresar\+Monto}
+
+
+
+Lambda para ingresar y validar montos numericos con limites. 
+
+Funcion para solicitar el ingreso de un monto con validacion.
+
+Permite ingresar valores numericos con formato de moneda y validacion en tiempo real.
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & Valor minimo permitido \\
+\hline
+{\em max} & Valor maximo permitido \\
+\hline
+{\em mensaje} & Mensaje a mostrar al usuario \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double Valor ingresado dentro de los limites especificados
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em min} & Valor minimo aceptable \\
+\hline
+{\em max} & Valor maximo aceptable \\
+\hline
+{\em mensaje} & El mensaje a mostrar para la solicitud \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+El monto ingresado y validado por el usuario 
+\end{DoxyReturn}
+\Hypertarget{namespace_persona_u_i_a73b0da82b395582147e9df264d041441}\index{PersonaUI@{PersonaUI}!seleccionarSiNo@{seleccionarSiNo}}
+\index{seleccionarSiNo@{seleccionarSiNo}!PersonaUI@{PersonaUI}}
+\doxysubsubsection{\texorpdfstring{seleccionarSiNo}{seleccionarSiNo}}
+{\footnotesize\ttfamily \label{namespace_persona_u_i_a73b0da82b395582147e9df264d041441} 
+const std\+::function$<$ bool(const std\+::string \&)$>$ Persona\+UI\+::seleccionar\+Si\+No}
+
+
+
+Lambda para mostrar un selector de opciones Si/\+No con navegacion por teclado. 
+
+Funcion para solicitar una confirmacion (Si/\+No) al usuario.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mensaje} & Mensaje a mostrar al usuario antes de las opciones \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si selecciona "{}\+Si"{}, false si selecciona "{}\+No"{}
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em mensaje} & El mensaje a mostrar para la solicitud \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el usuario selecciona "{}\+Si"{}, false en caso contrario 
+\end{DoxyReturn}

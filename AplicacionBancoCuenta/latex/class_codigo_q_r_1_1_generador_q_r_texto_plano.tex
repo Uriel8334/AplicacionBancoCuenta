@@ -1,0 +1,102 @@
+\doxysection{Codigo\+QR\+::Generador\+QRTexto\+Plano Class Reference}
+\hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano}{}\label{class_codigo_q_r_1_1_generador_q_r_texto_plano}\index{CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}}
+
+
+Clase para generar codigos QR con informacion personal en texto plano.  
+
+
+
+
+{\ttfamily \#include $<$Codigo\+QR.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a235176d944a224aea65cac7b795970ec}{Generador\+QRTexto\+Plano}} (const std\+::string \&nombre, const std\+::string \&cuenta)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_abbdb377246f571aa40e00af15de144ac}{generar\+QR}} ()
+\begin{DoxyCompactList}\small\item\em Genera el codigo QR con los datos personales. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a061e93cf88b99e0d94c81cec8a303daa}{imprimir\+En\+Consola}} () const
+\begin{DoxyCompactList}\small\item\em Imprime el codigo QR en la consola. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a9b54decd72d595fcdc144e9c2a50b24d}{generar\+PDFQR}} (const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Codigo\+QR\+::\+Qr\+Code}} \&\mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}, const std\+::string \&nombre\+Archivo)
+\begin{DoxyCompactList}\small\item\em Genera un archivo PDF con el codigo QR. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}\label{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13} 
+\mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Codigo\+QR\+::\+Qr\+Code}} {\bfseries qr}
+\begin{DoxyCompactList}\small\item\em Objeto QR de la biblioteca. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase para generar codigos QR con informacion personal en texto plano. 
+
+Facilita la generacion de codigos QR que contienen informacion de una persona y un numero de cuenta en formato texto plano. 
+
+\label{doc-constructors}
+\Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_a235176d944a224aea65cac7b795970ec}\index{CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}!GeneradorQRTextoPlano@{GeneradorQRTextoPlano}}
+\index{GeneradorQRTextoPlano@{GeneradorQRTextoPlano}!CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}}
+\doxysubsubsection{\texorpdfstring{GeneradorQRTextoPlano()}{GeneradorQRTextoPlano()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_generador_q_r_texto_plano_a235176d944a224aea65cac7b795970ec} 
+Codigo\+QR\+::\+Generador\+QRTexto\+Plano\+::\+Generador\+QRTexto\+Plano (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre}{, }\item[{const std\+::string \&}]{cuenta}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre} & Nombre completo de la persona \\
+\hline
+{\em cuenta} & Numero de cuenta bancaria\\
+\hline
+\end{DoxyParams}
+Inicializa el generador con los datos personales y un QR vacio 
+
+\label{doc-func-members}
+\Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_a9b54decd72d595fcdc144e9c2a50b24d}\index{CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}!generarPDFQR@{generarPDFQR}}
+\index{generarPDFQR@{generarPDFQR}!CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}}
+\doxysubsubsection{\texorpdfstring{generarPDFQR()}{generarPDFQR()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_generador_q_r_texto_plano_a9b54decd72d595fcdc144e9c2a50b24d} 
+void Codigo\+QR\+::\+Generador\+QRTexto\+Plano\+::generar\+PDFQR (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{Codigo\+QR\+::\+Qr\+Code}} \&}]{qr}{, }\item[{const std\+::string \&}]{nombre\+Archivo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Genera un archivo PDF con el codigo QR. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em qr} & Objeto QR a convertir en PDF \\
+\hline
+{\em nombre\+Archivo} & Ruta completa del archivo PDF a generar\\
+\hline
+\end{DoxyParams}
+Crea un archivo PDF que contiene el codigo QR con un tamaño adecuado para ser escaneado facilmente por dispositivos moviles. \Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_abbdb377246f571aa40e00af15de144ac}\index{CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}!generarQR@{generarQR}}
+\index{generarQR@{generarQR}!CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}}
+\doxysubsubsection{\texorpdfstring{generarQR()}{generarQR()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_generador_q_r_texto_plano_abbdb377246f571aa40e00af15de144ac} 
+void Codigo\+QR\+::\+Generador\+QRTexto\+Plano\+::generar\+QR (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Genera el codigo QR con los datos personales. 
+
+Crea el codigo QR con formato de texto plano y nivel de correccion bajo \Hypertarget{class_codigo_q_r_1_1_generador_q_r_texto_plano_a061e93cf88b99e0d94c81cec8a303daa}\index{CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}!imprimirEnConsola@{imprimirEnConsola}}
+\index{imprimirEnConsola@{imprimirEnConsola}!CodigoQR::GeneradorQRTextoPlano@{CodigoQR::GeneradorQRTextoPlano}}
+\doxysubsubsection{\texorpdfstring{imprimirEnConsola()}{imprimirEnConsola()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_generador_q_r_texto_plano_a061e93cf88b99e0d94c81cec8a303daa} 
+void Codigo\+QR\+::\+Generador\+QRTexto\+Plano\+::imprimir\+En\+Consola (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Imprime el codigo QR en la consola. 
+
+Muestra una representacion visual del codigo QR utilizando caracteres ASCII, junto con informacion tecnica sobre el codigo. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Codigo\+QR.\+h\end{DoxyCompactItemize}

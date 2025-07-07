@@ -1,0 +1,102 @@
+\doxysection{Marquesina.\+h}
+\hypertarget{_marquesina_8h_source}{}\label{_marquesina_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ MARQUESINA\_H}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ MARQUESINA\_H}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <atomic>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_elemento_marquesina}{ElementoMarquesina}}\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ \mbox{\hyperlink{struct_elemento_marquesina_a1a8b66051ad02504929c0b43c01caedc}{texto}};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_elemento_marquesina_ab12be6634b46c51caa27c8efa616665d}{colorTexto}};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_elemento_marquesina_a01dc23d7e54ca696bd40f3f7427b40ca}{colorFondo}};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_elemento_marquesina_ae90fb96361345ec1a3b61ff7964bb965}{negrita}};}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca}{Marquesina}}\ \{}
+\DoxyCodeLine{00040\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00042\ \ \ \ \ std::vector<ElementoMarquesina>\ elementos;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00045\ \ \ \ \ std::thread\ hiloMarquesina;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00048\ \ \ \ \ std::atomic<bool>\ ejecutando;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00051\ \ \ \ \ std::atomic<bool>\ pausado;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00054\ \ \ \ \ std::atomic<bool>\ bloqueado;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00057\ \ \ \ \ std::atomic<bool>\ operacionCritica;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{int}\ posX;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ posY;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ ancho;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{int}\ velocidad;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00072\ \ \ \ \ std::string\ archivoHTML;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00075\ \ \ \ \ std::mutex\ mtx;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00078\ \ \ \ \ std::mutex\ mtxPantalla;}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00081\ \ \ \ \ std::string\ bufferMarquesina;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00084\ \ \ \ \ std::atomic<bool>\ bufferActualizado;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00087\ \ \ \ \ FILETIME\ ultimaModificacion;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ cargarDesdeHTML();}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ ejecutarMarquesina();}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00104\ \ \ \ \ std::vector<ElementoMarquesina>\ parsearHTML(\textcolor{keyword}{const}\ std::string\&\ contenido);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{bool}\ archivoModificado();}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{bool}\ esSafeZone(\textcolor{keywordtype}{int}\ fila)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ actualizarBuffer();}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{void}\ renderizarMarquesina();}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca}{Marquesina}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ ancho,\ \textcolor{keyword}{const}\ std::string\&\ archivoHTML,\ \textcolor{keywordtype}{int}\ velocidad\ =\ 100);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00145\ \ \ \ \ \mbox{\hyperlink{class_marquesina_aa0c9f691911680b2ce26646e8283b046}{\string~Marquesina}}();}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a42a7b6c33db1deb208a381eda083a476}{iniciar}}();}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a9fed251582657d7454cb3a06fbb1ee16}{detener}}();}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_ae33595e3e65b83e199e04e79739989eb}{pausar}}();}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_aaaa028056dca12f370ea4d828bd40171}{reanudar}}();}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a281562e225650be428afa5808b093653}{actualizarTexto}}(\textcolor{keyword}{const}\ std::string\&\ nuevoTexto);}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a173dc18c06673f9fb83e7bd1012dd41a}{bloquear}}();}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a1e8de27731a32d4dc7a31c10625466c0}{desbloquear}}();}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a4d1b8d42abcf0a8dea37049c159446d6}{marcarOperacionCritica}}();}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a6d1b94cc50c3785f9f7a99196204fa65}{finalizarOperacionCritica}}();}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a62f40a4d1b82ec2c3bb5fc9ec298aec9}{forzarActualizacion}}();}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a35d47b3670a39652ab61ee262340ee2a}{mostrarRutaArchivo}}();}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_marquesina_a2f4a7ec9c37da4db63663b178089570e}{estaVisible}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ejecutando\ \&\&\ !pausado\ \&\&\ !bloqueado;\ \}}
+\DoxyCodeLine{00214\ \};}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MARQUESINA\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,1100 @@
+\doxysection{Persona Class Reference}
+\hypertarget{class_persona}{}\label{class_persona}\index{Persona@{Persona}}
+
+
+Declaracion adelantada (forward declaration) de la clase \doxylink{class_persona}{Persona}.  
+
+
+
+
+{\ttfamily \#include $<$Nodo\+Persona.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_persona_a7c397bbb298be9104191122f6383b643}{Persona}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_persona_acd1bb0de97039dd036320716fbe0b44e}{Persona}} (const string \&cedula, const string \&nombres, const string \&apellidos, const string \&fecha\+Nacimiento, const string \&correo, const string \&direccion)
+\begin{DoxyCompactList}\small\item\em Constructor con parametros. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_persona_aa7bba61c41b05166827eb1fbfc5ee0a9}{\texorpdfstring{$\sim$}{\string~}\+Persona}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_a8e477de38731fe3ddc3f6a85ebdd6d56}{is\+Valid\+Instance}} () const
+\begin{DoxyCompactList}\small\item\em Verifica si la instancia es valida (no ha sido destruida) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_acf06843bbab4704509a20212d548100c}{set\+Cedula}} (const string \&cedula)
+\begin{DoxyCompactList}\small\item\em Establece el numero de cedula. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_aafe9a2f7ecfa137fac34ee984e1cb77d}{set\+Nombres}} (const string \&nombres)
+\begin{DoxyCompactList}\small\item\em Establece los nombres. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_aea2b65aa3570cbace03b140cedfa7603}{set\+Apellidos}} (const string \&apellidos)
+\begin{DoxyCompactList}\small\item\em Establece los apellidos. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_abcf5453d87e4518db9efd4e100651c46}{set\+Fecha\+Nacimiento}} (const string \&fecha\+Nacimiento)
+\begin{DoxyCompactList}\small\item\em Establece la fecha de nacimiento. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_a99be5c867f17273330b04cb3ba0a04a1}{set\+Correo}} (const string \&correo)
+\begin{DoxyCompactList}\small\item\em Establece el correo electronico. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_abe59da8ea5afa31049a232f423b7f399}{set\+Direccion}} (const string \&direccion)
+\begin{DoxyCompactList}\small\item\em Establece la direccion. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_a5f291ab3fa14b57008837081e5754d48}{set\+Nume\+Cuentas}} (int num\+Cuentas)
+\begin{DoxyCompactList}\small\item\em Establece el numero de cuentas de ahorro. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_a6a7ef95c99520d1044d94ebbb376e54f}{set\+Num\+Corrientes}} (int num\+Corrientes)
+\begin{DoxyCompactList}\small\item\em Establece el numero de cuentas corrientes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_persona_af5161e0a6f29b3d5c81d5cc52930d08e}{set\+Cabeza\+Ahorros}} (\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}nueva\+Cabeza)
+\begin{DoxyCompactList}\small\item\em Establece la cabeza de la lista de cuentas de ahorro. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_persona_a34eb1732c48b3f12ea39ad4948a73ebc}{set\+Cabeza\+Corriente}} (\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}nueva\+Cabeza)
+\begin{DoxyCompactList}\small\item\em Establece la cabeza de la lista de cuentas corrientes. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_persona_acd215c1b3685860818dfa2bcb247ea2a}{get\+Cedula}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la cedula de la persona. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_persona_aee0d377cdc4b0bf6da3cac89f8353e3e}{get\+Nombres}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene los nombres de la persona. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_persona_ac1ca8afc28d04160c19e330773648a68}{get\+Apellidos}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene los apellidos de la persona. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_persona_a24d22ec722f371ffd5b40c3f25deccec}{get\+Fecha\+Nacimiento}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la fecha de nacimiento. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_persona_a0e5340c554ea5e9f7ed4f933e8b37f8e}{get\+Correo}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el correo electronico. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_persona_a39bd3fe27da999e2afbd2fdc72abe311}{get\+Direccion}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la direccion. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_persona_a8cead7f362a439d5b63845a969facfa3}{get\+Num\+Cuentas}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuentas de ahorro. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_persona_aa2b1f07e90d36f3c6f1a322e5f6752b7}{get\+Num\+Corrientes}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuentas corrientes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_persona_ae91b148de8054d0a410bf571d2e2fd6a}{get\+Cabeza\+Ahorros}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la cabeza de la lista de cuentas de ahorro. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_persona_af877417eda5331085b6781c37a33c6e5}{get\+Cabeza\+Corriente}} () const
+\begin{DoxyCompactList}\small\item\em Obtiene la cabeza de la lista de cuentas corrientes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_ac288b381f50c8524fef8ecee596182c1}{ingresar\+Datos}} ()
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar todos sus datos personales. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_a4a18f84d8a6e17179e519c7da1adf620}{ingresar\+Datos}} (const std\+::string \&cedula\+Esperada)
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar datos con una cedula predeterminada. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_ab3483dd525de072121b3bc748ffe4454}{ingresar\+Cedula}} (std\+::string \&cedula)
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar su numero de cedula. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_ab3e88d99855d6dfa46e2075bc3fc0c75}{ingresar\+Nombres}} (std\+::string \&nombres) const
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar sus nombres. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_a9233daa72bb6301147a8e44edf6520ff}{ingresar\+Apellidos}} (std\+::string \&apellidos) const
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar sus apellidos. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_a7bb21a6ff12b10d4a2cf5222a61a2e55}{ingresar\+Fecha\+Nacimiento}} (std\+::string \&fecha\+Nacimiento)
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar su fecha de nacimiento. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_a5d95ddc16d653ffe1ea5be38e413b73c}{ingresar\+Correo}} (std\+::string \&correo) const
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar su correo electronico. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_aa38e8ef90837e5e062a37680394ce1d3}{ingresar\+Direccion}} (std\+::string \&direccion) const
+\begin{DoxyCompactList}\small\item\em Solicita al usuario ingresar su direccion. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_a503b23d7530c96037b1aed861daa45b9}{corregir\+Datos}} ()
+\begin{DoxyCompactList}\small\item\em Permite al usuario corregir sus datos personales. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_abf0efe995e0f80dbead58b5dcdf73f2a}{mostrar\+Datos}} () const
+\begin{DoxyCompactList}\small\item\em Muestra los datos personales del cliente. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_persona_a5f6a06db57218e4ae997d407672eb643}{mostrar\+Cuentas}} (const std\+::string \&tipo\+Cuenta) const
+\begin{DoxyCompactList}\small\item\em Muestra las cuentas del cliente segun el tipo especificado. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_ab43b3f30d3cd0b1c301b9dad267a7b89}{guardar\+En\+Archivo}} () const
+\begin{DoxyCompactList}\small\item\em Guarda los datos de la persona y sus cuentas en archivos. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_persona_a7ce730dcd9d1edfba6ee109b69b703e2}{buscar\+Persona\+Por\+Criterio}} (const std\+::string \&criterio\+Busqueda, const std\+::string \&numero\+Cuenta, const std\+::string \&fecha\+Apertura, double saldo) const
+\begin{DoxyCompactList}\small\item\em Busca cuentas segun diferentes criterios. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_persona_ab3777cf190ae61cf3b958b795de2ffe9}{buscar\+Persona\+Por\+Fecha}} (const std\+::string \&fecha\+Apertura) const
+\begin{DoxyCompactList}\small\item\em Busca cuentas por fecha de apertura. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_persona_aae82acba2a5261184ac1d39304ea19d4}{buscar\+Persona\+Por\+Cuentas}} (const string \&numero\+Cuenta) const
+\begin{DoxyCompactList}\small\item\em Busca una persona por el numero de alguna de sus cuentas. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_persona_a1af9ea937eb81b5077ebc70b3f2f9c3c}{guardar\+Cuentas}} (std\+::ofstream \&archivo, std\+::string tipo) const
+\begin{DoxyCompactList}\small\item\em Guarda las cuentas de un tipo especifico en un archivo. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_ac7afb3d8cd4ad7273dbcbaf094e7c55f}{crear\+Agregar\+Cuenta\+Ahorros}} (\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}nueva\+Cuenta, const std\+::string \&cedula\+Esperada)
+\begin{DoxyCompactList}\small\item\em Crea y agrega una cuenta de ahorros a la persona. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_aa52714179afc12a2f484033f6b318cc4}{crear\+Agregar\+Cuenta\+Corriente}} (\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}nueva\+Cuenta, const std\+::string \&cedula\+Esperada)
+\begin{DoxyCompactList}\small\item\em Crea y agrega una cuenta corriente a la persona. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_a850f35f678f3f48d7e5e100a4f15d189}{crear\+Solo\+Cuenta\+Ahorros}} (\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}nueva\+Cuenta, const std\+::string \&cedula\+Esperada)
+\begin{DoxyCompactList}\small\item\em Crea una cuenta de ahorros sin ingresar datos personales. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_persona_ac917fcf4152f80a260b33ca73c811951}{crear\+Solo\+Cuenta\+Corriente}} (\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}nueva\+Cuenta, const std\+::string \&cedula\+Esperada)
+\begin{DoxyCompactList}\small\item\em Crea una cuenta corriente sin ingresar datos personales. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_a033c43926972b094f3dfa5c57417a48d}{crear\+Numero\+Cuenta}} (\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*}nueva\+Cuenta, const std\+::string \&sucursal)
+\begin{DoxyCompactList}\small\item\em Genera un numero de cuenta unico basado en la sucursal. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_aadbf7f9d320628b99f2b46e0893c39a0}{seleccion\+Sucursal}} ()
+\begin{DoxyCompactList}\small\item\em Permite al usuario seleccionar una sucursal bancaria. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_persona_a680a8c4822a467dde229e6b195c9601b}{msg\+Ingreso\+Datos}} () const
+\begin{DoxyCompactList}\small\item\em Genera un mensaje para solicitar datos personales. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declaracion adelantada (forward declaration) de la clase \doxylink{class_persona}{Persona}. 
+
+Clase que representa a una persona cliente del banco.
+
+Esta clase se declara aqui pero se define completamente en otro archivo. Contiene informacion personal de clientes y gestiona sus cuentas bancarias.
+
+Esta clase gestiona la informacion personal de un cliente y administra sus cuentas bancarias (tanto de ahorros como corrientes). Implementa operaciones para crear, buscar y gestionar cuentas asociadas a la persona. 
+
+\label{doc-constructors}
+\Hypertarget{class_persona_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_persona_a7c397bbb298be9104191122f6383b643}\index{Persona@{Persona}!Persona@{Persona}}
+\index{Persona@{Persona}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{Persona()}{Persona()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_persona_a7c397bbb298be9104191122f6383b643} 
+Persona\+::\+Persona (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor por defecto. 
+
+Inicializa una nueva persona con valores vacios y sin cuentas asociadas \Hypertarget{class_persona_acd1bb0de97039dd036320716fbe0b44e}\index{Persona@{Persona}!Persona@{Persona}}
+\index{Persona@{Persona}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{Persona()}{Persona()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_persona_acd1bb0de97039dd036320716fbe0b44e} 
+Persona\+::\+Persona (\begin{DoxyParamCaption}\item[{const string \&}]{cedula}{, }\item[{const string \&}]{nombres}{, }\item[{const string \&}]{apellidos}{, }\item[{const string \&}]{fecha\+Nacimiento}{, }\item[{const string \&}]{correo}{, }\item[{const string \&}]{direccion}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor con parametros. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Numero de identificacion de la persona \\
+\hline
+{\em nombres} & Nombres de la persona \\
+\hline
+{\em apellidos} & Apellidos de la persona \\
+\hline
+{\em fecha\+Nacimiento} & \doxylink{class_fecha}{Fecha} de nacimiento en formato de cadena \\
+\hline
+{\em correo} & Direccion de correo electronico \\
+\hline
+{\em direccion} & Direccion domiciliaria \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_persona_aa7bba61c41b05166827eb1fbfc5ee0a9}\index{Persona@{Persona}!````~Persona@{\texorpdfstring{$\sim$}{\string~}Persona}}
+\index{````~Persona@{\texorpdfstring{$\sim$}{\string~}Persona}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Persona()}{\string~Persona()}}
+{\footnotesize\ttfamily \label{class_persona_aa7bba61c41b05166827eb1fbfc5ee0a9} 
+Persona\+::\texorpdfstring{$\sim$}{\string~}\+Persona (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Destructor. 
+
+Libera la memoria de todas las cuentas asociadas a esta persona 
+
+\label{doc-func-members}
+\Hypertarget{class_persona_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_persona_a7ce730dcd9d1edfba6ee109b69b703e2}\index{Persona@{Persona}!buscarPersonaPorCriterio@{buscarPersonaPorCriterio}}
+\index{buscarPersonaPorCriterio@{buscarPersonaPorCriterio}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{buscarPersonaPorCriterio()}{buscarPersonaPorCriterio()}}
+{\footnotesize\ttfamily \label{class_persona_a7ce730dcd9d1edfba6ee109b69b703e2} 
+int Persona\+::buscar\+Persona\+Por\+Criterio (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{criterio\+Busqueda}{, }\item[{const std\+::string \&}]{numero\+Cuenta}{, }\item[{const std\+::string \&}]{fecha\+Apertura}{, }\item[{double}]{saldo}{}\end{DoxyParamCaption}) const}
+
+
+
+Busca cuentas segun diferentes criterios. 
+
+Busca cuentas asociadas a la persona segun un criterio especifico.
+
+
+\begin{DoxyParams}{Parameters}
+{\em criterio\+Busqueda} & Criterio de busqueda \\
+\hline
+{\em numero\+Cuenta} & Numero de cuenta a buscar \\
+\hline
+{\em fecha\+Apertura} & \doxylink{class_fecha}{Fecha} de apertura a buscar \\
+\hline
+{\em saldo} & Saldo a buscar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Numero de resultados encontrados
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em criterio\+Busqueda} & Criterio de busqueda\+: "{}\+Numero de cuenta"{}, "{}\+Fecha de apertura"{}, "{}\+Saldo mayor a"{} o "{}\+Tipo de cuenta"{} \\
+\hline
+{\em numero\+Cuenta} & Numero de cuenta a buscar (o tipo de cuenta si el criterio es "{}\+Tipo de cuenta"{}) \\
+\hline
+{\em fecha\+Apertura} & \doxylink{class_fecha}{Fecha} de apertura a buscar \\
+\hline
+{\em saldo} & Valor de saldo minimo para la busqueda \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Numero de cuentas que cumplen con el criterio 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aae82acba2a5261184ac1d39304ea19d4}\index{Persona@{Persona}!buscarPersonaPorCuentas@{buscarPersonaPorCuentas}}
+\index{buscarPersonaPorCuentas@{buscarPersonaPorCuentas}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{buscarPersonaPorCuentas()}{buscarPersonaPorCuentas()}}
+{\footnotesize\ttfamily \label{class_persona_aae82acba2a5261184ac1d39304ea19d4} 
+int Persona\+::buscar\+Persona\+Por\+Cuentas (\begin{DoxyParamCaption}\item[{const string \&}]{numero\+Cuenta}{}\end{DoxyParamCaption}) const}
+
+
+
+Busca una persona por el numero de alguna de sus cuentas. 
+
+Busca cuentas por numero de cuenta.
+
+
+\begin{DoxyParams}{Parameters}
+{\em numero\+Cuenta} & Numero de cuenta a buscar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Numero de resultados encontrados
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em numero\+Cuenta} & Numero de cuenta a buscar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Numero de cuentas encontradas 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ab3777cf190ae61cf3b958b795de2ffe9}\index{Persona@{Persona}!buscarPersonaPorFecha@{buscarPersonaPorFecha}}
+\index{buscarPersonaPorFecha@{buscarPersonaPorFecha}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{buscarPersonaPorFecha()}{buscarPersonaPorFecha()}}
+{\footnotesize\ttfamily \label{class_persona_ab3777cf190ae61cf3b958b795de2ffe9} 
+void Persona\+::buscar\+Persona\+Por\+Fecha (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{fecha}{}\end{DoxyParamCaption}) const}
+
+
+
+Busca cuentas por fecha de apertura. 
+
+Busca cuentas con una fecha de apertura especifica.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha\+Apertura} & \doxylink{class_fecha}{Fecha} de apertura a buscar\\
+\hline
+{\em fecha} & \doxylink{class_fecha}{Fecha} de apertura a buscar en formato DD/\+MM/\+AAAA \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_persona_a503b23d7530c96037b1aed861daa45b9}\index{Persona@{Persona}!corregirDatos@{corregirDatos}}
+\index{corregirDatos@{corregirDatos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{corregirDatos()}{corregirDatos()}}
+{\footnotesize\ttfamily \label{class_persona_a503b23d7530c96037b1aed861daa45b9} 
+bool Persona\+::corregir\+Datos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Permite al usuario corregir sus datos personales. 
+
+Muestra un selector para confirmar o corregir los datos ingresados.
+
+\begin{DoxyReturn}{Returns}
+true si se modificaron datos, false si no
+
+bool true si se deben corregir los datos, false si son correctos 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ac7afb3d8cd4ad7273dbcbaf094e7c55f}\index{Persona@{Persona}!crearAgregarCuentaAhorros@{crearAgregarCuentaAhorros}}
+\index{crearAgregarCuentaAhorros@{crearAgregarCuentaAhorros}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{crearAgregarCuentaAhorros()}{crearAgregarCuentaAhorros()}}
+{\footnotesize\ttfamily \label{class_persona_ac7afb3d8cd4ad7273dbcbaf094e7c55f} 
+bool Persona\+::crear\+Agregar\+Cuenta\+Ahorros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}}]{nueva\+Cuenta}{, }\item[{const std\+::string \&}]{cedula\+Esperada}{}\end{DoxyParamCaption})}
+
+
+
+Crea y agrega una cuenta de ahorros a la persona. 
+
+Crea y agrega una cuenta de ahorros para la persona.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la cuenta de ahorros a agregar \\
+\hline
+{\em cedula\+Esperada} & Cedula para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se agrego correctamente, false en caso contrario
+\end{DoxyReturn}
+Valida los datos de la persona y configura una nueva cuenta de ahorros con todos los parametros necesarios, incluyendo deposito inicial opcional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la nueva cuenta de ahorros \\
+\hline
+{\em cedula\+Esperada} & Cedula esperada para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la cuenta fue creada exitosamente, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aa52714179afc12a2f484033f6b318cc4}\index{Persona@{Persona}!crearAgregarCuentaCorriente@{crearAgregarCuentaCorriente}}
+\index{crearAgregarCuentaCorriente@{crearAgregarCuentaCorriente}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{crearAgregarCuentaCorriente()}{crearAgregarCuentaCorriente()}}
+{\footnotesize\ttfamily \label{class_persona_aa52714179afc12a2f484033f6b318cc4} 
+bool Persona\+::crear\+Agregar\+Cuenta\+Corriente (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}}]{nueva\+Cuenta}{, }\item[{const std\+::string \&}]{cedula\+Esperada}{}\end{DoxyParamCaption})}
+
+
+
+Crea y agrega una cuenta corriente a la persona. 
+
+Crea y agrega una cuenta corriente para la persona.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la cuenta corriente a agregar \\
+\hline
+{\em cedula\+Esperada} & Cedula para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se agrego correctamente, false en caso contrario
+\end{DoxyReturn}
+Valida los datos de la persona y configura una nueva cuenta corriente con todos los parametros necesarios, incluyendo deposito inicial minimo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la nueva cuenta corriente \\
+\hline
+{\em cedula\+Esperada} & Cedula esperada para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la cuenta fue creada exitosamente, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a033c43926972b094f3dfa5c57417a48d}\index{Persona@{Persona}!crearNumeroCuenta@{crearNumeroCuenta}}
+\index{crearNumeroCuenta@{crearNumeroCuenta}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{crearNumeroCuenta()}{crearNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_persona_a033c43926972b094f3dfa5c57417a48d} 
+std\+::string Persona\+::crear\+Numero\+Cuenta (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ double $>$ \texorpdfstring{$\ast$}{*}}]{nueva\+Cuenta}{, }\item[{const std\+::string \&}]{sucursal}{}\end{DoxyParamCaption})}
+
+
+
+Genera un numero de cuenta unico basado en la sucursal. 
+
+Genera un numero de cuenta unico para una nueva cuenta.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la cuenta para la que se generara el numero \\
+\hline
+{\em sucursal} & Codigo de sucursal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Numero de cuenta generado
+\end{DoxyReturn}
+Crea un numero de cuenta basado en el codigo de sucursal, un secuencial y un digito verificador calculado.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la nueva cuenta \\
+\hline
+{\em sucursal} & Codigo de la sucursal seleccionada \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Numero de cuenta generado 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a850f35f678f3f48d7e5e100a4f15d189}\index{Persona@{Persona}!crearSoloCuentaAhorros@{crearSoloCuentaAhorros}}
+\index{crearSoloCuentaAhorros@{crearSoloCuentaAhorros}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{crearSoloCuentaAhorros()}{crearSoloCuentaAhorros()}}
+{\footnotesize\ttfamily \label{class_persona_a850f35f678f3f48d7e5e100a4f15d189} 
+bool Persona\+::crear\+Solo\+Cuenta\+Ahorros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}}]{nueva\+Cuenta}{, }\item[{const std\+::string \&}]{cedula\+Esperada}{}\end{DoxyParamCaption})}
+
+
+
+Crea una cuenta de ahorros sin ingresar datos personales. 
+
+Crea una cuenta de ahorros sin solicitar datos personales adicionales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la cuenta de ahorros a crear \\
+\hline
+{\em cedula\+Esperada} & Cedula para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se creo correctamente, false en caso contrario
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la nueva cuenta de ahorros \\
+\hline
+{\em cedula\+Esperada} & Cedula esperada para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la cuenta fue creada exitosamente, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ac917fcf4152f80a260b33ca73c811951}\index{Persona@{Persona}!crearSoloCuentaCorriente@{crearSoloCuentaCorriente}}
+\index{crearSoloCuentaCorriente@{crearSoloCuentaCorriente}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{crearSoloCuentaCorriente()}{crearSoloCuentaCorriente()}}
+{\footnotesize\ttfamily \label{class_persona_ac917fcf4152f80a260b33ca73c811951} 
+bool Persona\+::crear\+Solo\+Cuenta\+Corriente (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}}]{nueva\+Cuenta}{, }\item[{const std\+::string \&}]{cedula\+Esperada}{}\end{DoxyParamCaption})}
+
+
+
+Crea una cuenta corriente sin ingresar datos personales. 
+
+Crea una cuenta corriente sin solicitar datos personales adicionales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la cuenta corriente a crear \\
+\hline
+{\em cedula\+Esperada} & Cedula para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se creo correctamente, false en caso contrario
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cuenta} & Puntero a la nueva cuenta corriente \\
+\hline
+{\em cedula\+Esperada} & Cedula esperada para validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la cuenta fue creada exitosamente, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ac1ca8afc28d04160c19e330773648a68}\index{Persona@{Persona}!getApellidos@{getApellidos}}
+\index{getApellidos@{getApellidos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getApellidos()}{getApellidos()}}
+{\footnotesize\ttfamily \label{class_persona_ac1ca8afc28d04160c19e330773648a68} 
+string Persona\+::get\+Apellidos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene los apellidos de la persona. 
+
+\begin{DoxyReturn}{Returns}
+Apellidos como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ae91b148de8054d0a410bf571d2e2fd6a}\index{Persona@{Persona}!getCabezaAhorros@{getCabezaAhorros}}
+\index{getCabezaAhorros@{getCabezaAhorros}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getCabezaAhorros()}{getCabezaAhorros()}}
+{\footnotesize\ttfamily \label{class_persona_ae91b148de8054d0a410bf571d2e2fd6a} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Persona\+::get\+Cabeza\+Ahorros (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la cabeza de la lista de cuentas de ahorro. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a la primera cuenta de ahorros 
+\end{DoxyReturn}
+\Hypertarget{class_persona_af877417eda5331085b6781c37a33c6e5}\index{Persona@{Persona}!getCabezaCorriente@{getCabezaCorriente}}
+\index{getCabezaCorriente@{getCabezaCorriente}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getCabezaCorriente()}{getCabezaCorriente()}}
+{\footnotesize\ttfamily \label{class_persona_af877417eda5331085b6781c37a33c6e5} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Persona\+::get\+Cabeza\+Corriente (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la cabeza de la lista de cuentas corrientes. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a la primera cuenta corriente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_acd215c1b3685860818dfa2bcb247ea2a}\index{Persona@{Persona}!getCedula@{getCedula}}
+\index{getCedula@{getCedula}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getCedula()}{getCedula()}}
+{\footnotesize\ttfamily \label{class_persona_acd215c1b3685860818dfa2bcb247ea2a} 
+string Persona\+::get\+Cedula (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la cedula de la persona. 
+
+\begin{DoxyReturn}{Returns}
+Cedula como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a0e5340c554ea5e9f7ed4f933e8b37f8e}\index{Persona@{Persona}!getCorreo@{getCorreo}}
+\index{getCorreo@{getCorreo}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getCorreo()}{getCorreo()}}
+{\footnotesize\ttfamily \label{class_persona_a0e5340c554ea5e9f7ed4f933e8b37f8e} 
+string Persona\+::get\+Correo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el correo electronico. 
+
+\begin{DoxyReturn}{Returns}
+Correo electronico como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a39bd3fe27da999e2afbd2fdc72abe311}\index{Persona@{Persona}!getDireccion@{getDireccion}}
+\index{getDireccion@{getDireccion}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getDireccion()}{getDireccion()}}
+{\footnotesize\ttfamily \label{class_persona_a39bd3fe27da999e2afbd2fdc72abe311} 
+string Persona\+::get\+Direccion (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la direccion. 
+
+\begin{DoxyReturn}{Returns}
+Direccion como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a24d22ec722f371ffd5b40c3f25deccec}\index{Persona@{Persona}!getFechaNacimiento@{getFechaNacimiento}}
+\index{getFechaNacimiento@{getFechaNacimiento}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getFechaNacimiento()}{getFechaNacimiento()}}
+{\footnotesize\ttfamily \label{class_persona_a24d22ec722f371ffd5b40c3f25deccec} 
+string Persona\+::get\+Fecha\+Nacimiento (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la fecha de nacimiento. 
+
+\begin{DoxyReturn}{Returns}
+\doxylink{class_fecha}{Fecha} de nacimiento como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aee0d377cdc4b0bf6da3cac89f8353e3e}\index{Persona@{Persona}!getNombres@{getNombres}}
+\index{getNombres@{getNombres}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getNombres()}{getNombres()}}
+{\footnotesize\ttfamily \label{class_persona_aee0d377cdc4b0bf6da3cac89f8353e3e} 
+string Persona\+::get\+Nombres (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene los nombres de la persona. 
+
+\begin{DoxyReturn}{Returns}
+Nombres como cadena 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aa2b1f07e90d36f3c6f1a322e5f6752b7}\index{Persona@{Persona}!getNumCorrientes@{getNumCorrientes}}
+\index{getNumCorrientes@{getNumCorrientes}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getNumCorrientes()}{getNumCorrientes()}}
+{\footnotesize\ttfamily \label{class_persona_aa2b1f07e90d36f3c6f1a322e5f6752b7} 
+int Persona\+::get\+Num\+Corrientes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el numero de cuentas corrientes. 
+
+\begin{DoxyReturn}{Returns}
+Numero de cuentas corrientes 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a8cead7f362a439d5b63845a969facfa3}\index{Persona@{Persona}!getNumCuentas@{getNumCuentas}}
+\index{getNumCuentas@{getNumCuentas}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{getNumCuentas()}{getNumCuentas()}}
+{\footnotesize\ttfamily \label{class_persona_a8cead7f362a439d5b63845a969facfa3} 
+int Persona\+::get\+Num\+Cuentas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene el numero de cuentas de ahorro. 
+
+\begin{DoxyReturn}{Returns}
+Numero de cuentas de ahorro 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a1af9ea937eb81b5077ebc70b3f2f9c3c}\index{Persona@{Persona}!guardarCuentas@{guardarCuentas}}
+\index{guardarCuentas@{guardarCuentas}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{guardarCuentas()}{guardarCuentas()}}
+{\footnotesize\ttfamily \label{class_persona_a1af9ea937eb81b5077ebc70b3f2f9c3c} 
+int Persona\+::guardar\+Cuentas (\begin{DoxyParamCaption}\item[{std\+::ofstream \&}]{archivo}{, }\item[{std\+::string}]{tipo}{}\end{DoxyParamCaption}) const}
+
+
+
+Guarda las cuentas de un tipo especifico en un archivo. 
+
+Guarda las cuentas asociadas a la persona en un archivo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em archivo} & Flujo de salida donde guardar los datos \\
+\hline
+{\em tipo} & Tipo de cuenta ("{}ahorros"{} o "{}corriente"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Numero de cuentas guardadas
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em archivo} & Referencia al archivo de salida abierto \\
+\hline
+{\em tipo} & Tipo de cuentas a guardar\+: "{}\+AHORROS"{} o "{}\+CORRIENTE"{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Numero de cuentas guardadas 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ab43b3f30d3cd0b1c301b9dad267a7b89}\index{Persona@{Persona}!guardarEnArchivo@{guardarEnArchivo}}
+\index{guardarEnArchivo@{guardarEnArchivo}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{guardarEnArchivo()}{guardarEnArchivo()}}
+{\footnotesize\ttfamily \label{class_persona_ab43b3f30d3cd0b1c301b9dad267a7b89} 
+void Persona\+::guardar\+En\+Archivo (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Guarda los datos de la persona y sus cuentas en archivos. 
+
+Guarda los datos de la persona en un archivo de texto.
+
+Almacena todos los datos personales en el archivo "{}personas.\+txt"{}. \Hypertarget{class_persona_a9233daa72bb6301147a8e44edf6520ff}\index{Persona@{Persona}!ingresarApellidos@{ingresarApellidos}}
+\index{ingresarApellidos@{ingresarApellidos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarApellidos()}{ingresarApellidos()}}
+{\footnotesize\ttfamily \label{class_persona_a9233daa72bb6301147a8e44edf6520ff} 
+std\+::string Persona\+::ingresar\+Apellidos (\begin{DoxyParamCaption}\item[{std\+::string \&}]{apellidos}{}\end{DoxyParamCaption}) const}
+
+
+
+Solicita al usuario ingresar sus apellidos. 
+
+Solicita y valida el ingreso de los apellidos de la persona.
+
+
+\begin{DoxyParams}{Parameters}
+{\em apellidos} & Variable donde se almacenaran los apellidos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Apellidos ingresados y validados
+\end{DoxyReturn}
+Valida que los apellidos solo contengan letras y espacios, no esten vacios y cumplan con requisitos de formato.
+
+
+\begin{DoxyParams}{Parameters}
+{\em apellidos} & Referencia a la variable donde se almacenaran los apellidos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Apellidos validados 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ab3483dd525de072121b3bc748ffe4454}\index{Persona@{Persona}!ingresarCedula@{ingresarCedula}}
+\index{ingresarCedula@{ingresarCedula}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarCedula()}{ingresarCedula()}}
+{\footnotesize\ttfamily \label{class_persona_ab3483dd525de072121b3bc748ffe4454} 
+std\+::string Persona\+::ingresar\+Cedula (\begin{DoxyParamCaption}\item[{std\+::string \&}]{cedula\+Ingresada}{}\end{DoxyParamCaption})}
+
+
+
+Solicita al usuario ingresar su numero de cedula. 
+
+Solicita y valida el ingreso de la cedula del usuario.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Variable donde se almacenara la cedula \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cedula ingresada y validada
+\end{DoxyReturn}
+Verifica que la cedula ingresada sea valida y coincida con la cedula esperada.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula\+Ingresada} & Cedula previamente ingresada para comparacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Cedula validada 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a5d95ddc16d653ffe1ea5be38e413b73c}\index{Persona@{Persona}!ingresarCorreo@{ingresarCorreo}}
+\index{ingresarCorreo@{ingresarCorreo}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarCorreo()}{ingresarCorreo()}}
+{\footnotesize\ttfamily \label{class_persona_a5d95ddc16d653ffe1ea5be38e413b73c} 
+std\+::string Persona\+::ingresar\+Correo (\begin{DoxyParamCaption}\item[{std\+::string \&}]{correo}{}\end{DoxyParamCaption}) const}
+
+
+
+Solicita al usuario ingresar su correo electronico. 
+
+Solicita y valida el ingreso del correo electronico.
+
+
+\begin{DoxyParams}{Parameters}
+{\em correo} & Variable donde se almacenara el correo \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Correo electronico ingresado y validado
+\end{DoxyReturn}
+Verifica que el formato del correo sea valido segun estandares internacionales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em correo} & Referencia a la variable donde se almacenara el correo \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Correo electronico validado 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ac288b381f50c8524fef8ecee596182c1}\index{Persona@{Persona}!ingresarDatos@{ingresarDatos}}
+\index{ingresarDatos@{ingresarDatos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarDatos()}{ingresarDatos()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_persona_ac288b381f50c8524fef8ecee596182c1} 
+void Persona\+::ingresar\+Datos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Solicita al usuario ingresar todos sus datos personales. 
+
+Inicia el proceso de ingreso de datos para una persona.
+
+Llama al metodo sobrecargado utilizando la cedula actual como parametro. \Hypertarget{class_persona_a4a18f84d8a6e17179e519c7da1adf620}\index{Persona@{Persona}!ingresarDatos@{ingresarDatos}}
+\index{ingresarDatos@{ingresarDatos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarDatos()}{ingresarDatos()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_persona_a4a18f84d8a6e17179e519c7da1adf620} 
+void Persona\+::ingresar\+Datos (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{cedula\+Esperada}{}\end{DoxyParamCaption})}
+
+
+
+Solicita al usuario ingresar datos con una cedula predeterminada. 
+
+Metodo para ingresar los datos de la persona, validando contra una cedula esperada.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula\+Esperada} & Cedula que se espera validar\\
+\hline
+\end{DoxyParams}
+Permite el ingreso completo de los datos personales con validacion de cada campo. Si los datos son correctos, los guarda en el objeto y en un archivo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula\+Esperada} & Cedula que se espera que ingrese el usuario para validacion \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_persona_aa38e8ef90837e5e062a37680394ce1d3}\index{Persona@{Persona}!ingresarDireccion@{ingresarDireccion}}
+\index{ingresarDireccion@{ingresarDireccion}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarDireccion()}{ingresarDireccion()}}
+{\footnotesize\ttfamily \label{class_persona_aa38e8ef90837e5e062a37680394ce1d3} 
+std\+::string Persona\+::ingresar\+Direccion (\begin{DoxyParamCaption}\item[{std\+::string \&}]{direccion}{}\end{DoxyParamCaption}) const}
+
+
+
+Solicita al usuario ingresar su direccion. 
+
+Solicita y valida el ingreso de la direccion.
+
+
+\begin{DoxyParams}{Parameters}
+{\em direccion} & Variable donde se almacenara la direccion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Direccion ingresada y validada
+\end{DoxyReturn}
+Permite el ingreso de una direccion con caracteres especiales comunes en direcciones.
+
+
+\begin{DoxyParams}{Parameters}
+{\em direccion} & Referencia a la variable donde se almacenara la direccion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Direccion validada 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a7bb21a6ff12b10d4a2cf5222a61a2e55}\index{Persona@{Persona}!ingresarFechaNacimiento@{ingresarFechaNacimiento}}
+\index{ingresarFechaNacimiento@{ingresarFechaNacimiento}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarFechaNacimiento()}{ingresarFechaNacimiento()}}
+{\footnotesize\ttfamily \label{class_persona_a7bb21a6ff12b10d4a2cf5222a61a2e55} 
+std\+::string Persona\+::ingresar\+Fecha\+Nacimiento (\begin{DoxyParamCaption}\item[{std\+::string \&}]{fecha\+Nacimiento}{}\end{DoxyParamCaption})}
+
+
+
+Solicita al usuario ingresar su fecha de nacimiento. 
+
+Solicita y valida el ingreso de la fecha de nacimiento.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha\+Nacimiento} & Variable donde se almacenara la fecha \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_fecha}{Fecha} de nacimiento ingresada y validada
+\end{DoxyReturn}
+Implementa un selector interactivo de fecha y valida que no sea una fecha futura.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha\+Nacimiento} & Referencia a la variable donde se almacenara la fecha \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string \doxylink{class_fecha}{Fecha} de nacimiento validada en formato DD/\+MM/\+AAAA 
+\end{DoxyReturn}
+\Hypertarget{class_persona_ab3e88d99855d6dfa46e2075bc3fc0c75}\index{Persona@{Persona}!ingresarNombres@{ingresarNombres}}
+\index{ingresarNombres@{ingresarNombres}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{ingresarNombres()}{ingresarNombres()}}
+{\footnotesize\ttfamily \label{class_persona_ab3e88d99855d6dfa46e2075bc3fc0c75} 
+std\+::string Persona\+::ingresar\+Nombres (\begin{DoxyParamCaption}\item[{std\+::string \&}]{nombres}{}\end{DoxyParamCaption}) const}
+
+
+
+Solicita al usuario ingresar sus nombres. 
+
+Solicita y valida el ingreso de los nombres de la persona.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombres} & Variable donde se almacenaran los nombres \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nombres ingresados y validados
+\end{DoxyReturn}
+Valida que los nombres solo contengan letras y espacios, no esten vacios y cumplan con requisitos de formato.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombres} & Referencia a la variable donde se almacenaran los nombres \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Nombres validados 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a8e477de38731fe3ddc3f6a85ebdd6d56}\index{Persona@{Persona}!isValidInstance@{isValidInstance}}
+\index{isValidInstance@{isValidInstance}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{isValidInstance()}{isValidInstance()}}
+{\footnotesize\ttfamily \label{class_persona_a8e477de38731fe3ddc3f6a85ebdd6d56} 
+bool Persona\+::is\+Valid\+Instance (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Verifica si la instancia es valida (no ha sido destruida) 
+
+\begin{DoxyReturn}{Returns}
+true si la instancia es valida, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a5f6a06db57218e4ae997d407672eb643}\index{Persona@{Persona}!mostrarCuentas@{mostrarCuentas}}
+\index{mostrarCuentas@{mostrarCuentas}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{mostrarCuentas()}{mostrarCuentas()}}
+{\footnotesize\ttfamily \label{class_persona_a5f6a06db57218e4ae997d407672eb643} 
+int Persona\+::mostrar\+Cuentas (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{tipo\+Cuenta}{}\end{DoxyParamCaption}) const}
+
+
+
+Muestra las cuentas del cliente segun el tipo especificado. 
+
+Muestra las cuentas asociadas a la persona segun su tipo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo\+Cuenta} & Tipo de cuenta a mostrar ("{}ahorros"{} o "{}corriente"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Numero de cuentas mostradas
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em tipo\+Cuenta} & Tipo de cuenta a mostrar\+: "{}\+Ahorros"{}, "{}\+Corriente"{} o "{}\+Ambas"{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Numero de cuentas encontradas 
+\end{DoxyReturn}
+\Hypertarget{class_persona_abf0efe995e0f80dbead58b5dcdf73f2a}\index{Persona@{Persona}!mostrarDatos@{mostrarDatos}}
+\index{mostrarDatos@{mostrarDatos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{mostrarDatos()}{mostrarDatos()}}
+{\footnotesize\ttfamily \label{class_persona_abf0efe995e0f80dbead58b5dcdf73f2a} 
+void Persona\+::mostrar\+Datos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Muestra los datos personales del cliente. 
+
+Muestra en pantalla los datos actuales de la persona. \Hypertarget{class_persona_a680a8c4822a467dde229e6b195c9601b}\index{Persona@{Persona}!msgIngresoDatos@{msgIngresoDatos}}
+\index{msgIngresoDatos@{msgIngresoDatos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{msgIngresoDatos()}{msgIngresoDatos()}}
+{\footnotesize\ttfamily \label{class_persona_a680a8c4822a467dde229e6b195c9601b} 
+std\+::string Persona\+::msg\+Ingreso\+Datos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Genera un mensaje para solicitar datos personales. 
+
+Genera un mensaje estandar para el ingreso de datos.
+
+\begin{DoxyReturn}{Returns}
+Mensaje formateado
+
+std\+::string Mensaje formateado 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aadbf7f9d320628b99f2b46e0893c39a0}\index{Persona@{Persona}!seleccionSucursal@{seleccionSucursal}}
+\index{seleccionSucursal@{seleccionSucursal}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{seleccionSucursal()}{seleccionSucursal()}}
+{\footnotesize\ttfamily \label{class_persona_aadbf7f9d320628b99f2b46e0893c39a0} 
+std\+::string Persona\+::seleccion\+Sucursal (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Permite al usuario seleccionar una sucursal bancaria. 
+
+Presenta un selector de sucursal bancaria.
+
+\begin{DoxyReturn}{Returns}
+Codigo de la sucursal seleccionada
+\end{DoxyReturn}
+Muestra un menu interactivo para seleccionar la sucursal donde se aperturara la cuenta.
+
+\begin{DoxyReturn}{Returns}
+std\+::string Codigo de la sucursal seleccionada 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aea2b65aa3570cbace03b140cedfa7603}\index{Persona@{Persona}!setApellidos@{setApellidos}}
+\index{setApellidos@{setApellidos}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setApellidos()}{setApellidos()}}
+{\footnotesize\ttfamily \label{class_persona_aea2b65aa3570cbace03b140cedfa7603} 
+bool Persona\+::set\+Apellidos (\begin{DoxyParamCaption}\item[{const string \&}]{apellidos}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece los apellidos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em apellidos} & Nuevos apellidos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se asigno correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_af5161e0a6f29b3d5c81d5cc52930d08e}\index{Persona@{Persona}!setCabezaAhorros@{setCabezaAhorros}}
+\index{setCabezaAhorros@{setCabezaAhorros}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setCabezaAhorros()}{setCabezaAhorros()}}
+{\footnotesize\ttfamily \label{class_persona_af5161e0a6f29b3d5c81d5cc52930d08e} 
+\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*} Persona\+::set\+Cabeza\+Ahorros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_ahorros}{Cuenta\+Ahorros}} \texorpdfstring{$\ast$}{*}}]{nueva\+Cabeza}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la cabeza de la lista de cuentas de ahorro. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cabeza} & Puntero a la nueva cuenta que sera la cabeza \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a la nueva cabeza 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a34eb1732c48b3f12ea39ad4948a73ebc}\index{Persona@{Persona}!setCabezaCorriente@{setCabezaCorriente}}
+\index{setCabezaCorriente@{setCabezaCorriente}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setCabezaCorriente()}{setCabezaCorriente()}}
+{\footnotesize\ttfamily \label{class_persona_a34eb1732c48b3f12ea39ad4948a73ebc} 
+\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*} Persona\+::set\+Cabeza\+Corriente (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cuenta_corriente}{Cuenta\+Corriente}} \texorpdfstring{$\ast$}{*}}]{nueva\+Cabeza}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la cabeza de la lista de cuentas corrientes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nueva\+Cabeza} & Puntero a la nueva cuenta que sera la cabeza \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a la nueva cabeza 
+\end{DoxyReturn}
+\Hypertarget{class_persona_acf06843bbab4704509a20212d548100c}\index{Persona@{Persona}!setCedula@{setCedula}}
+\index{setCedula@{setCedula}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setCedula()}{setCedula()}}
+{\footnotesize\ttfamily \label{class_persona_acf06843bbab4704509a20212d548100c} 
+bool Persona\+::set\+Cedula (\begin{DoxyParamCaption}\item[{const string \&}]{cedula}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el numero de cedula. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Nueva cedula \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se asigno correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a99be5c867f17273330b04cb3ba0a04a1}\index{Persona@{Persona}!setCorreo@{setCorreo}}
+\index{setCorreo@{setCorreo}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setCorreo()}{setCorreo()}}
+{\footnotesize\ttfamily \label{class_persona_a99be5c867f17273330b04cb3ba0a04a1} 
+bool Persona\+::set\+Correo (\begin{DoxyParamCaption}\item[{const string \&}]{correo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el correo electronico. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em correo} & Nuevo correo electronico \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se asigno correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_abe59da8ea5afa31049a232f423b7f399}\index{Persona@{Persona}!setDireccion@{setDireccion}}
+\index{setDireccion@{setDireccion}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setDireccion()}{setDireccion()}}
+{\footnotesize\ttfamily \label{class_persona_abe59da8ea5afa31049a232f423b7f399} 
+bool Persona\+::set\+Direccion (\begin{DoxyParamCaption}\item[{const string \&}]{direccion}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la direccion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em direccion} & Nueva direccion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se asigno correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_abcf5453d87e4518db9efd4e100651c46}\index{Persona@{Persona}!setFechaNacimiento@{setFechaNacimiento}}
+\index{setFechaNacimiento@{setFechaNacimiento}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setFechaNacimiento()}{setFechaNacimiento()}}
+{\footnotesize\ttfamily \label{class_persona_abcf5453d87e4518db9efd4e100651c46} 
+bool Persona\+::set\+Fecha\+Nacimiento (\begin{DoxyParamCaption}\item[{const string \&}]{fecha\+Nacimiento}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece la fecha de nacimiento. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha\+Nacimiento} & Nueva fecha de nacimiento \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se asigno correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_aafe9a2f7ecfa137fac34ee984e1cb77d}\index{Persona@{Persona}!setNombres@{setNombres}}
+\index{setNombres@{setNombres}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setNombres()}{setNombres()}}
+{\footnotesize\ttfamily \label{class_persona_aafe9a2f7ecfa137fac34ee984e1cb77d} 
+bool Persona\+::set\+Nombres (\begin{DoxyParamCaption}\item[{const string \&}]{nombres}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece los nombres. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombres} & Nuevos nombres \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se asigno correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_persona_a6a7ef95c99520d1044d94ebbb376e54f}\index{Persona@{Persona}!setNumCorrientes@{setNumCorrientes}}
+\index{setNumCorrientes@{setNumCorrientes}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setNumCorrientes()}{setNumCorrientes()}}
+{\footnotesize\ttfamily \label{class_persona_a6a7ef95c99520d1044d94ebbb376e54f} 
+void Persona\+::set\+Num\+Corrientes (\begin{DoxyParamCaption}\item[{int}]{num\+Corrientes}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el numero de cuentas corrientes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Corrientes} & Nuevo numero de cuentas corrientes \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_persona_a5f291ab3fa14b57008837081e5754d48}\index{Persona@{Persona}!setNumeCuentas@{setNumeCuentas}}
+\index{setNumeCuentas@{setNumeCuentas}!Persona@{Persona}}
+\doxysubsubsection{\texorpdfstring{setNumeCuentas()}{setNumeCuentas()}}
+{\footnotesize\ttfamily \label{class_persona_a5f291ab3fa14b57008837081e5754d48} 
+void Persona\+::set\+Nume\+Cuentas (\begin{DoxyParamCaption}\item[{int}]{num\+Cuentas}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Establece el numero de cuentas de ahorro. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Cuentas} & Nuevo numero de cuentas \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Persona.\+h\item 
+\mbox{\hyperlink{_persona_8cpp}{Persona.\+cpp}}\end{DoxyCompactItemize}

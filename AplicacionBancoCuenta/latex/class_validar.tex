@@ -1,0 +1,524 @@
+\doxysection{Validar Class Reference}
+\hypertarget{class_validar}{}\label{class_validar}\index{Validar@{Validar}}
+
+
+Clase estatica que proporciona metodos de validacion para datos bancarios.  
+
+
+
+
+{\ttfamily \#include $<$Validar.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{class_validar_a0d97c7e4419db9922eb72893480bcce3}{Validar\+Numero\+Cuenta}} (const std\+::string numero)
+\begin{DoxyCompactList}\small\item\em Valida que el numero de cuenta tenga un formato valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_af020b10cb505074428ccfeed84330305}{Validar\+Saldo}} (const std\+::string \&saldo\+Str)
+\begin{DoxyCompactList}\small\item\em Valida que el saldo tenga un formato valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a359ea643571094179d215c6a062cf895}{Validar\+Estado\+Cuenta}} (const std\+::string \&estado)
+\begin{DoxyCompactList}\small\item\em Valida que el estado de la cuenta sea valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_ac7e44be86fd3880024a0ece9ae5f542c}{Validar\+Tipo\+Cuenta}} (const std\+::string \&tipo)
+\begin{DoxyCompactList}\small\item\em Valida que el tipo de cuenta sea valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a2fd94becc72e2c000b5d5b73a90e3bb2}{Validar\+Tipo\+Transaccion}} (const std\+::string \&tipo)
+\begin{DoxyCompactList}\small\item\em Valida que el tipo de transaccion sea valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a0d1fab2fb2c0d2973d8c007f5c963b1a}{Validar\+Monto\+Transaccion}} (int monto)
+\begin{DoxyCompactList}\small\item\em Valida que el monto de la transaccion sea valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_acf0dadcd61cca896b70f98cd8c2588f3}{Validar\+Fecha}} (const std\+::string \&fecha)
+\begin{DoxyCompactList}\small\item\em Valida que el formato de la fecha sea correcto. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a22687ba07e8e3d1c740dde0c69266ef1}{Validar\+Numero\+Con\+Dos\+Decimales}} (const std\+::string \&monto)
+\begin{DoxyCompactList}\small\item\em Valida que un numero tenga exactamente dos decimales. \end{DoxyCompactList}\item 
+static std\+::string \mbox{\hyperlink{class_validar_aa900783fe78990a384c8d58e216f26c4}{leer\+Desde\+Portapapeles}} ()
+\begin{DoxyCompactList}\small\item\em Lee un texto desde el portapapeles del sistema. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a116e36eed020e8d524e7cec31d0ced9b}{Validar\+Nombre\+Persona}} (const std\+::string \&nombre)
+\begin{DoxyCompactList}\small\item\em Valida que el nombre de una persona sea valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a60591c457d06e2d3471dade2373bfb6f}{Validar\+Cedula}} (const std\+::string \&cedula)
+\begin{DoxyCompactList}\small\item\em Valida que una cedula de identidad tenga formato valido. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a564f94b1a189e877c8c2bafe1e0457d8}{todos\+Los\+Digitos\+Iguales}} (const std\+::string \&cedula)
+\begin{DoxyCompactList}\small\item\em Verifica si todos los digitos de una cedula son iguales. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_a5fe4d90e3075b506d9cf2e8118a5ec65}{Validar\+Tecla}} (char tecla, Tipo\+Entrada tipo)
+\begin{DoxyCompactList}\small\item\em Valida la tecla ingresada segun el tipo de entrada esperado. \end{DoxyCompactList}\item 
+static std\+::string \mbox{\hyperlink{class_validar_af0f0f3322d05f8e5ccd19e3d02c89c83}{Validar\+Leer\+Numero\+Cuenta}} ()
+\begin{DoxyCompactList}\small\item\em Valida y lee un numero de cuenta desde la entrada estandar. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_validar_ac6565b2867095e7dddbd8b1406c79dad}{archivo\+Existe}} (const std\+::string \&ruta\+Archivo)
+\begin{DoxyCompactList}\small\item\em Verifica si un archivo existe en el sistema. \end{DoxyCompactList}\item 
+static std\+::string \mbox{\hyperlink{class_validar_a9ba312542ca2fd425d2eb57f355cf317}{generar\+Nombre\+Con\+Indice}} (const std\+::string \&ruta\+Directorio, const std\+::string \&fecha\+Formateada)
+\begin{DoxyCompactList}\small\item\em Genera un nombre unico para archivos de respaldo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase estatica que proporciona metodos de validacion para datos bancarios. 
+
+Esta clase contiene metodos estaticos para validar diferentes tipos de datos utilizados en un sistema bancario, como numeros de cuenta, cedulas, fechas, montos, etc. Se organiza en regiones segun el tipo de validacion. 
+
+\label{doc-func-members}
+\Hypertarget{class_validar_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_validar_ac6565b2867095e7dddbd8b1406c79dad}\index{Validar@{Validar}!archivoExiste@{archivoExiste}}
+\index{archivoExiste@{archivoExiste}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{archivoExiste()}{archivoExiste()}}
+{\footnotesize\ttfamily \label{class_validar_ac6565b2867095e7dddbd8b1406c79dad} 
+bool Validar\+::archivo\+Existe (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ruta\+Archivo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Verifica si un archivo existe en el sistema. 
+
+Verifica si un archivo existe en el sistema de archivos.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ruta\+Archivo} & Ruta completa del archivo \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el archivo existe, false en caso contrario
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em ruta\+Archivo} & Ruta completa al archivo \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el archivo existe, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a9ba312542ca2fd425d2eb57f355cf317}\index{Validar@{Validar}!generarNombreConIndice@{generarNombreConIndice}}
+\index{generarNombreConIndice@{generarNombreConIndice}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{generarNombreConIndice()}{generarNombreConIndice()}}
+{\footnotesize\ttfamily \label{class_validar_a9ba312542ca2fd425d2eb57f355cf317} 
+std\+::string Validar\+::generar\+Nombre\+Con\+Indice (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ruta\+Directorio}{, }\item[{const std\+::string \&}]{fecha\+Formateada}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Genera un nombre unico para archivos de respaldo. 
+
+Genera un nombre de archivo unico basado en fecha y un indice incremental.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ruta\+Directorio} & Directorio donde se guardara el archivo \\
+\hline
+{\em fecha\+Formateada} & \doxylink{class_fecha}{Fecha} formateada para incluir en el nombre \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nombre unico para el archivo de respaldo
+\end{DoxyReturn}
+util para crear nombres de archivo para respaldos, evitando colisiones al agregar un indice numerico si ya existe un archivo con el mismo nombre.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ruta\+Directorio} & Directorio donde se almacenara el archivo \\
+\hline
+{\em fecha\+Formateada} & \doxylink{class_fecha}{Fecha} en formato de texto para incluir en el nombre \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Nombre de archivo unico 
+\end{DoxyReturn}
+\Hypertarget{class_validar_aa900783fe78990a384c8d58e216f26c4}\index{Validar@{Validar}!leerDesdePortapapeles@{leerDesdePortapapeles}}
+\index{leerDesdePortapapeles@{leerDesdePortapapeles}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{leerDesdePortapapeles()}{leerDesdePortapapeles()}}
+{\footnotesize\ttfamily \label{class_validar_aa900783fe78990a384c8d58e216f26c4} 
+std\+::string Validar\+::leer\+Desde\+Portapapeles (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Lee un texto desde el portapapeles del sistema. 
+
+Lee texto desde el portapapeles del sistema.
+
+\begin{DoxyReturn}{Returns}
+Cadena con el contenido del portapapeles
+\end{DoxyReturn}
+util para permitir operaciones de pegado en formularios.
+
+\begin{DoxyReturn}{Returns}
+std\+::string Texto contenido en el portapapeles o cadena vacia si hay error 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a564f94b1a189e877c8c2bafe1e0457d8}\index{Validar@{Validar}!todosLosDigitosIguales@{todosLosDigitosIguales}}
+\index{todosLosDigitosIguales@{todosLosDigitosIguales}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{todosLosDigitosIguales()}{todosLosDigitosIguales()}}
+{\footnotesize\ttfamily \label{class_validar_a564f94b1a189e877c8c2bafe1e0457d8} 
+bool Validar\+::todos\+Los\+Digitos\+Iguales (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{cedula}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Verifica si todos los digitos de una cedula son iguales. 
+
+Verifica si todos los digitos de una cadena son iguales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Numero de cedula a verificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si todos los digitos son iguales, false en caso contrario
+\end{DoxyReturn}
+Funcion auxiliar utilizada en la validacion de cedulas para detectar cedulas invalidas como "{}0000000000"{} o "{}9999999999"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Cadena de digitos a verificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si todos los digitos son iguales, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a60591c457d06e2d3471dade2373bfb6f}\index{Validar@{Validar}!ValidarCedula@{ValidarCedula}}
+\index{ValidarCedula@{ValidarCedula}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarCedula()}{ValidarCedula()}}
+{\footnotesize\ttfamily \label{class_validar_a60591c457d06e2d3471dade2373bfb6f} 
+bool Validar\+::\+Validar\+Cedula (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{cedula}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que una cedula de identidad tenga formato valido. 
+
+Valida que una cedula ecuatoriana tenga formato correcto.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Numero de cedula a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si la cedula es valida, false en caso contrario
+\end{DoxyReturn}
+Implementa el algoritmo oficial de validacion de cedulas ecuatorianas, verificando longitud, codigo de provincia, digito verificador y otros requisitos.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cedula} & Cedula a validar (debe tener 10 digitos) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la cedula es valida, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a359ea643571094179d215c6a062cf895}\index{Validar@{Validar}!ValidarEstadoCuenta@{ValidarEstadoCuenta}}
+\index{ValidarEstadoCuenta@{ValidarEstadoCuenta}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarEstadoCuenta()}{ValidarEstadoCuenta()}}
+{\footnotesize\ttfamily \label{class_validar_a359ea643571094179d215c6a062cf895} 
+bool Validar\+::\+Validar\+Estado\+Cuenta (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{estado}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el estado de la cuenta sea valido. 
+
+Valida que el estado de una cuenta sea valido.
+
+
+\begin{DoxyParams}{Parameters}
+{\em estado} & Estado de la cuenta a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el estado es valido, false en caso contrario
+\end{DoxyReturn}
+Un estado valido debe ser "{}\+Activa"{} o "{}\+Inactiva"{} (case sensitive).
+
+
+\begin{DoxyParams}{Parameters}
+{\em estado} & Estado de cuenta a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el estado es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_acf0dadcd61cca896b70f98cd8c2588f3}\index{Validar@{Validar}!ValidarFecha@{ValidarFecha}}
+\index{ValidarFecha@{ValidarFecha}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarFecha()}{ValidarFecha()}}
+{\footnotesize\ttfamily \label{class_validar_acf0dadcd61cca896b70f98cd8c2588f3} 
+bool Validar\+::\+Validar\+Fecha (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{fecha}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el formato de la fecha sea correcto. 
+
+Valida que una fecha tenga formato correcto y sea una fecha valida.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha} & \doxylink{class_fecha}{Fecha} en formato de cadena (DD/\+MM/\+AAAA) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el formato de fecha es valido, false en caso contrario
+\end{DoxyReturn}
+Verifica que la fecha tenga el formato "{}dd/mm/aaaa"{}, que sea una fecha existente en el calendario y que no sea futura respecto a la fecha del sistema.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fecha} & \doxylink{class_fecha}{Fecha} a validar en formato "{}dd/mm/aaaa"{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la fecha es valida, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_af0f0f3322d05f8e5ccd19e3d02c89c83}\index{Validar@{Validar}!ValidarLeerNumeroCuenta@{ValidarLeerNumeroCuenta}}
+\index{ValidarLeerNumeroCuenta@{ValidarLeerNumeroCuenta}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarLeerNumeroCuenta()}{ValidarLeerNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_validar_af0f0f3322d05f8e5ccd19e3d02c89c83} 
+std\+::string Validar\+::\+Validar\+Leer\+Numero\+Cuenta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida y lee un numero de cuenta desde la entrada estandar. 
+
+Lee y valida interactivamente un numero de cuenta.
+
+\begin{DoxyReturn}{Returns}
+Numero de cuenta validado
+\end{DoxyReturn}
+Permite al usuario ingresar un numero de cuenta de hasta 10 digitos, con validacion en tiempo real.
+
+\begin{DoxyReturn}{Returns}
+std\+::string Numero de cuenta ingresado 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a0d1fab2fb2c0d2973d8c007f5c963b1a}\index{Validar@{Validar}!ValidarMontoTransaccion@{ValidarMontoTransaccion}}
+\index{ValidarMontoTransaccion@{ValidarMontoTransaccion}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarMontoTransaccion()}{ValidarMontoTransaccion()}}
+{\footnotesize\ttfamily \label{class_validar_a0d1fab2fb2c0d2973d8c007f5c963b1a} 
+bool Validar\+::\+Validar\+Monto\+Transaccion (\begin{DoxyParamCaption}\item[{int}]{saldo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el monto de la transaccion sea valido. 
+
+Valida que un monto de transaccion sea valido.
+
+
+\begin{DoxyParams}{Parameters}
+{\em monto} & Valor entero del monto de la transaccion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el monto es valido, false en caso contrario
+\end{DoxyReturn}
+Un monto valido debe ser un valor entero no negativo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo} & Monto a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el monto es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a116e36eed020e8d524e7cec31d0ced9b}\index{Validar@{Validar}!ValidarNombrePersona@{ValidarNombrePersona}}
+\index{ValidarNombrePersona@{ValidarNombrePersona}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarNombrePersona()}{ValidarNombrePersona()}}
+{\footnotesize\ttfamily \label{class_validar_a116e36eed020e8d524e7cec31d0ced9b} 
+bool Validar\+::\+Validar\+Nombre\+Persona (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{nombre}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el nombre de una persona sea valido. 
+
+Valida que un nombre de persona tenga formato correcto.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre} & Nombre a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el nombre es valido (solo letras y espacios), false en caso contrario
+\end{DoxyReturn}
+Un nombre valido debe contener solo letras y espacios.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nombre} & Nombre a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el nombre es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a22687ba07e8e3d1c740dde0c69266ef1}\index{Validar@{Validar}!ValidarNumeroConDosDecimales@{ValidarNumeroConDosDecimales}}
+\index{ValidarNumeroConDosDecimales@{ValidarNumeroConDosDecimales}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarNumeroConDosDecimales()}{ValidarNumeroConDosDecimales()}}
+{\footnotesize\ttfamily \label{class_validar_a22687ba07e8e3d1c740dde0c69266ef1} 
+bool Validar\+::\+Validar\+Numero\+Con\+Dos\+Decimales (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{monto}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que un numero tenga exactamente dos decimales. 
+
+Valida que una cadena represente un numero con hasta dos decimales.
+
+
+\begin{DoxyParams}{Parameters}
+{\em monto} & Valor numerico en formato de cadena \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el numero tiene formato correcto con dos decimales, false en caso contrario
+\end{DoxyReturn}
+Un valor valido debe contener solo digitos y opcionalmente un punto decimal seguido de uno o dos digitos.
+
+
+\begin{DoxyParams}{Parameters}
+{\em monto} & Cadena que representa el monto a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el formato es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a0d97c7e4419db9922eb72893480bcce3}\index{Validar@{Validar}!ValidarNumeroCuenta@{ValidarNumeroCuenta}}
+\index{ValidarNumeroCuenta@{ValidarNumeroCuenta}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarNumeroCuenta()}{ValidarNumeroCuenta()}}
+{\footnotesize\ttfamily \label{class_validar_a0d97c7e4419db9922eb72893480bcce3} 
+bool Validar\+::\+Validar\+Numero\+Cuenta (\begin{DoxyParamCaption}\item[{const std\+::string}]{numero}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el numero de cuenta tenga un formato valido. 
+
+Valida que un numero de cuenta tenga el formato correcto.
+
+
+\begin{DoxyParams}{Parameters}
+{\em numero} & Numero de cuenta a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el numero de cuenta es valido, false en caso contrario
+\end{DoxyReturn}
+Un numero de cuenta valido debe contener exactamente 10 digitos numericos.
+
+
+\begin{DoxyParams}{Parameters}
+{\em numero} & Numero de cuenta a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el numero de cuenta es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_af020b10cb505074428ccfeed84330305}\index{Validar@{Validar}!ValidarSaldo@{ValidarSaldo}}
+\index{ValidarSaldo@{ValidarSaldo}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarSaldo()}{ValidarSaldo()}}
+{\footnotesize\ttfamily \label{class_validar_af020b10cb505074428ccfeed84330305} 
+bool Validar\+::\+Validar\+Saldo (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{saldo\+Str}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el saldo tenga un formato valido. 
+
+Valida que una cadena represente un saldo valido.
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo\+Str} & Saldo en formato de cadena \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el formato del saldo es valido, false en caso contrario
+\end{DoxyReturn}
+Un saldo valido debe contener solo digitos y opcionalmente un punto decimal seguido de uno o dos digitos. Ademas, el valor numerico debe ser no negativo.
+
+
+\begin{DoxyParams}{Parameters}
+{\em saldo\+Str} & Cadena que representa el saldo a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el saldo es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a5fe4d90e3075b506d9cf2e8118a5ec65}\index{Validar@{Validar}!ValidarTecla@{ValidarTecla}}
+\index{ValidarTecla@{ValidarTecla}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarTecla()}{ValidarTecla()}}
+{\footnotesize\ttfamily \label{class_validar_a5fe4d90e3075b506d9cf2e8118a5ec65} 
+bool Validar\+::\+Validar\+Tecla (\begin{DoxyParamCaption}\item[{char}]{tecla}{, }\item[{Tipo\+Entrada}]{tipo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida la tecla ingresada segun el tipo de entrada esperado. 
+
+Valida si una tecla es aceptable segun el tipo de entrada requerido.
+
+
+\begin{DoxyParams}{Parameters}
+{\em tecla} & Caracter ingresado \\
+\hline
+{\em tipo} & Tipo de entrada esperada segun enumeracion Tipo\+Entrada \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si la tecla es valida para el tipo de entrada, false en caso contrario
+\end{DoxyReturn}
+Permite filtrar caracteres segun el contexto de entrada (numerico, alfabetico, etc.).
+
+
+\begin{DoxyParams}{Parameters}
+{\em tecla} & Caracter a validar \\
+\hline
+{\em tipo} & Tipo de entrada que determina las reglas de validacion \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si la tecla es valida para el tipo de entrada, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_ac7e44be86fd3880024a0ece9ae5f542c}\index{Validar@{Validar}!ValidarTipoCuenta@{ValidarTipoCuenta}}
+\index{ValidarTipoCuenta@{ValidarTipoCuenta}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarTipoCuenta()}{ValidarTipoCuenta()}}
+{\footnotesize\ttfamily \label{class_validar_ac7e44be86fd3880024a0ece9ae5f542c} 
+bool Validar\+::\+Validar\+Tipo\+Cuenta (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{tipo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el tipo de cuenta sea valido. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo} & Tipo de cuenta ("{}ahorros"{} o "{}corriente"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el tipo de cuenta es valido, false en caso contrario
+\end{DoxyReturn}
+Un tipo de cuenta valido debe ser "{}\+Ahorros"{} o "{}\+Corriente"{} (case sensitive).
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo} & Tipo de cuenta a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el tipo es valido, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_validar_a2fd94becc72e2c000b5d5b73a90e3bb2}\index{Validar@{Validar}!ValidarTipoTransaccion@{ValidarTipoTransaccion}}
+\index{ValidarTipoTransaccion@{ValidarTipoTransaccion}!Validar@{Validar}}
+\doxysubsubsection{\texorpdfstring{ValidarTipoTransaccion()}{ValidarTipoTransaccion()}}
+{\footnotesize\ttfamily \label{class_validar_a2fd94becc72e2c000b5d5b73a90e3bb2} 
+bool Validar\+::\+Validar\+Tipo\+Transaccion (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{tipo}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Valida que el tipo de transaccion sea valido. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo} & Tipo de transaccion ("{}retiro"{} o "{}deposito"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si el tipo de transaccion es valido, false en caso contrario
+\end{DoxyReturn}
+Un tipo de transaccion valido debe ser "{}\+Retiro"{} o "{}\+Deposito"{} (case sensitive).
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo} & Tipo de transaccion a validar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true si el tipo es valido, false en caso contrario 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Validar.\+h\item 
+\mbox{\hyperlink{_validar_8cpp}{Validar.\+cpp}}\end{DoxyCompactItemize}

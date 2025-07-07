@@ -1,0 +1,85 @@
+\doxysection{Codigo\+QR\+::Bit\+Buffer Class Reference}
+\hypertarget{class_codigo_q_r_1_1_bit_buffer}{}\label{class_codigo_q_r_1_1_bit_buffer}\index{CodigoQR::BitBuffer@{CodigoQR::BitBuffer}}
+
+
+Buffer de bits para construir datos QR.  
+
+
+
+
+{\ttfamily \#include $<$Codigo\+QR.\+h$>$}
+
+Inheritance diagram for Codigo\+QR\+::Bit\+Buffer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_codigo_q_r_1_1_bit_buffer}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_codigo_q_r_1_1_bit_buffer_a796ddf9c3ed658be3877c834f55fe427}{Bit\+Buffer}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_codigo_q_r_1_1_bit_buffer_ab8c9a2474e6eae1217e788a7e00d8906}{append\+Bits}} (std\+::uint32\+\_\+t val, int len)
+\begin{DoxyCompactList}\small\item\em Añade bits al buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Buffer de bits para construir datos QR. 
+
+Extiende std\+::vector$<$bool$>$ con metodos para añadir bits de manera eficiente 
+
+\label{doc-constructors}
+\Hypertarget{class_codigo_q_r_1_1_bit_buffer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_codigo_q_r_1_1_bit_buffer_a796ddf9c3ed658be3877c834f55fe427}\index{CodigoQR::BitBuffer@{CodigoQR::BitBuffer}!BitBuffer@{BitBuffer}}
+\index{BitBuffer@{BitBuffer}!CodigoQR::BitBuffer@{CodigoQR::BitBuffer}}
+\doxysubsubsection{\texorpdfstring{BitBuffer()}{BitBuffer()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_bit_buffer_a796ddf9c3ed658be3877c834f55fe427} 
+Codigo\+QR\+::\+Bit\+Buffer\+::\+Bit\+Buffer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Constructor por defecto. 
+
+Constructor por defecto para \doxylink{class_codigo_q_r_1_1_bit_buffer}{Bit\+Buffer}.
+
+Crea un buffer de bits vacio 
+
+\label{doc-func-members}
+\Hypertarget{class_codigo_q_r_1_1_bit_buffer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_codigo_q_r_1_1_bit_buffer_ab8c9a2474e6eae1217e788a7e00d8906}\index{CodigoQR::BitBuffer@{CodigoQR::BitBuffer}!appendBits@{appendBits}}
+\index{appendBits@{appendBits}!CodigoQR::BitBuffer@{CodigoQR::BitBuffer}}
+\doxysubsubsection{\texorpdfstring{appendBits()}{appendBits()}}
+{\footnotesize\ttfamily \label{class_codigo_q_r_1_1_bit_buffer_ab8c9a2474e6eae1217e788a7e00d8906} 
+void Codigo\+QR\+::\+Bit\+Buffer\+::append\+Bits (\begin{DoxyParamCaption}\item[{std\+::uint32\+\_\+t}]{val}{, }\item[{int}]{len}{}\end{DoxyParamCaption})}
+
+
+
+Añade bits al buffer. 
+
+AÃ±ade bits al buffer a partir de un valor entero.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Valor a codificar \\
+\hline
+{\em len} & Numero de bits a usar (desde el LSB)\\
+\hline
+{\em val} & Valor entero del que se extraeran los bits \\
+\hline
+{\em len} & Numero de bits a aÃ±adir (empezando por el MSB) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::domain\+\_\+error} & Si len esta fuera de rango o val requiere mas de len bits \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Codigo\+QR.\+h\item 
+\mbox{\hyperlink{_codigo_q_r_8cpp}{Codigo\+QR.\+cpp}}\end{DoxyCompactItemize}

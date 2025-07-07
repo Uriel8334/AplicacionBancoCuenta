@@ -1,0 +1,95 @@
+\doxysection{Utilidades.\+h}
+\hypertarget{_utilidades_8h_source}{}\label{_utilidades_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#ifndef\ UTILIDADES\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ UTILIDADES\_H}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}CodigoQR.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_nodo_persona}{NodoPersona}};}
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_persona}{Persona}};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_utilidades}{Utilidades}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_utilidades_a2398399cf0374dcbb7e87756baaaeaa6}{ConvertirADouble}}(\textcolor{keyword}{const}\ std::string\&\ texto);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_a1e6fe10f2960cc788f112022e533238f}{FormatearMonto}}(\textcolor{keywordtype}{double}\ monto,\ \textcolor{keywordtype}{int}\ decimales\ =\ 2);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_aa62e96976ade5a02288c2198264b87bd}{FormatearFecha}}(\textcolor{keywordtype}{int}\ dia,\ \textcolor{keywordtype}{int}\ mes,\ \textcolor{keywordtype}{int}\ anio);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_utilidades_adf8018a37af3792fdbe936edcea6de25}{EsNumerico}}(\textcolor{keyword}{const}\ std::string\&\ texto);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_utilidades_a110676363257f0181034190039f2bec1}{EsCorreoValido}}(\textcolor{keyword}{const}\ std::string\&\ correo);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_a07adefa53aa6f74b4ae78843e58d70d8}{EliminarEspacios}}(\textcolor{keyword}{const}\ std::string\&\ texto);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_a3ffb41149be405c13c8b35fe47313b60}{ConvertirAMayusculas}}(\textcolor{keyword}{const}\ std::string\&\ texto);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_a555a980678eb7aae72cd841ad740a205}{ConvertirAMinusculas}}(\textcolor{keyword}{const}\ std::string\&\ texto);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_a147cf6bc4586bd09a371d2e542e09216}{Regresar}}();}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_a60988806e4bf7d59169a5a3a969b6c62}{gotoxy}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_a83942d8a012ca32316e31bfe9f9d4206}{mostrarMenuAyuda}}();}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_ace4415c756a46ae7fc19466949dc908c}{burbuja}}(std::vector<T*>\&\ vec,\ std::function<\textcolor{keywordtype}{bool}(\textcolor{keyword}{const}\ T*,\ \textcolor{keyword}{const}\ T*)>\ criterio)\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ vec.size();\ ++i)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ j\ =\ 0;\ j\ <\ vec.size()\ -\/\ i\ -\/\ 1;\ ++j)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!criterio(vec[j],\ vec[j\ +\ 1]))\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::swap(vec[j],\ vec[j\ +\ 1]);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Nodo,\ \textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_aef5eb832696866975e3d35695d854674}{burbujaLista}}(Nodo*\ cabeza,\ std::function<\textcolor{keywordtype}{bool}(\textcolor{keyword}{const}\ T*,\ \textcolor{keyword}{const}\ T*)>\ criterio)\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Contar\ nodos}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ 0;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Nodo*\ tmp\ =\ cabeza;\ tmp;\ tmp\ =\ tmp-\/>siguiente)\ ++n;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ <\ 2)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ n\ -\/\ 1;\ ++i)\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ Nodo*\ actual\ =\ cabeza;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ n\ -\/\ i\ -\/\ 1;\ ++j)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!criterio(actual-\/>persona,\ actual-\/>siguiente-\/>persona))\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::swap(actual-\/>persona,\ actual-\/>siguiente-\/>persona);}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actual\ =\ actual-\/>siguiente;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_acb4a08cf12b0839fde039e18ae64e2d5}{calcularSHA1}}(\textcolor{keyword}{const}\ std::string\&\ rutaArchivo);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_utilidades_a330568e40a45b2988f865bd9f013b199}{verificarSHA1}}(\textcolor{keyword}{const}\ std::string\&\ rutaArchivo,\ \textcolor{keyword}{const}\ std::string\&\ hashEsperado);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_ac83daf17a86e8c08e4b9b4c10fc5a8bf}{guardarHashArchivo}}(\textcolor{keyword}{const}\ std::string\&\ rutaArchivo,\ \textcolor{keyword}{const}\ std::string\&\ hash);}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_utilidades_ae7c3d1a1b8a1809fe818fc997a35f6b3}{leerHashArchivo}}(\textcolor{keyword}{const}\ std::string\&\ rutaHashArchivo);}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_a7e9cab0e64b2d36ce00df8e57051a72a}{PorArbolB}}(\mbox{\hyperlink{class_nodo_persona}{NodoPersona}}*\ cabeza);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_ac1d02a7bbc9a85dc10818ea945628ee4}{iniciarOperacionCritica}}();}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_a9f017933719545945520d2b34033f730}{finalizarOperacionCritica}}();}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_utilidades_a798d5a2301c4f0cfba55ad2693eb8afe}{limpiarPantallaPreservandoMarquesina}}(\textcolor{keywordtype}{int}\ lineasMarquesina\ =\ 2);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_utilidades_a6b3a9dee347b2ee4f77a391cbe2c312d}{generarQR}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_persona}{Persona}}\&\ persona,\ \textcolor{keyword}{const}\ std::string\&\ numeroCuenta);}
+\DoxyCodeLine{00207\ \};}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ UTILIDADES\_H}}
+
+\end{DoxyCode}

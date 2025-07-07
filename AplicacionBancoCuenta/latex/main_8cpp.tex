@@ -1,0 +1,63 @@
+\doxysection{main.\+cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{main.cpp@{main.cpp}}
+
+
+Sistema de gestion bancaria con interfaz de consola.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include "{}Persona.\+h"{}}\newline
+{\ttfamily \#include $<$conio.\+h$>$}\newline
+{\ttfamily \#include $<$windows.\+h$>$}\newline
+{\ttfamily \#include "{}Banco.\+h"{}}\newline
+{\ttfamily \#include "{}Utilidades.\+h"{}}\newline
+{\ttfamily \#include "{}Cifrado.\+h"{}}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include "{}Marquesina.\+h"{}}\newline
+{\ttfamily \#include "{}Codigo\+QR.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Funcion principal que inicia la aplicacion bancaria. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{main_8cpp_a907ec23e6f2a4904216ad23a99d09fda}\label{main_8cpp_a907ec23e6f2a4904216ad23a99d09fda} 
+\mbox{\hyperlink{class_marquesina}{Marquesina}} \texorpdfstring{$\ast$}{*} {\bfseries marquesina\+Global} = nullptr
+\begin{DoxyCompactList}\small\item\em Puntero global a la marquesina utilizada en la aplicacion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sistema de gestion bancaria con interfaz de consola. 
+
+Este archivo implementa la aplicacion principal del sistema bancario, proporcionando un menu interactivo para gestionar cuentas, realizar transferencias, buscar informacion, y generar reportes. Incluye una marquesina en la parte superior para mensajes importantes.
+
+\begin{DoxyAuthor}{Author}
+Uriel Andrade 
+
+Kerly Chuqui 
+
+Abner Proano 
+\end{DoxyAuthor}
+
+
+\label{doc-func-members}
+\Hypertarget{main_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Funcion principal que inicia la aplicacion bancaria. 
+
+Configura la interfaz de usuario, crea la marquesina, y gestiona el menu principal y sus submenus para realizar todas las operaciones bancarias.
+
+\begin{DoxyReturn}{Returns}
+int Codigo de salida del programa (0 si termina correctamente) 
+\end{DoxyReturn}
