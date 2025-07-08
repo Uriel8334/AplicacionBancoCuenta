@@ -42,6 +42,7 @@ namespace PersonaUI {
 		system("pause");
 		do {
 			system("cls");
+			std::cout << std::endl;
 			cout << mensaje << endl;
 			const char* opciones[2] = { "Si", "No" };
 			for (int i = 0; i < 2; ++i) {
@@ -734,7 +735,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
  */
 bool Persona::corregirDatos()
 {
-	if (PersonaUI::seleccionarSiNo("¿Los datos ingresados son correctos?")) {
+	if (PersonaUI::seleccionarSiNo("\n¿Los datos ingresados son correctos?")) {
 		return false; // Si selecciona "Si", retorna false para no repetir el ingreso de datos
 	}
 	else {
@@ -1050,10 +1051,10 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
 		double montoInicial = 0.0;
 
-		if (PersonaUI::seleccionarSiNo("Desea ingresar un monto inicial? (maximo 15000.00 USD)"))
+		if (PersonaUI::seleccionarSiNo("\nDesea ingresar un monto inicial? (maximo 15000.00 USD)"))
 		{ // Si desea ingresar un monto inicial 
 			do {
-				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "Ingrese el monto inicial (maximo 15000.00 USD): ");
+				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\n\nIngrese el monto inicial (maximo 15000.00 USD): ");
 			} while (montoInicial < 0 || montoInicial > 15000.00);
 			nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		}
@@ -1124,7 +1125,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
-			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "Ingrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
+			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\n\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
