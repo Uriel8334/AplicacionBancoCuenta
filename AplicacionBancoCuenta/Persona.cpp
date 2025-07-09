@@ -21,6 +21,7 @@
 #include "Validar.h"
 #include "Fecha.h"
 #include "Persona.h"
+#include "Utilidades.h"
 
  /**
   * @namespace PersonaUI
@@ -39,9 +40,9 @@ namespace PersonaUI {
 	const std::function<bool(const std::string&)> seleccionarSiNo = [](const std::string& mensaje) -> bool {
 		int seleccion = 0;
 		int tecla = 0;
-		system("pause");
+		//system("pause");
 		do {
-			system("cls");
+			Utilidades::limpiarPantallaPreservandoMarquesina(3);
 			cout << mensaje << endl;
 			const char* opciones[2] = { "Si", "No" };
 			for (int i = 0; i < 2; ++i) {
@@ -87,7 +88,7 @@ namespace PersonaUI {
 
 		system("pause");
 		while (!terminado) {
-			system("cls");
+			Utilidades::limpiarPantallaPreservandoMarquesina(3);
 			std::cout << mensaje << ": ";
 			std::cout << entrada;
 
@@ -179,11 +180,12 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 		std::string fechaNacimiento = ingresarFechaNacimiento(this->fechaNacimiento); // Llamar al metodo para ingresar la fecha de nacimiento
 		std::string correo = ingresarCorreo(this->correo); // Llamar al metodo para ingresar el correo
 		std::string direccion = ingresarDireccion(this->direccion); // Llamar al metodo para ingresar la direccion
-		std::system("cls"); // Limpiar la pantalla
+		Utilidades::limpiarPantallaPreservandoMarquesina(3); // Limpiar la pantalla
 		// Si el usuario considera que los datos son correctos, 
 		// selecciona "Si" para setear los datos o "No" para repetir
 		// Mostrar los datos ingresados y preguntar si desea corregirlos
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		system("pause");
 		mostrarDatos();
 		cout << endl;
 
@@ -217,7 +219,7 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
  */
 std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	do {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Por seguridad ingrese nuevamente su cedula (10 digitos): ";
 
@@ -279,7 +281,7 @@ std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 std::string Persona::ingresarNombres(std::string& nombres) const {
 	// Ingreso nombres y validacion
 	do {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los nombres: ";
 		nombres.clear();
@@ -351,7 +353,7 @@ std::string Persona::ingresarNombres(std::string& nombres) const {
 std::string Persona::ingresarApellidos(std::string& apellidos) const {
 	// Ingreso apellidos y validacion
 	do {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los apellidos: ";
 		apellidos.clear();
@@ -435,7 +437,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	int campo = 0;
 
 	while (!fechaSeleccionada) {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << msgIngresoDatos() << endl;
 		std::cout << "Use Flechas Izquierda/Derecha para cambiar [DIA|MES|AÑO]\n";
 		std::cout << "Flechas Arriba/Abajo para aumentar/disminuir\n";
@@ -526,7 +528,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
     do {
-        system("cls");
+        Utilidades::limpiarPantallaPreservandoMarquesina(3);
         std::cout << msgIngresoDatos() << std::endl;
         std::cout << "Ingrese el correo: ";
         correo.clear();
@@ -655,7 +657,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
 {
 	// Ingreso de direccion con getch, maximo 100 caracteres, permitiendo letras, numeros, espacios y simbolos comunes en Ecuador
 	do {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese la direccion: ";
 		direccion.clear();
@@ -714,7 +716,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
  */
 bool Persona::corregirDatos()
 {
-	if (PersonaUI::seleccionarSiNo("¿Los datos ingresados son correctos?")) {
+	if (PersonaUI::seleccionarSiNo("\n\n¿Los datos ingresados son correctos?")) {
 		return false; // Si selecciona "Si", retorna false para no repetir el ingreso de datos
 	}
 	else {
@@ -1030,7 +1032,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
 		double montoInicial = 0.0;
 
-		if (PersonaUI::seleccionarSiNo("Desea ingresar un monto inicial? (maximo 15000.00 USD)"))
+		if (PersonaUI::seleccionarSiNo("\n\nDesea ingresar un monto inicial? (maximo 15000.00 USD)"))
 		{ // Si desea ingresar un monto inicial 
 			do {
 				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "Ingrese el monto inicial (maximo 15000.00 USD): ");
@@ -1391,7 +1393,7 @@ std::string Persona::seleccionSucursal() {
 	int numOpciones = sizeof(sucursales) / sizeof(sucursales[0]);
 	int seleccion = 0;
 
-	system("cls");
+	Utilidades::limpiarPantallaPreservandoMarquesina(3);
 	std::cout << "\n\nSeleccione la sucursal donde se encuentra:\n\n";
 
 	// Mostrar opciones inicialmente

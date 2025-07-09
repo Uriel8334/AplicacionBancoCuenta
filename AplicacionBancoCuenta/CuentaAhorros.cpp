@@ -12,15 +12,16 @@
 #include "Cifrado.h"
 #include "Fecha.h"
 #include "CuentaAhorros.h" 
+#include "Utilidades.h"
 
 using namespace std;
 
 #pragma region METODOS ESPECIFICOS DE LA CLASE 
 /**
- * @brief MÈtodo para depositar una cantidad en la cuenta de ahorros
+ * @brief M√©todo para depositar una cantidad en la cuenta de ahorros
  *
  * Valida que la cantidad sea positiva y que el saldo resultante no exceda
- * el lÌmite m·ximo establecido de $15,000.00
+ * el l√≠mite m√°ximo establecido de $15,000.00
  *
  * @param cantidad Monto a depositar en la cuenta
  */
@@ -31,22 +32,22 @@ void CuentaAhorros::depositar(double cantidad) {
 		return;
 	}
 
-	// Convertir a un tipo m·s amplio para evitar desbordamiento  
+	// Convertir a un tipo m√°s amplio para evitar desbordamiento  
 	long double nuevoSaldo = static_cast<long double>(saldo) + static_cast<long double>(cantidad);
 
-	// Verificar si el nuevo saldo excede el lÌmite de la cuenta (15000.00 dÛlares)
+	// Verificar si el nuevo saldo excede el l√≠mite de la cuenta (15000.00 d√≥lares)
 	constexpr double LIMITE_MAXIMO = 15000.00;
 	if (nuevoSaldo > LIMITE_MAXIMO) {
-		std::cout << "Error: El saldo no puede exceder el lÌmite de $15,000.00\n";
+		std::cout << "Error: El saldo no puede exceder el l√≠mite de $15,000.00\n";
 		return;
 	}
 
 	saldo = static_cast<double>(nuevoSaldo);
-	std::cout << "DepÛsito realizado con Èxito. Nuevo saldo: $" << formatearSaldo() << std::endl;
+	std::cout << "Dep√≥sito realizado con √©xito. Nuevo saldo: $" << formatearSaldo() << std::endl;
 }
 
 /**
- * @brief MÈtodo para retirar una cantidad de la cuenta de ahorros
+ * @brief M√©todo para retirar una cantidad de la cuenta de ahorros
  *
  * Verifica que la cuenta tenga fondos suficientes para realizar el retiro
  *
@@ -62,7 +63,7 @@ void CuentaAhorros::retirar(double cantidad) {
 }
 
 /**
- * @brief MÈtodo para consultar el saldo actual de la cuenta de ahorros
+ * @brief M√©todo para consultar el saldo actual de la cuenta de ahorros
  *
  * @return double Retorna el saldo actual de la cuenta
  */
@@ -71,16 +72,16 @@ double CuentaAhorros::consultarSaldo() const {
 }
 
 /**
- * @brief MÈtodo para consultar el estado de la cuenta de ahorros
+ * @brief M√©todo para consultar el estado de la cuenta de ahorros
  *
- * @return std::string Retorna "ACTIVA" si no hay un estado explÌcito, o el estado actual de la cuenta
+ * @return std::string Retorna "ACTIVA" si no hay un estado expl√≠cito, o el estado actual de la cuenta
  */
 std::string CuentaAhorros::consultarEstado() const {
 	return this->estadoCuenta.empty() ? "ACTIVA" : this->estadoCuenta;
 }
 
 /**
- * @brief MÈtodo para formatear el saldo de la cuenta con formato de moneda
+ * @brief M√©todo para formatear el saldo de la cuenta con formato de moneda
  *
  * @return std::string Saldo formateado con comas y dos decimales
  */
@@ -89,7 +90,7 @@ std::string CuentaAhorros::formatearSaldo() const {
 }
 
 /**
- * @brief MÈtodo para formatear un valor en centavos a un string con comas y dos decimales
+ * @brief M√©todo para formatear un valor en centavos a un string con comas y dos decimales
  *
  * @param saldo Valor en centavos a formatear
  * @return std::string Valor formateado como cadena con formato de moneda
@@ -104,13 +105,13 @@ std::string CuentaAhorros::formatearConComas(double saldo) const {
 }
 
 /**
- * @brief Muestra la informaciÛn completa de la cuenta de ahorros
+ * @brief Muestra la informaci√≥n completa de la cuenta de ahorros
  *
- * Presenta en consola los detalles de la cuenta incluyendo n˙mero, fecha de apertura,
- * estado, saldo actual y tasa de interÈs
+ * Presenta en consola los detalles de la cuenta incluyendo n√∫mero, fecha de apertura,
+ * estado, saldo actual y tasa de inter√©s
  *
- * @param cedula CÈdula del titular (opcional)
- * @param limpiarPantalla Indica si debe limpiarse la pantalla antes de mostrar informaciÛn (por defecto true)
+ * @param cedula C√©dula del titular (opcional)
+ * @param limpiarPantalla Indica si debe limpiarse la pantalla antes de mostrar informaci√≥n (por defecto true)
  */
 void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limpiarPantalla = true) const {
 	// Validacion basica
@@ -119,7 +120,7 @@ void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limp
 	}
 	// Limpieza de pantalla solo si se solicita
 	if (limpiarPantalla) { // Limpiar pantalla si se solicita
-		std::system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina();
 	}
 	// Titulo con formato especifico para CuentaAhorros
 	std::cout << "\n" << std::string(50, '=') << std::endl;
@@ -153,9 +154,9 @@ void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limp
 }
 
 /**
- * @brief Guarda la informaciÛn de la cuenta en un archivo binario
+ * @brief Guarda la informaci√≥n de la cuenta en un archivo binario
  *
- * @param nombreArchivo Ruta del archivo donde se guardar· la informaciÛn
+ * @param nombreArchivo Ruta del archivo donde se guardar√° la informaci√≥n
  */
 void CuentaAhorros::guardarEnArchivo(const std::string& nombreArchivo) const {
 	std::ofstream archivo(nombreArchivo, std::ios::binary);
@@ -174,9 +175,9 @@ void CuentaAhorros::guardarEnArchivo(const std::string& nombreArchivo) const {
 }
 
 /**
- * @brief Carga la informaciÛn de la cuenta desde un archivo binario
+ * @brief Carga la informaci√≥n de la cuenta desde un archivo binario
  *
- * @param nombreArchivo Ruta del archivo desde donde se cargar· la informaciÛn
+ * @param nombreArchivo Ruta del archivo desde donde se cargar√° la informaci√≥n
  */
 void CuentaAhorros::cargarDesdeArchivo(const std::string& nombreArchivo) {
 	std::ifstream archivo(nombreArchivo, std::ios::binary);
@@ -198,9 +199,9 @@ void CuentaAhorros::cargarDesdeArchivo(const std::string& nombreArchivo) {
 }
 
 /**
- * @brief Calcula el interÈs generado por la cuenta seg˙n su tasa actual
+ * @brief Calcula el inter√©s generado por la cuenta seg√∫n su tasa actual
  *
- * @return int Valor del interÈs calculado basado en el saldo actual y la tasa de interÈs
+ * @return int Valor del inter√©s calculado basado en el saldo actual y la tasa de inter√©s
  */
 int CuentaAhorros::calcularInteres() const {
 	// Validamos que la tasa de interes sea positiva

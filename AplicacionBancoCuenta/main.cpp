@@ -22,249 +22,81 @@
 #include "Marquesina.h"
 #include "CodigoQR.h"
 
- /**
-  * @brief Muestra el menú principal en la consola sin parpadeo
-  *
-  * Utiliza técnicas para evitar parpadeo al actualizar la interfaz, realizando
-  * operaciones críticas y limpiando líneas completas.
-  *
-  * @param seleccion Índice de la opción seleccionada actualmente
-  * @param opciones Arreglo con las opciones del menú
-  * @param numOpciones Número total de opciones disponibles
-  * @param x Posición X donde comenzar a mostrar las opciones
-  * @param y Posición Y donde comenzar a mostrar las opciones
-  */
-static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y) {
-	Utilidades::limpiarPantallaPreservandoMarquesina(); // Ya maneja las operaciones críticas
-	Utilidades::iniciarOperacionCritica(); // Iniciar operación crítica para evitar parpadeo
-	const int anchoLinea = 80;
-	for (int i = 0; i < numOpciones; i++) {
-		Utilidades::gotoxy(0, y + i); // Ya thread-safe
-		std::cout << std::string(anchoLinea, ' ');
-		Utilidades::gotoxy(x, y + i);
-		if (i == seleccion)
-			std::cout << " > " << opciones[i] << "   ";
-		else
-			std::cout << "   " << opciones[i] << "   ";
+ /** @brief Puntero global a la marquesina utilizada en la aplicación */
+Marquesina* marquesinaGlobal = nullptr;
+
+/** @brief Bandera atómica para coordinar actualizaciones entre menú y marquesina */
+std::atomic<bool> actualizandoMenu(false);
+
+/** @brief Mutex para sincronización entre hilos */
+std::mutex mtxActualizacion;
+
+/**
+ * @brief Muestra el menú principal en la consola sin parpadeo
+ *
+ * Utiliza técnicas para evitar parpadeo al actualizar la interfaz, realizando
+ * operaciones críticas y limpiando líneas completas.
+ *
+ * @param seleccion Índice de la opción seleccionada actualmente
+ * @param opciones Arreglo con las opciones del menú
+ * @param numOpciones Número total de opciones disponibles
+ * @param x Posición X donde comenzar a mostrar las opciones
+ * @param y Posición Y donde comenzar a mostrar las opciones
+ */
+static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y, int seleccionAnterior = -1) {
+	// Bloquear actualizaciones simultáneas
+	std::lock_guard<std::mutex> lock(mtxActualizacion);
+	actualizandoMenu = true;
+
+	// Si no es la primera vez, solo actualiza las líneas que cambian
+	if (seleccionAnterior != -1) {
+		// Actualiza la opción anterior (quita el cursor)
+		Utilidades::gotoxy(x, y + seleccionAnterior);
+		std::cout << "   " << opciones[seleccionAnterior] << "   ";
+
+		// Actualiza la nueva opción seleccionada (pone el cursor)
+		Utilidades::gotoxy(x, y + seleccion);
+		std::cout << " > " << opciones[seleccion] << "   ";
+
+		// Forzar actualización inmediata del buffer de salida
+		std::cout.flush();
 	}
-	Utilidades::gotoxy(0, y + numOpciones);
-	std::cout << std::string(anchoLinea, ' ');
-	Utilidades::finalizarOperacionCritica(); // Finalizar operación crítica
+	else {
+		// Primera vez, dibuja todo el menú de una vez
+		for (int i = 0; i < numOpciones; i++) {
+			Utilidades::gotoxy(x, y + i);
+			if (i == seleccion)
+				std::cout << " > " << opciones[i] << "   ";
+			else
+				std::cout << "   " << opciones[i] << "   ";
+		}
+		// Forzar actualización inmediata
+		std::cout.flush();
+	}
+
+	// Pequeña pausa para estabilizar la consola
+	Sleep(2);
+	actualizandoMenu = false;
 }
 
 /**
- * @brief Busca una cuenta bancaria para realizar operaciones
- *
- * Permite al usuario buscar una cuenta por cédula o número de cuenta,
- * y devuelve la cuenta encontrada para realizar operaciones sobre ella.
- *
- * @param banco Referencia al objeto Banco donde buscar la cuenta
- * @param cuentaAhorros Referencia a puntero que se actualizará con la cuenta de ahorros encontrada
- * @param cuentaCorriente Referencia a puntero que se actualizará con la cuenta corriente encontrada
- * @param cedula Referencia a string que se actualizará con la cédula del titular
- * @return bool true si se encontró una cuenta válida, false en caso contrario
+ * @brief Pausa temporalmente la marquesina durante operaciones críticas
  */
-static bool buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, CuentaCorriente*& cuentaCorriente, std::string& cedula) {
-	system("cls");
-	std::cout << "\n===== OPERACIONES DE CUENTA =====\n\n";
-
-	// Menu de seleccion: buscar por cedula o numero
-	std::string opciones[] = { "Buscar por cedula", "Buscar por numero de cuenta", "Cancelar" };
-	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
-	int seleccion = 0;
-
-	while (true) {
-		system("cls");
-		std::cout << "Seleccione metodo de busqueda:\n\n";
-		for (int i = 0; i < numOpciones; i++) {
-			if (i == seleccion)
-				std::cout << " > " << opciones[i] << std::endl;
-			else
-				std::cout << "   " << opciones[i] << std::endl;
-		}
-		int tecla = _getch();
-		if (tecla == 224) {
-			tecla = _getch();
-			if (tecla == 72) seleccion = (seleccion - 1 + numOpciones) % numOpciones;
-			else if (tecla == 80) seleccion = (seleccion + 1) % numOpciones;
-		}
-		else if (tecla == 13) break; // ENTER
-		else if (tecla == 27) return false; // ESC
+static void pausarMarquesina() {
+	if (marquesinaGlobal) {
+		marquesinaGlobal->pausar();
 	}
-
-	if (seleccion == 2) return false; // Cancelar
-
-	if (seleccion == 0) { // Buscar por cedula
-		cedula.clear();
-		system("cls");
-		std::cout << "Ingrese la cedula (10 digitos): ";
-		int digitos = 0;
-		while (true) {
-			char tecla = _getch();
-			if ((tecla >= '0' && tecla <= '9') && digitos < 10) {
-				cedula += tecla;
-				digitos++;
-				std::cout << tecla;
-			}
-			else if (tecla == 8 && !cedula.empty()) { // Backspace
-				cedula.pop_back();
-				digitos--;
-				std::cout << "\b \b";
-			}
-			else if (tecla == 13 && digitos == 10) { // Enter
-				std::cout << std::endl;
-				break;
-			}
-			else if (tecla == 27) return false; // ESC
-		}
-
-		// Buscar por cedula usando la clase Banco
-		NodoPersona* actual = banco.getListaPersonas();
-		bool encontrado = false;
-
-		while (actual) {
-			if (actual->persona && actual->persona->getCedula() == cedula) {
-				system("cls");
-				std::cout << "Titular: " << actual->persona->getNombres() << " "
-					<< actual->persona->getApellidos() << "\n\n";
-
-				// Listar cuentas disponibles
-				std::vector<std::pair<bool, void*>> cuentas; // true=ahorro, false=corriente
-
-				// Cuentas de ahorro
-				cuentaAhorros = actual->persona->getCabezaAhorros(); // Obtener cuenta de ahorro principal
-				int contador = 1;
-				while (cuentaAhorros) {
-					if (cuentaAhorros->getCuentaAhorros()) {
-						std::cout << contador << ". Cuenta de Ahorro: "
-							<< cuentaAhorros->getCuentaAhorros()->getNumeroCuenta() << "\n";
-						cuentas.push_back({ true, cuentaAhorros->getCuentaAhorros() });
-						contador++;
-					}
-					cuentaAhorros = cuentaAhorros->getSiguiente();
-				}
-
-				// Cuentas corrientes
-				cuentaCorriente = actual->persona->getCabezaCorriente(); // Obtener cuenta corriente principal
-				while (cuentaCorriente) {
-					if (cuentaCorriente->getCuentaCorriente()) {
-						std::cout << contador << ". Cuenta Corriente: "
-							<< cuentaCorriente->getCuentaCorriente()->getNumeroCuenta() << "\n";
-						cuentas.push_back({ false, cuentaCorriente->getCuentaCorriente() });
-						contador++;
-					}
-					cuentaCorriente = cuentaCorriente->getSiguiente();
-				}
-
-				if (cuentas.empty()) {
-					std::cout << "El titular no tiene cuentas asociadas.\n";
-					system("pause");
-					return false;
-				}
-
-				// Seleccionar cuenta
-				std::cout << "\nSeleccione una cuenta (1-" << cuentas.size() << "): ";
-				int selCuenta;
-				std::cin >> selCuenta;
-
-				if (selCuenta < 1 || selCuenta > static_cast<int>(cuentas.size())) {
-					std::cout << "Opcion invalida.\n";
-					system("pause");
-					return false;
-				}
-
-				// Obtener cuenta seleccionada
-				auto& cuentaSelec = cuentas[static_cast<std::vector<std::pair<bool, void*>, std::allocator<std::pair<bool, void*>>>::size_type>(selCuenta) - 1];
-				if (cuentaSelec.first) { // Cuenta de ahorro
-					cuentaAhorros = static_cast<CuentaAhorros*>(cuentaSelec.second);
-					cuentaCorriente = nullptr;
-				}
-				else { // Cuenta corriente
-					cuentaAhorros = nullptr;
-					cuentaCorriente = static_cast<CuentaCorriente*>(cuentaSelec.second);
-				}
-
-				encontrado = true;
-				break;
-			}
-			actual = actual->siguiente;
-		}
-
-		if (!encontrado) {
-			std::cout << "No se encontro ninguna persona con esa cedula.\n";
-			system("pause");
-			return false;
-		}
-	}
-	else { // Buscar por numero de cuenta
-		std::string numCuenta;
-		system("cls");
-		std::cout << "Ingrese el numero de cuenta: ";
-		while (true) {
-			char tecla = _getch();
-			if (tecla >= '0' && tecla <= '9') {
-				numCuenta += tecla;
-				std::cout << tecla;
-			}
-			else if (tecla == 8 && !numCuenta.empty()) { // Backspace
-				numCuenta.pop_back();
-				std::cout << "\b \b";
-			}
-			else if (tecla == 13 && !numCuenta.empty()) { // Enter
-				std::cout << std::endl;
-				break;
-			}
-			else if (tecla == 27) return false; // ESC
-		}
-
-		// Buscar la cuenta por numero
-		NodoPersona* actual = banco.getListaPersonas();
-		bool encontrado = false;
-
-		while (actual && !encontrado) {
-			if (actual->persona) {
-				// Buscar en cuentas de ahorro
-				cuentaAhorros = actual->persona->getCabezaAhorros(); // Obtener cuenta de ahorro principal
-				while (cuentaAhorros && !encontrado) {
-					if (cuentaAhorros->getCuentaAhorros() && cuentaAhorros->getCuentaAhorros()->getNumeroCuenta() == numCuenta) {
-						cuentaAhorros = cuentaAhorros->getCuentaAhorros();
-						cuentaCorriente = nullptr;
-						cedula = actual->persona->getCedula();
-						encontrado = true;
-						break;
-					}
-					cuentaAhorros = cuentaAhorros->getSiguiente();
-				}
-
-				// Si no se encontro, buscar en cuentas corrientes
-				if (!encontrado) {
-					cuentaCorriente = actual->persona->getCabezaCorriente(); // Obtener cuenta corriente principal
-					while (cuentaCorriente && !encontrado) {
-						if (cuentaCorriente->getCuentaCorriente() && cuentaCorriente->getCuentaCorriente()->getNumeroCuenta() == numCuenta) {
-							cuentaAhorros = nullptr;
-							cuentaCorriente = cuentaCorriente->getCuentaCorriente();
-							cedula = actual->persona->getCedula();
-							encontrado = true;
-							break;
-						}
-						cuentaCorriente = cuentaCorriente->getSiguiente();
-					}
-				}
-			}
-			if (!encontrado) {
-				actual = actual->siguiente;
-			}
-		}
-
-		if (!encontrado) {
-			std::cout << "No se encontro ninguna cuenta con ese numero.\n";
-			system("pause");
-			return false;
-		}
-	}
-
-	return true;
 }
+
+/**
+ * @brief Reanuda la marquesina después de una operación crítica
+ */
+static void reanudarMarquesina() {
+	if (marquesinaGlobal) {
+		marquesinaGlobal->reanudar();
+	}
+}
+
 
 /**
  * @brief Muestra información de personas en consola
@@ -279,8 +111,7 @@ static void mostrarPersonas(const std::vector<Persona*>& personas) {
 	}
 }
 
-/** @brief Puntero global a la marquesina utilizada en la aplicación */
-Marquesina* marquesinaGlobal = nullptr;
+
 
 /**
  * @brief Función principal que inicia la aplicación bancaria
@@ -312,6 +143,7 @@ int main() {
 
 	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
 	int seleccion = 0;
+	int seleccionAnterior = -1; // Para evitar parpadeo al actualizar el menú
 	int x = 0, y = 0;
 
 	Banco banco;
@@ -326,17 +158,24 @@ int main() {
 	int anchoConsola = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
 	// Crear la marquesina en la parte superior de la consola
-	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 150);
+	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 50);
 	marquesinaGlobal->iniciar();
 
 	// Dejar espacio para la marquesina
 	std::cout << std::endl << std::endl; // 2 líneas para la marquesina
 
-
-
+	Utilidades::ocultarCursor(); // Ocultar el cursor al inicio
 
 	while (true) {
-		mostrarMenu(seleccion, opciones, numOpciones, x, y);
+
+		// Solo pausar la marquesina durante la actualización del menú
+		pausarMarquesina();
+		mostrarMenu(seleccion, opciones, numOpciones, x, y, seleccionAnterior);
+		reanudarMarquesina();
+
+		// Guardar la selección anterior para la próxima actualización
+		seleccionAnterior = seleccion;
+
 		int tecla = _getch();
 
 		if (tecla == 224) { // Tecla especial
@@ -348,219 +187,60 @@ int main() {
 		}
 		else if (tecla == 13) { // Enter
 			Utilidades::gotoxy(0, y + numOpciones + 1);
-			std::cout << "Has seleccionado: " << opciones[seleccion] << std::endl;
+			//std::cout << "Has seleccionado: " << opciones[seleccion] << std::endl;
+
+			bool necesitaRedibujado = false;
 
 			// Switch para manejar la opcion seleccionada
-			switch (seleccion) {
+			switch (seleccion)
+			{
 			case 0: // Crear Cuenta
+			{
+				Utilidades::mostrarCursor();
 				Utilidades::iniciarOperacionCritica();
 				banco.agregarPersonaConCuenta();
 				Utilidades::finalizarOperacionCritica();
+				Utilidades::ocultarCursor();
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				necesitaRedibujado = true;
 				break;
-			case 1: // Buscar Cuenta
-				banco.buscarCuenta();
-				break;
-			case 2: // Cuenta (nueva opcion)
-			{
-				// Verificar si hay cuentas
-				if (banco.getListaPersonas() == nullptr) {
-					system("cls");
-					std::cout << "No hay cuentas registradas. Cree una cuenta primero.\n";
-					system("pause");
-					break;
-				}
-
-				// Submenu para operaciones de cuenta
-				std::string opcionesCuenta[] = { "Depositar", "Retirar", "Consultar saldo", "Cancelar" };
-				int numOpcionesCuenta = sizeof(opcionesCuenta) / sizeof(opcionesCuenta[0]);
-				int selCuenta = 0;
-
-				while (true) {
-					system("cls");
-					std::cout << "Seleccione la operacion a realizar:\n\n";
-					for (int i = 0; i < numOpcionesCuenta; i++) {
-						if (i == selCuenta)
-							std::cout << " > " << opcionesCuenta[i] << std::endl;
-						else
-							std::cout << "   " << opcionesCuenta[i] << std::endl;
-					}
-
-					int teclaCuenta = _getch();
-					if (teclaCuenta == 224) {
-						teclaCuenta = _getch();
-						if (teclaCuenta == 72) // Flecha arriba
-							selCuenta = (selCuenta - 1 + numOpcionesCuenta) % numOpcionesCuenta;
-						else if (teclaCuenta == 80) // Flecha abajo
-							selCuenta = (selCuenta + 1) % numOpcionesCuenta;
-					}
-					else if (teclaCuenta == 13) // Enter
-						break;
-					else if (teclaCuenta == 27) { // ESC
-						selCuenta = 3; // Cancelar
-						break;
-					}
-				}
-
-				if (selCuenta == 3) { // Cancelar
-					break;
-				}
-
-				// Buscar cuenta para realizar la operacion
-				CuentaAhorros* cuentaAhorros = nullptr;
-				CuentaCorriente* cuentaCorriente = nullptr;
-				std::string cedula;
-
-				if (!buscarCuentaParaOperacion(banco, cuentaAhorros, cuentaCorriente, cedula)) {
-					break; // Si no se encontro ninguna cuenta o se cancelo la operacion
-				}
-
-				// Realizar la operacion seleccionada
-				system("cls");
-				if (cuentaAhorros != nullptr) {
-					std::cout << "CUENTA DE AHORROS: " << cuentaAhorros->getNumeroCuenta() << "\n";
-				}
-				else {
-					std::cout << "CUENTA CORRIENTE: " << cuentaCorriente->getNumeroCuenta() << "\n";
-				}
-
-				if (selCuenta == 0) { // Depositar
-					std::cout << "\nDEPOSITO\n\n";
-					std::cout << "Ingrese el monto a depositar: ";
-
-					// Variables para la entrada manual controlada
-					std::string entrada;
-					bool tienePunto = false;
-					int digitosDecimales = 0;
-
-					while (true) {
-						char tecla = _getch();
-
-						// Permitir solo digitos
-						if (tecla >= '0' && tecla <= '9') {
-							// Limitar a 2 decimales despues del punto
-							if (tienePunto && digitosDecimales >= 2) continue;
-
-							entrada += tecla;
-							std::cout << tecla;
-
-							// Contar digitos despues del punto decimal
-							if (tienePunto) digitosDecimales++;
-						}
-						// Permitir solo un punto decimal
-						else if (tecla == '.' && !tienePunto && !entrada.empty()) {
-							tienePunto = true;
-							entrada += tecla;
-							std::cout << tecla;
-						}
-						// Permitir borrar
-						else if (tecla == 8 && !entrada.empty()) { // Backspace
-							if (entrada.back() == '.') {
-								tienePunto = false;
-							}
-							else if (tienePunto && digitosDecimales > 0) {
-								digitosDecimales--;
-							}
-							entrada.pop_back();
-							std::cout << "\b \b"; // Retrocede, imprime espacio y retrocede
-						}
-						// Finalizar con Enter si hay algo ingresado
-						else if (tecla == 13 && !entrada.empty()) { // Enter
-							std::cout << std::endl;
-							break;
-						}
-						// Cualquier otra tecla se ignora
-					}
-
-					// Convertir la entrada a double con manejo de excepciones
-					double monto = 0.0;
-					try {
-						monto = std::stod(entrada);
-
-						if (monto <= 0) {
-							std::cout << "El monto debe ser mayor a cero.\n";
-						}
-						else {
-							int montoEnCentavos = static_cast<int>(monto * 100);
-							if (cuentaAhorros != nullptr) {
-								cuentaAhorros->depositar(montoEnCentavos);
-								std::cout << "Deposito realizado con exito.\n";
-								std::cout << "Nuevo saldo: $" << cuentaAhorros->formatearSaldo() << std::endl;
-							}
-							else {
-								cuentaCorriente->depositar(montoEnCentavos);
-								std::cout << "Deposito realizado con exito.\n";
-								std::cout << "Nuevo saldo: $" << cuentaCorriente->formatearSaldo() << std::endl;
-							}
-						}
-					}
-					catch (const std::exception& e) {
-						cout << e.what() << endl;
-						//std::cout << "Error al procesar el monto: formato invalido.\n " << endl;
-					}
-				}
-				else if (selCuenta == 1) { // Retirar
-					std::cout << "\nRETIRO\n\n";
-
-					double saldoActual = 0;
-					if (cuentaAhorros != nullptr) {
-						saldoActual = cuentaAhorros->consultarSaldo();
-						std::cout << "Saldo disponible: $" << cuentaAhorros->formatearSaldo() << std::endl;
-					}
-					else {
-						saldoActual = cuentaCorriente->consultarSaldo();
-						std::cout << "Saldo disponible: $" << cuentaCorriente->formatearSaldo() << std::endl;
-					}
-
-					std::cout << "Ingrese el monto a retirar: ";
-					double monto;
-					std::cin >> monto;
-
-					if (monto <= 0) {
-						std::cout << "El monto debe ser mayor a cero.\n";
-					}
-					else {
-						int montoEnCentavos = static_cast<int>(monto * 100);
-						if (montoEnCentavos > saldoActual) {
-							std::cout << "Fondos insuficientes.\n";
-						}
-						else {
-							if (cuentaAhorros != nullptr) {
-								cuentaAhorros->retirar(montoEnCentavos);
-								std::cout << "Retiro realizado con exito.\n";
-								std::cout << "Nuevo saldo: $" << cuentaAhorros->formatearSaldo() << std::endl;
-							}
-							else {
-								cuentaCorriente->retirar(montoEnCentavos);
-								std::cout << "Retiro realizado con exito.\n";
-								std::cout << "Nuevo saldo: $" << cuentaCorriente->formatearSaldo() << std::endl;
-							}
-						}
-					}
-				}
-				else if (selCuenta == 2) { // Consultar saldo
-					std::cout << "\nCONSULTA DE SALDO\n\n";
-
-					if (cuentaAhorros != nullptr) {
-						cuentaAhorros->mostrarInformacion(cedula, false);
-					}
-					else {
-						cuentaCorriente->mostrarInformacion(cedula, false);
-					}
-				}
-
-				if (selCuenta != 2) { // Si no es consulta (que ya tiene su propio system("pause"))
-					system("pause");
-				}
 			}
-			break;
-			case 3: // Transferencias
-				banco.realizarTransferencia();
+			case 1: // Buscar Cuenta
+			{
+				Utilidades::mostrarCursor();
+				banco.buscarCuenta();
+				Utilidades::ocultarCursor();
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				necesitaRedibujado = true;
 				break;
+			}
+			case 2: // Operaciones de Cuenta
+			{
+
+				if (!banco.verificarCuentasBanco())
+				{
+					necesitaRedibujado = true;
+					break; /*Si no hay cuentas, no se puede entrar al submenu*/
+				}
+
+				Utilidades::ocultarCursor();
+				banco.subMenuCuentasBancarias();
+				Utilidades::ocultarCursor();
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				necesitaRedibujado = true;
+				break;
+			}
+			case 3: // Realizar Transferencias
+			{
+				banco.realizarTransferencia();
+				necesitaRedibujado = true;
+				break;
+			}
 			case 4: // Guardar Archivo
 			{
 				// Verificar si hay datos para guardar
 				if (banco.getListaPersonas() == nullptr) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "No hay datos para guardar. Cree al menos una cuenta primero.\n";
 					system("pause");
 					break;
@@ -572,7 +252,7 @@ int main() {
 				int selGuardado = 0;
 
 				while (true) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "Seleccione el tipo de guardado:\n\n";
 					for (int i = 0; i < numOpcionesGuardado; i++) {
 						if (i == selGuardado)
@@ -598,8 +278,7 @@ int main() {
 				}
 
 				// Pedir nombre del archivo
-				system("cls");
-
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 
 				if (selGuardado == 0) { // Respaldo (.bak)
 					std::cout << "Guardando respaldo en archivo .bak\n";
@@ -617,9 +296,10 @@ int main() {
 					std::cout << "*\n"; // Ocultar la clave
 					Cifrado::cifrarYGuardarDatos(banco, nombreArchivo, clave);
 				}
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				necesitaRedibujado = true;
+				break;
 			}
-			system("pause");
-			break;
 			case 5: // Recuperar Archivo
 			{
 				// Submenu para tipo de carga
@@ -628,7 +308,7 @@ int main() {
 				int selCarga = 0;
 				Utilidades::limpiarPantallaPreservandoMarquesina();
 				while (true) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "\n\nSeleccione el tipo de archivo a cargar:\n\n";
 					for (int i = 0; i < numOpcionesCarga; i++) {
 						if (i == selCarga)
@@ -654,7 +334,7 @@ int main() {
 					break;
 				}
 
-				system("cls");
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				std::cout << "\n\nIngrese el nombre del archivo (sin extension): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -674,9 +354,10 @@ int main() {
 					break;
 				}
 				}
+				system("pause");
+				necesitaRedibujado = true;
+				break;
 			}
-			system("pause");
-			break;
 			case 6:  // Descifrar Archivo
 			{
 				// Submenu principal para descifrar archivo
@@ -685,7 +366,7 @@ int main() {
 				int selDescifrado = 0;
 
 				while (true) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "Seleccione a que descifrar:\n\n";
 					for (int i = 0; i < numOpcionesDescifrado; i++) {
 						if (i == selDescifrado)
@@ -721,7 +402,7 @@ int main() {
 				int selSubDescifrado = 0;
 
 				while (true) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "Seleccione el tipo de descifrado:\n\n";
 					for (int i = 0; i < numSubOpcionesDescifrado; i++) {
 						if (i == selSubDescifrado)
@@ -748,7 +429,7 @@ int main() {
 					break;
 				}
 
-				system("cls");
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				std::cout << "Ingrese el nombre del archivo (sin extension): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -773,14 +454,17 @@ int main() {
 					break;
 				}
 				}
+
+				necesitaRedibujado = true;
+				break;
 			}
-			break;
 			case 7: // Menu de ayuda
 			{
-				system("cls");
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				// se llama a la aplicacion de ayuda
 				Utilidades::mostrarMenuAyuda();
 				system("pause");
+				necesitaRedibujado = true;
 				break;
 			}
 			case 8: // Explorador de archivos
@@ -829,7 +513,7 @@ int main() {
 				int seleccion = 0;
 				bool ascendente = true;
 				while (true) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					// Encabezado horizontal con cursor
 					for (size_t i = 0; i < opcionesPersona.size(); ++i) {
 						if (i == seleccion)
@@ -870,6 +554,7 @@ int main() {
 						break;
 					}
 				}
+				necesitaRedibujado = true;
 
 				break;
 			}
@@ -881,9 +566,9 @@ int main() {
 				int seleccionHash = 0;
 
 				while (true) {
-					system("cls");
-					std::cout << "GESTIoN DE HASH DE ARCHIVOS\n\n";
-					std::cout << "Seleccione una operacion:\n\n";
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					std::cout << "GESTIÓN DE HASH DE ARCHIVOS\n\n";
+					std::cout << "Seleccione una operación:\n\n";
 					for (int i = 0; i < numOpcionesHash; i++) {
 						if (i == seleccionHash)
 							std::cout << " > " << opcionesHash[i] << std::endl;
@@ -911,8 +596,8 @@ int main() {
 					break;
 				}
 
-				system("cls");
-				std::cout << "Ingrese el nombre del archivo (sin extension): ";
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				std::cout << "Ingrese el nombre del archivo (sin extensión): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
 
@@ -948,25 +633,27 @@ int main() {
 					}
 				}
 				system("pause");
+				necesitaRedibujado = true;
 				break;
 			}
 			case 10: // Arbol B
 			{
 				if (banco.getListaPersonas() == nullptr) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "No hay personas registradas. Cree una cuenta primero.\n";
 					system("pause");
 					break;
 				}
 
 				Utilidades::PorArbolB(banco.getListaPersonas());
+				necesitaRedibujado = true;
 				break;
 			}
 			case 11: // Generar QR
 			{
 				// Verificar que haya personas en la base de datos
 				if (banco.getListaPersonas() == nullptr) {
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					std::cout << "No hay personas registradas en el sistema.\n";
 					system("pause");
 					break;
@@ -1180,27 +867,32 @@ int main() {
 						ascendente = !ascendente;
 					}
 				}
+				necesitaRedibujado = true;
 				break;
 			}
 			case 12: // Salir			
 			{
-				system("cls");
+				Utilidades::ocultarCursor();
+				Utilidades::limpiarPantallaPreservandoMarquesina(0);
 				std::cout << "Saliendo del sistema...\n";
 				return 0;
 			}
 
-			if (seleccion == numOpciones - 1) {
-				// Si selecciono "Salir"
-				break;
+			//// Limpiar la linea
+			//Utilidades::gotoxy(0, y + numOpciones + 1);
+			//std::cout << std::string(40, ' ') << std::endl;
+
 			}
-			// Limpiar la linea
-			Utilidades::gotoxy(0, y + numOpciones + 1);
-			std::cout << std::string(40, ' ') << std::endl;
+
+			// Después del switch y antes del final del bucle while(true)
+			if (necesitaRedibujado) {
+				seleccionAnterior = -1;  // Forzar redibujado completo del menú
 			}
 		}
 		else if (tecla == 27) // ESC
 		{
-			Utilidades::gotoxy(0, y + numOpciones + 1);
+			Utilidades::ocultarCursor();
+			Utilidades::limpiarPantallaPreservandoMarquesina(0);
 			std::cout << "Saliendo con ESC..." << std::endl;
 			break;
 		}

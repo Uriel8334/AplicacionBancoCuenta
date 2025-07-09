@@ -26,8 +26,12 @@
 Marquesina::Marquesina(int x, int y, int ancho, const std::string& archivoHTML, int velocidad)
 	: posX(x), posY(y), ancho(ancho), archivoHTML(archivoHTML), velocidad(velocidad),
 	ejecutando(false), pausado(false), bloqueado(false), operacionCritica(false),
-	bufferActualizado(false)
+	bufferActualizado(false), bufferListo(false)
 {
+	// Inicializar buffers con espacio suficiente
+	bufferPrimario.resize(ancho, { ' ', FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY });
+	bufferSecundario.resize(ancho, { ' ', FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY });
+
 	ZeroMemory(&ultimaModificacion, sizeof(FILETIME));
 	cargarDesdeHTML();
 	actualizarBuffer();
@@ -300,14 +304,7 @@ void Marquesina::actualizarBuffer()
  */
 void Marquesina::renderizarMarquesina()
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-	// Verificar estado de la consola antes de proceder
-	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
-		return;
-
-	// Crear buffer local para evitar conflictos
+	// Fase 1: Preparar el contenido en el buffer primario
 	std::string textoBuffer;
 	{
 		std::lock_guard<std::mutex> lock(mtx);
@@ -317,41 +314,74 @@ void Marquesina::renderizarMarquesina()
 	if (textoBuffer.empty())
 		return;
 
-	// Operación completamente atómica
-	COORD marquesinaPos = { (SHORT)posX, (SHORT)posY };
-
-	// Usar API de Windows más eficiente
-	DWORD caracteresEscritos;
-	std::string lineaLimpia(ancho, ' ');
-
-	// Escribir línea completa en una sola operación
-	WriteConsoleOutputCharacterA(
-		hConsole,
-		lineaLimpia.c_str(),
-		ancho,
-		marquesinaPos,
-		&caracteresEscritos
-	);
-
-	// Preparar texto visible
+	// Calcular posición actual del texto
 	static int posicionTexto = 0;
 	std::string textoVisible = textoBuffer.substr(posicionTexto, ancho);
-	if (textoVisible.length() < ancho)
-	{
+	if (textoVisible.length() < ancho) {
 		textoVisible += textoBuffer.substr(0, ancho - textoVisible.length());
 	}
 
-	// Escribir texto con color
-	WORD colorTurquesa = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-
-	for (size_t i = 0; i < textoVisible.length() && i < ancho; ++i)
+	// Preparar el buffer primario
 	{
-		COORD charPos = { (SHORT)(posX + i), (SHORT)posY };
-		WriteConsoleOutputCharacterA(hConsole, &textoVisible[i], 1, charPos, &caracteresEscritos);
-		WriteConsoleOutputAttribute(hConsole, &colorTurquesa, 1, charPos, &caracteresEscritos);
+		std::lock_guard<std::mutex> lock(bufferMutex);
+		WORD colorTurquesa = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+
+		for (size_t i = 0; i < ancho; i++) {
+			if (i < textoVisible.length()) {
+				bufferPrimario[i] = { textoVisible[i], colorTurquesa };
+			}
+			else {
+				bufferPrimario[i] = { ' ', colorTurquesa };
+			}
+		}
+
+		// Avanzar la posición para la próxima actualización
+		posicionTexto = (static_cast<unsigned long long>(posicionTexto) + 1) % textoBuffer.length();
+
+		// Intercambiar los buffers
+		bufferPrimario.swap(bufferSecundario);
+		bufferListo = true;
 	}
 
-	posicionTexto = (static_cast<unsigned long long>(posicionTexto) + 1) % textoBuffer.length();
+	// Fase 2: Transferir el buffer a la consola en una única operación atómica
+	if (bufferListo.load()) {
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+		if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+			return;
+
+		// Crear arrays temporales para la API de Windows
+		std::vector<CHAR_INFO> charInfoArray(ancho);
+		{
+			std::lock_guard<std::mutex> lock(bufferMutex);
+			for (size_t i = 0; i < ancho; i++) {
+				charInfoArray[i].Char.AsciiChar = bufferSecundario[i].first;
+				charInfoArray[i].Attributes = bufferSecundario[i].second;
+			}
+		}
+
+		// Definir región de origen y destino
+		COORD bufferSize = { static_cast<SHORT>(ancho), 1 };
+		COORD bufferCoord = { 0, 0 };
+		SMALL_RECT writeRegion = {
+			static_cast<SHORT>(posX),
+			static_cast<SHORT>(posY),
+			static_cast<SHORT>(posX + ancho - 1),
+			static_cast<SHORT>(posY)
+		};
+
+		// Escribir todo el buffer de una vez usando WriteConsoleOutput
+		WriteConsoleOutputA(
+			hConsole,
+			charInfoArray.data(),
+			bufferSize,
+			bufferCoord,
+			&writeRegion
+		);
+
+		bufferListo = false;
+	}
 }
 
 /**
@@ -452,27 +482,24 @@ void Marquesina::ejecutarMarquesina()
 	while (ejecutando)
 	{
 		// Verificaciones múltiples antes de renderizar
-		if (bloqueado || pausado || operacionCritica || elementos.empty())
-		{
+		if (bloqueado || pausado || elementos.empty()) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			continue;
 		}
 
+		// No verificar operacionCritica - ya tenemos buffer doble
+
 		// Verificar actualización de archivo
-		if (archivoModificado())
-		{
+		if (archivoModificado()) {
 			cargarDesdeHTML();
 			actualizarBuffer();
 		}
 
-		// Renderizar solo si es completamente seguro
-		try
-		{
+		// Renderizar con el buffer doble para evitar conflictos
+		try {
 			renderizarMarquesina();
 		}
-		catch (...)
-		{
-			// Si hay cualquier error, pausar brevemente y continuar
+		catch (...) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(200));
 			continue;
 		}

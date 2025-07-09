@@ -1,6 +1,6 @@
 /**
  * @file Banco.cpp
- * @brief ImplementaciÛn de la clase Banco que gestiona el sistema bancario
+ * @brief Implementaci√≥n de la clase Banco que gestiona el sistema bancario
  * @author Sistema Bancario, Uriel Andrade, Kerly Chuqui, Abner Proano
  * @date 2025
  */
@@ -20,7 +20,7 @@
  /**
   * @brief Constructor por defecto de la clase Banco
   *
-  * Inicializa una instancia de Banco con una lista vacÌa de personas
+  * Inicializa una instancia de Banco con una lista vac√≠a de personas
   */
 Banco::Banco() : listaPersonas(nullptr) {} // Constructor
 
@@ -42,9 +42,9 @@ Banco::~Banco() { // Destructor
 /**
  * @brief Agrega una nueva persona con una cuenta asociada al sistema bancario
  *
- * Este mÈtodo presenta un men˙ para seleccionar el tipo de cuenta (ahorros o corriente),
+ * Este m√©todo presenta un men√∫ para seleccionar el tipo de cuenta (ahorros o corriente),
  * solicita los datos personales necesarios y crea tanto la persona como su cuenta asociada.
- * TambiÈn maneja el caso de cÈdulas existentes, permitiendo agregar una nueva cuenta a un
+ * Tambi√©n maneja el caso de c√©dulas existentes, permitiendo agregar una nueva cuenta a un
  * cliente que ya existe en el sistema.
  */
 void Banco::agregarPersonaConCuenta() {
@@ -64,8 +64,8 @@ void Banco::agregarPersonaConCuenta() {
 
 	// Menu con cursor
 	while (true) {
-		system("cls");
-		std::cout << "\n\nSeleccione el tipo de cuenta a crear para la persona:\n\n";
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		std::cout << "\nSeleccione el tipo de cuenta a crear para la persona:\n\n";
 		for (int i = 0; i < numOpciones; i++) {
 			if (i == seleccion)
 				std::cout << " > " << opciones[i] << std::endl;
@@ -109,7 +109,7 @@ void Banco::agregarPersonaConCuenta() {
 			// Solicitar cedula antes de ingresar todos los datos
 			std::string cedulaTemp;
 			while (true) {
-				system("cls");
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				std::cout << "\n\n----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
@@ -166,7 +166,7 @@ void Banco::agregarPersonaConCuenta() {
 					}
 
 					while (true) {
-						system("cls");
+						Utilidades::limpiarPantallaPreservandoMarquesina(3);
 						if (personaExistente == nullptr) {
 							std::cout << "Error: El puntero 'personaExistente' es NULL.\n";
 							return;
@@ -275,7 +275,7 @@ void Banco::agregarPersonaConCuenta() {
 			// Solicitar cedula antes de ingresar todos los datos
 			std::string cedulaTemp;
 			while (true) {
-				system("cls");
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				std::cout << "\n\n----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
@@ -332,7 +332,7 @@ void Banco::agregarPersonaConCuenta() {
 					}
 
 					while (true) {
-						system("cls");
+						Utilidades::limpiarPantallaPreservandoMarquesina(3);
 						std::cout << "La cedula " << cedulaTemp << " ya esta registrada en el sistema.\n";
 						std::cout << "Titular: " << personaExistente->getNombres() << " "
 							<< personaExistente->getApellidos() << "\n\n";
@@ -441,9 +441,9 @@ void Banco::agregarPersonaConCuenta() {
 }
 
 /**
- * @brief Guarda todas las cuentas en un archivo con nombre especÌfico
+ * @brief Guarda todas las cuentas en un archivo con nombre espec√≠fico
  *
- * @param nombreArchivo Nombre del archivo donde se guardar·n los datos
+ * @param nombreArchivo Nombre del archivo donde se guardar√°n los datos
  */
 void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
 	std::string rutaEscritorio = obtenerRutaEscritorio();
@@ -494,7 +494,7 @@ void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
 }
 
 /**
- * @brief Guarda todas las cuentas en un archivo con nombre generado autom·ticamente
+ * @brief Guarda todas las cuentas en un archivo con nombre generado autom√°ticamente
  *
  * Crea un respaldo con la fecha actual en el nombre y verifica que la fecha
  * del sistema no haya sido manipulada antes de realizar el respaldo.
@@ -696,16 +696,16 @@ void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
 }
 
 /**
- * @brief Presenta un men˙ para buscar cuentas seg˙n diferentes criterios
+ * @brief Presenta un men√∫ para buscar cuentas seg√∫n diferentes criterios
  *
- * Permite buscar por fecha de creaciÛn, por criterio personalizado,
- * por n˙mero de cuenta, o por cÈdula del titular.
+ * Permite buscar por fecha de creaci√≥n, por criterio personalizado,
+ * por n√∫mero de cuenta, o por c√©dula del titular.
  */
 void Banco::buscarCuenta() {
 	CuentaAhorros* cuentaAhorros = nullptr;
 	CuentaCorriente* cuentaCorriente = nullptr;
 	if (listaPersonas == nullptr || reinterpret_cast<uintptr_t>(listaPersonas) > 0xFFFFFFFF00000000) {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << "No hay personas registradas todavia.\n";
 		std::cout << "Presione cualquier tecla para continuar";
 		int tecla = _getch();
@@ -719,7 +719,7 @@ void Banco::buscarCuenta() {
 	int seleccionBusqueda = 0;
 
 	while (true) {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << "Seleccione el tipo de busqueda:\n\n";
 		for (int i = 0; i < numOpcionesBusqueda; i++) {
 			if (i == seleccionBusqueda)
@@ -757,7 +757,7 @@ void Banco::buscarCuenta() {
 			};
 
 		while (!fechaSeleccionada) {
-			system("cls");
+			Utilidades::limpiarPantallaPreservandoMarquesina(2);
 			std::cout << "Seleccione la fecha de creacion, usando las flechas del teclado. ENTER para aceptar.\n";
 			for (int i = 0; i < 3; ++i) {
 				if (i == campo)
@@ -841,7 +841,7 @@ void Banco::buscarCuenta() {
 			if (actual->persona && actual->persona->isValidInstance()) {
 				try {
 					// El metodo muestra la informacion y devuelve cuantas cuentas encontro
-					system("cls");
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
 					cuentasEncontradas += actual->persona->buscarPersonaPorCuentas(numCuentaBuscar);
 				}
 				catch (...) {
@@ -902,7 +902,7 @@ void Banco::buscarCuenta() {
 		bool encontrado = false;
 		NodoPersona* actual = listaPersonas;
 		while (actual) {
-			if (actual->persona && actual->persona->isValidInstance() && actual->persona->getCedula() == cedulaBuscar) 
+			if (actual->persona && actual->persona->isValidInstance() && actual->persona->getCedula() == cedulaBuscar)
 			{
 
 				// Encontramos la persona, mostrar sus datos y cuentas
@@ -964,9 +964,9 @@ void Banco::buscarCuenta() {
 }
 
 /**
- * @brief FunciÛn auxiliar para buscar cuentas por fecha de forma recursiva
+ * @brief Funci√≥n auxiliar para buscar cuentas por fecha de forma recursiva
  *
- * @param nodo Nodo actual en la recursiÛn
+ * @param nodo Nodo actual en la recursi√≥n
  * @param fecha Fecha a buscar
  * @param encontrados Referencia a contador de resultados encontrados
  */
@@ -978,7 +978,7 @@ static void buscarCuentasPorFechaRec(NodoPersona* nodo, const std::string& fecha
 }
 
 /**
- * @brief Busca cuentas por fecha de creaciÛn
+ * @brief Busca cuentas por fecha de creaci√≥n
  *
  * @param fecha Fecha de apertura a buscar
  */
@@ -991,10 +991,10 @@ void Banco::buscarCuentasPorFecha(const std::string& fecha) const {
 }
 
 /**
- * @brief Busca cuentas seg˙n criterios personalizados del usuario
+ * @brief Busca cuentas seg√∫n criterios personalizados del usuario
  *
- * Permite buscar por n˙mero de cuenta, fecha de apertura, saldo,
- * tipo de cuenta o cÈdula del titular.
+ * Permite buscar por n√∫mero de cuenta, fecha de apertura, saldo,
+ * tipo de cuenta o c√©dula del titular.
  */
 void Banco::buscarCuentasPorCriterio() {
 	std::string criterios[] = {
@@ -1011,296 +1011,303 @@ void Banco::buscarCuentasPorCriterio() {
 	int numCriterios = sizeof(criterios) / sizeof(criterios[0]);
 	int seleccion = 0;
 
-	// Menu de seleccion con cursor
-	while (true) {
-		system("cls");
-		std::cout << "Seleccione el criterio de busqueda de cuentas:\n\n";
-		for (int i = 0; i < numCriterios; i++) {
-			if (i == seleccion)
-				std::cout << " > " << criterios[i] << std::endl;
-			else
-				std::cout << "   " << criterios[i] << std::endl;
-		}
-		int tecla = _getch();
-		if (tecla == 224) {
-			tecla = _getch();
-			if (tecla == 72) seleccion = (seleccion - 1 + numCriterios) % numCriterios;
-			else if (tecla == 80) seleccion = (seleccion + 1) % numCriterios;
-		}
-		else if (tecla == 13) break;
-	}
-	if (seleccion == numCriterios - 1) return; // Cancelar
+	bool continuarBusqueda = true;
 
-	std::string fechaIngresada;
-	std::string numCuentaIngresada;
-	double valorNum = 0.0;
-
-	// Solicitar el valor segun el criterio
-	if (seleccion == 0) { // Numero de cuenta
-		std::cout << "Ingrese el numero de cuenta: ";
-		numCuentaIngresada.clear();
-
-		// Control de entrada numerica similar a otros lugares
+	while (continuarBusqueda) {
+		// Menu de seleccion con cursor
 		while (true) {
-			char tecla = _getch();
-			if (tecla >= '0' && tecla <= '9') {
-				numCuentaIngresada += tecla;
-				std::cout << tecla;
+			Utilidades::limpiarPantallaPreservandoMarquesina(2);
+			std::cout << "Seleccione el criterio de busqueda de cuentas:\n\n";
+			for (int i = 0; i < numCriterios; i++) {
+				if (i == seleccion)
+					std::cout << " > " << criterios[i] << std::endl;
+				else
+					std::cout << "   " << criterios[i] << std::endl;
 			}
-			else if (tecla == 8 && !numCuentaIngresada.empty()) { // Backspace
-				numCuentaIngresada.pop_back();
-				std::cout << "\b \b";
-			}
-			else if (tecla == 13 && !numCuentaIngresada.empty()) { // Enter
-				std::cout << std::endl;
-				break;
-			}
-			else if (tecla == 27) { // ESC para cancelar
-				return;
-			}
-		}
-	}
-	else if (seleccion == 1) { // Fecha de apertura
-		// Implementar seleccion de fecha con cursor como en otras partes del codigo
-		int dia = 1, mes = 1, anio = 2000, campo = 0;
-		bool fechaSeleccionada = false;
-		SYSTEMTIME st;
-		GetLocalTime(&st);
-		int anioActual = st.wYear, mesActual = st.wMonth, diaActual = st.wDay;
-
-		auto esBisiesto = [](int anio) {
-			return (anio % 4 == 0 && (anio % 100 != 0 || anio % 400 == 0));
-			};
-		auto diasEnMes = [&](int mes, int anio) {
-			switch (mes) {
-			case 2: return esBisiesto(anio) ? 29 : 28;
-			case 4: case 6: case 9: case 11: return 30;
-			default: return 31;
-			}
-			};
-
-		while (!fechaSeleccionada) {
-			system("cls");
-			std::cout << "Seleccione la fecha de apertura, usando las flechas del teclado. ENTER para aceptar.\n";
-			for (int i = 0; i < 3; ++i) {
-				if (i == campo)
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-				if (i == 0) std::cout << (dia < 10 ? "0" : "") << dia;
-				if (i == 1) std::cout << "/" << (mes < 10 ? "0" : "") << mes;
-				if (i == 2) std::cout << "/" << anio;
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-			}
-			std::cout << std::endl;
-
 			int tecla = _getch();
 			if (tecla == 224) {
 				tecla = _getch();
-				switch (tecla) {
-				case 75: if (campo > 0) campo--; break; // Izquierda
-				case 77: if (campo < 2) campo++; break; // Derecha
-				case 72: // Arriba
-					if (campo == 0) { int maxDia = diasEnMes(mes, anio); dia++; if (dia > maxDia) dia = 1; }
-					else if (campo == 1) { mes++; if (mes > 12) mes = 1; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
-					else if (campo == 2) { anio++; if (anio > anioActual) anio = 1900; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
-					break;
-				case 80: // Abajo
-					if (campo == 0) { int maxDia = diasEnMes(mes, anio); dia--; if (dia < 1) dia = maxDia; }
-					else if (campo == 1) { mes--; if (mes < 1) mes = 12; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
-					else if (campo == 2) { anio--; if (anio < 1900) anio = anioActual; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
+				if (tecla == 72) seleccion = (seleccion - 1 + numCriterios) % numCriterios;
+				else if (tecla == 80) seleccion = (seleccion + 1) % numCriterios;
+			}
+			else if (tecla == 13) break;
+		}
+		if (seleccion == numCriterios - 1) return; // Cancelar
+
+		std::string fechaIngresada;
+		std::string numCuentaIngresada;
+		double valorNum = 0.0;
+
+		// Solicitar el valor segun el criterio
+		if (seleccion == 0) { // Numero de cuenta
+			Utilidades::limpiarPantallaPreservandoMarquesina(2);
+			std::cout << "Ingrese el numero de cuenta: ";
+			numCuentaIngresada.clear();
+
+			// Control de entrada numerica similar a otros lugares
+			while (true) {
+				char tecla = _getch();
+				if (tecla >= '0' && tecla <= '9') {
+					numCuentaIngresada += tecla;
+					std::cout << tecla;
+				}
+				else if (tecla == 8 && !numCuentaIngresada.empty()) { // Backspace
+					numCuentaIngresada.pop_back();
+					std::cout << "\b \b";
+				}
+				else if (tecla == 13 && !numCuentaIngresada.empty()) { // Enter
+					std::cout << std::endl;
 					break;
 				}
-			}
-			else if (tecla == 13) { // Enter
-				char buffer[11];
-				snprintf(buffer, sizeof(buffer), "%02d/%02d/%04d", dia, mes, anio);
-				fechaIngresada = buffer;
-				fechaSeleccionada = true;
-			}
-			else if (tecla == 27) { // ESC
-				return;
+				else if (tecla == 27) { // ESC para cancelar
+					continue;
+				}
 			}
 		}
-	}
-	else if (seleccion == 2) { // Saldo mayor a
-		std::cout << "Ingrese el saldo minimo: ";
+		else if (seleccion == 1) { // Fecha de apertura
+			// Implementar seleccion de fecha con cursor como en otras partes del codigo
+			int dia = 1, mes = 1, anio = 2000, campo = 0;
+			bool fechaSeleccionada = false;
+			SYSTEMTIME st;
+			GetLocalTime(&st);
+			int anioActual = st.wYear, mesActual = st.wMonth, diaActual = st.wDay;
 
-		// Implementar validacion similar a otras partes
-		std::string entrada;
-		bool tienePunto = false;
-		int digitosDecimales = 0;
+			auto esBisiesto = [](int anio) {
+				return (anio % 4 == 0 && (anio % 100 != 0 || anio % 400 == 0));
+				};
+			auto diasEnMes = [&](int mes, int anio) {
+				switch (mes) {
+				case 2: return esBisiesto(anio) ? 29 : 28;
+				case 4: case 6: case 9: case 11: return 30;
+				default: return 31;
+				}
+				};
 
-		while (true) {
-			char tecla = _getch();
+			while (!fechaSeleccionada) {
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				std::cout << "Seleccione la fecha de apertura, usando las flechas del teclado. ENTER para aceptar.\n";
+				for (int i = 0; i < 3; ++i) {
+					if (i == campo)
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+					if (i == 0) std::cout << (dia < 10 ? "0" : "") << dia;
+					if (i == 1) std::cout << "/" << (mes < 10 ? "0" : "") << mes;
+					if (i == 2) std::cout << "/" << anio;
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+				}
+				std::cout << std::endl;
 
-			// ESC para cancelar
-			if (tecla == 27) {
-				return;
+				int tecla = _getch();
+				if (tecla == 224) {
+					tecla = _getch();
+					switch (tecla) {
+					case 75: if (campo > 0) campo--; break; // Izquierda
+					case 77: if (campo < 2) campo++; break; // Derecha
+					case 72: // Arriba
+						if (campo == 0) { int maxDia = diasEnMes(mes, anio); dia++; if (dia > maxDia) dia = 1; }
+						else if (campo == 1) { mes++; if (mes > 12) mes = 1; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
+						else if (campo == 2) { anio++; if (anio > anioActual) anio = 1900; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
+						break;
+					case 80: // Abajo
+						if (campo == 0) { int maxDia = diasEnMes(mes, anio); dia--; if (dia < 1) dia = maxDia; }
+						else if (campo == 1) { mes--; if (mes < 1) mes = 12; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
+						else if (campo == 2) { anio--; if (anio < 1900) anio = anioActual; int maxDia = diasEnMes(mes, anio); if (dia > maxDia) dia = maxDia; }
+						break;
+					}
+				}
+				else if (tecla == 13) { // Enter
+					char buffer[11];
+					snprintf(buffer, sizeof(buffer), "%02d/%02d/%04d", dia, mes, anio);
+					fechaIngresada = buffer;
+					fechaSeleccionada = true;
+				}
+				else if (tecla == 27) { // ESC
+					return;
+				}
 			}
+		}
+		else if (seleccion == 2) { // Saldo mayor a
+			std::cout << "Ingrese el saldo minimo: ";
 
-			// ENTER
-			if (tecla == 13) {
-				if (!entrada.empty()) {
-					if (Validar::ValidarNumeroConDosDecimales(entrada)) {
-						try {
-							valorNum = std::stod(entrada);
-							if (valorNum >= 0) {
-								std::cout << std::endl;
-								break;
+			// Implementar validacion similar a otras partes
+			std::string entrada;
+			bool tienePunto = false;
+			int digitosDecimales = 0;
+
+			while (true) {
+				char tecla = _getch();
+
+				// ESC para cancelar
+				if (tecla == 27) {
+					return;
+				}
+
+				// ENTER
+				if (tecla == 13) {
+					if (!entrada.empty()) {
+						if (Validar::ValidarNumeroConDosDecimales(entrada)) {
+							try {
+								valorNum = std::stod(entrada);
+								if (valorNum >= 0) {
+									std::cout << std::endl;
+									break;
+								}
 							}
+							catch (...) {}
 						}
-						catch (...) {}
 					}
-				}
-				std::cout << "\nFormato invalido. Ingrese nuevamente: ";
-				entrada.clear();
-				tienePunto = false;
-				digitosDecimales = 0;
-				continue;
-			}
-
-			// BACKSPACE
-			if (tecla == 8 && !entrada.empty()) {
-				if (entrada.back() == '.') {
+					std::cout << "\nFormato invalido. Ingrese nuevamente: ";
+					entrada.clear();
 					tienePunto = false;
+					digitosDecimales = 0;
+					continue;
 				}
-				else if (tienePunto && digitosDecimales > 0) {
-					--digitosDecimales;
+
+				// BACKSPACE
+				if (tecla == 8 && !entrada.empty()) {
+					if (entrada.back() == '.') {
+						tienePunto = false;
+					}
+					else if (tienePunto && digitosDecimales > 0) {
+						--digitosDecimales;
+					}
+					entrada.pop_back();
+					std::cout << "\b \b";
+					continue;
 				}
-				entrada.pop_back();
-				std::cout << "\b \b";
-				continue;
-			}
 
-			// Ignoramos teclas especiales
-			if (tecla == 0 || tecla == -32) {
-				int teclaEspecial = _getch();
-				(void)teclaEspecial;
-				continue;
-			}
+				// Ignoramos teclas especiales
+				if (tecla == 0 || tecla == -32) {
+					int teclaEspecial = _getch();
+					(void)teclaEspecial;
+					continue;
+				}
 
-			// Digitos
-			if (isdigit(tecla)) {
-				if (tienePunto && digitosDecimales == 2) continue;
-				if (tienePunto) ++digitosDecimales;
-				entrada += tecla;
-				std::cout << tecla;
-			}
-			// Punto decimal
-			else if (tecla == '.' && !tienePunto && !entrada.empty()) {
-				tienePunto = true;
-				entrada += tecla;
-				std::cout << tecla;
+				// Digitos
+				if (isdigit(tecla)) {
+					if (tienePunto && digitosDecimales == 2) continue;
+					if (tienePunto) ++digitosDecimales;
+					entrada += tecla;
+					std::cout << tecla;
+				}
+				// Punto decimal
+				else if (tecla == '.' && !tienePunto && !entrada.empty()) {
+					tienePunto = true;
+					entrada += tecla;
+					std::cout << tecla;
+				}
 			}
 		}
-	}
 
-	// El resto de criterios esta bien implementado
+		// El resto de criterios esta bien implementado
 
-	// A continuacion, modificamos como se muestran los resultados de busqueda:
+		// A continuacion, modificamos como se muestran los resultados de busqueda:
 
-	int totalCuentasEncontradas = 0;
+		int totalCuentasEncontradas = 0;
 
-	if (seleccion == 4) { // Si es busqueda por cedula, ya esta implementado correctamente
-		bool encontrado = false;
-		NodoPersona* actual = listaPersonas;
+		if (seleccion == 4) { // Si es busqueda por cedula, ya esta implementado correctamente
+			bool encontrado = false;
+			NodoPersona* actual = listaPersonas;
 
-		while (actual) {
-			if (actual->persona && actual->persona->isValidInstance() &&
-				actual->persona->getCedula() == numCuentaIngresada) {
+			while (actual) {
+				if (actual->persona && actual->persona->isValidInstance() &&
+					actual->persona->getCedula() == numCuentaIngresada) {
 
-				// Encontramos la persona, mostrar sus datos y cuentas
-				cuentaAhorros = actual->persona->getCabezaAhorros();
-				cuentaCorriente = actual->persona->getCabezaCorriente();
+					// Encontramos la persona, mostrar sus datos y cuentas
+					cuentaAhorros = actual->persona->getCabezaAhorros();
+					cuentaCorriente = actual->persona->getCabezaCorriente();
 
-				// Mostrar informacion basica de la persona
-				std::cout << "\n===== DATOS DEL TITULAR =====\n";
-				std::cout << "Cedula: " << actual->persona->getCedula() << std::endl;
-				std::cout << "Nombre: " << actual->persona->getNombres() << " "
-					<< actual->persona->getApellidos() << std::endl;
-				std::cout << "Fecha de nacimiento: " << actual->persona->getFechaNacimiento() << std::endl;
-				std::cout << "Correo: " << actual->persona->getCorreo() << std::endl;
-				std::cout << "Direccion: " << actual->persona->getDireccion() << std::endl;
+					// Mostrar informacion basica de la persona
+					std::cout << "\n===== DATOS DEL TITULAR =====\n";
+					std::cout << "Cedula: " << actual->persona->getCedula() << std::endl;
+					std::cout << "Nombre: " << actual->persona->getNombres() << " "
+						<< actual->persona->getApellidos() << std::endl;
+					std::cout << "Fecha de nacimiento: " << actual->persona->getFechaNacimiento() << std::endl;
+					std::cout << "Correo: " << actual->persona->getCorreo() << std::endl;
+					std::cout << "Direccion: " << actual->persona->getDireccion() << std::endl;
 
-				// Mostrar todas sus cuentas
-				std::cout << "\n===== CUENTAS DE AHORRO =====\n";
-				CuentaAhorros* cuentaAhorros = actual->persona->getCabezaAhorros();
-				int contadorAhorros = 0;
-				if (!cuentaAhorros) {
-					std::cout << "  No tiene cuentas de ahorro.\n";
-				}
-				while (cuentaAhorros) {
-					if (cuentaAhorros->getCuentaAhorros()) {
-						std::cout << "\nCUENTA DE AHORROS #" << ++contadorAhorros << std::endl;
-						cuentaAhorros->getCuentaAhorros()->mostrarInformacion(actual->persona->getCedula(), false);
-						totalCuentasEncontradas++;
+					// Mostrar todas sus cuentas
+					std::cout << "\n===== CUENTAS DE AHORRO =====\n";
+					CuentaAhorros* cuentaAhorros = actual->persona->getCabezaAhorros();
+					int contadorAhorros = 0;
+					if (!cuentaAhorros) {
+						std::cout << "  No tiene cuentas de ahorro.\n";
 					}
-					cuentaAhorros = cuentaAhorros->getSiguiente();
-				}
-
-				std::cout << "\n===== CUENTAS CORRIENTES =====\n";
-				CuentaCorriente* cuentaCorriente = actual->persona->getCabezaCorriente();
-				int contadorCorrientes = 0;
-				if (!cuentaCorriente) {
-					std::cout << "  No tiene cuentas corrientes.\n";
-				}
-				while (cuentaCorriente) {
-					if (cuentaCorriente->getCuentaCorriente()) {
-						std::cout << "\nCUENTA CORRIENTE #" << ++contadorCorrientes << std::endl;
-						cuentaCorriente->getCuentaCorriente()->mostrarInformacion(actual->persona->getCedula(), false);
-						totalCuentasEncontradas++;
+					while (cuentaAhorros) {
+						if (cuentaAhorros->getCuentaAhorros()) {
+							std::cout << "\nCUENTA DE AHORROS #" << ++contadorAhorros << std::endl;
+							cuentaAhorros->getCuentaAhorros()->mostrarInformacion(actual->persona->getCedula(), false);
+							totalCuentasEncontradas++;
+						}
+						cuentaAhorros = cuentaAhorros->getSiguiente();
 					}
-					cuentaCorriente = cuentaCorriente->getSiguiente();
-				}
 
-				encontrado = true;
-				break;
+					std::cout << "\n===== CUENTAS CORRIENTES =====\n";
+					CuentaCorriente* cuentaCorriente = actual->persona->getCabezaCorriente();
+					int contadorCorrientes = 0;
+					if (!cuentaCorriente) {
+						std::cout << "  No tiene cuentas corrientes.\n";
+					}
+					while (cuentaCorriente) {
+						if (cuentaCorriente->getCuentaCorriente()) {
+							std::cout << "\nCUENTA CORRIENTE #" << ++contadorCorrientes << std::endl;
+							cuentaCorriente->getCuentaCorriente()->mostrarInformacion(actual->persona->getCedula(), false);
+							totalCuentasEncontradas++;
+						}
+						cuentaCorriente = cuentaCorriente->getSiguiente();
+					}
+
+					encontrado = true;
+					break;
+				}
+				actual = actual->siguiente;
 			}
-			actual = actual->siguiente;
-		}
 
-		if (!encontrado) {
-			std::cout << "No se encontro ninguna persona con la cedula: " << numCuentaIngresada << std::endl;
+			if (!encontrado) {
+				std::cout << "No se encontro ninguna persona con la cedula: " << numCuentaIngresada << std::endl;
+			}
+			else {
+				std::cout << "\nTotal de cuentas encontradas: " << totalCuentasEncontradas << std::endl;
+			}
 		}
 		else {
-			std::cout << "\nTotal de cuentas encontradas: " << totalCuentasEncontradas << std::endl;
-		}
-	}
-	else {
-		// Para otros criterios, modificamos el metodo buscarPersonaPorCriterio en la clase Persona
-		// para que muestre los datos del titular junto con cada cuenta.
+			// Para otros criterios, modificamos el metodo buscarPersonaPorCriterio en la clase Persona
+			// para que muestre los datos del titular junto con cada cuenta.
 
-		// Recorremos todas las personas y buscamos segun criterio
-		NodoPersona* actual = listaPersonas;
-		while (actual) {
-			if (actual->persona && actual->persona->isValidInstance()) {
-				// Contar las cuentas encontradas por persona
-				int cuentasEncontradas = actual->persona->buscarPersonaPorCriterio(criterios[seleccion], numCuentaIngresada, fechaIngresada, valorNum);
-				totalCuentasEncontradas += cuentasEncontradas;
+			// Recorremos todas las personas y buscamos segun criterio
+			NodoPersona* actual = listaPersonas;
+			while (actual) {
+				if (actual->persona && actual->persona->isValidInstance()) {
+					// Contar las cuentas encontradas por persona
+					int cuentasEncontradas = actual->persona->buscarPersonaPorCriterio(criterios[seleccion], numCuentaIngresada, fechaIngresada, valorNum);
+					totalCuentasEncontradas += cuentasEncontradas;
+				}
+				actual = actual->siguiente;
 			}
-			actual = actual->siguiente;
-		}
 
-		if (totalCuentasEncontradas == 0) {
-			std::cout << "\nNo se encontraron cuentas que cumplan con el criterio seleccionado." << std::endl;
-		}
-		else {
-			std::cout << "\nTotal de cuentas encontradas: " << totalCuentasEncontradas << std::endl;
+			if (totalCuentasEncontradas == 0) {
+				std::cout << "\nNo se encontraron cuentas que cumplan con el criterio seleccionado." << std::endl;
+				system("pause");
+				continuarBusqueda = true; // Continuar buscando
+			}
+			else {
+				std::cout << "\nTotal de cuentas encontradas: " << totalCuentasEncontradas << std::endl;
+				system("pause");
+				continuarBusqueda = false; // Salir del bucle de busqueda
+			}
 		}
 	}
-
-	system("pause");
 }
 
 /**
  * @brief Realiza una transferencia de fondos entre dos cuentas
  *
- * Gestiona la b˙squeda de cuentas origen y destino, validaciÛn de fondos,
- * y ejecuciÛn de la transferencia con sus respectivas actualizaciones de saldo.
+ * Gestiona la b√∫squeda de cuentas origen y destino, validaci√≥n de fondos,
+ * y ejecuci√≥n de la transferencia con sus respectivas actualizaciones de saldo.
  */
 void Banco::realizarTransferencia() {
 	// Verificar que existan personas con cuentas
 	if (!listaPersonas) {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << "No hay cuentas registradas en el sistema.\n";
 		system("pause");
 		return;
@@ -1319,7 +1326,7 @@ void Banco::realizarTransferencia() {
 
 	// 1. Obtener la cuenta de origen
 	while (!cuentaOrigenEncontrada) {
-		system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 		std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
 		std::cout << "Ingrese el numero de cuenta de origen (o ESC para cancelar): ";
 
@@ -1391,7 +1398,7 @@ void Banco::realizarTransferencia() {
 			int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
 			bool continuar = true;
 
-			system("cls");
+			Utilidades::limpiarPantallaPreservandoMarquesina(3);
 			std::cout << "Cuenta de origen no encontrada.\n";
 			std::cout << "Desea intentar con otro numero?\n\n";
 
@@ -1459,7 +1466,7 @@ void Banco::realizarTransferencia() {
 	}
 
 	// Mostrar informacion de la cuenta origen
-	system("cls");
+	Utilidades::limpiarPantallaPreservandoMarquesina(3);
 	std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
 	std::cout << "CUENTA ORIGEN:\n";
 	if (esAhorrosOrigen) {
@@ -1553,7 +1560,7 @@ void Banco::realizarTransferencia() {
 	}
 
 	// Mostrar informacion de la cuenta destino
-	system("cls");
+	Utilidades::limpiarPantallaPreservandoMarquesina(3);
 	std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
 	std::cout << "CUENTA ORIGEN:\n";
 	if (esAhorrosOrigen) {
@@ -1735,9 +1742,9 @@ std::string Banco::formatearConComas(double valorEnCentavos) const {
  * @brief Obtiene la ruta del directorio del escritorio del usuario
  *
  * Crea una carpeta "BancoApp" en el escritorio si no existe, para
- * almacenar los archivos generados por la aplicaciÛn.
+ * almacenar los archivos generados por la aplicaci√≥n.
  *
- * @return Ruta completa de la carpeta de la aplicaciÛn
+ * @return Ruta completa de la carpeta de la aplicaci√≥n
  */
 std::string Banco::obtenerRutaEscritorio() const {
 	PWSTR path = NULL;
@@ -1771,3 +1778,430 @@ std::string Banco::obtenerRutaEscritorio() const {
 
 	return rutaEscritorio;
 }
+
+/**
+* @brief Verifica las cuentas del banco
+*/
+bool Banco::verificarCuentasBanco() const
+{
+	// Verificar si hay cuentas
+	if (this->getListaPersonas() == nullptr) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		std::cout << "No hay cuentas registradas en el banco. Cree una cuenta primero.\n";
+		system("pause");
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		return false;
+	}
+	return true;
+}
+
+/**
+ * @brief Muestra el submen√∫ de cuentas bancarias
+ *
+ * Submen√∫ de cuentas bancarias para separar las opciones de gesti√≥n de cuentas
+ */
+void Banco::subMenuCuentasBancarias()
+{
+	// Submenu para operaciones de cuenta
+	std::string opcionesCuenta[] = { "Depositar", "Retirar", "Consultar saldo", "Cancelar" };
+	int numOpcionesCuenta = sizeof(opcionesCuenta) / sizeof(opcionesCuenta[0]);
+	int selCuenta = 0;
+
+	while (true) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		std::cout << "Seleccione la operacion a realizar:\n\n";
+		for (int i = 0; i < numOpcionesCuenta; i++) {
+			if (i == selCuenta)
+				std::cout << " > " << opcionesCuenta[i] << std::endl;
+			else
+				std::cout << "   " << opcionesCuenta[i] << std::endl;
+		}
+
+		int teclaCuenta = _getch();
+		if (teclaCuenta == 224) {
+			teclaCuenta = _getch();
+			if (teclaCuenta == 72) // Flecha arriba
+				selCuenta = (selCuenta - 1 + numOpcionesCuenta) % numOpcionesCuenta;
+			else if (teclaCuenta == 80) // Flecha abajo
+				selCuenta = (selCuenta + 1) % numOpcionesCuenta;
+		}
+		else if (teclaCuenta == 13) // Enter
+			break;
+		else if (teclaCuenta == 27) { // ESC
+			selCuenta = 3; // Cancelar
+			break;
+		}
+	}
+
+	// Buscar cuenta para realizar la operacion
+	CuentaAhorros* cuentaAhorros = nullptr;
+	CuentaCorriente* cuentaCorriente = nullptr;
+	std::string cedula;
+
+	if (!buscarCuentaParaOperacion(*this, cuentaAhorros, cuentaCorriente, cedula)) {
+		return; // Si no se encontr√≥ ninguna cuenta o se cancel√≥ la operaci√≥n
+	}
+
+	// Mostrar informaci√≥n de la cuenta seleccionada
+	if (cuentaAhorros != nullptr) {
+		std::cout << "CUENTA DE AHORROS: " << cuentaAhorros->getNumeroCuenta() << "\n";
+	}
+	else {
+		std::cout << "CUENTA CORRIENTE: " << cuentaCorriente->getNumeroCuenta() << "\n";
+	}
+
+	// Realizar la operaci√≥n seleccionada usando switch-case
+	switch (selCuenta) {
+	case 0: // Depositar
+	{
+		Utilidades::mostrarCursor();
+		std::cout << "\n\nDEPOSITO\n";
+		std::cout << "Ingrese el monto a depositar: ";
+
+		// Variables para la entrada manual controlada
+		std::string entrada;
+		bool tienePunto = false;
+		int digitosDecimales = 0;
+
+		while (true) {
+			char tecla = _getch();
+
+			// Permitir solo digitos
+			if (tecla >= '0' && tecla <= '9') {
+				// Limitar a 2 decimales despues del punto
+				if (tienePunto && digitosDecimales >= 2) continue;
+
+				entrada += tecla;
+				std::cout << tecla;
+
+				// Contar digitos despues del punto decimal
+				if (tienePunto) digitosDecimales++;
+			}
+			// Permitir solo un punto decimal
+			else if (tecla == '.' && !tienePunto && !entrada.empty()) {
+				tienePunto = true;
+				entrada += tecla;
+				std::cout << tecla;
+			}
+			// Permitir borrar
+			else if (tecla == 8 && !entrada.empty()) { // Backspace
+				if (entrada.back() == '.') {
+					tienePunto = false;
+				}
+				else if (tienePunto && digitosDecimales > 0) {
+					digitosDecimales--;
+				}
+				entrada.pop_back();
+				std::cout << "\b \b"; // Retrocede, imprime espacio y retrocede
+			}
+			// Finalizar con Enter si hay algo ingresado
+			else if (tecla == 13 && !entrada.empty()) { // Enter
+				std::cout << std::endl;
+				break;
+			}
+		}
+
+		// Convertir la entrada a double con manejo de excepciones
+		try {
+			double monto = std::stod(entrada);
+
+			if (monto <= 0) {
+				std::cout << "El monto debe ser mayor a cero.\n";
+			}
+			else {
+				int montoEnCentavos = static_cast<int>(monto * 100);
+				if (cuentaAhorros != nullptr) {
+					cuentaAhorros->depositar(montoEnCentavos);
+					std::cout << "Deposito realizado con exito.\n";
+					std::cout << "Nuevo saldo: $" << cuentaAhorros->formatearSaldo() << std::endl;
+				}
+				else {
+					cuentaCorriente->depositar(montoEnCentavos);
+					std::cout << "Deposito realizado con exito.\n";
+					std::cout << "Nuevo saldo: $" << cuentaCorriente->formatearSaldo() << std::endl;
+				}
+			}
+			Utilidades::ocultarCursor();
+		}
+		catch (const std::exception& e) {
+			std::cout << e.what() << std::endl;
+		}
+		system("pause");
+		break;
+	}
+
+	case 1: // Retirar
+	{
+		std::cout << "\n\nRETIRO\n\n";
+		Utilidades::mostrarCursor();
+		double saldoActual = 0;
+
+		if (cuentaAhorros != nullptr) {
+			saldoActual = cuentaAhorros->consultarSaldo();
+			std::cout << "Saldo disponible: $" << cuentaAhorros->formatearSaldo() << std::endl;
+		}
+		else {
+			saldoActual = cuentaCorriente->consultarSaldo();
+			std::cout << "Saldo disponible: $" << cuentaCorriente->formatearSaldo() << std::endl;
+		}
+
+		std::cout << "Ingrese el monto a retirar: ";
+		double monto;
+		std::cin >> monto;
+
+		if (monto <= 0) {
+			std::cout << "El monto debe ser mayor a cero.\n";
+		}
+		else {
+			int montoEnCentavos = static_cast<int>(monto * 100);
+			if (montoEnCentavos > saldoActual) {
+				std::cout << "Fondos insuficientes.\n";
+			}
+			else {
+				if (cuentaAhorros != nullptr) {
+					cuentaAhorros->retirar(montoEnCentavos);
+					std::cout << "Retiro realizado con exito.\n";
+					std::cout << "Nuevo saldo: $" << cuentaAhorros->formatearSaldo() << std::endl;
+				}
+				else {
+					cuentaCorriente->retirar(montoEnCentavos);
+					std::cout << "Retiro realizado con exito.\n";
+					std::cout << "Nuevo saldo: $" << cuentaCorriente->formatearSaldo() << std::endl;
+				}
+			}
+		}
+		Utilidades::ocultarCursor();
+		system("pause");
+		break;
+	}
+
+	case 2: // Consultar saldo
+	{
+		std::cout << "\nCONSULTA DE SALDO\n\n";
+
+		if (cuentaAhorros != nullptr) {
+			cuentaAhorros->mostrarInformacion(cedula, false);
+		}
+		else {
+			cuentaCorriente->mostrarInformacion(cedula, false);
+		}
+		// No necesitamos system("pause") aqu√≠ ya que mostrarInformacion() lo incluye
+		break;
+	}
+	}
+}
+
+/**
+ * @brief Busca una cuenta bancaria para realizar operaciones
+ *
+ * Permite al usuario buscar una cuenta por c√©dula o n√∫mero de cuenta,
+ * y devuelve la cuenta encontrada para realizar operaciones sobre ella.
+ *
+ * @param banco Referencia al objeto Banco donde buscar la cuenta
+ * @param cuentaAhorros Referencia a puntero que se actualizar√° con la cuenta de ahorros encontrada
+ * @param cuentaCorriente Referencia a puntero que se actualizar√° con la cuenta corriente encontrada
+ * @param cedula Referencia a string que se actualizar√° con la c√©dula del titular
+ * @return bool true si se encontr√≥ una cuenta v√°lida, false en caso contrario
+ */
+bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, CuentaCorriente*& cuentaCorriente, std::string& cedula) {
+	Utilidades::limpiarPantallaPreservandoMarquesina(2);
+	std::cout << "\n===== OPERACIONES DE CUENTA =====\n\n";
+
+	// Menu de seleccion: buscar por cedula o numero
+	std::string opciones[] = { "Buscar por cedula", "Buscar por numero de cuenta", "Cancelar" };
+	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
+	int seleccion = 0;
+
+	while (true) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		std::cout << "Seleccione metodo de busqueda:\n\n";
+		for (int i = 0; i < numOpciones; i++) {
+			if (i == seleccion)
+				std::cout << " > " << opciones[i] << std::endl;
+			else
+				std::cout << "   " << opciones[i] << std::endl;
+		}
+		int tecla = _getch();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 72) seleccion = (seleccion - 1 + numOpciones) % numOpciones;
+			else if (tecla == 80) seleccion = (seleccion + 1) % numOpciones;
+		}
+		else if (tecla == 13) break; // ENTER
+		else if (tecla == 27) return false; // ESC
+	}
+
+	if (seleccion == 2) return false; // Cancelar
+
+	if (seleccion == 0) { // Buscar por cedula
+		cedula.clear();
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		std::cout << "Ingrese la cedula (10 digitos): ";
+		int digitos = 0;
+		while (true) {
+			char tecla = _getch();
+			if ((tecla >= '0' && tecla <= '9') && digitos < 10) {
+				cedula += tecla;
+				digitos++;
+				std::cout << tecla;
+			}
+			else if (tecla == 8 && !cedula.empty()) { // Backspace
+				cedula.pop_back();
+				digitos--;
+				std::cout << "\b \b";
+			}
+			else if (tecla == 13 && digitos == 10) { // Enter
+				std::cout << std::endl;
+				break;
+			}
+			else if (tecla == 27) return false; // ESC
+		}
+
+		// Buscar por cedula usando la clase Banco
+		NodoPersona* actual = banco.getListaPersonas();
+		bool encontrado = false;
+
+		while (actual) {
+			if (actual->persona && actual->persona->getCedula() == cedula) {
+				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				std::cout << "Titular: " << actual->persona->getNombres() << " "
+					<< actual->persona->getApellidos() << "\n\n";
+
+				// Listar cuentas disponibles
+				std::vector<std::pair<bool, void*>> cuentas; // true=ahorro, false=corriente
+
+				// Cuentas de ahorro
+				cuentaAhorros = actual->persona->getCabezaAhorros(); // Obtener cuenta de ahorro principal
+				int contador = 1;
+				while (cuentaAhorros) {
+					if (cuentaAhorros->getCuentaAhorros()) {
+						std::cout << contador << ". Cuenta de Ahorro: "
+							<< cuentaAhorros->getCuentaAhorros()->getNumeroCuenta() << "\n";
+						cuentas.push_back({ true, cuentaAhorros->getCuentaAhorros() });
+						contador++;
+					}
+					cuentaAhorros = cuentaAhorros->getSiguiente();
+				}
+
+				// Cuentas corrientes
+				cuentaCorriente = actual->persona->getCabezaCorriente(); // Obtener cuenta corriente principal
+				while (cuentaCorriente) {
+					if (cuentaCorriente->getCuentaCorriente()) {
+						std::cout << contador << ". Cuenta Corriente: "
+							<< cuentaCorriente->getCuentaCorriente()->getNumeroCuenta() << "\n";
+						cuentas.push_back({ false, cuentaCorriente->getCuentaCorriente() });
+						contador++;
+					}
+					cuentaCorriente = cuentaCorriente->getSiguiente();
+				}
+
+				if (cuentas.empty()) {
+					std::cout << "El titular no tiene cuentas asociadas.\n";
+					system("pause");
+					return false;
+				}
+
+				// Seleccionar cuenta
+				std::cout << "\nSeleccione una cuenta (1-" << cuentas.size() << "): ";
+				int selCuenta;
+				std::cin >> selCuenta;
+
+				if (selCuenta < 1 || selCuenta > static_cast<int>(cuentas.size())) {
+					std::cout << "Opcion invalida.\n";
+					system("pause");
+					return false;
+				}
+
+				// Obtener cuenta seleccionada
+				auto& cuentaSelec = cuentas[static_cast<std::vector<std::pair<bool, void*>, std::allocator<std::pair<bool, void*>>>::size_type>(selCuenta) - 1];
+				if (cuentaSelec.first) { // Cuenta de ahorro
+					cuentaAhorros = static_cast<CuentaAhorros*>(cuentaSelec.second);
+					cuentaCorriente = nullptr;
+				}
+				else { // Cuenta corriente
+					cuentaAhorros = nullptr;
+					cuentaCorriente = static_cast<CuentaCorriente*>(cuentaSelec.second);
+				}
+
+				encontrado = true;
+				break;
+			}
+			actual = actual->siguiente;
+		}
+
+		if (!encontrado) {
+			std::cout << "No se encontro ninguna persona con esa cedula.\n";
+			system("pause");
+			return false;
+		}
+	}
+	else { // Buscar por numero de cuenta
+		std::string numCuenta;
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		std::cout << "Ingrese el numero de cuenta: ";
+		while (true) {
+			char tecla = _getch();
+			if (tecla >= '0' && tecla <= '9') {
+				numCuenta += tecla;
+				std::cout << tecla;
+			}
+			else if (tecla == 8 && !numCuenta.empty()) { // Backspace
+				numCuenta.pop_back();
+				std::cout << "\b \b";
+			}
+			else if (tecla == 13 && !numCuenta.empty()) { // Enter
+				std::cout << std::endl;
+				break;
+			}
+			else if (tecla == 27) return false; // ESC
+		}
+
+		// Buscar la cuenta por numero
+		NodoPersona* actual = banco.getListaPersonas();
+		bool encontrado = false;
+
+		while (actual && !encontrado) {
+			if (actual->persona) {
+				// Buscar en cuentas de ahorro
+				cuentaAhorros = actual->persona->getCabezaAhorros(); // Obtener cuenta de ahorro principal
+				while (cuentaAhorros && !encontrado) {
+					if (cuentaAhorros->getCuentaAhorros() && cuentaAhorros->getCuentaAhorros()->getNumeroCuenta() == numCuenta) {
+						cuentaAhorros = cuentaAhorros->getCuentaAhorros();
+						cuentaCorriente = nullptr;
+						cedula = actual->persona->getCedula();
+						encontrado = true;
+						break;
+					}
+					cuentaAhorros = cuentaAhorros->getSiguiente();
+				}
+
+				// Si no se encontro, buscar en cuentas corrientes
+				if (!encontrado) {
+					cuentaCorriente = actual->persona->getCabezaCorriente(); // Obtener cuenta corriente principal
+					while (cuentaCorriente && !encontrado) {
+						if (cuentaCorriente->getCuentaCorriente() && cuentaCorriente->getCuentaCorriente()->getNumeroCuenta() == numCuenta) {
+							cuentaAhorros = nullptr;
+							cuentaCorriente = cuentaCorriente->getCuentaCorriente();
+							cedula = actual->persona->getCedula();
+							encontrado = true;
+							break;
+						}
+						cuentaCorriente = cuentaCorriente->getSiguiente();
+					}
+				}
+			}
+			if (!encontrado) {
+				actual = actual->siguiente;
+			}
+		}
+
+		if (!encontrado) {
+			std::cout << "No se encontro ninguna cuenta con ese numero.\n";
+			system("pause");
+			return false;
+		}
+	}
+
+	return true;
+}
+

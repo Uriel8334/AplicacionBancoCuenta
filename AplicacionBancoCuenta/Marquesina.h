@@ -83,6 +83,18 @@ private:
     /** @brief Indica si el buffer ha sido actualizado y necesita redibujarse */
     std::atomic<bool> bufferActualizado;
 
+    /** @brief Buffer interno primario para separar la marquesina del main */
+    std::vector<std::pair<char, WORD>> bufferPrimario;
+
+    /** @brief Buffer interno secundario para separar el main de la marquesina */
+	std::vector<std::pair<char, WORD>> bufferSecundario;
+
+	/** @brief Indica si el buffer esta o no listo */
+	std::atomic<bool> bufferListo;
+
+	/** @brief Indica si el buffer esta en conjunto de mutex */
+	std::mutex bufferMutex;
+
     /** @brief Timestamp de la última modificación del archivo HTML */
     FILETIME ultimaModificacion;
 

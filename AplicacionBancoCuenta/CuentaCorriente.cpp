@@ -10,14 +10,15 @@
 #include "Cifrado.h"
 #include "Fecha.h"
 #include "CuentaCorriente.h"
+#include "Utilidades.h"
 
 using namespace std;
 
 #pragma region METODOS ESPECIFICOS DE LA CLASE
 /**
- * @brief Método para depositar una cantidad en la cuenta corriente
+ * @brief MÃ©todo para depositar una cantidad en la cuenta corriente
  *
- * Verifica que el monto a depositar sea positivo antes de añadirlo al saldo
+ * Verifica que el monto a depositar sea positivo antes de aÃ±adirlo al saldo
  *
  * @param cantidad Monto a depositar en la cuenta
  */
@@ -31,7 +32,7 @@ void CuentaCorriente::depositar(double cantidad) {
 }
 
 /**
- * @brief Método para retirar una cantidad de la cuenta corriente
+ * @brief MÃ©todo para retirar una cantidad de la cuenta corriente
  *
  * Verifica que haya fondos suficientes antes de realizar el retiro
  *
@@ -47,7 +48,7 @@ void CuentaCorriente::retirar(double cantidad) {
 }
 
 /**
- * @brief Método para consultar el saldo actual de la cuenta corriente
+ * @brief MÃ©todo para consultar el saldo actual de la cuenta corriente
  *
  * @return double Retorna el saldo actual de la cuenta
  */
@@ -56,16 +57,16 @@ double CuentaCorriente::consultarSaldo() const {
 }
 
 /**
- * @brief Método para consultar el estado de la cuenta corriente
+ * @brief MÃ©todo para consultar el estado de la cuenta corriente
  *
- * @return std::string Retorna "ACTIVA" si no hay un estado explícito, o el estado actual de la cuenta
+ * @return std::string Retorna "ACTIVA" si no hay un estado explÃ­cito, o el estado actual de la cuenta
  */
 std::string CuentaCorriente::consultarEstado() const {
 	return this->estadoCuenta.empty() ? "ACTIVA" : this->estadoCuenta;
 }
 
 /**
- * @brief Método para formatear el saldo de la cuenta con formato de moneda
+ * @brief MÃ©todo para formatear el saldo de la cuenta con formato de moneda
  *
  * @return std::string Saldo formateado con comas y dos decimales
  */
@@ -74,7 +75,7 @@ std::string CuentaCorriente::formatearSaldo() const {
 }
 
 /**
- * @brief Método para formatear un valor en centavos a un string con comas y dos decimales
+ * @brief MÃ©todo para formatear un valor en centavos a un string con comas y dos decimales
  *
  * @param saldo Valor en centavos a formatear
  * @return std::string Valor formateado como cadena con formato de moneda
@@ -89,16 +90,17 @@ std::string CuentaCorriente::formatearConComas(double saldo) const {
 }
 
 /**
- * @brief Muestra la información completa de la cuenta corriente
+ * @brief Muestra la informaciÃ³n completa de la cuenta corriente
  *
- * Presenta en consola los detalles de la cuenta incluyendo número, fecha de apertura,
+ * Presenta en consola los detalles de la cuenta incluyendo nÃºmero, fecha de apertura,
  * estado y saldo actual
  *
- * @param cedula Cédula del titular (opcional)
- * @param limpiarPantalla Indica si debe limpiarse la pantalla antes de mostrar información (por defecto true)
+ * @param cedula CÃ©dula del titular (opcional)
+ * @param limpiarPantalla Indica si debe limpiarse la pantalla antes de mostrar informaciÃ³n (por defecto true)
  */
 void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool limpiarPantalla = true) const {
 
+	
 	// Validacion basica
 	if (this == nullptr) {
 		return;
@@ -106,11 +108,10 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 
 	// Limpieza de pantalla solo si se solicita
 	if (limpiarPantalla) {
-		std::system("cls");
+		Utilidades::limpiarPantallaPreservandoMarquesina(3);
 	}
 
 	// Titulo con formato especifico para CuentaCorriente
-	std::cout << "\n" << std::string(50, '=') << std::endl;
 	std::cout << "          INFORMACION DE CUENTA CORRIENTE" << std::endl;
 	std::cout << std::string(50, '=') << "\n" << std::endl;
 
@@ -123,29 +124,22 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 	// Informacion comun
 	std::cout << "Tipo de cuenta: CORRIENTE" << std::endl;
 	std::cout << "Numero de cuenta: " << this->numeroCuenta << std::endl;
-
-	// Imprimir usando el metodo de la clase Fecha
 	std::cout << "Fecha de apertura: "
 		<< this->fechaApertura.obtenerFechaFormateada()
 		<< std::endl;
-
 	const_cast<std::string&>(this->estadoCuenta) = consultarEstado();
 	std::cout << "Estado: " << this->estadoCuenta << std::endl;
 	std::cout << "Saldo actual: $" << formatearConComas(this->saldo) << std::endl;
 
 	// Pie de pagina
 	std::cout << "\n" << std::string(50, '-') << std::endl;
-	std::cout << "Presione cualquier tecla para continuar..." << std::endl;
-	int tecla = _getch();
-	(void)tecla;
-	// Limpieza de pantalla
-	std::system("cls");
+
 }
 
 /**
- * @brief Guarda la información de la cuenta corriente en un archivo binario
+ * @brief Guarda la informaciÃ³n de la cuenta corriente en un archivo binario
  *
- * @param nombreArchivo Ruta del archivo donde se guardará la información
+ * @param nombreArchivo Ruta del archivo donde se guardarÃ¡ la informaciÃ³n
  */
 void CuentaCorriente::guardarEnArchivo(const std::string& nombreArchivo) const {
 	std::ofstream archivo(nombreArchivo, std::ios::binary);
@@ -164,9 +158,9 @@ void CuentaCorriente::guardarEnArchivo(const std::string& nombreArchivo) const {
 }
 
 /**
- * @brief Carga la información de la cuenta corriente desde un archivo binario
+ * @brief Carga la informaciÃ³n de la cuenta corriente desde un archivo binario
  *
- * @param nombreArchivo Ruta del archivo desde donde se cargará la información
+ * @param nombreArchivo Ruta del archivo desde donde se cargarÃ¡ la informaciÃ³n
  */
 void CuentaCorriente::cargarDesdeArchivo(const std::string& nombreArchivo) {
 	std::ifstream archivo(nombreArchivo, std::ios::binary);
@@ -187,11 +181,11 @@ void CuentaCorriente::cargarDesdeArchivo(const std::string& nombreArchivo) {
 }
 
 /**
- * @brief Verifica si el monto mínimo es válido y lo asigna
+ * @brief Verifica si el monto mÃ­nimo es vÃ¡lido y lo asigna
  *
  * Comprueba que el monto sea al menos $250.00 antes de asignarlo
  *
- * @param monto Cantidad a establecer como monto mínimo
+ * @param monto Cantidad a establecer como monto mÃ­nimo
  */
 void CuentaCorriente::esMontoMinimo(double monto) {
 	// monto debe ser positivo y mayor o igual $250.00

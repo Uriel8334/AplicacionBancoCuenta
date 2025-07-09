@@ -16,50 +16,50 @@ class Persona;
 
 /**
  * @class Utilidades
- * @brief Clase est·tica con funciones auxiliares para todo el sistema bancario
+ * @brief Clase est√°tica con funciones auxiliares para todo el sistema bancario
  *
- * Esta clase proporciona mÈtodos utilitarios para manipulaciÛn de datos,
- * formateo, validaciones, operaciones con archivos, generaciÛn de cÛdigos QR,
+ * Esta clase proporciona m√©todos utilitarios para manipulaci√≥n de datos,
+ * formateo, validaciones, operaciones con archivos, generaci√≥n de c√≥digos QR,
  * y otras funcionalidades de soporte que son utilizadas por todo el sistema bancario.
  */
 class Utilidades {
 public:
 
 	/**
-	 * @brief Convierte una cadena de texto a un valor numÈrico double
+	 * @brief Convierte una cadena de texto a un valor num√©rico double
 	 * @param texto Cadena a convertir
-	 * @return Valor numÈrico double
+	 * @return Valor num√©rico double
 	 */
 	static double ConvertirADouble(const std::string& texto);
 
 	/**
-	 * @brief Formatea un monto numÈrico para presentaciÛn
+	 * @brief Formatea un monto num√©rico para presentaci√≥n
 	 * @param monto Valor a formatear
-	 * @param decimales N˙mero de decimales a mostrar (por defecto 2)
+	 * @param decimales N√∫mero de decimales a mostrar (por defecto 2)
 	 * @return Cadena formateada
 	 */
 	static std::string FormatearMonto(double monto, int decimales = 2);
 
 	/**
 	 * @brief Formatea una fecha a partir de sus componentes
-	 * @param dia DÌa del mes
-	 * @param mes Mes del aÒo
-	 * @param anio AÒo
+	 * @param dia D√≠a del mes
+	 * @param mes Mes del a√±o
+	 * @param anio A√±o
 	 * @return Cadena con la fecha formateada
 	 */
 	static std::string FormatearFecha(int dia, int mes, int anio);
 
 	/**
-	 * @brief Verifica si una cadena contiene solo caracteres numÈricos
+	 * @brief Verifica si una cadena contiene solo caracteres num√©ricos
 	 * @param texto Cadena a verificar
-	 * @return true si la cadena es numÈrica, false en caso contrario
+	 * @return true si la cadena es num√©rica, false en caso contrario
 	 */
 	static bool EsNumerico(const std::string& texto);
 
 	/**
-	 * @brief Verifica si una cadena representa un correo electrÛnico v·lido
-	 * @param correo DirecciÛn de correo a validar
-	 * @return true si el correo es v·lido, false en caso contrario
+	 * @brief Verifica si una cadena representa un correo electr√≥nico v√°lido
+	 * @param correo Direcci√≥n de correo a validar
+	 * @return true si el correo es v√°lido, false en caso contrario
 	 */
 	static bool EsCorreoValido(const std::string& correo);
 
@@ -71,34 +71,34 @@ public:
 	static std::string EliminarEspacios(const std::string& texto);
 
 	/**
-	 * @brief Convierte una cadena a may˙sculas
+	 * @brief Convierte una cadena a may√∫sculas
 	 * @param texto Cadena a convertir
-	 * @return Cadena convertida a may˙sculas
+	 * @return Cadena convertida a may√∫sculas
 	 */
 	static std::string ConvertirAMayusculas(const std::string& texto);
 
 	/**
-	 * @brief Convierte una cadena a min˙sculas
+	 * @brief Convierte una cadena a min√∫sculas
 	 * @param texto Cadena a convertir
-	 * @return Cadena convertida a min˙sculas
+	 * @return Cadena convertida a min√∫sculas
 	 */
 	static std::string ConvertirAMinusculas(const std::string& texto);
 
 	/**
-	 * @brief Retorna una cadena para la opciÛn de regresar al men˙ principal
-	 * @return Cadena con la opciÛn de regreso
+	 * @brief Retorna una cadena para la opci√≥n de regresar al men√∫ principal
+	 * @return Cadena con la opci√≥n de regreso
 	 */
 	static std::string Regresar();
 
 	/**
-	 * @brief Posiciona el cursor en coordenadas especÌficas de la consola
+	 * @brief Posiciona el cursor en coordenadas espec√≠ficas de la consola
 	 * @param x Coordenada horizontal
 	 * @param y Coordenada vertical
 	 */
 	static void gotoxy(int x, int y);
 
 	/**
-	 * @brief Muestra el men˙ de ayuda del sistema
+	 * @brief Muestra el men√∫ de ayuda del sistema
 	 */
 	static void mostrarMenuAyuda();
 
@@ -106,7 +106,7 @@ public:
 	 * @brief Ordena un vector de punteros utilizando el algoritmo burbuja
 	 * @tparam T Tipo de los objetos a ordenar
 	 * @param vec Vector de punteros a ordenar
-	 * @param criterio FunciÛn que define el criterio de ordenamiento
+	 * @param criterio Funci√≥n que define el criterio de ordenamiento
 	 */
 	template<typename T>
 	static void burbuja(std::vector<T*>& vec, std::function<bool(const T*, const T*)> criterio) {
@@ -124,7 +124,7 @@ public:
 	 * @tparam Nodo Tipo del nodo en la lista enlazada
 	 * @tparam T Tipo de dato contenido en los nodos
 	 * @param cabeza Puntero al primer nodo de la lista
-	 * @param criterio FunciÛn que define el criterio de ordenamiento
+	 * @param criterio Funci√≥n que define el criterio de ordenamiento
 	 */
 	template<typename Nodo, typename T>
 	static void burbujaLista(Nodo* cabeza, std::function<bool(const T*, const T*)> criterio) {
@@ -169,41 +169,53 @@ public:
 	/**
 	 * @brief Lee el hash almacenado en un archivo
 	 * @param rutaHashArchivo Ruta del archivo que contiene el hash
-	 * @return Hash leÌdo como cadena
+	 * @return Hash le√≠do como cadena
 	 */
 	static std::string leerHashArchivo(const std::string& rutaHashArchivo);
 
 	/**
-	 * @brief Muestra una demostraciÛn did·ctica de ¡rbol B con personas
+	 * @brief Muestra una demostraci√≥n did√°ctica de √Årbol B con personas
 	 * @param cabeza Puntero al primer nodo de personas
 	 */
 	static void PorArbolB(NodoPersona* cabeza);
 
 	/**
-	 * @brief Marca el inicio de una operaciÛn crÌtica de interfaz
+	 * @brief Marca el inicio de una operaci√≥n cr√≠tica de interfaz
 	 *
-	 * Notifica a la marquesina para evitar interferencias durante operaciones crÌticas
+	 * Notifica a la marquesina para evitar interferencias durante operaciones cr√≠ticas
 	 */
 	static void iniciarOperacionCritica();
 
 	/**
-	 * @brief Marca el fin de una operaciÛn crÌtica de interfaz
+	 * @brief Marca el fin de una operaci√≥n cr√≠tica de interfaz
 	 */
 	static void finalizarOperacionCritica();
 
 	/**
 	 * @brief Limpia la pantalla preservando la marquesina superior
-	 * @param lineasMarquesina N˙mero de lÌneas que ocupa la marquesina (por defecto 2)
+	 * @param lineasMarquesina N√∫mero de l√≠neas que ocupa la marquesina (por defecto 2)
 	 */
 	static void limpiarPantallaPreservandoMarquesina(int lineasMarquesina = 2);
 
 	/**
-	 * @brief Genera un archivo PDF con cÛdigo QR
+	 * @brief Genera un archivo PDF con c√≥digo QR
 	 * @param persona Referencia a un objeto Persona
-	 * @param numeroCuenta N˙mero de cuenta asociada
-	 * @return true si se generÛ correctamente, false en caso contrario
+	 * @param numeroCuenta N√∫mero de cuenta asociada
+	 * @return true si se gener√≥ correctamente, false en caso contrario
 	 */
 	static bool generarQR(const Persona& persona, const std::string& numeroCuenta);
+
+
+	/**
+	 * @brief Oculta el cursor de la consola
+	 */
+	static void ocultarCursor();
+
+	/**
+	 * @brief Muestra el cursor de la consola
+	 */
+	static void mostrarCursor();
+
 };
 
 #endif // UTILIDADES_H
