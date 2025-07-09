@@ -1909,7 +1909,7 @@ void Banco::subMenuCuentasBancarias()
 				std::cout << "El monto debe ser mayor a cero.\n";
 			}
 			else {
-				int montoEnCentavos = static_cast<int>(monto * 100);
+				int montoEnCentavos = static_cast<int>(monto);
 				if (cuentaAhorros != nullptr) {
 					cuentaAhorros->depositar(montoEnCentavos);
 					std::cout << "Deposito realizado con exito.\n";
