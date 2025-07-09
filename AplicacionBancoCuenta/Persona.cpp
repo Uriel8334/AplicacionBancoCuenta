@@ -539,6 +539,7 @@ std::string Persona::ingresarCorreo(std::string& correo) const
         bool eligiendo = false;
         int seleccion = 0;
         bool correoCompleto = false;
+        bool dominioElegido = false; // NUEVO: bandera para saber si ya se eligió dominio
 
         HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -585,7 +586,27 @@ std::string Persona::ingresarCorreo(std::string& correo) const
                     correoBase += dominios[seleccion];
                     std::cout << dominios[seleccion];
                     eligiendo = false;
+                    dominioElegido = true; // NUEVO: ya no se puede escribir más
                 }
+            } else if (dominioElegido) {
+                // Solo permitir ENTER para finalizar o BACKSPACE para borrar el dominio
+                if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
+                    correoCompleto = true;
+                    std::cout << std::endl;
+                    break;
+                }
+                if (c == 8 && !correoBase.empty()) {
+                    // Permitir borrar solo si el usuario borra parte del dominio
+                    // Si borra hasta el '@', permitir volver a escribir
+                    std::cout << "\b \b";
+                    if (!correoBase.empty()) {
+                        if (correoBase.back() == '@') {
+                            dominioElegido = false;
+                        }
+                        correoBase.pop_back();
+                    }
+                }
+                // Ignorar cualquier otra tecla
             } else {
                 if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
                     // Segundo enter: finalizar correo
@@ -596,7 +617,6 @@ std::string Persona::ingresarCorreo(std::string& correo) const
                 // Permitir backspace antes de elegir dominio
                 if (c == 8 && !correoBase.empty()) {
                     if (correoBase.back() == '@') {
-                        // Si borra el arroba, limpiar opciones si estaban
                         if (eligiendo) {
                             limpiarOpciones(x, y);
                             eligiendo = false;
@@ -642,7 +662,7 @@ std::string Persona::ingresarCorreo(std::string& correo) const
         }
     } while (true);
 
-	return correo; // Retorna el correo ingresado
+    return correo;
 }
 
 /**
@@ -1035,7 +1055,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		if (PersonaUI::seleccionarSiNo("\n\nDesea ingresar un monto inicial? (maximo 15000.00 USD)"))
 		{ // Si desea ingresar un monto inicial 
 			do {
-				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "Ingrese el monto inicial (maximo 15000.00 USD): ");
+				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\n\nIngrese el monto inicial (maximo 15000.00 USD): ");
 			} while (montoInicial < 0 || montoInicial > 15000.00);
 			nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		}
@@ -1106,7 +1126,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
-			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "Ingrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
+			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\n\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
