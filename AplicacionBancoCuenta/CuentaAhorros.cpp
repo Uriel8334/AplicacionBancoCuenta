@@ -97,7 +97,7 @@ std::string CuentaAhorros::formatearSaldo() const {
  */
 std::string CuentaAhorros::formatearConComas(double saldo) const {
 	// Convertir de centavos a valor decimal
-	double valorReal = saldo / 100.0;
+	double valorReal = saldo;
 	std::ostringstream oss;
 	oss.imbue(std::locale("en_US.UTF-8")); // Usar formato americano: 1,234.56
 	oss << std::fixed << std::setprecision(2) << valorReal;
