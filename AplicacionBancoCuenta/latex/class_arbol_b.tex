@@ -2,38 +2,46 @@
 \hypertarget{class_arbol_b}{}\label{class_arbol_b}\index{ArbolB$<$ T $>$@{ArbolB$<$ T $>$}}
 
 
-Implementacion didactica de un arbol B para propositos educativos.  
+Implementación didáctica de un Árbol B para propósitos educativos.  
 
 
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_arbol_b_ae203b17a0b5332113565e2ab8ababfbe}{ArbolB}} (int \+\_\+grado)
-\begin{DoxyCompactList}\small\item\em Constructor del arbol B. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Constructor del Árbol B. \end{DoxyCompactList}\item 
 \Hypertarget{class_arbol_b_a729878adfe639ec9b5de70c9daf95a9b}\label{class_arbol_b_a729878adfe639ec9b5de70c9daf95a9b} 
 {\bfseries \texorpdfstring{$\sim$}{\string~}\+ArbolB} ()
 \begin{DoxyCompactList}\small\item\em Destructor, libera la memoria de todos los nodos. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_arbol_b_aa26b806a284a64df4c9138ca72fc01c5}{construir\+Desde\+Vector}} (std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&elementos)
-\begin{DoxyCompactList}\small\item\em Construye el arbol a partir de un vector de elementos. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Construye el árbol a partir de un vector de elementos, eliminando duplicados. \end{DoxyCompactList}\item 
 T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_arbol_b_a933feb75191cee134a77e4e3ed04a98c}{buscar}} (const std\+::string \&valor, std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const std\+::string \&)$>$ comparador)
-\begin{DoxyCompactList}\small\item\em Busca un elemento en el arbol. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Busca un elemento en el árbol. \end{DoxyCompactList}\item 
 \Hypertarget{class_arbol_b_ae86c2da2baaba8051312b2ec6d685543}\label{class_arbol_b_ae86c2da2baaba8051312b2ec6d685543} 
 void {\bfseries mostrar} ()
-\begin{DoxyCompactList}\small\item\em Muestra la estructura del arbol por niveles. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Muestra la estructura del árbol por niveles. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{class_arbol_b_ab9e227051ae81dcbcff768660f7a29a3}{altura}} () const
-\begin{DoxyCompactList}\small\item\em Calcula la altura aproximada del arbol. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Calcula la altura aproximada del árbol. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_arbol_b_a06e404b9ca7923f9b89f76528acb28af}{esta\+Vacio}} () const
+\begin{DoxyCompactList}\small\item\em Verifica si el árbol está vacío. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arbol_b_a7ac9c57cb6ca3c29c7cfc7ebe26c29ab}{mostrar\+Animado}} (const std\+::string \&elemento\+Resaltado, int color\+Resaltado, bool animado, int sel\+Criterio)
+\begin{DoxyCompactList}\small\item\em Muestra el árbol con animación y conexiones gráficas entre nodos con soporte Unicode. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_arbol_b_adbe32b7b996e5813a2b4f173ee56d1f5}{eliminar}} (const std\+::string \&valor, std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const std\+::string \&)$>$ comparador)
+\begin{DoxyCompactList}\small\item\em Elimina un elemento del árbol. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arbol_b_ab6229cb59d856a5edc5acf8ad7174d61}{recolectar\+Elementos}} (\mbox{\hyperlink{class_nodo_arbol_b}{Nodo\+ArbolB}}$<$ T $>$ \texorpdfstring{$\ast$}{*}nodo, std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&elementos)
+\begin{DoxyCompactList}\small\item\em Recolecta todos los elementos del árbol en un vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 \subsubsection*{template$<$typename T$>$\newline
 class Arbol\+B$<$ T $>$}
-Implementacion didactica de un arbol B para propositos educativos. 
+Implementación didáctica de un Árbol B para propósitos educativos. 
 
-Esta clase implementa una version simplificada de un arbol B para ilustrar sus principios basicos de funcionamiento. Permite buscar elementos y visualizar la estructura del arbol.
+Esta clase implementa una versión simplificada de un Árbol B para ilustrar sus principios básicos de funcionamiento. Permite buscar elementos y visualizar la estructura del árbol.
 
 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em T} & Tipo de datos almacenados en el arbol \\
+{\em T} & Tipo de datos almacenados en el árbol \\
 \hline
 \end{DoxyTemplParams}
 
@@ -50,11 +58,11 @@ template$<$typename T$>$ \\
 
 
 
-Constructor del arbol B. 
+Constructor del Árbol B. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em \+\_\+grado} & Grado minimo del arbol (determina el numero de claves por nodo) \\
+{\em \+\_\+grado} & Grado mínimo del árbol (determina el número de claves por nodo) \\
 \hline
 \end{DoxyParams}
 
@@ -71,10 +79,10 @@ int \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+::altura (\begin{DoxyPara
 
 
 
-Calcula la altura aproximada del arbol. 
+Calcula la altura aproximada del árbol. 
 
 \begin{DoxyReturn}{Returns}
-int Altura aproximada del arbol 
+int Altura aproximada del árbol 
 \end{DoxyReturn}
 \Hypertarget{class_arbol_b_a933feb75191cee134a77e4e3ed04a98c}\index{ArbolB$<$ T $>$@{ArbolB$<$ T $>$}!buscar@{buscar}}
 \index{buscar@{buscar}!ArbolB$<$ T $>$@{ArbolB$<$ T $>$}}
@@ -85,13 +93,13 @@ T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+
 
 
 
-Busca un elemento en el arbol. 
+Busca un elemento en el árbol. 
 
 
 \begin{DoxyParams}{Parameters}
 {\em valor} & Valor a buscar \\
 \hline
-{\em comparador} & Funcion para comparar elementos \\
+{\em comparador} & Función para comparar elementos \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -106,11 +114,86 @@ void \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+::construir\+Desde\+Vect
 
 
 
-Construye el arbol a partir de un vector de elementos. 
+Construye el árbol a partir de un vector de elementos, eliminando duplicados. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em elementos} & Vector de punteros a los elementos para construir el arbol \\
+{\em elementos} & Vector de punteros a los elementos para construir el árbol \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_arbol_b_adbe32b7b996e5813a2b4f173ee56d1f5}\index{ArbolB$<$ T $>$@{ArbolB$<$ T $>$}!eliminar@{eliminar}}
+\index{eliminar@{eliminar}!ArbolB$<$ T $>$@{ArbolB$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{eliminar()}{eliminar()}}
+{\footnotesize\ttfamily \label{class_arbol_b_adbe32b7b996e5813a2b4f173ee56d1f5} 
+template$<$typename T$>$ \\
+bool \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+::eliminar (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{valor}{, }\item[{std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const std\+::string \&)$>$}]{comparador}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Elimina un elemento del árbol. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em valor} & Valor a buscar para eliminar \\
+\hline
+{\em comparador} & Función para comparar elementos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se eliminó correctamente, false si no se encontró o hubo error 
+\end{DoxyReturn}
+\Hypertarget{class_arbol_b_a06e404b9ca7923f9b89f76528acb28af}\index{ArbolB$<$ T $>$@{ArbolB$<$ T $>$}!estaVacio@{estaVacio}}
+\index{estaVacio@{estaVacio}!ArbolB$<$ T $>$@{ArbolB$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{estaVacio()}{estaVacio()}}
+{\footnotesize\ttfamily \label{class_arbol_b_a06e404b9ca7923f9b89f76528acb28af} 
+template$<$typename T$>$ \\
+bool \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+::esta\+Vacio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Verifica si el árbol está vacío. 
+
+\begin{DoxyReturn}{Returns}
+true si el árbol no tiene nodos, false en caso contrario 
+\end{DoxyReturn}
+\Hypertarget{class_arbol_b_a7ac9c57cb6ca3c29c7cfc7ebe26c29ab}\index{ArbolB$<$ T $>$@{ArbolB$<$ T $>$}!mostrarAnimado@{mostrarAnimado}}
+\index{mostrarAnimado@{mostrarAnimado}!ArbolB$<$ T $>$@{ArbolB$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{mostrarAnimado()}{mostrarAnimado()}}
+{\footnotesize\ttfamily \label{class_arbol_b_a7ac9c57cb6ca3c29c7cfc7ebe26c29ab} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+::mostrar\+Animado (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{elemento\+Resaltado}{, }\item[{int}]{color\+Resaltado}{, }\item[{bool}]{animado}{, }\item[{int}]{sel\+Criterio}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Muestra el árbol con animación y conexiones gráficas entre nodos con soporte Unicode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em elemento\+Resaltado} & Valor a resaltar en el árbol \\
+\hline
+{\em color\+Resaltado} & Color a usar para el resaltado \\
+\hline
+{\em animado} & Si true, muestra la búsqueda de forma animada \\
+\hline
+{\em sel\+Criterio} & Criterio de selección para mostrar el valor adecuado (0=Cédula, 1=Nombre, etc.) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_arbol_b_ab6229cb59d856a5edc5acf8ad7174d61}\index{ArbolB$<$ T $>$@{ArbolB$<$ T $>$}!recolectarElementos@{recolectarElementos}}
+\index{recolectarElementos@{recolectarElementos}!ArbolB$<$ T $>$@{ArbolB$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{recolectarElementos()}{recolectarElementos()}}
+{\footnotesize\ttfamily \label{class_arbol_b_ab6229cb59d856a5edc5acf8ad7174d61} 
+template$<$typename T$>$ \\
+void \mbox{\hyperlink{class_arbol_b}{ArbolB}}$<$ T $>$\+::recolectar\+Elementos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_nodo_arbol_b}{Nodo\+ArbolB}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{nodo}{, }\item[{std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&}]{elementos}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Recolecta todos los elementos del árbol en un vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nodo} & Nodo actual en la recursión \\
+\hline
+{\em elementos} & Vector donde se almacenarán los elementos \\
 \hline
 \end{DoxyParams}
 

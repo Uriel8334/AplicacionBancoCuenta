@@ -9,11 +9,13 @@ var searchData=
   ['marcaroperacioncritica_6',['marcarOperacionCritica',['../class_marquesina.html#a4d1b8d42abcf0a8dea37049c159446d6',1,'Marquesina']]],
   ['marquesina_7',['Marquesina',['../class_marquesina.html#a81c06f5292b77d7bd169a9e38bf653ca',1,'Marquesina']]],
   ['mostrar_8',['mostrar',['../class_arbol_b.html#ae86c2da2baaba8051312b2ec6d685543',1,'ArbolB']]],
-  ['mostrarcuentas_9',['mostrarCuentas',['../class_persona.html#a5f6a06db57218e4ae997d407672eb643',1,'Persona']]],
-  ['mostrardatos_10',['mostrarDatos',['../class_persona.html#abf0efe995e0f80dbead58b5dcdf73f2a',1,'Persona']]],
-  ['mostrarinformacion_11',['mostrarInformacion',['../class_cuenta.html#af06abcd44cbfe8699d0982cea72f3379',1,'Cuenta::mostrarInformacion()'],['../class_cuenta_ahorros.html#ac28d227b5af607eb36944ed868b5c237',1,'CuentaAhorros::mostrarInformacion()'],['../class_cuenta_corriente.html#a5fb6b2ecb94671099052b2c8e1a015bd',1,'CuentaCorriente::mostrarInformacion()']]],
-  ['mostrarmenuayuda_12',['mostrarMenuAyuda',['../class_utilidades.html#a83942d8a012ca32316e31bfe9f9d4206',1,'Utilidades']]],
-  ['mostrarmenuordenar_13',['mostrarMenuOrdenar',['../_utilidades_8cpp.html#aad2f4998579152e8f6973565a216c293',1,'Utilidades.cpp']]],
-  ['mostrarrutaarchivo_14',['mostrarRutaArchivo',['../class_marquesina.html#a35d47b3670a39652ab61ee262340ee2a',1,'Marquesina']]],
-  ['msgingresodatos_15',['msgIngresoDatos',['../class_persona.html#a680a8c4822a467dde229e6b195c9601b',1,'Persona']]]
+  ['mostraranimado_9',['mostrarAnimado',['../class_arbol_b.html#a7ac9c57cb6ca3c29c7cfc7ebe26c29ab',1,'ArbolB']]],
+  ['mostrarcuentas_10',['mostrarCuentas',['../class_persona.html#a5f6a06db57218e4ae997d407672eb643',1,'Persona']]],
+  ['mostrarcursor_11',['mostrarCursor',['../class_utilidades.html#abbbf314f23c4f92559e1dafb035597fd',1,'Utilidades']]],
+  ['mostrardatos_12',['mostrarDatos',['../class_persona.html#abf0efe995e0f80dbead58b5dcdf73f2a',1,'Persona']]],
+  ['mostrarinformacion_13',['mostrarInformacion',['../class_cuenta.html#af06abcd44cbfe8699d0982cea72f3379',1,'Cuenta::mostrarInformacion()'],['../class_cuenta_ahorros.html#ac28d227b5af607eb36944ed868b5c237',1,'CuentaAhorros::mostrarInformacion()'],['../class_cuenta_corriente.html#a5fb6b2ecb94671099052b2c8e1a015bd',1,'CuentaCorriente::mostrarInformacion()']]],
+  ['mostrarmenuayuda_14',['mostrarMenuAyuda',['../class_utilidades.html#a83942d8a012ca32316e31bfe9f9d4206',1,'Utilidades']]],
+  ['mostrarmenuordenar_15',['mostrarMenuOrdenar',['../_utilidades_8cpp.html#aad2f4998579152e8f6973565a216c293',1,'Utilidades.cpp']]],
+  ['mostrarrutaarchivo_16',['mostrarRutaArchivo',['../class_marquesina.html#a35d47b3670a39652ab61ee262340ee2a',1,'Marquesina']]],
+  ['msgingresodatos_17',['msgIngresoDatos',['../class_persona.html#a680a8c4822a467dde229e6b195c9601b',1,'Persona']]]
 ];

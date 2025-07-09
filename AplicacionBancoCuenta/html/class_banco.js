@@ -4,6 +4,7 @@ var class_banco =
     [ "~Banco", "class_banco.html#af69f9b0da3521d7c1e422f21dfd5829e", null ],
     [ "agregarPersonaConCuenta", "class_banco.html#a72497b696331bb5df5c7d4734cae41b7", null ],
     [ "buscarCuenta", "class_banco.html#a9dd7a2f74fd5c9179ffaa33a3b3c75a1", null ],
+    [ "buscarCuentaParaOperacion", "class_banco.html#a67dc7c024b4289d2615d0efdc9015b68", null ],
     [ "buscarCuentasPorCriterio", "class_banco.html#a29df9b04dd7b719fd2086494c6202c58", null ],
     [ "buscarCuentasPorFecha", "class_banco.html#a7636e7e9160ca14b4b0adf7605f2427a", null ],
     [ "cargarCuentasDesdeArchivo", "class_banco.html#a859a084ce5a7bcff65fac6a6e1c719eb", null ],
@@ -13,5 +14,7 @@ var class_banco =
     [ "guardarCuentasEnArchivo", "class_banco.html#aad55fc5aa091bbb607c42ac062f6a066", null ],
     [ "obtenerRutaEscritorio", "class_banco.html#abf60550bd5ca8ece0384da264db14d19", null ],
     [ "realizarTransferencia", "class_banco.html#a7539fce5aa3e6de401be5f23614544e6", null ],
-    [ "setListaPersonas", "class_banco.html#a2b7764295c3f7e880da1e26b8976d25e", null ]
+    [ "setListaPersonas", "class_banco.html#a2b7764295c3f7e880da1e26b8976d25e", null ],
+    [ "subMenuCuentasBancarias", "class_banco.html#a629959901fdaa75b0fdcf2dbeb5726d5", null ],
+    [ "verificarCuentasBanco", "class_banco.html#a2b270ea729a0a990977c5a2fc0129f1d", null ]
 ];

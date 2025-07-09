@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['la_20clase_0',['Uso de la Clase',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md14',1,'']]],
-  ['la_20versi贸n_20anterior_1',['Diferencias con la Versi贸n Anterior',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md23',1,'']]],
-  ['lectores_20m贸viles_2',['Lectores M贸viles',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md57',1,'']]],
-  ['licencia_3',['Licencia',['../index.html#license_sec',1,'']]]
+  ['m茅todos_20principales_0',['2. M茅todos Principales',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md4',1,'']]],
+  ['m贸vil_1',['Compatibilidad M贸vil',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md19',1,'']]],
+  ['m骴ulos_20principales_2',['M骴ulos Principales',['../index.html#modules_sec',1,'']]],
+  ['mejoras_20implementadas_3',['Mejoras Implementadas',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md24',1,'']]]
 ];

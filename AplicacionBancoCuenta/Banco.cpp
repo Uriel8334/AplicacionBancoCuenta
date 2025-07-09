@@ -16,6 +16,7 @@
 #include "Utilidades.h"
 #include "NodoPersona.h"
 #include <iomanip>
+#include <map>
 
  /**
   * @brief Constructor por defecto de la clase Banco
@@ -560,6 +561,223 @@ void Banco::guardarCuentasEnArchivo() {
 	archivo << "FIN_BACKUP\n";
 	archivo.close();
 	std::cout << "Respaldo guardado correctamente en " << rutaCompleta << "\n";
+}
+
+/**
+ * @brief Convierte un archivo de respaldo .bak a formato PDF
+ *
+ * Este método lee un archivo de respaldo previamente generado, crea un
+ * archivo HTML con formato mejorado y lo convierte a PDF usando wkhtmltopdf.
+ *
+ * @param nombreArchivo Nombre del archivo de respaldo (sin extensión)
+ * @return bool true si la conversión fue exitosa, false en caso contrario
+ */
+bool Banco::archivoGuardadoHaciaPDF(const std::string& nombreArchivo) {
+	std::string rutaEscritorio = obtenerRutaEscritorio();
+	std::string rutaBak = rutaEscritorio + nombreArchivo + ".bak";
+	std::string rutaHtml = rutaEscritorio + nombreArchivo + "_temp.html";
+	std::string rutaPdf = rutaEscritorio + nombreArchivo + ".pdf";
+
+	// Verificar si existe el archivo de respaldo
+	std::ifstream archivoEntrada(rutaBak);
+	if (!archivoEntrada.is_open()) {
+		std::cout << "No se pudo abrir el archivo de respaldo: " << rutaBak << std::endl;
+		return false;
+	}
+
+	// Crear archivo HTML temporal con estilo
+	std::ofstream archivoHtml(rutaHtml);
+	if (!archivoHtml.is_open()) {
+		std::cout << "No se pudo crear el archivo HTML temporal" << std::endl;
+		archivoEntrada.close();
+		return false;
+	}
+
+	// Escribir encabezado HTML con estilos CSS
+	archivoHtml << "<!DOCTYPE html>\n";
+	archivoHtml << "<html>\n<head>\n";
+	archivoHtml << "<meta charset=\"UTF-8\">\n";
+	archivoHtml << "<title>Informe de Cuentas Bancarias</title>\n";
+	archivoHtml << "<style>\n";
+	archivoHtml << "body { font-family: Arial, sans-serif; margin: 20px; }\n";
+	archivoHtml << "h1, h2 { color: #003366; }\n";
+	archivoHtml << "h1 { text-align: center; border-bottom: 2px solid #003366; padding-bottom: 10px; }\n";
+	archivoHtml << "h2 { margin-top: 20px; border-bottom: 1px solid #ccc; }\n";
+	archivoHtml << ".persona { background-color: #f9f9f9; border: 1px solid #ddd; margin: 15px 0; padding: 10px; border-radius: 5px; }\n";
+	archivoHtml << ".cuenta { background-color: #eef6ff; margin: 10px 0; padding: 8px; border-left: 4px solid #003366; }\n";
+	archivoHtml << ".cuenta-ahorro { border-left-color: #007700; }\n";
+	archivoHtml << ".cuenta-corriente { border-left-color: #770000; }\n";
+	archivoHtml << ".label { font-weight: bold; color: #555; min-width: 150px; display: inline-block; }\n";
+	archivoHtml << ".total { font-weight: bold; margin-top: 20px; color: #003366; }\n";
+	archivoHtml << "footer { text-align: center; margin-top: 30px; font-size: 0.8em; color: #777; }\n";
+	archivoHtml << "</style>\n</head>\n<body>\n";
+
+	// Añadir encabezado del informe
+	Fecha fechaActual;
+	archivoHtml << "<h1>Informe de Cuentas Bancarias</h1>\n";
+	archivoHtml << "<p style='text-align: center;'>Generado el " << fechaActual.obtenerFechaFormateada() << "</p>\n";
+
+	// Variables para leer y procesar el archivo
+	std::string linea;
+	bool enPersona = false;
+	bool enCuentasAhorro = false;
+	bool enCuentasCorriente = false;
+	bool enCuentaAhorro = false;
+	bool enCuentaCorriente = false;
+	int contadorPersonas = 0;
+	int totalCuentasAhorro = 0;
+	int totalCuentasCorriente = 0;
+
+	// Leer la primera línea que debería ser la versión del archivo
+	std::getline(archivoEntrada, linea);
+	if (linea != "BANCO_BACKUP_V1.0") {
+		archivoHtml << "<p style='color: red;'>Formato de archivo inválido.</p>\n";
+		archivoHtml << "</body>\n</html>";
+		archivoHtml.close();
+		archivoEntrada.close();
+		return false;
+	}
+
+	// Leer y procesar el resto del archivo
+	std::map<std::string, std::string> datosPersona;
+
+	while (std::getline(archivoEntrada, linea)) {
+		// Procesamiento de secciones principales
+		if (linea == "===PERSONA_INICIO===") {
+			enPersona = true;
+			datosPersona.clear();
+			continue;
+		}
+		else if (linea == "===PERSONA_FIN===") {
+			if (enPersona) {
+				// Escribir los datos de la persona en el HTML
+				archivoHtml << "<div class='persona'>\n";
+				archivoHtml << "  <h2>Cliente: " << datosPersona["NOMBRES"] << " " << datosPersona["APELLIDOS"] << "</h2>\n";
+				archivoHtml << "  <p><span class='label'>Cédula:</span> " << datosPersona["CEDULA"] << "</p>\n";
+				archivoHtml << "  <p><span class='label'>Fecha Nacimiento:</span> " << datosPersona["FECHA_NACIMIENTO"] << "</p>\n";
+				archivoHtml << "  <p><span class='label'>Correo:</span> " << datosPersona["CORREO"] << "</p>\n";
+				archivoHtml << "  <p><span class='label'>Dirección:</span> " << datosPersona["DIRECCION"] << "</p>\n";
+				archivoHtml << "</div>\n";
+
+				contadorPersonas++;
+			}
+			enPersona = false;
+			continue;
+		}
+		else if (linea == "===CUENTAS_AHORRO_INICIO===") {
+			enCuentasAhorro = true;
+			archivoHtml << "<h3>Cuentas de Ahorro</h3>\n";
+			continue;
+		}
+		else if (linea == "===CUENTAS_AHORRO_FIN===") {
+			enCuentasAhorro = false;
+			continue;
+		}
+		else if (linea == "===CUENTAS_CORRIENTE_INICIO===") {
+			enCuentasCorriente = true;
+			archivoHtml << "<h3>Cuentas Corrientes</h3>\n";
+			continue;
+		}
+		else if (linea == "===CUENTAS_CORRIENTE_FIN===") {
+			enCuentasCorriente = false;
+			continue;
+		}
+		else if (linea == "CUENTA_AHORROS_INICIO") {
+			enCuentaAhorro = true;
+			archivoHtml << "<div class='cuenta cuenta-ahorro'>\n";
+			continue;
+		}
+		else if (linea == "CUENTA_AHORROS_FIN") {
+			archivoHtml << "</div>\n";
+			enCuentaAhorro = false;
+			totalCuentasAhorro++;
+			continue;
+		}
+		else if (linea == "CUENTA_CORRIENTE_INICIO") {
+			enCuentaCorriente = true;
+			archivoHtml << "<div class='cuenta cuenta-corriente'>\n";
+			continue;
+		}
+		else if (linea == "CUENTA_CORRIENTE_FIN") {
+			archivoHtml << "</div>\n";
+			enCuentaCorriente = false;
+			totalCuentasCorriente++;
+			continue;
+		}
+		else if (linea.substr(0, 14) == "TOTAL_PERSONAS:") {
+			archivoHtml << "<div class='total'>Total de Clientes: " << contadorPersonas << "</div>\n";
+			continue;
+		}
+		else if (linea.substr(0, 21) == "TOTAL_CUENTAS_AHORRO:") {
+			archivoHtml << "<div class='total'>Total de Cuentas de Ahorro: " << linea.substr(21) << "</div>\n";
+			continue;
+		}
+		else if (linea.substr(0, 24) == "TOTAL_CUENTAS_CORRIENTE:") {
+			archivoHtml << "<div class='total'>Total de Cuentas Corrientes: " << linea.substr(24) << "</div>\n";
+			continue;
+		}
+		else if (linea == "FIN_BACKUP") {
+			break;
+		}
+
+		// Procesar datos individuales
+		if (enPersona) {
+			size_t pos = linea.find(':');
+			if (pos != std::string::npos) {
+				std::string clave = linea.substr(0, pos);
+				std::string valor = linea.substr(pos + 1);
+				datosPersona[clave] = valor;
+			}
+		}
+
+		// Procesar detalles de cuentas
+		if (enCuentaAhorro || enCuentaCorriente) {
+			size_t pos = linea.find(':');
+			if (pos != std::string::npos) {
+				std::string clave = linea.substr(0, pos);
+				std::string valor = linea.substr(pos + 1);
+
+				if (clave == "NUMERO_CUENTA") {
+					archivoHtml << "  <p><span class='label'>Número de Cuenta:</span> " << valor << "</p>\n";
+				}
+				else if (clave == "SALDO") {
+					double saldo = std::stod(valor);
+					archivoHtml << "  <p><span class='label'>Saldo:</span> $" << std::fixed << std::setprecision(2) << saldo << "</p>\n";
+				}
+				else if (clave == "FECHA_APERTURA") {
+					archivoHtml << "  <p><span class='label'>Fecha de Apertura:</span> " << valor << "</p>\n";
+				}
+				else if (clave == "ESTADO") {
+					archivoHtml << "  <p><span class='label'>Estado:</span> " << valor << "</p>\n";
+				}
+			}
+		}
+	}
+
+	// Cerrar archivo HTML
+	archivoHtml << "<footer>Este documento fue generado automáticamente por el sistema bancario.</footer>\n";
+	archivoHtml << "</body>\n</html>";
+	archivoHtml.close();
+	archivoEntrada.close();
+
+	// Convertir HTML a PDF usando wkhtmltopdf
+	std::string comando = "wkhtmltopdf \"" + rutaHtml + "\" \"" + rutaPdf + "\"";
+	int resultado = system(comando.c_str());
+
+	if (resultado != 0) {
+		std::cout << "Error al convertir a PDF. Asegúrese de que wkhtmltopdf esté instalado." << std::endl;
+		std::cout << "Puede descargar wkhtmltopdf desde: https://wkhtmltopdf.org/downloads.html" << std::endl;
+		std::cout << "Se ha generado un archivo HTML en: " << rutaHtml << std::endl;
+		return false;
+	}
+
+	// Eliminar archivo HTML temporal
+	if (remove(rutaHtml.c_str()) != 0) {
+		std::cout << "Advertencia: No se pudo eliminar el archivo HTML temporal." << std::endl;
+	}
+
+	std::cout << "PDF generado correctamente: " << rutaPdf << std::endl;
+	return true;
 }
 
 /**

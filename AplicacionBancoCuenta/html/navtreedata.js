@@ -25,10 +25,10 @@
 var NAVTREE =
 [
   [ "My Project", "index.html", [
-    [ "Sistema de Gestion Bancaria", "index.html", "index" ],
+    [ "Sistema de Gesti�n Bancaria", "index.html", "index" ],
     [ "Clases Principales", "clases.html", null ],
     [ "Estructuras de Datos", "estructuras.html", null ],
-    [ "Tecnologias Utilizadas", "tecnologias.html", null ],
+    [ "Tecnolog�as Utilizadas", "tecnologias.html", null ],
     [ "Documentación: GeneradorQRBanco Optimizado", "md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html", [
       [ "Resumen", "md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md1", null ],
       [ "Características Principales", "md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md2", [
@@ -68,53 +68,6 @@ var NAVTREE =
       ] ],
       [ "Conclusión", "md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md29", null ]
     ] ],
-    [ "GeneradorQRBanco - Guía de Referencia Rápida", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html", [
-      [ "Descripción", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md31", null ],
-      [ "Especificaciones Técnicas", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md32", null ],
-      [ "Métodos Principales", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md33", [
-        [ "Constructores", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md34", null ],
-        [ "Métodos de Generación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md35", null ],
-        [ "Métodos de Validación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md36", null ],
-        [ "Métodos de Exportación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md37", null ]
-      ] ],
-      [ "Uso Básico", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md38", [
-        [ "Ejemplo Simple", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md39", null ],
-        [ "Validación de Datos", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md40", null ]
-      ] ],
-      [ "Formato de Datos del QR", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md41", [
-        [ "Estructura del Contenido", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md42", null ],
-        [ "Ejemplo de Salida", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md43", null ]
-      ] ],
-      [ "Validaciones Implementadas", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md44", [
-        [ "Nombre", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md45", null ],
-        [ "Número de Cuenta", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md46", null ]
-      ] ],
-      [ "Archivos Generados", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md47", [
-        [ "Archivo de Información (*.txt)", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md48", null ],
-        [ "Archivo SVG (*.svg)", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md49", null ]
-      ] ],
-      [ "Salida en Consola", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md50", [
-        [ "Ejemplo de Visualización", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md51", null ]
-      ] ],
-      [ "Métodos Internos (Privados)", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md52", [
-        [ "Codificación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md53", null ],
-        [ "Patrones Estructurales", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md54", null ],
-        [ "Enmascaramiento", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md55", null ]
-      ] ],
-      [ "Compatibilidad", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md56", [
-        [ "Lectores Móviles", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md57", null ],
-        [ "Estándares Soportados", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md58", null ]
-      ] ],
-      [ "Compilación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md59", [
-        [ "Comandos de Compilación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md60", null ],
-        [ "Dependencias", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md61", null ]
-      ] ],
-      [ "Notas Importantes", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md62", null ],
-      [ "Resolución de Problemas", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md63", [
-        [ "Errores Comunes", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md64", null ],
-        [ "Verificación", "md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md65", null ]
-      ] ]
-    ] ],
     [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -148,7 +101,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___cdocs_main_8h.html",
-"class_nodo_persona.html#a27b7961f9c84944e23ec7e39e8a0d4be"
+"class_nodo_arbol_b.html#a3756b7a43249b6e7dddfb27dadd14e65"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

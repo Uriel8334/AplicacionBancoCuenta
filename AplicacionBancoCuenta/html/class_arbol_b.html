@@ -92,33 +92,41 @@ $(function(){initNavTree('class_arbol_b.html','','class_arbol_b-members'); });
 </div><!--header-->
 <div class="contents">
 
-<p>Implementacion didactica de un arbol B para propositos educativos.  
+<p>Implementación didáctica de un Árbol B para propósitos educativos.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae203b17a0b5332113565e2ab8ababfbe" id="r_ae203b17a0b5332113565e2ab8ababfbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae203b17a0b5332113565e2ab8ababfbe">ArbolB</a> (int _grado)</td></tr>
-<tr class="memdesc:ae203b17a0b5332113565e2ab8ababfbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor del arbol B.  <br /></td></tr>
+<tr class="memdesc:ae203b17a0b5332113565e2ab8ababfbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor del Árbol B.  <br /></td></tr>
 <tr class="memitem:a729878adfe639ec9b5de70c9daf95a9b" id="r_a729878adfe639ec9b5de70c9daf95a9b"><td class="memItemLeft" align="right" valign="top"><a id="a729878adfe639ec9b5de70c9daf95a9b" name="a729878adfe639ec9b5de70c9daf95a9b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>~ArbolB</b> ()</td></tr>
 <tr class="memdesc:a729878adfe639ec9b5de70c9daf95a9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor, libera la memoria de todos los nodos. <br /></td></tr>
 <tr class="memitem:aa26b806a284a64df4c9138ca72fc01c5" id="r_aa26b806a284a64df4c9138ca72fc01c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa26b806a284a64df4c9138ca72fc01c5">construirDesdeVector</a> (std::vector&lt; T * &gt; &amp;elementos)</td></tr>
-<tr class="memdesc:aa26b806a284a64df4c9138ca72fc01c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construye el arbol a partir de un vector de elementos.  <br /></td></tr>
+<tr class="memdesc:aa26b806a284a64df4c9138ca72fc01c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construye el árbol a partir de un vector de elementos, eliminando duplicados.  <br /></td></tr>
 <tr class="memitem:a933feb75191cee134a77e4e3ed04a98c" id="r_a933feb75191cee134a77e4e3ed04a98c"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a933feb75191cee134a77e4e3ed04a98c">buscar</a> (const std::string &amp;valor, std::function&lt; bool(const T *, const std::string &amp;)&gt; comparador)</td></tr>
-<tr class="memdesc:a933feb75191cee134a77e4e3ed04a98c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca un elemento en el arbol.  <br /></td></tr>
+<tr class="memdesc:a933feb75191cee134a77e4e3ed04a98c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca un elemento en el árbol.  <br /></td></tr>
 <tr class="memitem:ae86c2da2baaba8051312b2ec6d685543" id="r_ae86c2da2baaba8051312b2ec6d685543"><td class="memItemLeft" align="right" valign="top"><a id="ae86c2da2baaba8051312b2ec6d685543" name="ae86c2da2baaba8051312b2ec6d685543"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>mostrar</b> ()</td></tr>
-<tr class="memdesc:ae86c2da2baaba8051312b2ec6d685543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muestra la estructura del arbol por niveles. <br /></td></tr>
+<tr class="memdesc:ae86c2da2baaba8051312b2ec6d685543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muestra la estructura del árbol por niveles. <br /></td></tr>
 <tr class="memitem:ab9e227051ae81dcbcff768660f7a29a3" id="r_ab9e227051ae81dcbcff768660f7a29a3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9e227051ae81dcbcff768660f7a29a3">altura</a> () const</td></tr>
-<tr class="memdesc:ab9e227051ae81dcbcff768660f7a29a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcula la altura aproximada del arbol.  <br /></td></tr>
+<tr class="memdesc:ab9e227051ae81dcbcff768660f7a29a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcula la altura aproximada del árbol.  <br /></td></tr>
+<tr class="memitem:a06e404b9ca7923f9b89f76528acb28af" id="r_a06e404b9ca7923f9b89f76528acb28af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06e404b9ca7923f9b89f76528acb28af">estaVacio</a> () const</td></tr>
+<tr class="memdesc:a06e404b9ca7923f9b89f76528acb28af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica si el árbol está vacío.  <br /></td></tr>
+<tr class="memitem:a7ac9c57cb6ca3c29c7cfc7ebe26c29ab" id="r_a7ac9c57cb6ca3c29c7cfc7ebe26c29ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ac9c57cb6ca3c29c7cfc7ebe26c29ab">mostrarAnimado</a> (const std::string &amp;elementoResaltado, int colorResaltado, bool animado, int selCriterio)</td></tr>
+<tr class="memdesc:a7ac9c57cb6ca3c29c7cfc7ebe26c29ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Muestra el árbol con animación y conexiones gráficas entre nodos con soporte Unicode.  <br /></td></tr>
+<tr class="memitem:adbe32b7b996e5813a2b4f173ee56d1f5" id="r_adbe32b7b996e5813a2b4f173ee56d1f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adbe32b7b996e5813a2b4f173ee56d1f5">eliminar</a> (const std::string &amp;valor, std::function&lt; bool(const T *, const std::string &amp;)&gt; comparador)</td></tr>
+<tr class="memdesc:adbe32b7b996e5813a2b4f173ee56d1f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Elimina un elemento del árbol.  <br /></td></tr>
+<tr class="memitem:ab6229cb59d856a5edc5acf8ad7174d61" id="r_ab6229cb59d856a5edc5acf8ad7174d61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6229cb59d856a5edc5acf8ad7174d61">recolectarElementos</a> (<a class="el" href="class_nodo_arbol_b.html">NodoArbolB</a>&lt; T &gt; *nodo, std::vector&lt; T * &gt; &amp;elementos)</td></tr>
+<tr class="memdesc:ab6229cb59d856a5edc5acf8ad7174d61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recolecta todos los elementos del árbol en un vector.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class ArbolB&lt; T &gt;</div><p>Implementacion didactica de un arbol B para propositos educativos. </p>
-<p>Esta clase implementa una version simplificada de un arbol B para ilustrar sus principios basicos de funcionamiento. Permite buscar elementos y visualizar la estructura del arbol.</p>
+class ArbolB&lt; T &gt;</div><p>Implementación didáctica de un Árbol B para propósitos educativos. </p>
+<p>Esta clase implementa una versión simplificada de un Árbol B para ilustrar sus principios básicos de funcionamiento. Permite buscar elementos y visualizar la estructura del árbol.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>Tipo de datos almacenados en el arbol </td></tr>
+    <tr><td class="paramname">T</td><td>Tipo de datos almacenados en el árbol </td></tr>
   </table>
   </dd>
 </dl>
@@ -148,10 +156,10 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Constructor del arbol B. </p>
+<p>Constructor del Árbol B. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_grado</td><td>Grado minimo del arbol (determina el numero de claves por nodo) </td></tr>
+    <tr><td class="paramname">_grado</td><td>Grado mínimo del árbol (determina el número de claves por nodo) </td></tr>
   </table>
   </dd>
 </dl>
@@ -184,8 +192,8 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Calcula la altura aproximada del arbol. </p>
-<dl class="section return"><dt>Returns</dt><dd>int Altura aproximada del arbol </dd></dl>
+<p>Calcula la altura aproximada del árbol. </p>
+<dl class="section return"><dt>Returns</dt><dd>int Altura aproximada del árbol </dd></dl>
 
 </div>
 </div>
@@ -218,11 +226,11 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Busca un elemento en el arbol. </p>
+<p>Busca un elemento en el árbol. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">valor</td><td>Valor a buscar </td></tr>
-    <tr><td class="paramname">comparador</td><td>Funcion para comparar elementos </td></tr>
+    <tr><td class="paramname">comparador</td><td>Función para comparar elementos </td></tr>
   </table>
   </dd>
 </dl>
@@ -255,10 +263,173 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Construye el arbol a partir de un vector de elementos. </p>
+<p>Construye el árbol a partir de un vector de elementos, eliminando duplicados. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">elementos</td><td>Vector de punteros a los elementos para construir el arbol </td></tr>
+    <tr><td class="paramname">elementos</td><td>Vector de punteros a los elementos para construir el árbol </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adbe32b7b996e5813a2b4f173ee56d1f5" name="adbe32b7b996e5813a2b4f173ee56d1f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbe32b7b996e5813a2b4f173ee56d1f5">&#9670;&#160;</a></span>eliminar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_arbol_b.html">ArbolB</a>&lt; T &gt;::eliminar </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>valor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; bool(const T *, const std::string &amp;)&gt;</td>          <td class="paramname"><span class="paramname"><em>comparador</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Elimina un elemento del árbol. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">valor</td><td>Valor a buscar para eliminar </td></tr>
+    <tr><td class="paramname">comparador</td><td>Función para comparar elementos </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true si se eliminó correctamente, false si no se encontró o hubo error </dd></dl>
+
+</div>
+</div>
+<a id="a06e404b9ca7923f9b89f76528acb28af" name="a06e404b9ca7923f9b89f76528acb28af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06e404b9ca7923f9b89f76528acb28af">&#9670;&#160;</a></span>estaVacio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_arbol_b.html">ArbolB</a>&lt; T &gt;::estaVacio </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Verifica si el árbol está vacío. </p>
+<dl class="section return"><dt>Returns</dt><dd>true si el árbol no tiene nodos, false en caso contrario </dd></dl>
+
+</div>
+</div>
+<a id="a7ac9c57cb6ca3c29c7cfc7ebe26c29ab" name="a7ac9c57cb6ca3c29c7cfc7ebe26c29ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ac9c57cb6ca3c29c7cfc7ebe26c29ab">&#9670;&#160;</a></span>mostrarAnimado()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_arbol_b.html">ArbolB</a>&lt; T &gt;::mostrarAnimado </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>elementoResaltado</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>colorResaltado</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>animado</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>selCriterio</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Muestra el árbol con animación y conexiones gráficas entre nodos con soporte Unicode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">elementoResaltado</td><td>Valor a resaltar en el árbol </td></tr>
+    <tr><td class="paramname">colorResaltado</td><td>Color a usar para el resaltado </td></tr>
+    <tr><td class="paramname">animado</td><td>Si true, muestra la búsqueda de forma animada </td></tr>
+    <tr><td class="paramname">selCriterio</td><td>Criterio de selección para mostrar el valor adecuado (0=Cédula, 1=Nombre, etc.) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab6229cb59d856a5edc5acf8ad7174d61" name="ab6229cb59d856a5edc5acf8ad7174d61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6229cb59d856a5edc5acf8ad7174d61">&#9670;&#160;</a></span>recolectarElementos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_arbol_b.html">ArbolB</a>&lt; T &gt;::recolectarElementos </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_nodo_arbol_b.html">NodoArbolB</a>&lt; T &gt; *</td>          <td class="paramname"><span class="paramname"><em>nodo</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; T * &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>elementos</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Recolecta todos los elementos del árbol en un vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nodo</td><td>Nodo actual en la recursión </td></tr>
+    <tr><td class="paramname">elementos</td><td>Vector donde se almacenarán los elementos </td></tr>
   </table>
   </dd>
 </dl>

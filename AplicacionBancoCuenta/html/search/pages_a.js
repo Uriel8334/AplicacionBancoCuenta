@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['generación_0',['Métodos de Generación',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md35',1,'']]],
-  ['generadorqrbanco_20guía_20de_20referencia_20rápida_1',['GeneradorQRBanco - Guía de Referencia Rápida',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html',1,'']]],
-  ['generadorqrbanco_20optimizado_2',['Documentación: GeneradorQRBanco Optimizado',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html',1,'']]],
-  ['generados_3',['Generados',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md20',1,'Archivos Generados'],['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md47',1,'Archivos Generados']]],
-  ['generarecc_4',['&lt;span class=&quot;tt&quot;&gt;generarECC()&lt;/span&gt;',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md6',1,'']]],
-  ['gestion_20bancaria_5',['Sistema de Gestion Bancaria',['../index.html',1,'']]],
-  ['gestion_20de_20clientes_6',['Gestion de Clientes',['../index.html#cliente_mod',1,'']]],
-  ['gestion_20de_20cuentas_7',['Gestion de Cuentas',['../index.html#cuentas_mod',1,'']]],
-  ['guía_20de_20referencia_20rápida_8',['GeneradorQRBanco - Guía de Referencia Rápida',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html',1,'']]]
+  ['iec_2018004_0',['1. Cumplimiento del Estándar ISO/IEC 18004',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md3',1,'']]],
+  ['implementadas_1',['Implementadas',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md24',1,'Mejoras Implementadas'],['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md18',1,'Validaciones Implementadas']]],
+  ['imprimirenconsola_2',['&lt;span class=&quot;tt&quot;&gt;imprimirEnConsola()&lt;/span&gt;',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md9',1,'']]],
+  ['información_20de_20cuenta_20_5finfo_20txt_3',['Información de Cuenta (&lt;span class=&quot;tt&quot;&gt;*_info.txt&lt;/span&gt;)',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md21',1,'']]],
+  ['instalaci�n_4',['Requisitos e Instalaci�n',['../index.html#install_sec',1,'']]],
+  ['interfaz_20de_20usuario_5',['Interfaz de Usuario',['../index.html#ui_mod',1,'']]],
+  ['introducci�n_6',['Introducci�n',['../index.html#intro_sec',1,'']]],
+  ['iso_20iec_2018004_7',['1. Cumplimiento del Estándar ISO/IEC 18004',['../md__d_o_c_u_m_e_n_t_a_c_i_o_n___q_r___o_p_t_i_m_i_z_a_d_o.html#autotoc_md3',1,'']]]
 ];

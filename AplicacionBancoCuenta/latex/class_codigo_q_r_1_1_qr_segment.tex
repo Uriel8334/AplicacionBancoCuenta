@@ -2,7 +2,7 @@
 \hypertarget{class_codigo_q_r_1_1_qr_segment}{}\label{class_codigo_q_r_1_1_qr_segment}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}}
 
 
-Representa un segmento de datos en un codigo QR.  
+Representa un segmento de datos en un código QR.  
 
 
 
@@ -13,7 +13,7 @@ Representa un segmento de datos en un codigo QR.
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}}
-\begin{DoxyCompactList}\small\item\em Define los modos de codificacion para segmentos QR. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Define los modos de codificación para segmentos QR. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -24,7 +24,7 @@ class \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}}
 const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}} \& \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a6a616e33ba4165aef8fac3d748ee83e5}{get\+Mode}} () const
 \begin{DoxyCompactList}\small\item\em Obtiene el modo de este segmento. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a34c30b3ba22771ac9b46f36fb4b76541}{get\+Num\+Chars}} () const
-\begin{DoxyCompactList}\small\item\em Obtiene el numero de caracteres. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Obtiene el número de caracteres. \end{DoxyCompactList}\item 
 const std\+::vector$<$ bool $>$ \& \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a8d227b3c16822840e966d911e65a4e84}{get\+Data}} () const
 \begin{DoxyCompactList}\small\item\em Obtiene los datos codificados como bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
@@ -33,25 +33,25 @@ const std\+::vector$<$ bool $>$ \& \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segm
 static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_aaf66398163827f7385cd1a51752d66db}{make\+Bytes}} (const std\+::vector$<$ std\+::uint8\+\_\+t $>$ \&data)
 \begin{DoxyCompactList}\small\item\em Crea un segmento a partir de datos binarios. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a3bc3275ce87960b684333ce0f8e6e709}{make\+Numeric}} (const char \texorpdfstring{$\ast$}{*}digits)
-\begin{DoxyCompactList}\small\item\em Crea un segmento a partir de digitos numericos. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Crea un segmento a partir de dígitos numéricos. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a27822f79f9fb3a2978a9c0525c94d4af}{make\+Alphanumeric}} (const char \texorpdfstring{$\ast$}{*}text)
-\begin{DoxyCompactList}\small\item\em Crea un segmento a partir de texto alfanumerico. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Crea un segmento a partir de texto alfanumérico. \end{DoxyCompactList}\item 
 static std\+::vector$<$ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} $>$ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a880641341d6899072cdec37e4b8ed4b1}{make\+Segments}} (const char \texorpdfstring{$\ast$}{*}text)
-\begin{DoxyCompactList}\small\item\em Crea segmentos automaticamente a partir de texto. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Crea segmentos automáticamente a partir de texto. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_adda5825d2d2fece44d3d2bfa17770c2c}{make\+Eci}} (long assign\+Val)
 \begin{DoxyCompactList}\small\item\em Crea un segmento ECI con el valor asignado. \end{DoxyCompactList}\item 
 static bool \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a3ca5f84cbcdc6fe9eefe1010a75f549a}{is\+Numeric}} (const char \texorpdfstring{$\ast$}{*}text)
-\begin{DoxyCompactList}\small\item\em Verifica si un texto es puramente numerico. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Verifica si un texto es puramente numérico. \end{DoxyCompactList}\item 
 static bool \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_af9d82f00f3ce505f6f385ba6fa9b9fc1}{is\+Alphanumeric}} (const char \texorpdfstring{$\ast$}{*}text)
-\begin{DoxyCompactList}\small\item\em Verifica si un texto es alfanumerico segun el estandar QR. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Verifica si un texto es alfanumérico según el estándar QR. \end{DoxyCompactList}\item 
 static int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_a66216f705123ea692272321ccd78d089}{get\+Total\+Bits}} (const std\+::vector$<$ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment}} $>$ \&segs, int version)
-\begin{DoxyCompactList}\small\item\em Calcula el numero total de bits necesarios para los segmentos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Calcula el número total de bits necesarios para los segmentos. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Representa un segmento de datos en un codigo QR. 
+Representa un segmento de datos en un código QR. 
 
-Un codigo QR puede contener varios segmentos de diferentes tipos (numerico, alfanumerico, bytes, etc.) Esta clase representa uno de estos segmentos. 
+Un código QR puede contener varios segmentos de diferentes tipos (numérico, alfanumérico, bytes, etc.) Esta clase representa uno de estos segmentos. 
 
 \label{doc-constructors}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_doc-constructors}
@@ -70,22 +70,22 @@ Constructor de \doxylink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment} con vecto
 
 
 \begin{DoxyParams}{Parameters}
-{\em md} & Modo de codificacion \\
+{\em md} & Modo de codificación \\
 \hline
-{\em num\+Ch} & Numero de caracteres \\
+{\em num\+Ch} & Número de caracteres \\
 \hline
 {\em dt} & Vector de bits con los datos\\
 \hline
-{\em md} & Modo de codificacion del segmento \\
+{\em md} & Modo de codificación del segmento \\
 \hline
-{\em num\+Ch} & Numero de caracteres representados \\
+{\em num\+Ch} & Número de caracteres representados \\
 \hline
 {\em dt} & Vector de bits que contiene los datos codificados \\
 \hline
 \end{DoxyParams}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em std\+::domain\+\_\+error} & Si el numero de caracteres es negativo \\
+{\em std\+::domain\+\_\+error} & Si el número de caracteres es negativo \\
 \hline
 \end{DoxyExceptions}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_ab013b2c90e2374a15b4732cb7f5a14c5}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!QrSegment@{QrSegment}}
@@ -102,22 +102,22 @@ Constructor de \doxylink{class_codigo_q_r_1_1_qr_segment}{Qr\+Segment} con movim
 
 
 \begin{DoxyParams}{Parameters}
-{\em md} & Modo de codificacion \\
+{\em md} & Modo de codificación \\
 \hline
-{\em num\+Ch} & Numero de caracteres \\
+{\em num\+Ch} & Número de caracteres \\
 \hline
 {\em dt} & Vector de bits con los datos (movido)\\
 \hline
-{\em md} & Modo de codificacion del segmento \\
+{\em md} & Modo de codificación del segmento \\
 \hline
-{\em num\+Ch} & Numero de caracteres representados \\
+{\em num\+Ch} & Número de caracteres representados \\
 \hline
 {\em dt} & Vector de bits que contiene los datos codificados (movido) \\
 \hline
 \end{DoxyParams}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em std\+::domain\+\_\+error} & Si el numero de caracteres es negativo \\
+{\em std\+::domain\+\_\+error} & Si el número de caracteres es negativo \\
 \hline
 \end{DoxyExceptions}
 
@@ -152,10 +152,10 @@ const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Qr\+Segment\+::
 
 Obtiene el modo de este segmento. 
 
-Obtiene el modo de codificacion del segmento.
+Obtiene el modo de codificación del segmento.
 
 \begin{DoxyReturn}{Returns}
-Referencia al modo de codificacion 
+Referencia al modo de codificación 
 \end{DoxyReturn}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_a34c30b3ba22771ac9b46f36fb4b76541}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!getNumChars@{getNumChars}}
 \index{getNumChars@{getNumChars}!CodigoQR::QrSegment@{CodigoQR::QrSegment}}
@@ -165,14 +165,14 @@ int Codigo\+QR\+::\+Qr\+Segment\+::get\+Num\+Chars (\begin{DoxyParamCaption}{}{}
 
 
 
-Obtiene el numero de caracteres. 
+Obtiene el número de caracteres. 
 
-Obtiene el numero de caracteres en el segmento.
+Obtiene el número de caracteres en el segmento.
 
 \begin{DoxyReturn}{Returns}
 Cantidad de caracteres en este segmento
 
-Numero de caracteres 
+Número de caracteres 
 \end{DoxyReturn}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_a66216f705123ea692272321ccd78d089}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!getTotalBits@{getTotalBits}}
 \index{getTotalBits@{getTotalBits}!CodigoQR::QrSegment@{CodigoQR::QrSegment}}
@@ -182,29 +182,29 @@ int Codigo\+QR\+::\+Qr\+Segment\+::get\+Total\+Bits (\begin{DoxyParamCaption}\it
 
 
 
-Calcula el numero total de bits necesarios para los segmentos. 
+Calcula el número total de bits necesarios para los segmentos. 
 
-Calcula el numero total de bits para un conjunto de segmentos.
+Calcula el número total de bits para un conjunto de segmentos.
 
 
 \begin{DoxyParams}{Parameters}
 {\em segs} & Vector de segmentos \\
 \hline
-{\em version} & Version del codigo QR \\
+{\em version} & Versión del código QR \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Numero total de bits
+Número total de bits
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
 {\em segs} & Vector de segmentos QR \\
 \hline
-{\em version} & Version del codigo QR \\
+{\em version} & Versión del código QR \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Numero total de bits necesarios o -\/1 si hay un error 
+Número total de bits necesarios o -\/1 si hay un error 
 \end{DoxyReturn}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_af9d82f00f3ce505f6f385ba6fa9b9fc1}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!isAlphanumeric@{isAlphanumeric}}
 \index{isAlphanumeric@{isAlphanumeric}!CodigoQR::QrSegment@{CodigoQR::QrSegment}}
@@ -214,9 +214,9 @@ bool Codigo\+QR\+::\+Qr\+Segment\+::is\+Alphanumeric (\begin{DoxyParamCaption}\i
 
 
 
-Verifica si un texto es alfanumerico segun el estandar QR. 
+Verifica si un texto es alfanumérico según el estándar QR. 
 
-Verifica si una cadena contiene solo caracteres alfanumericos validos.
+Verifica si una cadena contiene solo caracteres alfanuméricos válidos.
 
 
 \begin{DoxyParams}{Parameters}
@@ -224,7 +224,7 @@ Verifica si una cadena contiene solo caracteres alfanumericos validos.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si todos los caracteres son alfanumericos validos
+true si todos los caracteres son alfanuméricos válidos
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -232,7 +232,7 @@ true si todos los caracteres son alfanumericos validos
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si solo contiene caracteres alfanumericos validos, false en caso contrario 
+true si solo contiene caracteres alfanuméricos válidos, false en caso contrario 
 \end{DoxyReturn}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_a3ca5f84cbcdc6fe9eefe1010a75f549a}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!isNumeric@{isNumeric}}
 \index{isNumeric@{isNumeric}!CodigoQR::QrSegment@{CodigoQR::QrSegment}}
@@ -242,9 +242,9 @@ bool Codigo\+QR\+::\+Qr\+Segment\+::is\+Numeric (\begin{DoxyParamCaption}\item[{
 
 
 
-Verifica si un texto es puramente numerico. 
+Verifica si un texto es puramente numérico. 
 
-Verifica si una cadena contiene solo caracteres numericos.
+Verifica si una cadena contiene solo caracteres numéricos.
 
 
 \begin{DoxyParams}{Parameters}
@@ -252,7 +252,7 @@ Verifica si una cadena contiene solo caracteres numericos.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si todos los caracteres son digitos numericos
+true si todos los caracteres son dígitos numéricos
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -260,7 +260,7 @@ true si todos los caracteres son digitos numericos
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si solo contiene digitos, false en caso contrario 
+true si solo contiene dígitos, false en caso contrario 
 \end{DoxyReturn}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_a27822f79f9fb3a2978a9c0525c94d4af}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!makeAlphanumeric@{makeAlphanumeric}}
 \index{makeAlphanumeric@{makeAlphanumeric}!CodigoQR::QrSegment@{CodigoQR::QrSegment}}
@@ -270,13 +270,13 @@ true si solo contiene digitos, false en caso contrario
 
 
 
-Crea un segmento a partir de texto alfanumerico. 
+Crea un segmento a partir de texto alfanumérico. 
 
-Crea un segmento QR para datos alfanumericos.
+Crea un segmento QR para datos alfanuméricos.
 
 
 \begin{DoxyParams}{Parameters}
-{\em text} & Cadena con texto alfanumerico \\
+{\em text} & Cadena con texto alfanumérico \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -284,7 +284,7 @@ Segmento QR en modo ALPHANUMERIC
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em text} & Cadena de caracteres con datos alfanumericos \\
+{\em text} & Cadena de caracteres con datos alfanuméricos \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -338,7 +338,7 @@ Un segmento QR en modo BYTE
 
 Crea un segmento ECI con el valor asignado. 
 
-Crea un segmento ECI con el valor de asignacion especificado.
+Crea un segmento ECI con el valor de asignación especificado.
 
 
 \begin{DoxyParams}{Parameters}
@@ -350,7 +350,7 @@ Segmento QR en modo ECI
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em assign\+Val} & Valor de asignacion ECI \\
+{\em assign\+Val} & Valor de asignación ECI \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -358,7 +358,7 @@ Un segmento QR de tipo ECI
 \end{DoxyReturn}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em std\+::domain\+\_\+error} & Si el valor esta fuera del rango permitido \\
+{\em std\+::domain\+\_\+error} & Si el valor está fuera del rango permitido \\
 \hline
 \end{DoxyExceptions}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_a3bc3275ce87960b684333ce0f8e6e709}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!makeNumeric@{makeNumeric}}
@@ -369,13 +369,13 @@ Un segmento QR de tipo ECI
 
 
 
-Crea un segmento a partir de digitos numericos. 
+Crea un segmento a partir de dígitos numéricos. 
 
-Crea un segmento QR para datos numericos.
+Crea un segmento QR para datos numéricos.
 
 
 \begin{DoxyParams}{Parameters}
-{\em digits} & Cadena con digitos numericos \\
+{\em digits} & Cadena con dígitos numéricos \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -383,7 +383,7 @@ Segmento QR en modo NUMERIC
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em digits} & Cadena de caracteres con digitos numericos \\
+{\em digits} & Cadena de caracteres con dígitos numéricos \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -391,7 +391,7 @@ Un segmento QR en modo NUMERIC
 \end{DoxyReturn}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em std\+::domain\+\_\+error} & Si la cadena contiene caracteres no numericos \\
+{\em std\+::domain\+\_\+error} & Si la cadena contiene caracteres no numéricos \\
 \hline
 \end{DoxyExceptions}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_a880641341d6899072cdec37e4b8ed4b1}\index{CodigoQR::QrSegment@{CodigoQR::QrSegment}!makeSegments@{makeSegments}}
@@ -402,9 +402,9 @@ Un segmento QR en modo NUMERIC
 
 
 
-Crea segmentos automaticamente a partir de texto. 
+Crea segmentos automáticamente a partir de texto. 
 
-Crea segmentos QR automaticamente seleccionando el modo mas eficiente.
+Crea segmentos QR automáticamente seleccionando el modo más eficiente.
 
 
 \begin{DoxyParams}{Parameters}
@@ -420,7 +420,7 @@ Vector de segmentos QR optimizados para el texto
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Vector de segmentos QR con la codificacion mas eficiente 
+Vector de segmentos QR con la codificación más eficiente 
 \end{DoxyReturn}
 
 

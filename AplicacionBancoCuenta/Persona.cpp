@@ -6,6 +6,9 @@
  * validar información de usuarios y administrar las cuentas bancarias asociadas
  * a una persona, incluyendo cuentas de ahorro y cuentas corrientes.
  */
+
+#define NOMINMAX
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,6 +21,7 @@
 #include <windows.h>
 #include <functional>
 #include <iterator>
+#include <unordered_map>
 #include "Validar.h"
 #include "Fecha.h"
 #include "Persona.h"
@@ -1364,8 +1368,35 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 		return "";
 	}
 
+	// Nombre del archivo para guardar el secuencial por sucursal
+	const std::string ARCHIVO_SECUENCIAL = "secuencial_cuentas.dat";
+
+	// Mapa para almacenar los últimos números usados por sucursal
+	std::unordered_map<std::string, int> ultimosNumeros;
+
+	// Intentar leer el archivo de secuenciales existente
+	std::ifstream archivoLectura(ARCHIVO_SECUENCIAL);
+	if (archivoLectura.is_open()) {
+		std::string linea;
+		while (std::getline(archivoLectura, linea)) {
+			// Formato esperado: sucursal:numero
+			std::istringstream iss(linea);
+			std::string sucursalLeida;
+			int numeroLeido;
+
+			if (std::getline(iss, sucursalLeida, ':')) {
+				iss >> numeroLeido;
+				ultimosNumeros[sucursalLeida] = numeroLeido;
+			}
+		}
+		archivoLectura.close();
+	}
+
+	// Obtener el último número usado para la sucursal especificada (0 si no existe)
+	int ultimoNumArchivo = ultimosNumeros.count(sucursal) ? ultimosNumeros[sucursal] : 0;
+
+	// También buscar en las cuentas en memoria (como antes)
 	std::vector<Cuenta<double>*> cuentas;
-	std::string numeroCuentaStr;
 
 	// Recolectar todas las cuentas existentes
 	CuentaAhorros* actualAhorros = cabezaAhorros;
@@ -1401,8 +1432,26 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 		}
 	}
 
+	// Usar el máximo entre el número encontrado en memoria y el leído del archivo
+	mayorNumCuenta = (ultimoNumArchivo > mayorNumCuenta) ? ultimoNumArchivo : mayorNumCuenta;
+
 	// Incrementar para obtener el siguiente número secuencial
 	mayorNumCuenta++;
+
+	// Guardar el nuevo valor en el mapa y actualizar el archivo
+	ultimosNumeros[sucursal] = mayorNumCuenta;
+
+	// Actualizar el archivo con los nuevos valores
+	std::ofstream archivoEscritura(ARCHIVO_SECUENCIAL);
+	if (archivoEscritura.is_open()) {
+		for (const auto& par : ultimosNumeros) {
+			archivoEscritura << par.first << ":" << par.second << std::endl;
+		}
+		archivoEscritura.close();
+	}
+	else {
+		std::cerr << "Advertencia: No se pudo guardar el secuencial de cuentas." << std::endl;
+	}
 
 	// Formatear el número de cuenta con ceros a la izquierda
 	std::ostringstream oss;
@@ -1417,7 +1466,7 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 	int digitoVerificador = suma % 10;
 
 	// Formar el número de cuenta completo
-	numeroCuentaStr = base + std::to_string(digitoVerificador);
+	std::string numeroCuentaStr = base + std::to_string(digitoVerificador);
 
 	// Verificar que el número de cuenta sea válido
 	if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
@@ -1430,7 +1479,6 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 
 	return numeroCuentaStr;
 }
-
 /**
  * @brief Presenta un selector de sucursal bancaria
  *

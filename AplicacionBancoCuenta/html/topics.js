@@ -1,4 +1,4 @@
 var topics =
 [
-    [ "Menu Principal", "group___menu_principal.html", "group___menu_principal" ]
+    [ "Menú Principal", "group___menu_principal.html", "group___menu_principal" ]
 ];

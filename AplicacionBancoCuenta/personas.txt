@@ -999,3 +999,66 @@ Fecha de nacimiento: 01/01/2000
 Correo: uriel@gmail.com
 Direccion: san carlos
 -----------------------------
+Cedula: 0401865381
+Nombres: uriel andrade
+Apellidos: hermosa
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 1001785722
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos quito
+-----------------------------
+Cedula: 1707435127
+Nombres: cevallos
+Apellidos: purunfgajas
+Fecha de nacimiento: 31/08/1995
+Correo: cevallo@gmail.com
+Direccion: san jose
+-----------------------------
+Cedula: 1711875805
+Nombres: luis
+Apellidos: lopez
+Fecha de nacimiento: 11/05/2004
+Correo: luislo@outlook.com
+Direccion: chillogallo
+-----------------------------
+Cedula: 1709133126
+Nombres: serrano
+Apellidos: revelo
+Fecha de nacimiento: 10/02/1987
+Correo: serrano@hotmail.com
+Direccion: quito norte
+-----------------------------
+Cedula: 1304734625
+Nombres: teresa
+Apellidos: Del Jesus
+Fecha de nacimiento: 10/12/2004
+Correo: teresita@hotmail.com
+Direccion: valle de los chillos
+-----------------------------
+Cedula: 1714523816
+Nombres: abril
+Apellidos: garcia
+Fecha de nacimiento: 05/04/1989
+Correo: abril@hotmail.com
+Direccion: la loma
+-----------------------------
+Cedula: 1718414533
+Nombres: edison
+Apellidos: paul
+Fecha de nacimiento: 27/09/1992
+Correo: edison@hotmail.com
+Direccion: la loma baja
+-----------------------------
+Cedula: 1751444512
+Nombres: Jorel Elian
+Apellidos: Zambrano Quilachamin 
+Fecha de nacimiento: 23/12/2000
+Correo: jorelzq@hotmail.com
+Direccion: La magdalena
+-----------------------------

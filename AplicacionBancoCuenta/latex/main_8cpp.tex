@@ -2,7 +2,7 @@
 \hypertarget{main_8cpp}{}\label{main_8cpp}\index{main.cpp@{main.cpp}}
 
 
-Sistema de gestion bancaria con interfaz de consola.  
+Sistema de gestión bancaria con interfaz de consola.  
 
 
 {\ttfamily \#include $<$iostream$>$}\newline
@@ -19,20 +19,26 @@ Sistema de gestion bancaria con interfaz de consola.
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+\Hypertarget{main_8cpp_a0922b72445071a4df882f9f649cd6a8f}\label{main_8cpp_a0922b72445071a4df882f9f649cd6a8f} 
+std\+::atomic$<$ bool $>$ {\bfseries actualizando\+Menu} (false)
+\begin{DoxyCompactList}\small\item\em Bandera atómica para coordinar actualizaciones entre menú y marquesina. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
-\begin{DoxyCompactList}\small\item\em Funcion principal que inicia la aplicacion bancaria. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Función principal que inicia la aplicación bancaria. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 \Hypertarget{main_8cpp_a907ec23e6f2a4904216ad23a99d09fda}\label{main_8cpp_a907ec23e6f2a4904216ad23a99d09fda} 
 \mbox{\hyperlink{class_marquesina}{Marquesina}} \texorpdfstring{$\ast$}{*} {\bfseries marquesina\+Global} = nullptr
-\begin{DoxyCompactList}\small\item\em Puntero global a la marquesina utilizada en la aplicacion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Puntero global a la marquesina utilizada en la aplicación. \end{DoxyCompactList}\item 
+\Hypertarget{main_8cpp_ad47c0fcf8a333c777da8484dfbcb6cbc}\label{main_8cpp_ad47c0fcf8a333c777da8484dfbcb6cbc} 
+std\+::mutex {\bfseries mtx\+Actualizacion}
+\begin{DoxyCompactList}\small\item\em Mutex para sincronización entre hilos. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Sistema de gestion bancaria con interfaz de consola. 
+Sistema de gestión bancaria con interfaz de consola. 
 
-Este archivo implementa la aplicacion principal del sistema bancario, proporcionando un menu interactivo para gestionar cuentas, realizar transferencias, buscar informacion, y generar reportes. Incluye una marquesina en la parte superior para mensajes importantes.
+Este archivo implementa la aplicación principal del sistema bancario, proporcionando un menú interactivo para gestionar cuentas, realizar transferencias, buscar información, y generar reportes. Incluye una marquesina en la parte superior para mensajes importantes.
 
 \begin{DoxyAuthor}{Author}
 Uriel Andrade 
@@ -54,10 +60,10 @@ int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
 
-Funcion principal que inicia la aplicacion bancaria. 
+Función principal que inicia la aplicación bancaria. 
 
-Configura la interfaz de usuario, crea la marquesina, y gestiona el menu principal y sus submenus para realizar todas las operaciones bancarias.
+Configura la interfaz de usuario, crea la marquesina, y gestiona el menú principal y sus submenús para realizar todas las operaciones bancarias.
 
 \begin{DoxyReturn}{Returns}
-int Codigo de salida del programa (0 si termina correctamente) 
+int Código de salida del programa (0 si termina correctamente) 
 \end{DoxyReturn}

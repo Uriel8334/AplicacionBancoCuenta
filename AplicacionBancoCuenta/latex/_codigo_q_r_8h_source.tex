@@ -139,24 +139,24 @@
 \DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generamos\ la\ cadena\ de\ texto\ plano}}
 \DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ std::string\ datosTexto\ =\ generarCadenaTextoPlano();}
 \DoxyCodeLine{00486\ }
-\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Generando\ codigo\ QR..."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Generando\ c贸digo\ QR..."{}}\ <<\ std::endl;}
 \DoxyCodeLine{00488\ }
-\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generamos\ el\ codigo\ QR\ con\ la\ biblioteca\ (nivel\ de\ correccion\ LOW\ =\ L)}}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generamos\ el\ c贸digo\ QR\ con\ la\ biblioteca\ (nivel\ de\ correcci贸n\ LOW\ =\ L)}}
 \DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}\ =\ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_a2e0b49d1bf2e2717e440c620cc077d08}{CodigoQR::QrCode::encodeText}}(datosTexto.c\_str(),\ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code_aa071a0ec482d3d3d1a07100c337d66e5a41bc94cbd8eebea13ce0491b2ac11b88}{CodigoQR::QrCode::Ecc::LOW}});}
 \DoxyCodeLine{00491\ }
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Codigo\ QR\ generado\ correctamente."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}C贸digo\ QR\ generado\ correctamente."{}}\ <<\ std::endl;}
 \DoxyCodeLine{00493\ \ \ \ \ \}}
 \DoxyCodeLine{00494\ }
 \DoxyCodeLine{00501\ \ \ \ \ \textcolor{keyword}{public}:\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a061e93cf88b99e0d94c81cec8a303daa}{imprimirEnConsola}}()\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ ==\ 0)\ \{}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Primero\ debes\ generar\ el\ codigo\ QR"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Primero\ debes\ generar\ el\ c贸digo\ QR"{}}\ <<\ std::endl;}
 \DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00506\ }
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n===\ CoDIGO\ QR\ GENERADO\ ==="{}}\ <<\ std::endl;}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n===\ C脫DIGO\ QR\ GENERADO\ ==="{}}\ <<\ std::endl;}
 \DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Nombre\ completo:\ "{}}\ <<\ nombreCompleto\ <<\ std::endl;}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Numero\ de\ cuenta:\ "{}}\ <<\ numeroCuenta\ <<\ std::endl;}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nCodigo\ QR:\(\backslash\)n"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ N煤mero\ de\ cuenta:\ "{}}\ <<\ numeroCuenta\ <<\ std::endl;}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nC贸digo\ QR:\(\backslash\)n"{}}\ <<\ std::endl;}
 \DoxyCodeLine{00511\ }
 \DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ quietZone\ =\ 4;}
 \DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ size\ =\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ +\ quietZone\ *\ 2;}
@@ -183,20 +183,20 @@
 \DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ std::cout\ <<\ std::endl;}
 \DoxyCodeLine{00536\ }
-\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Informacion\ tecnica}}
-\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nInformacion\ tecnica:"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Version:\ "{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getVersion()\ <<\ std::endl;}
-\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Tama駉: "{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ <<\ \textcolor{stringliteral}{"{}x"{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ <<\ \textcolor{stringliteral}{"{}\ modulos"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Nivel\ de\ correccion:\ L\ (permite\ hasta\ 7\%\ de\ errores)"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Mascara\ aplicada:\ "{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getMask()\ <<\ std::endl;}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Informaci贸n\ t茅cnica}}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nInformaci贸n\ t茅cnica:"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Versi贸n:\ "{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getVersion()\ <<\ std::endl;}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Tama帽o:\ "{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ <<\ \textcolor{stringliteral}{"{}x"{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ <<\ \textcolor{stringliteral}{"{}\ m贸dulos"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Nivel\ de\ correcci贸n:\ L\ (permite\ hasta\ 7\%\ de\ errores)"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ M谩scara\ aplicada:\ "{}}\ <<\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getMask()\ <<\ std::endl;}
 \DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}-\/\ Formato:\ Texto\ plano\ (NOMBRE:\ "{}}\ <<\ nombreCompleto\ <<\ \textcolor{stringliteral}{"{},\ CUENTA:\ "{}}\ <<\ numeroCuenta\ <<\ \textcolor{stringliteral}{"{})"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nEste\ QR\ puede\ ser\ escaneado\ por\ cualquier\ lector\ QR\ estandar."{}}\ <<\ std::endl;}
-\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Al\ escanearlo,\ el\ movil\ mostrara\ los\ datos\ personales\ en\ formato\ texto."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nEste\ QR\ puede\ ser\ escaneado\ por\ cualquier\ lector\ QR\ est谩ndar."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Al\ escanearlo,\ el\ m贸vil\ mostrar谩\ los\ datos\ personales\ en\ formato\ texto."{}}\ <<\ std::endl;}
 \DoxyCodeLine{00546\ \ \ \ \ \}}
 \DoxyCodeLine{00547\ }
 \DoxyCodeLine{00556\ \ \ \ \ \textcolor{keyword}{public}:\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a9b54decd72d595fcdc144e9c2a50b24d}{generarPDFQR}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_codigo_q_r_1_1_qr_code}{CodigoQR::QrCode}}\&\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}},\ \textcolor{keyword}{const}\ std::string\&\ nombreArchivo)\ \{}
 \DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ ==\ 0)\ \{}
-\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Primero\ debes\ generar\ el\ codigo\ QR"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Error:\ Primero\ debes\ generar\ el\ c贸digo\ QR"{}}\ <<\ std::endl;}
 \DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00561\ }
@@ -212,12 +212,12 @@
 \DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constantes\ para\ el\ PDF\ -\/\ convertir\ mm\ a\ puntos\ (1/72\ pulgadas)}}
 \DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ MM\_TO\_POINTS\ =\ [](\textcolor{keywordtype}{double}\ mm)\ \{\ \textcolor{keywordflow}{return}\ mm\ *\ 2.83465;\ \};}
 \DoxyCodeLine{00573\ }
-\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Tama駉 de\ cada\ modulo\ QR\ en\ puntos}}
-\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MODULO\_SIZE\ =\ MM\_TO\_POINTS(8.0);\ \ \ \ \ \ \ \textcolor{comment}{//\ 8mm\ por\ modulo\ para\ mejor\ escaneo}}
-\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MARGEN\ =\ MODULO\_SIZE\ *\ 4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Margen\ minimo\ recomendado\ (4\ modulos)}}
-\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ QR\_SIZE\ =\ MODULO\_SIZE\ *\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize();\ \ \textcolor{comment}{//\ Tama駉 total\ del\ QR}}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Tama帽o\ de\ cada\ m贸dulo\ QR\ en\ puntos}}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MODULO\_SIZE\ =\ MM\_TO\_POINTS(8.0);\ \ \ \ \ \ \ \textcolor{comment}{//\ 8mm\ por\ m贸dulo\ para\ mejor\ escaneo}}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MARGEN\ =\ MODULO\_SIZE\ *\ 4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Margen\ m铆nimo\ recomendado\ (4\ m贸dulos)}}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ QR\_SIZE\ =\ MODULO\_SIZE\ *\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize();\ \ \textcolor{comment}{//\ Tama帽o\ total\ del\ QR}}
 \DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ PAGE\_WIDTH\ =\ QR\_SIZE\ +\ 2\ *\ MARGEN;}
-\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ PAGE\_HEIGHT\ =\ PAGE\_WIDTH;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pagina\ cuadrada\ para\ mejor\ presentacion}}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ PAGE\_HEIGHT\ =\ PAGE\_WIDTH;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ P谩gina\ cuadrada\ para\ mejor\ presentaci贸n}}
 \DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MARGEN\_EXTRA\ =\ MARGEN\ *\ 0.5;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Margen\ adicional\ para\ mejor\ contraste}}
 \DoxyCodeLine{00581\ }
 \DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Lista\ de\ objetos\ PDF}}
@@ -227,7 +227,7 @@
 \DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Escribir\ cabecera\ PDF}}
 \DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ pdf\ <<\ \textcolor{stringliteral}{"{}\%PDF-\/1.4\(\backslash\)n\%\(\backslash\)xE2\(\backslash\)xE3\(\backslash\)xCF\(\backslash\)xD3\(\backslash\)n"{}};}
 \DoxyCodeLine{00588\ }
-\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Catalogo\ (objeto\ 1)}}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cat谩logo\ (objeto\ 1)}}
 \DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ objetos.push\_back(pdf.tellp());}
 \DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ pdf\ <<\ \textcolor{stringliteral}{"{}1\ 0\ obj\(\backslash\)n<</Type\ /Catalog\ /Pages\ 2\ 0\ R>>\(\backslash\)nendobj\(\backslash\)n"{}};}
 \DoxyCodeLine{00592\ }
@@ -242,39 +242,39 @@
 \DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}/MediaBox\ [0\ 0\ "{}}\ <<\ PAGE\_WIDTH\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ PAGE\_HEIGHT\ <<\ \textcolor{stringliteral}{"{}]\ "{}}}
 \DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}/Contents\ 4\ 0\ R>>\(\backslash\)nendobj\(\backslash\)n"{}};}
 \DoxyCodeLine{00603\ }
-\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Contenido\ (objeto\ 4)\ -\/\ Aqui\ va\ el\ QR}}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Contenido\ (objeto\ 4)\ -\/\ Aqu铆\ va\ el\ QR}}
 \DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ std::stringstream\ contenido;}
-\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}q\(\backslash\)n"{}};\ \textcolor{comment}{//\ Guardar\ estado\ grafico}}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}q\(\backslash\)n"{}};\ \textcolor{comment}{//\ Guardar\ estado\ gr谩fico}}
 \DoxyCodeLine{00607\ }
 \DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Establecer\ color\ blanco\ y\ dibujar\ fondo}}
 \DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}1\ 1\ 1\ rg\(\backslash\)n"{}};\ \textcolor{comment}{//\ RGB\ blanco}}
 \DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}0\ 0\ "{}}\ <<\ PAGE\_WIDTH\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ PAGE\_HEIGHT\ <<\ \textcolor{stringliteral}{"{}\ re\ f\(\backslash\)n"{}};}
 \DoxyCodeLine{00611\ }
-\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Establecer\ color\ negro\ solido\ para\ el\ QR}}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Establecer\ color\ negro\ s贸lido\ para\ el\ QR}}
 \DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}0\ 0\ 0\ rg\(\backslash\)n"{}};\ \textcolor{comment}{//\ RGB\ negro}}
 \DoxyCodeLine{00614\ }
-\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Definir\ area\ de\ recorte\ y\ dibujo\ con\ margen\ extra\ para\ mejor\ contraste}}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Definir\ 谩rea\ de\ recorte\ y\ dibujo\ con\ margen\ extra\ para\ mejor\ contraste}}
 \DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ contenido\ <<\ MARGEN\_EXTRA\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ MARGEN\_EXTRA\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
 \DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ (PAGE\_WIDTH\ -\/\ 2\ *\ MARGEN\_EXTRA)\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
 \DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ (PAGE\_HEIGHT\ -\/\ 2\ *\ MARGEN\_EXTRA)\ <<\ \textcolor{stringliteral}{"{}\ re\ W\ n\(\backslash\)n"{}};}
 \DoxyCodeLine{00619\ }
-\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Dibujar\ modulos\ del\ QR\ con\ mayor\ precision}}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Dibujar\ m贸dulos\ del\ QR\ con\ mayor\ precisi贸n}}
 \DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize();\ y++)\ \{}
 \DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ \mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize();\ x++)\ \{}
 \DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getModule(x,\ y))\ \{}
-\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calcular\ posicion\ con\ mas\ precision}}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calcular\ posici贸n\ con\ m谩s\ precisi贸n}}
 \DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ posX\ =\ MARGEN\ +\ x\ *\ MODULO\_SIZE;}
 \DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ posY\ =\ MARGEN\ +\ (\mbox{\hyperlink{class_codigo_q_r_1_1_generador_q_r_texto_plano_a494c9e77ed25e09a1e5c0c2883713f13}{qr}}.getSize()\ -\/\ 1\ -\/\ y)\ *\ MODULO\_SIZE;}
-\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ un\ path\ mas\ eficiente\ para\ cada\ modulo\ con\ tama駉 exacto}}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ un\ path\ m谩s\ eficiente\ para\ cada\ m贸dulo\ con\ tama帽o\ exacto}}
 \DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ contenido\ <<\ std::fixed\ <<\ std::setprecision(3)}
 \DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ posX\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ posY\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
 \DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ MODULO\_SIZE\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ MODULO\_SIZE\ <<\ \textcolor{stringliteral}{"{}\ re\(\backslash\)n"{}};}
 \DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Rellenar\ todos\ los\ modulos\ de\ una\ vez\ con\ maxima\ densidad}}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Rellenar\ todos\ los\ m贸dulos\ de\ una\ vez\ con\ m谩xima\ densidad}}
 \DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}f\(\backslash\)n"{}};}
-\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}Q\(\backslash\)n"{}};\ \textcolor{comment}{//\ Restaurar\ estado\ grafico}}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ contenido\ <<\ \textcolor{stringliteral}{"{}Q\(\backslash\)n"{}};\ \textcolor{comment}{//\ Restaurar\ estado\ gr谩fico}}
 \DoxyCodeLine{00637\ }
 \DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ std::string\ contenidoStr\ =\ contenido.str();}
 \DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ objetos.push\_back(pdf.tellp());}
@@ -291,7 +291,7 @@
 \DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \ \ pdf\ <<\ std::setfill(\textcolor{charliteral}{'0'})\ <<\ std::setw(10)\ <<\ offset\ <<\ \textcolor{stringliteral}{"{}\ 00000\ n\(\backslash\)r\(\backslash\)n"{}};}
 \DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00652\ }
-\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ A馻dir\ linea\ en\ blanco\ despues\ del\ xref}}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ A帽adir\ l铆nea\ en\ blanco\ despu茅s\ del\ xref}}
 \DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ pdf\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
 \DoxyCodeLine{00655\ }
 \DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ trailer}}

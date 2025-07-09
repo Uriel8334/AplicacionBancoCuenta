@@ -7,9 +7,10 @@ var searchData=
   ['burbujalista_4',['burbujaLista',['../class_utilidades.html#aef5eb832696866975e3d35695d854674',1,'Utilidades']]],
   ['buscar_5',['buscar',['../class_arbol_b.html#a933feb75191cee134a77e4e3ed04a98c',1,'ArbolB']]],
   ['buscarcuenta_6',['buscarCuenta',['../class_banco.html#a9dd7a2f74fd5c9179ffaa33a3b3c75a1',1,'Banco']]],
-  ['buscarcuentasporcriterio_7',['buscarCuentasPorCriterio',['../class_banco.html#a29df9b04dd7b719fd2086494c6202c58',1,'Banco']]],
-  ['buscarcuentasporfecha_8',['buscarCuentasPorFecha',['../class_banco.html#a7636e7e9160ca14b4b0adf7605f2427a',1,'Banco']]],
-  ['buscarpersonaporcriterio_9',['buscarPersonaPorCriterio',['../class_persona.html#a7ce730dcd9d1edfba6ee109b69b703e2',1,'Persona']]],
-  ['buscarpersonaporcuentas_10',['buscarPersonaPorCuentas',['../class_persona.html#aae82acba2a5261184ac1d39304ea19d4',1,'Persona']]],
-  ['buscarpersonaporfecha_11',['buscarPersonaPorFecha',['../class_persona.html#ab3777cf190ae61cf3b958b795de2ffe9',1,'Persona']]]
+  ['buscarcuentaparaoperacion_7',['buscarCuentaParaOperacion',['../class_banco.html#a67dc7c024b4289d2615d0efdc9015b68',1,'Banco']]],
+  ['buscarcuentasporcriterio_8',['buscarCuentasPorCriterio',['../class_banco.html#a29df9b04dd7b719fd2086494c6202c58',1,'Banco']]],
+  ['buscarcuentasporfecha_9',['buscarCuentasPorFecha',['../class_banco.html#a7636e7e9160ca14b4b0adf7605f2427a',1,'Banco']]],
+  ['buscarpersonaporcriterio_10',['buscarPersonaPorCriterio',['../class_persona.html#a7ce730dcd9d1edfba6ee109b69b703e2',1,'Persona']]],
+  ['buscarpersonaporcuentas_11',['buscarPersonaPorCuentas',['../class_persona.html#aae82acba2a5261184ac1d39304ea19d4',1,'Persona']]],
+  ['buscarpersonaporfecha_12',['buscarPersonaPorFecha',['../class_persona.html#ab3777cf190ae61cf3b958b795de2ffe9',1,'Persona']]]
 ];

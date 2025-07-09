@@ -21,13 +21,13 @@ Inheritance diagram for Codigo\+QR\+::Bit\+Buffer\+:\begin{figure}[H]
 \mbox{\hyperlink{class_codigo_q_r_1_1_bit_buffer_a796ddf9c3ed658be3877c834f55fe427}{Bit\+Buffer}} ()
 \begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_codigo_q_r_1_1_bit_buffer_ab8c9a2474e6eae1217e788a7e00d8906}{append\+Bits}} (std\+::uint32\+\_\+t val, int len)
-\begin{DoxyCompactList}\small\item\em A�ade bits al buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Añade bits al buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Buffer de bits para construir datos QR. 
 
-Extiende std\+::vector$<$bool$>$ con metodos para a�adir bits de manera eficiente 
+Extiende std\+::vector$<$bool$>$ con métodos para añadir bits de manera eficiente 
 
 \label{doc-constructors}
 \Hypertarget{class_codigo_q_r_1_1_bit_buffer_doc-constructors}
@@ -44,7 +44,7 @@ Constructor por defecto.
 
 Constructor por defecto para \doxylink{class_codigo_q_r_1_1_bit_buffer}{Bit\+Buffer}.
 
-Crea un buffer de bits vacio 
+Crea un buffer de bits vacío 
 
 \label{doc-func-members}
 \Hypertarget{class_codigo_q_r_1_1_bit_buffer_doc-func-members}
@@ -57,7 +57,7 @@ void Codigo\+QR\+::\+Bit\+Buffer\+::append\+Bits (\begin{DoxyParamCaption}\item[
 
 
 
-A�ade bits al buffer. 
+Añade bits al buffer. 
 
 Añade bits al buffer a partir de un valor entero.
 
@@ -65,16 +65,16 @@ Añade bits al buffer a partir de un valor entero.
 \begin{DoxyParams}{Parameters}
 {\em val} & Valor a codificar \\
 \hline
-{\em len} & Numero de bits a usar (desde el LSB)\\
+{\em len} & Número de bits a usar (desde el LSB)\\
 \hline
-{\em val} & Valor entero del que se extraeran los bits \\
+{\em val} & Valor entero del que se extraerán los bits \\
 \hline
-{\em len} & Numero de bits a añadir (empezando por el MSB) \\
+{\em len} & Número de bits a añadir (empezando por el MSB) \\
 \hline
 \end{DoxyParams}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em std\+::domain\+\_\+error} & Si len esta fuera de rango o val requiere mas de len bits \\
+{\em std\+::domain\+\_\+error} & Si len está fuera de rango o val requiere más de len bits \\
 \hline
 \end{DoxyExceptions}
 

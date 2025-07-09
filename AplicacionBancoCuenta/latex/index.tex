@@ -1,26 +1,26 @@
-\chapter{Sistema de Gestion Bancaria }
-\hypertarget{index}{}\label{index}\index{Sistema de Gestion Bancaria@{Sistema de Gestion Bancaria}}
-\hypertarget{index_intro_sec}{}\doxysection{\texorpdfstring{Introduccion}{Introduccion}}\label{index_intro_sec}
-El Sistema de Gestion Bancaria es una aplicacion de consola desarrollada en C++ que simula las operaciones basicas de un banco. El sistema permite gestionar clientes, cuentas bancarias (ahorro y corriente), realizar transacciones y generar reportes.
+\chapter{Sistema de Gestión Bancaria }
+\hypertarget{index}{}\label{index}\index{Sistema de Gestión Bancaria@{Sistema de Gestión Bancaria}}
+\hypertarget{index_intro_sec}{}\doxysection{\texorpdfstring{Introducción}{Introducción}}\label{index_intro_sec}
+El Sistema de Gestión Bancaria es una aplicación de consola desarrollada en C++ que simula las operaciones básicas de un banco. El sistema permite gestionar clientes, cuentas bancarias (ahorro y corriente), realizar transacciones y generar reportes.
 
-La aplicacion utiliza conceptos avanzados de programacion orientada a objetos como herencia, polimorfismo, templates y estructuras de datos personalizadas.\hypertarget{index_features_sec}{}\doxysection{\texorpdfstring{Caracteristicas Principales}{Caracteristicas Principales}}\label{index_features_sec}
+La aplicación utiliza conceptos avanzados de programación orientada a objetos como herencia, polimorfismo, templates y estructuras de datos personalizadas.\hypertarget{index_features_sec}{}\doxysection{\texorpdfstring{Características Principales}{Características Principales}}\label{index_features_sec}
 
 \begin{DoxyItemize}
-\item Gestion de clientes (creacion, busqueda, actualizacion)
-\item Administracion de cuentas de ahorro y cuentas corrientes
-\item Operaciones bancarias (depositos, retiros, transferencias)
-\item Validacion de datos y fechas
+\item Gestión de clientes (creación, búsqueda, actualización)
+\item Administración de cuentas de ahorro y cuentas corrientes
+\item Operaciones bancarias (depósitos, retiros, transferencias)
+\item Validación de datos y fechas
 \item Persistencia de datos mediante archivos
 \item Interfaz de texto con marquesina informativa
-\item Generacion de codigos QR para cuentas
-\item Implementacion didactica de estructuras de datos (listas enlazadas, arbol B)
-\item \doxylink{class_cifrado}{Cifrado} y descifrado de informacion
-\end{DoxyItemize}\hypertarget{index_modules_sec}{}\doxysection{\texorpdfstring{Modulos Principales}{Modulos Principales}}\label{index_modules_sec}
-\hypertarget{index_cliente_mod}{}\doxysubsection{\texorpdfstring{Gestion de Clientes}{Gestion de Clientes}}\label{index_cliente_mod}
-Este modulo se encarga de administrar la informacion personal de los clientes del banco. La clase principal es \doxylink{class_persona}{Persona} que almacena datos como nombre, apellido, direccion, etc.\hypertarget{index_cuentas_mod}{}\doxysubsection{\texorpdfstring{Gestion de Cuentas}{Gestion de Cuentas}}\label{index_cuentas_mod}
-Modulo para administrar las cuentas bancarias. La clase base es \doxylink{class_cuenta}{Cuenta}, de la cual heredan \doxylink{class_cuenta_ahorros}{Cuenta\+Ahorros} y \doxylink{class_cuenta_corriente}{Cuenta\+Corriente}, cada una con sus propias reglas de negocio.\hypertarget{index_util_mod}{}\doxysubsection{\texorpdfstring{Utilidades}{Utilidades}}\label{index_util_mod}
-Proporciona funcionalidades comunes como validacion de datos (\doxylink{class_validar}{Validar}), manejo de fechas (\doxylink{class_fecha}{Fecha}), y diversas herramientas (\doxylink{class_utilidades}{Utilidades}).\hypertarget{index_ui_mod}{}\doxysubsection{\texorpdfstring{Interfaz de Usuario}{Interfaz de Usuario}}\label{index_ui_mod}
-Modulo que implementa la interfaz de usuario en modo texto, incluyendo una marquesina informativa (\doxylink{class_marquesina}{Marquesina}).\hypertarget{index_install_sec}{}\doxysection{\texorpdfstring{Requisitos e Instalacion}{Requisitos e Instalacion}}\label{index_install_sec}
+\item Generación de códigos QR para cuentas
+\item Implementación didáctica de estructuras de datos (listas enlazadas, árbol B)
+\item \doxylink{class_cifrado}{Cifrado} y descifrado de información
+\end{DoxyItemize}\hypertarget{index_modules_sec}{}\doxysection{\texorpdfstring{Módulos Principales}{Módulos Principales}}\label{index_modules_sec}
+\hypertarget{index_cliente_mod}{}\doxysubsection{\texorpdfstring{Gestión de Clientes}{Gestión de Clientes}}\label{index_cliente_mod}
+Este módulo se encarga de administrar la información personal de los clientes del banco. La clase principal es \doxylink{class_persona}{Persona} que almacena datos como nombre, apellido, dirección, etc.\hypertarget{index_cuentas_mod}{}\doxysubsection{\texorpdfstring{Gestión de Cuentas}{Gestión de Cuentas}}\label{index_cuentas_mod}
+Módulo para administrar las cuentas bancarias. La clase base es \doxylink{class_cuenta}{Cuenta}, de la cual heredan \doxylink{class_cuenta_ahorros}{Cuenta\+Ahorros} y \doxylink{class_cuenta_corriente}{Cuenta\+Corriente}, cada una con sus propias reglas de negocio.\hypertarget{index_util_mod}{}\doxysubsection{\texorpdfstring{Utilidades}{Utilidades}}\label{index_util_mod}
+Proporciona funcionalidades comunes como validación de datos (\doxylink{class_validar}{Validar}), manejo de fechas (\doxylink{class_fecha}{Fecha}), y diversas herramientas (\doxylink{class_utilidades}{Utilidades}).\hypertarget{index_ui_mod}{}\doxysubsection{\texorpdfstring{Interfaz de Usuario}{Interfaz de Usuario}}\label{index_ui_mod}
+Módulo que implementa la interfaz de usuario en modo texto, incluyendo una marquesina informativa (\doxylink{class_marquesina}{Marquesina}).\hypertarget{index_install_sec}{}\doxysection{\texorpdfstring{Requisitos e Instalación}{Requisitos e Instalación}}\label{index_install_sec}
 
 \begin{DoxyItemize}
 \item Visual Studio 2022 o superior
@@ -28,11 +28,11 @@ Modulo que implementa la interfaz de usuario en modo texto, incluyendo una marqu
 \item Windows 8 o superior
 \end{DoxyItemize}
 
-Para compilar el proyecto, abra la solucion en Visual Studio y seleccione la opcion "{}\+Compilar solucion"{}.\hypertarget{index_usage_sec}{}\doxysection{\texorpdfstring{Uso Basico}{Uso Basico}}\label{index_usage_sec}
+Para compilar el proyecto, abra la solución en Visual Studio y seleccione la opción "{}\+Compilar solución"{}.\hypertarget{index_usage_sec}{}\doxysection{\texorpdfstring{Uso Básico}{Uso Básico}}\label{index_usage_sec}
 
 \begin{DoxyEnumerate}
-\item Ejecute la aplicacion compilada
-\item Utilice el menu principal para navegar entre las diferentes opciones
+\item Ejecute la aplicación compilada
+\item Utilice el menú principal para navegar entre las diferentes opciones
 \item Siga las instrucciones en pantalla para realizar operaciones
 \end{DoxyEnumerate}\hypertarget{index_authors_sec}{}\doxysection{\texorpdfstring{Autores}{Autores}}\label{index_authors_sec}
 
@@ -41,4 +41,4 @@ Para compilar el proyecto, abra la solucion en Visual Studio y seleccione la opc
 \item Kerly Chuqui
 \item Abner Proano
 \end{DoxyItemize}\hypertarget{index_license_sec}{}\doxysection{\texorpdfstring{Licencia}{Licencia}}\label{index_license_sec}
-Este proyecto es de uso educativo y esta protegido por derechos de autor. 
+Este proyecto es de uso educativo y está protegido por derechos de autor. 

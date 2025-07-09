@@ -110,7 +110,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a72497b696331bb5df5c7d4734cae41b7" id="r_a72497b696331bb5df5c7d4734cae41b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72497b696331bb5df5c7d4734cae41b7">agregarPersonaConCuenta</a> ()</td></tr>
 <tr class="memdesc:a72497b696331bb5df5c7d4734cae41b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Agrega una nueva persona con cuenta al banco.  <br /></td></tr>
 <tr class="memitem:aad55fc5aa091bbb607c42ac062f6a066" id="r_aad55fc5aa091bbb607c42ac062f6a066"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad55fc5aa091bbb607c42ac062f6a066">guardarCuentasEnArchivo</a> (const std::string &amp;nombreArchivo) const</td></tr>
-<tr class="memdesc:aad55fc5aa091bbb607c42ac062f6a066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Guarda las cuentas en un archivo con nombre especifico.  <br /></td></tr>
+<tr class="memdesc:aad55fc5aa091bbb607c42ac062f6a066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Guarda las cuentas en un archivo con nombre específico.  <br /></td></tr>
 <tr class="memitem:a929b2bc9d1abb497f83d45efae2ca8b0" id="r_a929b2bc9d1abb497f83d45efae2ca8b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a929b2bc9d1abb497f83d45efae2ca8b0">guardarCuentasEnArchivo</a> ()</td></tr>
 <tr class="memdesc:a929b2bc9d1abb497f83d45efae2ca8b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Guarda las cuentas en un archivo con nombre predeterminado.  <br /></td></tr>
 <tr class="memitem:a859a084ce5a7bcff65fac6a6e1c719eb" id="r_a859a084ce5a7bcff65fac6a6e1c719eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a859a084ce5a7bcff65fac6a6e1c719eb">cargarCuentasDesdeArchivo</a> (const std::string &amp;nombreArchivo)</td></tr>
@@ -127,10 +127,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8e0ba3bbd3888deabc02acbda87b398e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatea un valor monetario con separadores de miles.  <br /></td></tr>
 <tr class="memitem:abf60550bd5ca8ece0384da264db14d19" id="r_abf60550bd5ca8ece0384da264db14d19"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf60550bd5ca8ece0384da264db14d19">obtenerRutaEscritorio</a> () const</td></tr>
 <tr class="memdesc:abf60550bd5ca8ece0384da264db14d19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene la ruta del escritorio del usuario actual.  <br /></td></tr>
+<tr class="memitem:a2b270ea729a0a990977c5a2fc0129f1d" id="r_a2b270ea729a0a990977c5a2fc0129f1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b270ea729a0a990977c5a2fc0129f1d">verificarCuentasBanco</a> () const</td></tr>
+<tr class="memdesc:a2b270ea729a0a990977c5a2fc0129f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica si existen cuentas bancarias registradas.  <br /></td></tr>
+<tr class="memitem:a629959901fdaa75b0fdcf2dbeb5726d5" id="r_a629959901fdaa75b0fdcf2dbeb5726d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a629959901fdaa75b0fdcf2dbeb5726d5">subMenuCuentasBancarias</a> ()</td></tr>
+<tr class="memdesc:a629959901fdaa75b0fdcf2dbeb5726d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submenú para gestionar cuentas bancarias.  <br /></td></tr>
+<tr class="memitem:a67dc7c024b4289d2615d0efdc9015b68" id="r_a67dc7c024b4289d2615d0efdc9015b68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67dc7c024b4289d2615d0efdc9015b68">buscarCuentaParaOperacion</a> (<a class="el" href="class_banco.html">Banco</a> &amp;banco, <a class="el" href="class_cuenta_ahorros.html">CuentaAhorros</a> *&amp;cuentaAhorros, <a class="el" href="class_cuenta_corriente.html">CuentaCorriente</a> *&amp;cuentaCorriente, std::string &amp;cedula)</td></tr>
+<tr class="memdesc:a67dc7c024b4289d2615d0efdc9015b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca una cuenta bancaria para realizar operaciones.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Clase que representa un banco con sus operaciones principales. </p>
-<p>Esta clase gestiona la lista de personas (clientes) del banco y proporciona funcionalidades para crear, buscar y administrar cuentas bancarias. Tambien permite realizar operaciones como transferencias y manejo de archivos para persistencia de datos. </p>
+<p>Esta clase gestiona la lista de personas (clientes) del banco y proporciona funcionalidades para crear, buscar y administrar cuentas bancarias. También permite realizar operaciones como transferencias y manejo de archivos para persistencia de datos. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a686e51b219dc175e432e91559298b259" name="a686e51b219dc175e432e91559298b259"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a686e51b219dc175e432e91559298b259">&#9670;&#160;</a></span>Banco()</h2>
@@ -150,7 +156,7 @@ Public Member Functions</h2></td></tr>
 <p>Constructor por defecto. </p>
 <p>Constructor por defecto de la clase <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a>.</p>
 <p>Inicializa un banco sin clientes (listaPersonas = nullptr)</p>
-<p>Inicializa una instancia de <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> con una lista vacia de personas </p>
+<p>Inicializa una instancia de <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> con una lista vacía de personas </p>
 
 </div>
 </div>
@@ -195,7 +201,7 @@ Public Member Functions</h2></td></tr>
 <p>Agrega una nueva persona con cuenta al banco. </p>
 <p>Agrega una nueva persona con una cuenta asociada al sistema bancario.</p>
 <p>Solicita los datos de la persona y crea una cuenta asociada a ella</p>
-<p>Este metodo presenta un menu para seleccionar el tipo de cuenta (ahorros o corriente), solicita los datos personales necesarios y crea tanto la persona como su cuenta asociada. Tambien maneja el caso de cedulas existentes, permitiendo agregar una nueva cuenta a un cliente que ya existe en el sistema. </p>
+<p>Este método presenta un menú para seleccionar el tipo de cuenta (ahorros o corriente), solicita los datos personales necesarios y crea tanto la persona como su cuenta asociada. También maneja el caso de cédulas existentes, permitiendo agregar una nueva cuenta a un cliente que ya existe en el sistema. </p>
 
 </div>
 </div>
@@ -215,9 +221,53 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Busca una cuenta en el sistema. </p>
-<p>Presenta un menu para buscar cuentas segun diferentes criterios.</p>
-<p>Permite buscar cuentas por diferentes criterios como numero o titular</p>
-<p>Permite buscar por fecha de creacion, por criterio personalizado, por numero de cuenta, o por cedula del titular. </p>
+<p>Presenta un menú para buscar cuentas según diferentes criterios.</p>
+<p>Permite buscar cuentas por diferentes criterios como número o titular</p>
+<p>Permite buscar por fecha de creación, por criterio personalizado, por número de cuenta, o por cédula del titular. </p>
+
+</div>
+</div>
+<a id="a67dc7c024b4289d2615d0efdc9015b68" name="a67dc7c024b4289d2615d0efdc9015b68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67dc7c024b4289d2615d0efdc9015b68">&#9670;&#160;</a></span>buscarCuentaParaOperacion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Banco::buscarCuentaParaOperacion </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_banco.html">Banco</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>banco</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_cuenta_ahorros.html">CuentaAhorros</a> *&amp;</td>          <td class="paramname"><span class="paramname"><em>cuentaAhorros</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_cuenta_corriente.html">CuentaCorriente</a> *&amp;</td>          <td class="paramname"><span class="paramname"><em>cuentaCorriente</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>cedula</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Busca una cuenta bancaria para realizar operaciones. </p>
+<p>Permite al usuario buscar una cuenta por cédula o número de cuenta, y devuelve la cuenta encontrada para realizar operaciones sobre ella.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> donde buscar la cuenta </td></tr>
+    <tr><td class="paramname">cuentaAhorros</td><td>Referencia a puntero que se actualizará con la cuenta de ahorros encontrada </td></tr>
+    <tr><td class="paramname">cuentaCorriente</td><td>Referencia a puntero que se actualizará con la cuenta corriente encontrada </td></tr>
+    <tr><td class="paramname">cedula</td><td>Referencia a string que se actualizará con la cédula del titular </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool true si se encontró una cuenta válida, false en caso contrario </dd></dl>
 
 </div>
 </div>
@@ -237,9 +287,9 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Busca cuentas por diversos criterios. </p>
-<p>Busca cuentas segun criterios personalizados del usuario.</p>
-<p>Interfaz para buscar cuentas por numero, saldo, titular, etc.</p>
-<p>Permite buscar por numero de cuenta, fecha de apertura, saldo, tipo de cuenta o cedula del titular. </p>
+<p>Busca cuentas según criterios personalizados del usuario.</p>
+<p>Interfaz para buscar cuentas por número, saldo, titular, etc.</p>
+<p>Permite buscar por número de cuenta, fecha de apertura, saldo, tipo de cuenta o cédula del titular. </p>
 
 </div>
 </div>
@@ -259,7 +309,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Busca cuentas por fecha de apertura. </p>
-<p>Busca cuentas por fecha de creacion.</p>
+<p>Busca cuentas por fecha de creación.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fecha</td><td><a class="el" href="class_fecha.html" title="Clase que representa y manipula fechas.">Fecha</a> de apertura en formato DD/MM/AAAA</td></tr>
@@ -289,7 +339,7 @@ Public Member Functions</h2></td></tr>
 <p>Carga las cuentas desde un archivo de respaldo.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo desde donde se cargaran los datos</td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo desde donde se cargarán los datos</td></tr>
     <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo desde donde cargar los datos </td></tr>
   </table>
   </dd>
@@ -374,7 +424,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Guarda las cuentas en un archivo con nombre predeterminado. </p>
-<p>Guarda todas las cuentas en un archivo con nombre generado automaticamente.</p>
+<p>Guarda todas las cuentas en un archivo con nombre generado automáticamente.</p>
 <p>Utiliza la ruta del escritorio y un nombre por defecto</p>
 <p>Crea un respaldo con la fecha actual en el nombre y verifica que la fecha del sistema no haya sido manipulada antes de realizar el respaldo. </p>
 
@@ -395,11 +445,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Guarda las cuentas en un archivo con nombre especifico. </p>
-<p>Guarda todas las cuentas en un archivo con nombre especifico.</p>
+<p>Guarda las cuentas en un archivo con nombre específico. </p>
+<p>Guarda todas las cuentas en un archivo con nombre específico.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo donde se guardaran los datos </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo donde se guardarán los datos </td></tr>
   </table>
   </dd>
 </dl>
@@ -425,8 +475,8 @@ Public Member Functions</h2></td></tr>
 <p>Obtiene la ruta del directorio del escritorio del usuario.</p>
 <dl class="section return"><dt>Returns</dt><dd>String con la ruta completa al escritorio</dd></dl>
 <p>Utiliza funciones del API de Windows para obtener la ruta</p>
-<p>Crea una carpeta "BancoApp" en el escritorio si no existe, para almacenar los archivos generados por la aplicacion.</p>
-<dl class="section return"><dt>Returns</dt><dd>Ruta completa de la carpeta de la aplicacion </dd></dl>
+<p>Crea una carpeta "BancoApp" en el escritorio si no existe, para almacenar los archivos generados por la aplicación.</p>
+<dl class="section return"><dt>Returns</dt><dd>Ruta completa de la carpeta de la aplicación </dd></dl>
 
 </div>
 </div>
@@ -448,7 +498,7 @@ Public Member Functions</h2></td></tr>
 <p>Realiza transferencias entre cuentas. </p>
 <p>Realiza una transferencia de fondos entre dos cuentas.</p>
 <p>Permite mover fondos entre distintas cuentas bancarias</p>
-<p>Gestiona la busqueda de cuentas origen y destino, validacion de fondos, y ejecucion de la transferencia con sus respectivas actualizaciones de saldo. </p>
+<p>Gestiona la búsqueda de cuentas origen y destino, validación de fondos, y ejecución de la transferencia con sus respectivas actualizaciones de saldo. </p>
 
 </div>
 </div>
@@ -482,6 +532,47 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a629959901fdaa75b0fdcf2dbeb5726d5" name="a629959901fdaa75b0fdcf2dbeb5726d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a629959901fdaa75b0fdcf2dbeb5726d5">&#9670;&#160;</a></span>subMenuCuentasBancarias()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Banco::subMenuCuentasBancarias </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Submenú para gestionar cuentas bancarias. </p>
+<p>Muestra el submenú de cuentas bancarias.</p>
+<p>Submenú de cuentas bancarias para separar las opciones de gestión de cuentas </p>
+
+</div>
+</div>
+<a id="a2b270ea729a0a990977c5a2fc0129f1d" name="a2b270ea729a0a990977c5a2fc0129f1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b270ea729a0a990977c5a2fc0129f1d">&#9670;&#160;</a></span>verificarCuentasBanco()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Banco::verificarCuentasBanco </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Verifica si existen cuentas bancarias registradas. </p>
+<p>Verifica las cuentas del banco. </p>
 
 </div>
 </div>

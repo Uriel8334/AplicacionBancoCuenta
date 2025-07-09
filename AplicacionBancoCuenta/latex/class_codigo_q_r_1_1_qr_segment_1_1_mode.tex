@@ -2,7 +2,7 @@
 \hypertarget{class_codigo_q_r_1_1_qr_segment_1_1_mode}{}\label{class_codigo_q_r_1_1_qr_segment_1_1_mode}\index{CodigoQR::QrSegment::Mode@{CodigoQR::QrSegment::Mode}}
 
 
-Define los modos de codificacion para segmentos QR.  
+Define los modos de codificación para segmentos QR.  
 
 
 \doxysubsubsection*{Public Member Functions}
@@ -11,26 +11,26 @@ Define los modos de codificacion para segmentos QR.
 int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_aed2e513db5e93264e01f6eab542f754d}{get\+Mode\+Bits}} () const
 \begin{DoxyCompactList}\small\item\em Obtiene los bits que identifican este modo. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_a352b211e4d031e96d9c3dc83cb610c96}{num\+Char\+Count\+Bits}} (int ver) const
-\begin{DoxyCompactList}\small\item\em Obtiene el numero de bits para contar caracteres. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Obtiene el número de bits para contar caracteres. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 static const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_a7ae5ef2a13b0e741783461ee1b41a248}{NUMERIC}}
-\begin{DoxyCompactList}\small\item\em Modo para datos numericos (0-\/9) \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Modo para datos numéricos (0-\/9) \end{DoxyCompactList}\item 
 static const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_a2b372d30e4716dfa71880d1b30bd1f22}{ALPHANUMERIC}}
-\begin{DoxyCompactList}\small\item\em Modo para datos alfanumericos (0-\/9, A-\/Z, y algunos simbolos) \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Modo para datos alfanuméricos (0-\/9, A-\/Z, y algunos símbolos) \end{DoxyCompactList}\item 
 static const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_a15921a77073fa331b9e313e90e1e898b}{BYTE}}
 \begin{DoxyCompactList}\small\item\em Modo para datos binarios de 8 bits. \end{DoxyCompactList}\item 
 static const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_abd835867f100a6722207da372d4f433d}{KANJI}}
 \begin{DoxyCompactList}\small\item\em Modo para caracteres Kanji (japoneses) \end{DoxyCompactList}\item 
 static const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Mode}} \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode_a300629aad682cbaa6aad93056835f9d2}{ECI}}
-\begin{DoxyCompactList}\small\item\em Modo para informacion de interpretacion extendida de canal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Modo para información de interpretación extendida de canal. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Define los modos de codificacion para segmentos QR. 
+Define los modos de codificación para segmentos QR. 
 
-Cada segmento QR puede usar un modo de codificacion diferente segun el tipo de datos que contiene. 
+Cada segmento QR puede usar un modo de codificación diferente según el tipo de datos que contiene. 
 
 \label{doc-func-members}
 \Hypertarget{class_codigo_q_r_1_1_qr_segment_1_1_mode_doc-func-members}
@@ -45,7 +45,7 @@ int Codigo\+QR\+::\+Qr\+Segment\+::\+Mode\+::get\+Mode\+Bits (\begin{DoxyParamCa
 
 Obtiene los bits que identifican este modo. 
 
-Obtiene los bits que identifican este modo en un codigo QR.
+Obtiene los bits que identifican este modo en un código QR.
 
 \begin{DoxyReturn}{Returns}
 El valor de los bits del modo
@@ -60,25 +60,25 @@ int Codigo\+QR\+::\+Qr\+Segment\+::\+Mode\+::num\+Char\+Count\+Bits (\begin{Doxy
 
 
 
-Obtiene el numero de bits para contar caracteres. 
+Obtiene el número de bits para contar caracteres. 
 
 Obtiene la cantidad de bits necesarios para el contador de caracteres.
 
 
 \begin{DoxyParams}{Parameters}
-{\em ver} & Version del codigo QR \\
+{\em ver} & Versión del código QR \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Numero de bits para la version especificada
+Número de bits para la versión especificada
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em ver} & Version del codigo QR (1-\/40) \\
+{\em ver} & Versión del código QR (1-\/40) \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Numero de bits para el contador de caracteres 
+Número de bits para el contador de caracteres 
 \end{DoxyReturn}
 
 
@@ -93,9 +93,9 @@ const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Qr\+Segment\+::
 
 
 
-Modo para datos alfanumericos (0-\/9, A-\/Z, y algunos simbolos) 
+Modo para datos alfanuméricos (0-\/9, A-\/Z, y algunos símbolos) 
 
-Modo alfanumerico, permite digitos, letras mayusculas y algunos simbolos. \Hypertarget{class_codigo_q_r_1_1_qr_segment_1_1_mode_a15921a77073fa331b9e313e90e1e898b}\index{CodigoQR::QrSegment::Mode@{CodigoQR::QrSegment::Mode}!BYTE@{BYTE}}
+Modo alfanumérico, permite dígitos, letras mayúsculas y algunos símbolos. \Hypertarget{class_codigo_q_r_1_1_qr_segment_1_1_mode_a15921a77073fa331b9e313e90e1e898b}\index{CodigoQR::QrSegment::Mode@{CodigoQR::QrSegment::Mode}!BYTE@{BYTE}}
 \index{BYTE@{BYTE}!CodigoQR::QrSegment::Mode@{CodigoQR::QrSegment::Mode}}
 \doxysubsubsection{\texorpdfstring{BYTE}{BYTE}}
 {\footnotesize\ttfamily \label{class_codigo_q_r_1_1_qr_segment_1_1_mode_a15921a77073fa331b9e313e90e1e898b} 
@@ -113,7 +113,7 @@ const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Qr\+Segment\+::
 
 
 
-Modo para informacion de interpretacion extendida de canal. 
+Modo para información de interpretación extendida de canal. 
 
 Modo ECI (Extended Channel Interpretation) \Hypertarget{class_codigo_q_r_1_1_qr_segment_1_1_mode_abd835867f100a6722207da372d4f433d}\index{CodigoQR::QrSegment::Mode@{CodigoQR::QrSegment::Mode}!KANJI@{KANJI}}
 \index{KANJI@{KANJI}!CodigoQR::QrSegment::Mode@{CodigoQR::QrSegment::Mode}}
@@ -133,9 +133,9 @@ const \mbox{\hyperlink{class_codigo_q_r_1_1_qr_segment_1_1_mode}{Qr\+Segment\+::
 
 
 
-Modo para datos numericos (0-\/9) 
+Modo para datos numéricos (0-\/9) 
 
-Modo numerico, solo permite digitos 0-\/9. 
+Modo numérico, solo permite dígitos 0-\/9. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

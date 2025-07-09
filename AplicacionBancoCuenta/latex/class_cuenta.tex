@@ -2,7 +2,7 @@
 \hypertarget{class_cuenta}{}\label{class_cuenta}\index{Cuenta$<$ T $>$@{Cuenta$<$ T $>$}}
 
 
-Clase abstracta que representa una cuenta bancaria generica.  
+Clase abstracta que representa una cuenta bancaria genérica.  
 
 
 
@@ -13,7 +13,7 @@ Clase abstracta que representa una cuenta bancaria generica.
 \begin{DoxyCompactItemize}
 \item 
 std\+::string \mbox{\hyperlink{class_cuenta_a9e8eb69906fa334132a76b6d25ffcaae}{get\+Numero\+Cuenta}} () const
-\begin{DoxyCompactList}\small\item\em Obtiene el numero de cuenta. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Obtiene el número de cuenta. \end{DoxyCompactList}\item 
 T \mbox{\hyperlink{class_cuenta_ab3fa296ea7e22ec677f3998ff17684a8}{get\+Saldo}} () const
 \begin{DoxyCompactList}\small\item\em Obtiene el saldo actual. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_fecha}{Fecha}} \mbox{\hyperlink{class_cuenta_a87d707df5ca54179381fad09d55ea38b}{get\+Fecha\+Apertura}} () const
@@ -25,7 +25,7 @@ std\+::string \mbox{\hyperlink{class_cuenta_acc8a233f48241a8d757d70172b80813a}{g
 \mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$ \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_cuenta_aa798056d9b1f0db4d7db63a6b9b9472e}{get\+Anterior}} () const
 \begin{DoxyCompactList}\small\item\em Obtiene el puntero al nodo anterior. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{class_cuenta_ab30fcc3c60b171460f3160bfb9b9524b}{set\+Numero\+Cuenta}} (const std\+::string \&numero)
-\begin{DoxyCompactList}\small\item\em Establece el numero de cuenta. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Establece el número de cuenta. \end{DoxyCompactList}\item 
 T \mbox{\hyperlink{class_cuenta_a9da5555b6815e9fa5b604ff58476564d}{set\+Saldo}} (T nuevo\+Saldo)
 \begin{DoxyCompactList}\small\item\em Establece el saldo de la cuenta. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_fecha}{Fecha}} \mbox{\hyperlink{class_cuenta_a207774598d28de5d8a5be35157da77e2}{set\+Fecha\+Apertura}} (const std\+::string \&fecha\+Str)
@@ -37,7 +37,7 @@ void \mbox{\hyperlink{class_cuenta_a916c21c68c522a14b8ec99b4722c7c26}{set\+Sigui
 void \mbox{\hyperlink{class_cuenta_a04791338fd26606cd9915736b356bac9}{set\+Anterior}} (\mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$ \texorpdfstring{$\ast$}{*}ant)
 \begin{DoxyCompactList}\small\item\em Establece el puntero al nodo anterior. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{class_cuenta_a1fdd97d3ef39c81820601098f4330c30}{depositar}} (T cantidad)=0
-\begin{DoxyCompactList}\small\item\em Realiza un deposito en la cuenta. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Realiza un depósito en la cuenta. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{class_cuenta_acd5f76a510d253a5e3d8ac752e800d97}{retirar}} (T cantidad)=0
 \begin{DoxyCompactList}\small\item\em Realiza un retiro de la cuenta. \end{DoxyCompactList}\item 
 virtual double \mbox{\hyperlink{class_cuenta_a184eb70ffcafeaefbfb8f28c81ba3e1d}{consultar\+Saldo}} () const =0
@@ -49,14 +49,14 @@ virtual void \mbox{\hyperlink{class_cuenta_a2fffb74920cd26dc62b570bfbfaa11a1}{gu
 virtual void \mbox{\hyperlink{class_cuenta_a255597a08fc4416a9316b3af7c8d8f01}{cargar\+Desde\+Archivo}} (const std\+::string \&nombre\+Archivo)=0
 \begin{DoxyCompactList}\small\item\em Carga los datos de la cuenta desde un archivo. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{class_cuenta_af06abcd44cbfe8699d0982cea72f3379}{mostrar\+Informacion}} (const std\+::string \&cedula="{}"{}, bool limpiar\+Pantalla=true) const =0
-\begin{DoxyCompactList}\small\item\em Muestra la informacion de la cuenta. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Muestra la información de la cuenta. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_cuenta_ad5edd4645798a77e078e52aa7d449bd3}{Cuenta}} ()
 \begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_cuenta_afb759d091eaeca6952978511e9cc0263}{Cuenta}} (std\+::string \mbox{\hyperlink{class_cuenta_ae1371fa13d9809c892780c40a83f7802}{numero\+Cuenta}}, T \mbox{\hyperlink{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}{saldo}}, const std\+::string \&fecha\+Str, std\+::string \mbox{\hyperlink{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}{estado\+Cuenta}})
-\begin{DoxyCompactList}\small\item\em Constructor con parametros. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Constructor con parámetros. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{class_cuenta_a81f703a3656a58893da941235fa3300d}{\texorpdfstring{$\sim$}{\string~}\+Cuenta}} ()
 \begin{DoxyCompactList}\small\item\em Destructor virtual. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Attributes}
@@ -64,13 +64,13 @@ virtual \mbox{\hyperlink{class_cuenta_a81f703a3656a58893da941235fa3300d}{\texorp
 \item 
 \Hypertarget{class_cuenta_ae1371fa13d9809c892780c40a83f7802}\label{class_cuenta_ae1371fa13d9809c892780c40a83f7802} 
 std\+::string {\bfseries numero\+Cuenta}
-\begin{DoxyCompactList}\small\item\em Numero identificador unico de la cuenta. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Número identificador único de la cuenta. \end{DoxyCompactList}\item 
 \Hypertarget{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed}\label{class_cuenta_a08d8c2fa35d3d1a410f2015c699412ed} 
 T {\bfseries saldo}
 \begin{DoxyCompactList}\small\item\em Saldo actual disponible en la cuenta. \end{DoxyCompactList}\item 
 \Hypertarget{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8}\label{class_cuenta_a5f97b53679c2ebefb3fafeb0d23a81a8} 
 \mbox{\hyperlink{class_fecha}{Fecha}} {\bfseries fecha\+Apertura}
-\begin{DoxyCompactList}\small\item\em \doxylink{class_fecha}{Fecha} en que se abrio la cuenta. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \doxylink{class_fecha}{Fecha} en que se abrió la cuenta. \end{DoxyCompactList}\item 
 \Hypertarget{class_cuenta_acd2808ba0e677b85cf39ed156cf59478}\label{class_cuenta_acd2808ba0e677b85cf39ed156cf59478} 
 std\+::string {\bfseries estado\+Cuenta}
 \begin{DoxyCompactList}\small\item\em Estado actual de la cuenta (activa, inactiva, bloqueada, etc.) \end{DoxyCompactList}\item 
@@ -85,13 +85,13 @@ std\+::string {\bfseries estado\+Cuenta}
 \doxysubsection{Detailed Description}
 \subsubsection*{template$<$typename T$>$\newline
 class Cuenta$<$ T $>$}
-Clase abstracta que representa una cuenta bancaria generica. 
+Clase abstracta que representa una cuenta bancaria genérica. 
 
 Esta clase implementa una estructura de lista doblemente enlazada y utiliza templates para permitir diferentes tipos de datos para el saldo (T). Sirve como base para diferentes tipos de cuentas bancarias.
 
 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em T} & Tipo de dato para almacenar el saldo (tipicamente double o float) \\
+{\em T} & Tipo de dato para almacenar el saldo (típicamente double o float) \\
 \hline
 \end{DoxyTemplParams}
 
@@ -110,7 +110,7 @@ template$<$typename T$>$ \\
 
 Constructor por defecto. 
 
-Inicializa una cuenta con valores vacios y punteros nulos \Hypertarget{class_cuenta_afb759d091eaeca6952978511e9cc0263}\index{Cuenta$<$ T $>$@{Cuenta$<$ T $>$}!Cuenta@{Cuenta}}
+Inicializa una cuenta con valores vacíos y punteros nulos \Hypertarget{class_cuenta_afb759d091eaeca6952978511e9cc0263}\index{Cuenta$<$ T $>$@{Cuenta$<$ T $>$}!Cuenta@{Cuenta}}
 \index{Cuenta@{Cuenta}!Cuenta$<$ T $>$@{Cuenta$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{Cuenta()}{Cuenta()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily \label{class_cuenta_afb759d091eaeca6952978511e9cc0263} 
@@ -119,11 +119,11 @@ template$<$typename T$>$ \\
 
 
 
-Constructor con parametros. 
+Constructor con parámetros. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em numero\+Cuenta} & Numero identificador de la cuenta \\
+{\em numero\+Cuenta} & Número identificador de la cuenta \\
 \hline
 {\em saldo} & Saldo inicial de la cuenta \\
 \hline
@@ -143,7 +143,7 @@ virtual \mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$\+::\texorpdfstring{$\si
 
 Destructor virtual. 
 
-Permite la correcta liberacion de recursos en clases derivadas 
+Permite la correcta liberación de recursos en clases derivadas 
 
 \label{doc-func-members}
 \Hypertarget{class_cuenta_doc-func-members}
@@ -213,7 +213,7 @@ virtual void \mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$\+::depositar (\beg
 
 
 
-Realiza un deposito en la cuenta. 
+Realiza un depósito en la cuenta. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -275,10 +275,10 @@ std\+::string \mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$\+::get\+Numero\+C
 
 
 
-Obtiene el numero de cuenta. 
+Obtiene el número de cuenta. 
 
 \begin{DoxyReturn}{Returns}
-Numero de cuenta como cadena 
+Número de cuenta como cadena 
 \end{DoxyReturn}
 \Hypertarget{class_cuenta_ab3fa296ea7e22ec677f3998ff17684a8}\index{Cuenta$<$ T $>$@{Cuenta$<$ T $>$}!getSaldo@{getSaldo}}
 \index{getSaldo@{getSaldo}!Cuenta$<$ T $>$@{Cuenta$<$ T $>$}}
@@ -337,11 +337,11 @@ virtual void \mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$\+::mostrar\+Inform
 
 
 
-Muestra la informacion de la cuenta. 
+Muestra la información de la cuenta. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em cedula} & Cedula del titular (opcional) \\
+{\em cedula} & Cédula del titular (opcional) \\
 \hline
 {\em limpiar\+Pantalla} & Indica si se debe limpiar la pantalla antes de mostrar (por defecto es true) \\
 \hline
@@ -433,15 +433,15 @@ std\+::string \mbox{\hyperlink{class_cuenta}{Cuenta}}$<$ T $>$\+::set\+Numero\+C
 
 
 
-Establece el numero de cuenta. 
+Establece el número de cuenta. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em numero} & Nuevo numero de cuenta \\
+{\em numero} & Nuevo número de cuenta \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Numero de cuenta actualizado 
+Número de cuenta actualizado 
 \end{DoxyReturn}
 \Hypertarget{class_cuenta_a9da5555b6815e9fa5b604ff58476564d}\index{Cuenta$<$ T $>$@{Cuenta$<$ T $>$}!setSaldo@{setSaldo}}
 \index{setSaldo@{setSaldo}!Cuenta$<$ T $>$@{Cuenta$<$ T $>$}}

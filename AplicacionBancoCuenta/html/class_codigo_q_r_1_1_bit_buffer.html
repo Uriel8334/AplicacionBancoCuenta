@@ -108,11 +108,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a796ddf9c3ed658be3877c834f55fe427" id="r_a796ddf9c3ed658be3877c834f55fe427"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a796ddf9c3ed658be3877c834f55fe427">BitBuffer</a> ()</td></tr>
 <tr class="memdesc:a796ddf9c3ed658be3877c834f55fe427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor por defecto.  <br /></td></tr>
 <tr class="memitem:ab8c9a2474e6eae1217e788a7e00d8906" id="r_ab8c9a2474e6eae1217e788a7e00d8906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8c9a2474e6eae1217e788a7e00d8906">appendBits</a> (std::uint32_t val, int len)</td></tr>
-<tr class="memdesc:ab8c9a2474e6eae1217e788a7e00d8906"><td class="mdescLeft">&#160;</td><td class="mdescRight">A�ade bits al buffer.  <br /></td></tr>
+<tr class="memdesc:ab8c9a2474e6eae1217e788a7e00d8906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Añade bits al buffer.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Buffer de bits para construir datos QR. </p>
-<p>Extiende std::vector&lt;bool&gt; con metodos para a�adir bits de manera eficiente </p>
+<p>Extiende std::vector&lt;bool&gt; con métodos para añadir bits de manera eficiente </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a796ddf9c3ed658be3877c834f55fe427" name="a796ddf9c3ed658be3877c834f55fe427"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a796ddf9c3ed658be3877c834f55fe427">&#9670;&#160;</a></span>BitBuffer()</h2>
@@ -131,7 +131,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Constructor por defecto. </p>
 <p>Constructor por defecto para <a class="el" href="class_codigo_q_r_1_1_bit_buffer.html" title="Buffer de bits para construir datos QR.">BitBuffer</a>.</p>
-<p>Crea un buffer de bits vacio </p>
+<p>Crea un buffer de bits vacío </p>
 
 </div>
 </div>
@@ -155,20 +155,20 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>A�ade bits al buffer. </p>
+<p>Añade bits al buffer. </p>
 <p>Añade bits al buffer a partir de un valor entero.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">val</td><td>Valor a codificar </td></tr>
-    <tr><td class="paramname">len</td><td>Numero de bits a usar (desde el LSB)</td></tr>
-    <tr><td class="paramname">val</td><td>Valor entero del que se extraeran los bits </td></tr>
-    <tr><td class="paramname">len</td><td>Numero de bits a añadir (empezando por el MSB) </td></tr>
+    <tr><td class="paramname">len</td><td>Número de bits a usar (desde el LSB)</td></tr>
+    <tr><td class="paramname">val</td><td>Valor entero del que se extraerán los bits </td></tr>
+    <tr><td class="paramname">len</td><td>Número de bits a añadir (empezando por el MSB) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::domain_error</td><td>Si len esta fuera de rango o val requiere mas de len bits </td></tr>
+    <tr><td class="paramname">std::domain_error</td><td>Si len está fuera de rango o val requiere más de len bits </td></tr>
   </table>
   </dd>
 </dl>

@@ -139,6 +139,7 @@ int main() {
 		"Gestion de Hash",
 		"Arbol B",
 		"Generar QR",
+		"Abrir documentacion",
 		"Salir"
 	};
 
@@ -249,7 +250,7 @@ int main() {
 				}
 
 				// Submenu para tipo de guardado
-				std::string opcionesGuardado[] = { "Respaldo (.bak)", "Archivo cifrado (.bin)", "Cancelar" };
+				std::string opcionesGuardado[] = { "Respaldo (.bak)", "Archivo cifrado (.bin)", "Archivo PDF de (.bak) o (.txt)", "Cancelar" };
 				int numOpcionesGuardado = sizeof(opcionesGuardado) / sizeof(opcionesGuardado[0]);
 				int selGuardado = 0;
 
@@ -275,7 +276,7 @@ int main() {
 						break;
 				}
 
-				if (selGuardado == 2) { // Cancelar
+				if (selGuardado == 3) { // Cancelar
 					break;
 				}
 
@@ -297,6 +298,40 @@ int main() {
 					char clave = _getch();
 					std::cout << "*\n"; // Ocultar la clave
 					Cifrado::cifrarYGuardarDatos(banco, nombreArchivo, clave);
+				}
+				else if (selGuardado == 2) { // Archivo PDF de (.bak) o (.txt)
+					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					std::cout << "GENERACIÓN DE PDF\n\n";
+
+					// Solicitar el nombre del archivo de respaldo a convertir
+					std::cout << "Ingrese el nombre del archivo .bak (sin extensión): ";
+					std::string nombreArchivo;
+					std::cin >> nombreArchivo;
+
+					// Verificar que el archivo exista
+					std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+					std::string rutaCompleta = rutaEscritorio + nombreArchivo + ".bak";
+
+					std::ifstream verificarArchivo(rutaCompleta);
+					if (!verificarArchivo.is_open()) {
+						std::cout << "\nError: No se encontró el archivo " << rutaCompleta << "\n";
+						std::cout << "Asegúrese de que el archivo exista antes de convertirlo a PDF.\n";
+						system("pause");
+					}
+					else {
+						verificarArchivo.close();
+
+						// Intentar convertir a PDF
+						std::cout << "\nConvirtiendo archivo a PDF, por favor espere...\n";
+						if (banco.archivoGuardadoHaciaPDF(nombreArchivo)) {
+							std::cout << "\nConversión exitosa. El PDF se guardó en: "
+								<< rutaEscritorio << nombreArchivo << ".pdf\n";
+						}
+						else {
+							std::cout << "\nError al convertir a PDF. Verifique que wkhtmltopdf esté instalado.\n";
+						}
+						system("pause");
+					}
 				}
 				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				necesitaRedibujado = true;
@@ -877,7 +912,57 @@ int main() {
 				necesitaRedibujado = true;
 				break;
 			}
-			case 12: // Salir			
+			case 12: // Abrir documentacion
+			{
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				std::cout << "Abriendo documentación en el navegador...\n";
+
+				// Definir la ruta a la documentación HTML
+				std::string rutaBase = "html\\index.html";
+
+				// Usar ShellExecute para abrir el archivo en el navegador por defecto
+				// Esto es más robusto que system() porque:
+				// 1. Usa el navegador predeterminado del sistema
+				// 2. Maneja correctamente rutas con espacios
+				// 3. No muestra ventanas de comandos
+				HINSTANCE resultado = ShellExecuteA(
+					NULL,           // Handle del padre (null = escritorio)
+					"open",         // Operación (abrir)
+					rutaBase.c_str(), // Archivo a abrir
+					NULL,           // Parámetros (ninguno)
+					NULL,           // Directorio de trabajo (usar actual)
+					SW_SHOWNORMAL   // Mostrar ventana normalmente
+				);
+
+				// Verificar si se pudo abrir
+				if ((int)resultado <= 32) { // ShellExecute devuelve valores <= 32 en caso de error
+					std::cout << "No se pudo abrir la documentación. Código de error: " << (int)resultado << "\n";
+					std::cout << "Intentando método alternativo...\n";
+
+					// Método alternativo usando system
+					std::string comando = "start " + rutaBase;
+					int resultadoSystem = system(comando.c_str());
+
+					if (resultadoSystem != 0) {
+						std::cout << "Error al abrir la documentación.\n";
+						std::cout << "Por favor, abra manualmente el archivo: " << rutaBase << "\n";
+					}
+					else {
+						std::cout << "Documentación abierta mediante método alternativo.\n";
+					}
+				}
+				else {
+					std::cout << "Documentación abierta correctamente.\n";
+				}
+
+				std::cout << "\nPresione cualquier tecla para continuar...\n";
+				int teclaCualquiera = _getch();
+				(void)teclaCualquiera;
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				necesitaRedibujado = true;
+				break;
+			}			
+			case 13: // Salir			
 			{
 				Utilidades::ocultarCursor();
 				Utilidades::limpiarPantallaPreservandoMarquesina(0);

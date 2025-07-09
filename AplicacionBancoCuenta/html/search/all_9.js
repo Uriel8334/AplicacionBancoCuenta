@@ -10,6 +10,5 @@ var searchData=
   ['formatearfecha_7',['FormatearFecha',['../class_utilidades.html#aa62e96976ade5a02288c2198264b87bd',1,'Utilidades']]],
   ['formatearmonto_8',['FormatearMonto',['../class_utilidades.html#a1e6fe10f2960cc788f112022e533238f',1,'Utilidades']]],
   ['formatearsaldo_9',['formatearSaldo',['../class_cuenta_ahorros.html#a480fc36e1578d8c257852f629dfa72e5',1,'CuentaAhorros::formatearSaldo()'],['../class_cuenta_corriente.html#a5162565cbd96536c8b9f99fb88877574',1,'CuentaCorriente::formatearSaldo()']]],
-  ['formato_20de_20datos_20del_20qr_10',['Formato de Datos del QR',['../md__r_e_f_e_r_e_n_c_i_a___r_a_p_i_d_a.html#autotoc_md41',1,'']]],
-  ['forzaractualizacion_11',['forzarActualizacion',['../class_marquesina.html#a62f40a4d1b82ec2c3bb5fc9ec298aec9',1,'Marquesina']]]
+  ['forzaractualizacion_10',['forzarActualizacion',['../class_marquesina.html#a62f40a4d1b82ec2c3bb5fc9ec298aec9',1,'Marquesina']]]
 ];

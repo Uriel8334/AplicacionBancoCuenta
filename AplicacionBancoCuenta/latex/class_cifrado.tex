@@ -27,7 +27,7 @@ static bool \mbox{\hyperlink{class_cifrado_a96f623add554f4e4653896f59a1f2e3b}{de
 \doxysubsection{Detailed Description}
 Clase que implementa funcionalidades de cifrado y descifrado de archivos. 
 
-Esta clase estatica proporciona metodos para cifrar y descifrar archivos utilizando el algoritmo XOR. Tambien contiene funcionalidades especificas para el manejo de datos del banco, permitiendo cifrar, guardar, y recuperar informacion bancaria de manera segura. 
+Esta clase estática proporciona métodos para cifrar y descifrar archivos utilizando el algoritmo XOR. También contiene funcionalidades específicas para el manejo de datos del banco, permitiendo cifrar, guardar, y recuperar información bancaria de manera segura. 
 
 \label{doc-func-members}
 \Hypertarget{class_cifrado_doc-func-members}
@@ -42,26 +42,26 @@ void Cifrado\+::\+Cifrar\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::s
 
 Cifra un archivo usando el algoritmo XOR. 
 
-Cifra un archivo usando el algoritmo Cesar.
+Cifra un archivo usando el algoritmo César.
 
 
 \begin{DoxyParams}{Parameters}
 {\em ruta\+Entrada} & Ruta completa del archivo origen a cifrar \\
 \hline
-{\em ruta\+Salida} & Ruta completa donde se guardara el archivo cifrado \\
+{\em ruta\+Salida} & Ruta completa donde se guardará el archivo cifrado \\
 \hline
-{\em clave} & Caracter usado como clave de cifrado para el algoritmo XOR\\
+{\em clave} & Carácter usado como clave de cifrado para el algoritmo XOR\\
 \hline
 \end{DoxyParams}
-Este metodo lee un archivo byte por byte, aplica una operacion XOR con la clave especificada, y guarda el resultado en un nuevo archivo.
+Este método lee un archivo byte por byte, aplica una operación XOR con la clave especificada, y guarda el resultado en un nuevo archivo.
 
 
 \begin{DoxyParams}{Parameters}
 {\em ruta\+Entrada} & Ruta del archivo original a cifrar \\
 \hline
-{\em ruta\+Salida} & Ruta donde se guardara el archivo cifrado \\
+{\em ruta\+Salida} & Ruta donde se guardará el archivo cifrado \\
 \hline
-{\em clave} & Caracter que determina el desplazamiento para el cifrado \\
+{\em clave} & Carácter que determina el desplazamiento para el cifrado \\
 \hline
 \end{DoxyParams}
 
@@ -83,22 +83,22 @@ Guarda y cifra los datos del banco en un archivo.
 
 
 \begin{DoxyParams}{Parameters}
-{\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} cuyos datos seran cifrados \\
+{\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} cuyos datos serán cifrados \\
 \hline
-{\em nombre\+Archivo} & Nombre base del archivo (sin extension) donde guardar los datos \\
+{\em nombre\+Archivo} & Nombre base del archivo (sin extensión) donde guardar los datos \\
 \hline
-{\em clave\+Cifrado} & Caracter usado como clave de cifrado\\
+{\em clave\+Cifrado} & Carácter usado como clave de cifrado\\
 \hline
 \end{DoxyParams}
-Este metodo serializa los datos del banco a un archivo temporal, luego cifra este archivo y guarda el resultado como un archivo binario (.bin).
+Este método serializa los datos del banco a un archivo temporal, luego cifra este archivo y guarda el resultado como un archivo binario (.bin).
 
-Exporta los datos del banco a un archivo temporal, lo cifra y elimina el archivo temporal despues del proceso.
+Exporta los datos del banco a un archivo temporal, lo cifra y elimina el archivo temporal después del proceso.
 
 
 \begin{DoxyParams}{Parameters}
 {\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} con los datos a guardar \\
 \hline
-{\em nombre\+Archivo} & Nombre del archivo de salida (sin extension) \\
+{\em nombre\+Archivo} & Nombre del archivo de salida (sin extensión) \\
 \hline
 {\em clave\+Cifrado} & Clave de cifrado a utilizar \\
 \hline
@@ -119,9 +119,9 @@ Descifra un archivo sin cargar los datos en el banco.
 \begin{DoxyParams}{Parameters}
 {\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} (usado para obtener rutas) \\
 \hline
-{\em nombre\+Archivo} & Nombre base del archivo cifrado (sin extension) a descifrar \\
+{\em nombre\+Archivo} & Nombre base del archivo cifrado (sin extensión) a descifrar \\
 \hline
-{\em clave\+Cifrado} & Caracter usado como clave de descifrado \\
+{\em clave\+Cifrado} & Carácter usado como clave de descifrado \\
 \hline
 {\em opcion} & Tipo de archivo de salida\+: 0 para .bak, 1 para .txt \\
 \hline
@@ -129,15 +129,15 @@ Descifra un archivo sin cargar los datos en el banco.
 \begin{DoxyReturn}{Returns}
 true si el proceso fue exitoso, false en caso contrario
 \end{DoxyReturn}
-Este metodo descifra el archivo binario especificado y guarda el resultado en un nuevo archivo, sin modificar el estado del objeto \doxylink{class_banco}{Banco}. La opcion determina si se genera un archivo de backup (.bak) o texto (.txt).
+Este método descifra el archivo binario especificado y guarda el resultado en un nuevo archivo, sin modificar el estado del objeto \doxylink{class_banco}{Banco}. La opción determina si se genera un archivo de backup (.bak) o texto (.txt).
 
-Permite descifrar un archivo y guardarlo con diferentes extensiones segun la opcion elegida.
+Permite descifrar un archivo y guardarlo con diferentes extensiones según la opción elegida.
 
 
 \begin{DoxyParams}{Parameters}
 {\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} (usado solo para obtener rutas) \\
 \hline
-{\em nombre\+Archivo} & Nombre del archivo cifrado (sin extension) \\
+{\em nombre\+Archivo} & Nombre del archivo cifrado (sin extensión) \\
 \hline
 {\em clave\+Cifrado} & Clave utilizada para el cifrado original \\
 \hline
@@ -145,7 +145,7 @@ Permite descifrar un archivo y guardarlo con diferentes extensiones segun la opc
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si el proceso se completo exitosamente, false en caso contrario 
+true si el proceso se completó exitosamente, false en caso contrario 
 \end{DoxyReturn}
 \Hypertarget{class_cifrado_ae3a262fd643b343e371ba1256fe19a4a}\index{Cifrado@{Cifrado}!descifrarYCargarDatos@{descifrarYCargarDatos}}
 \index{descifrarYCargarDatos@{descifrarYCargarDatos}!Cifrado@{Cifrado}}
@@ -161,29 +161,29 @@ Descifra un archivo y carga los datos en el objeto \doxylink{class_banco}{Banco}
 
 
 \begin{DoxyParams}{Parameters}
-{\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} donde se cargaran los datos descifrados \\
+{\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} donde se cargarán los datos descifrados \\
 \hline
-{\em nombre\+Archivo} & Nombre base del archivo cifrado (sin extension) a cargar \\
+{\em nombre\+Archivo} & Nombre base del archivo cifrado (sin extensión) a cargar \\
 \hline
-{\em clave\+Cifrado} & Caracter usado como clave de descifrado \\
+{\em clave\+Cifrado} & Carácter usado como clave de descifrado \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 true si el proceso fue exitoso, false en caso contrario
 \end{DoxyReturn}
-Este metodo descifra el archivo binario especificado y carga los datos recuperados en el objeto \doxylink{class_banco}{Banco} proporcionado.
+Este método descifra el archivo binario especificado y carga los datos recuperados en el objeto \doxylink{class_banco}{Banco} proporcionado.
 
 
 \begin{DoxyParams}{Parameters}
-{\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} donde se cargaran los datos \\
+{\em banco} & Referencia al objeto \doxylink{class_banco}{Banco} donde se cargarán los datos \\
 \hline
-{\em nombre\+Archivo} & Nombre del archivo cifrado (sin extension) \\
+{\em nombre\+Archivo} & Nombre del archivo cifrado (sin extensión) \\
 \hline
 {\em clave\+Cifrado} & Clave utilizada para el cifrado original \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si el proceso se completo exitosamente, false en caso contrario 
+true si el proceso se completó exitosamente, false en caso contrario 
 \end{DoxyReturn}
 \Hypertarget{class_cifrado_a273e0d4695ff86f9f239821c298a8130}\index{Cifrado@{Cifrado}!desifrarArchivo@{desifrarArchivo}}
 \index{desifrarArchivo@{desifrarArchivo}!Cifrado@{Cifrado}}
@@ -195,26 +195,26 @@ void Cifrado\+::desifrar\+Archivo (\begin{DoxyParamCaption}\item[{const std\+::s
 
 Descifra un archivo previamente cifrado con el algoritmo XOR. 
 
-Descifra un archivo cifrado previamente con el algoritmo Cesar.
+Descifra un archivo cifrado previamente con el algoritmo César.
 
 
 \begin{DoxyParams}{Parameters}
 {\em ruta\+Entrada} & Ruta completa del archivo cifrado \\
 \hline
-{\em ruta\+Salida} & Ruta completa donde se guardara el archivo descifrado \\
+{\em ruta\+Salida} & Ruta completa donde se guardará el archivo descifrado \\
 \hline
-{\em valor} & Caracter usado como clave de descifrado (debe ser el mismo usado para cifrar)\\
+{\em valor} & Carácter usado como clave de descifrado (debe ser el mismo usado para cifrar)\\
 \hline
 \end{DoxyParams}
-Este metodo invierte el proceso de cifrado, aplicando XOR con la misma clave para recuperar el contenido original.
+Este método invierte el proceso de cifrado, aplicando XOR con la misma clave para recuperar el contenido original.
 
 
 \begin{DoxyParams}{Parameters}
 {\em ruta\+Entrada} & Ruta del archivo cifrado \\
 \hline
-{\em ruta\+Salida} & Ruta donde se guardara el archivo descifrado \\
+{\em ruta\+Salida} & Ruta donde se guardará el archivo descifrado \\
 \hline
-{\em clave} & Caracter usado originalmente para el cifrado \\
+{\em clave} & Carácter usado originalmente para el cifrado \\
 \hline
 \end{DoxyParams}
 

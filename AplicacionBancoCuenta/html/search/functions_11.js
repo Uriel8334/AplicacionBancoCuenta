@@ -12,5 +12,6 @@ var searchData=
   ['validartecla_9',['ValidarTecla',['../class_validar.html#a5fe4d90e3075b506d9cf2e8118a5ec65',1,'Validar']]],
   ['validartipocuenta_10',['ValidarTipoCuenta',['../class_validar.html#ac7e44be86fd3880024a0ece9ae5f542c',1,'Validar']]],
   ['validartipotransaccion_11',['ValidarTipoTransaccion',['../class_validar.html#a2fd94becc72e2c000b5d5b73a90e3bb2',1,'Validar']]],
-  ['verificarsha1_12',['verificarSHA1',['../class_utilidades.html#a330568e40a45b2988f865bd9f013b199',1,'Utilidades']]]
+  ['verificarcuentasbanco_12',['verificarCuentasBanco',['../class_banco.html#a2b270ea729a0a990977c5a2fc0129f1d',1,'Banco']]],
+  ['verificarsha1_13',['verificarSHA1',['../class_utilidades.html#a330568e40a45b2988f865bd9f013b199',1,'Utilidades']]]
 ];

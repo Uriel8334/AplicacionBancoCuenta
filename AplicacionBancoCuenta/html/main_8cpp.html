@@ -92,7 +92,7 @@ $(function(){initNavTree('main_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Sistema de gestion bancaria con interfaz de consola.  
+<p>Sistema de gestión bancaria con interfaz de consola.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -108,18 +108,24 @@ $(function(){initNavTree('main_8cpp.html','',''); });
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a0922b72445071a4df882f9f649cd6a8f" id="r_a0922b72445071a4df882f9f649cd6a8f"><td class="memItemLeft" align="right" valign="top"><a id="a0922b72445071a4df882f9f649cd6a8f" name="a0922b72445071a4df882f9f649cd6a8f"></a>
+std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>actualizandoMenu</b> (false)</td></tr>
+<tr class="memdesc:a0922b72445071a4df882f9f649cd6a8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bandera atómica para coordinar actualizaciones entre menú y marquesina. <br /></td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funcion principal que inicia la aplicacion bancaria.  <br /></td></tr>
+<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Función principal que inicia la aplicación bancaria.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a907ec23e6f2a4904216ad23a99d09fda" id="r_a907ec23e6f2a4904216ad23a99d09fda"><td class="memItemLeft" align="right" valign="top"><a id="a907ec23e6f2a4904216ad23a99d09fda" name="a907ec23e6f2a4904216ad23a99d09fda"></a>
 <a class="el" href="class_marquesina.html">Marquesina</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>marquesinaGlobal</b> = nullptr</td></tr>
-<tr class="memdesc:a907ec23e6f2a4904216ad23a99d09fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puntero global a la marquesina utilizada en la aplicacion. <br /></td></tr>
+<tr class="memdesc:a907ec23e6f2a4904216ad23a99d09fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puntero global a la marquesina utilizada en la aplicación. <br /></td></tr>
+<tr class="memitem:ad47c0fcf8a333c777da8484dfbcb6cbc" id="r_ad47c0fcf8a333c777da8484dfbcb6cbc"><td class="memItemLeft" align="right" valign="top"><a id="ad47c0fcf8a333c777da8484dfbcb6cbc" name="ad47c0fcf8a333c777da8484dfbcb6cbc"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>mtxActualizacion</b></td></tr>
+<tr class="memdesc:ad47c0fcf8a333c777da8484dfbcb6cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex para sincronización entre hilos. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Sistema de gestion bancaria con interfaz de consola. </p>
-<p>Este archivo implementa la aplicacion principal del sistema bancario, proporcionando un menu interactivo para gestionar cuentas, realizar transferencias, buscar informacion, y generar reportes. Incluye una marquesina en la parte superior para mensajes importantes.</p>
+<div class="textblock"><p>Sistema de gestión bancaria con interfaz de consola. </p>
+<p>Este archivo implementa la aplicación principal del sistema bancario, proporcionando un menú interactivo para gestionar cuentas, realizar transferencias, buscar información, y generar reportes. Incluye una marquesina en la parte superior para mensajes importantes.</p>
 <dl class="section author"><dt>Author</dt><dd>Uriel Andrade </dd>
 <dd>
 Kerly Chuqui </dd>
@@ -141,9 +147,9 @@ Abner Proano </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Funcion principal que inicia la aplicacion bancaria. </p>
-<p>Configura la interfaz de usuario, crea la marquesina, y gestiona el menu principal y sus submenus para realizar todas las operaciones bancarias.</p>
-<dl class="section return"><dt>Returns</dt><dd>int Codigo de salida del programa (0 si termina correctamente) </dd></dl>
+<p>Función principal que inicia la aplicación bancaria. </p>
+<p>Configura la interfaz de usuario, crea la marquesina, y gestiona el menú principal y sus submenús para realizar todas las operaciones bancarias.</p>
+<dl class="section return"><dt>Returns</dt><dd>int Código de salida del programa (0 si termina correctamente) </dd></dl>
 
 </div>
 </div>

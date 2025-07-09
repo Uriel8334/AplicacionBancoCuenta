@@ -112,7 +112,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Clase que implementa funcionalidades de cifrado y descifrado de archivos. </p>
-<p>Esta clase estatica proporciona metodos para cifrar y descifrar archivos utilizando el algoritmo XOR. Tambien contiene funcionalidades especificas para el manejo de datos del banco, permitiendo cifrar, guardar, y recuperar informacion bancaria de manera segura. </p>
+<p>Esta clase estática proporciona métodos para cifrar y descifrar archivos utilizando el algoritmo XOR. También contiene funcionalidades específicas para el manejo de datos del banco, permitiendo cifrar, guardar, y recuperar información bancaria de manera segura. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a33663a55cf8c58b6ce202c6827c131ab" name="a33663a55cf8c58b6ce202c6827c131ab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a33663a55cf8c58b6ce202c6827c131ab">&#9670;&#160;</a></span>CifrarArchivo()</h2>
@@ -147,21 +147,21 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Cifra un archivo usando el algoritmo XOR. </p>
-<p>Cifra un archivo usando el algoritmo Cesar.</p>
+<p>Cifra un archivo usando el algoritmo César.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rutaEntrada</td><td>Ruta completa del archivo origen a cifrar </td></tr>
-    <tr><td class="paramname">rutaSalida</td><td>Ruta completa donde se guardara el archivo cifrado </td></tr>
-    <tr><td class="paramname">clave</td><td>Caracter usado como clave de cifrado para el algoritmo XOR</td></tr>
+    <tr><td class="paramname">rutaSalida</td><td>Ruta completa donde se guardará el archivo cifrado </td></tr>
+    <tr><td class="paramname">clave</td><td>Carácter usado como clave de cifrado para el algoritmo XOR</td></tr>
   </table>
   </dd>
 </dl>
-<p>Este metodo lee un archivo byte por byte, aplica una operacion XOR con la clave especificada, y guarda el resultado en un nuevo archivo.</p>
+<p>Este método lee un archivo byte por byte, aplica una operación XOR con la clave especificada, y guarda el resultado en un nuevo archivo.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rutaEntrada</td><td>Ruta del archivo original a cifrar </td></tr>
-    <tr><td class="paramname">rutaSalida</td><td>Ruta donde se guardara el archivo cifrado </td></tr>
-    <tr><td class="paramname">clave</td><td>Caracter que determina el desplazamiento para el cifrado </td></tr>
+    <tr><td class="paramname">rutaSalida</td><td>Ruta donde se guardará el archivo cifrado </td></tr>
+    <tr><td class="paramname">clave</td><td>Carácter que determina el desplazamiento para el cifrado </td></tr>
   </table>
   </dd>
 </dl>
@@ -210,18 +210,18 @@ Static Public Member Functions</h2></td></tr>
 <p>Guarda y cifra los datos del banco en un archivo.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> cuyos datos seran cifrados </td></tr>
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre base del archivo (sin extension) donde guardar los datos </td></tr>
-    <tr><td class="paramname">claveCifrado</td><td>Caracter usado como clave de cifrado</td></tr>
+    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> cuyos datos serán cifrados </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre base del archivo (sin extensión) donde guardar los datos </td></tr>
+    <tr><td class="paramname">claveCifrado</td><td>Carácter usado como clave de cifrado</td></tr>
   </table>
   </dd>
 </dl>
-<p>Este metodo serializa los datos del banco a un archivo temporal, luego cifra este archivo y guarda el resultado como un archivo binario (.bin).</p>
-<p>Exporta los datos del banco a un archivo temporal, lo cifra y elimina el archivo temporal despues del proceso.</p>
+<p>Este método serializa los datos del banco a un archivo temporal, luego cifra este archivo y guarda el resultado como un archivo binario (.bin).</p>
+<p>Exporta los datos del banco a un archivo temporal, lo cifra y elimina el archivo temporal después del proceso.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> con los datos a guardar </td></tr>
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo de salida (sin extension) </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo de salida (sin extensión) </td></tr>
     <tr><td class="paramname">claveCifrado</td><td>Clave de cifrado a utilizar </td></tr>
   </table>
   </dd>
@@ -271,25 +271,25 @@ Static Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> (usado para obtener rutas) </td></tr>
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre base del archivo cifrado (sin extension) a descifrar </td></tr>
-    <tr><td class="paramname">claveCifrado</td><td>Caracter usado como clave de descifrado </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre base del archivo cifrado (sin extensión) a descifrar </td></tr>
+    <tr><td class="paramname">claveCifrado</td><td>Carácter usado como clave de descifrado </td></tr>
     <tr><td class="paramname">opcion</td><td>Tipo de archivo de salida: 0 para .bak, 1 para .txt </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true si el proceso fue exitoso, false en caso contrario</dd></dl>
-<p>Este metodo descifra el archivo binario especificado y guarda el resultado en un nuevo archivo, sin modificar el estado del objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a>. La opcion determina si se genera un archivo de backup (.bak) o texto (.txt).</p>
-<p>Permite descifrar un archivo y guardarlo con diferentes extensiones segun la opcion elegida.</p>
+<p>Este método descifra el archivo binario especificado y guarda el resultado en un nuevo archivo, sin modificar el estado del objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a>. La opción determina si se genera un archivo de backup (.bak) o texto (.txt).</p>
+<p>Permite descifrar un archivo y guardarlo con diferentes extensiones según la opción elegida.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> (usado solo para obtener rutas) </td></tr>
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo cifrado (sin extension) </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo cifrado (sin extensión) </td></tr>
     <tr><td class="paramname">claveCifrado</td><td>Clave utilizada para el cifrado original </td></tr>
     <tr><td class="paramname">opcion</td><td>Formato de salida: 0 para .bak, 1 para .txt </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true si el proceso se completo exitosamente, false en caso contrario </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true si el proceso se completó exitosamente, false en caso contrario </dd></dl>
 
 </div>
 </div>
@@ -329,23 +329,23 @@ Static Public Member Functions</h2></td></tr>
 <p>Descifra un archivo y carga los datos en el objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> donde se cargaran los datos descifrados </td></tr>
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre base del archivo cifrado (sin extension) a cargar </td></tr>
-    <tr><td class="paramname">claveCifrado</td><td>Caracter usado como clave de descifrado </td></tr>
+    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> donde se cargarán los datos descifrados </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre base del archivo cifrado (sin extensión) a cargar </td></tr>
+    <tr><td class="paramname">claveCifrado</td><td>Carácter usado como clave de descifrado </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true si el proceso fue exitoso, false en caso contrario</dd></dl>
-<p>Este metodo descifra el archivo binario especificado y carga los datos recuperados en el objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> proporcionado.</p>
+<p>Este método descifra el archivo binario especificado y carga los datos recuperados en el objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> proporcionado.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> donde se cargaran los datos </td></tr>
-    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo cifrado (sin extension) </td></tr>
+    <tr><td class="paramname">banco</td><td>Referencia al objeto <a class="el" href="class_banco.html" title="Clase que representa un banco con sus operaciones principales.">Banco</a> donde se cargarán los datos </td></tr>
+    <tr><td class="paramname">nombreArchivo</td><td>Nombre del archivo cifrado (sin extensión) </td></tr>
     <tr><td class="paramname">claveCifrado</td><td>Clave utilizada para el cifrado original </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true si el proceso se completo exitosamente, false en caso contrario </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true si el proceso se completó exitosamente, false en caso contrario </dd></dl>
 
 </div>
 </div>
@@ -382,21 +382,21 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Descifra un archivo previamente cifrado con el algoritmo XOR. </p>
-<p>Descifra un archivo cifrado previamente con el algoritmo Cesar.</p>
+<p>Descifra un archivo cifrado previamente con el algoritmo César.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rutaEntrada</td><td>Ruta completa del archivo cifrado </td></tr>
-    <tr><td class="paramname">rutaSalida</td><td>Ruta completa donde se guardara el archivo descifrado </td></tr>
-    <tr><td class="paramname">valor</td><td>Caracter usado como clave de descifrado (debe ser el mismo usado para cifrar)</td></tr>
+    <tr><td class="paramname">rutaSalida</td><td>Ruta completa donde se guardará el archivo descifrado </td></tr>
+    <tr><td class="paramname">valor</td><td>Carácter usado como clave de descifrado (debe ser el mismo usado para cifrar)</td></tr>
   </table>
   </dd>
 </dl>
-<p>Este metodo invierte el proceso de cifrado, aplicando XOR con la misma clave para recuperar el contenido original.</p>
+<p>Este método invierte el proceso de cifrado, aplicando XOR con la misma clave para recuperar el contenido original.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rutaEntrada</td><td>Ruta del archivo cifrado </td></tr>
-    <tr><td class="paramname">rutaSalida</td><td>Ruta donde se guardara el archivo descifrado </td></tr>
-    <tr><td class="paramname">clave</td><td>Caracter usado originalmente para el cifrado </td></tr>
+    <tr><td class="paramname">rutaSalida</td><td>Ruta donde se guardará el archivo descifrado </td></tr>
+    <tr><td class="paramname">clave</td><td>Carácter usado originalmente para el cifrado </td></tr>
   </table>
   </dd>
 </dl>

@@ -64,6 +64,14 @@ public:
     void guardarCuentasEnArchivo(const std::string& nombreArchivo) const;
 
     /**
+     * @brief Convierte un archivo de respaldo .bak a formato PDF
+     *
+     * @param nombreArchivo Nombre del archivo de respaldo (sin extensión)
+     * @return bool true si la conversión fue exitosa, false en caso contrario
+     */
+    bool archivoGuardadoHaciaPDF(const std::string& nombreArchivo);
+
+    /**
      * @brief Guarda las cuentas en un archivo con nombre predeterminado
      *
      * Utiliza la ruta del escritorio y un nombre por defecto

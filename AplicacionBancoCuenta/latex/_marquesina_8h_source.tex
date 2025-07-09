@@ -52,51 +52,61 @@
 \DoxyCodeLine{00082\ }
 \DoxyCodeLine{00084\ \ \ \ \ std::atomic<bool>\ bufferActualizado;}
 \DoxyCodeLine{00085\ }
-\DoxyCodeLine{00087\ \ \ \ \ FILETIME\ ultimaModificacion;}
+\DoxyCodeLine{00087\ \ \ \ \ std::vector<std::pair<char,\ WORD>>\ bufferPrimario;}
 \DoxyCodeLine{00088\ }
-\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ cargarDesdeHTML();}
-\DoxyCodeLine{00093\ }
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ ejecutarMarquesina();}
-\DoxyCodeLine{00098\ }
-\DoxyCodeLine{00104\ \ \ \ \ std::vector<ElementoMarquesina>\ parsearHTML(\textcolor{keyword}{const}\ std::string\&\ contenido);}
+\DoxyCodeLine{00090\ \ \ \ \ std::vector<std::pair<char,\ WORD>>\ bufferSecundario;}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00093\ \ \ \ \ std::atomic<bool>\ bufferListo;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00096\ \ \ \ \ std::mutex\ bufferMutex;}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00099\ \ \ \ \ FILETIME\ ultimaModificacion;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ cargarDesdeHTML();}
 \DoxyCodeLine{00105\ }
-\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{bool}\ archivoModificado();}
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{bool}\ esSafeZone(\textcolor{keywordtype}{int}\ fila)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ actualizarBuffer();}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ ejecutarMarquesina();}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00116\ \ \ \ \ std::vector<ElementoMarquesina>\ parsearHTML(\textcolor{keyword}{const}\ std::string\&\ contenido);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{bool}\ archivoModificado();}
 \DoxyCodeLine{00123\ }
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{void}\ renderizarMarquesina();}
-\DoxyCodeLine{00128\ }
-\DoxyCodeLine{00129\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca}{Marquesina}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ ancho,\ \textcolor{keyword}{const}\ std::string\&\ archivoHTML,\ \textcolor{keywordtype}{int}\ velocidad\ =\ 100);}
-\DoxyCodeLine{00139\ }
-\DoxyCodeLine{00145\ \ \ \ \ \mbox{\hyperlink{class_marquesina_aa0c9f691911680b2ce26646e8283b046}{\string~Marquesina}}();}
-\DoxyCodeLine{00146\ }
-\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a42a7b6c33db1deb208a381eda083a476}{iniciar}}();}
-\DoxyCodeLine{00151\ }
-\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a9fed251582657d7454cb3a06fbb1ee16}{detener}}();}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{bool}\ esSafeZone(\textcolor{keywordtype}{int}\ fila)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{void}\ actualizarBuffer();}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{void}\ renderizarMarquesina();}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{bool}\ debeRenderizarse();}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{class_marquesina_a81c06f5292b77d7bd169a9e38bf653ca}{Marquesina}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ ancho,\ \textcolor{keyword}{const}\ std::string\&\ archivoHTML,\ \textcolor{keywordtype}{int}\ velocidad\ =\ 100);}
 \DoxyCodeLine{00156\ }
-\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_ae33595e3e65b83e199e04e79739989eb}{pausar}}();}
-\DoxyCodeLine{00161\ }
-\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_aaaa028056dca12f370ea4d828bd40171}{reanudar}}();}
-\DoxyCodeLine{00166\ }
-\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a281562e225650be428afa5808b093653}{actualizarTexto}}(\textcolor{keyword}{const}\ std::string\&\ nuevoTexto);}
-\DoxyCodeLine{00172\ }
-\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a173dc18c06673f9fb83e7bd1012dd41a}{bloquear}}();}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a1e8de27731a32d4dc7a31c10625466c0}{desbloquear}}();}
-\DoxyCodeLine{00186\ }
-\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a4d1b8d42abcf0a8dea37049c159446d6}{marcarOperacionCritica}}();}
-\DoxyCodeLine{00193\ }
-\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a6d1b94cc50c3785f9f7a99196204fa65}{finalizarOperacionCritica}}();}
-\DoxyCodeLine{00198\ }
-\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a62f40a4d1b82ec2c3bb5fc9ec298aec9}{forzarActualizacion}}();}
+\DoxyCodeLine{00162\ \ \ \ \ \mbox{\hyperlink{class_marquesina_aa0c9f691911680b2ce26646e8283b046}{\string~Marquesina}}();}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a42a7b6c33db1deb208a381eda083a476}{iniciar}}();}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a9fed251582657d7454cb3a06fbb1ee16}{detener}}();}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_ae33595e3e65b83e199e04e79739989eb}{pausar}}();}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_aaaa028056dca12f370ea4d828bd40171}{reanudar}}();}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a281562e225650be428afa5808b093653}{actualizarTexto}}(\textcolor{keyword}{const}\ std::string\&\ nuevoTexto);}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a173dc18c06673f9fb83e7bd1012dd41a}{bloquear}}();}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a1e8de27731a32d4dc7a31c10625466c0}{desbloquear}}();}
 \DoxyCodeLine{00203\ }
-\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a35d47b3670a39652ab61ee262340ee2a}{mostrarRutaArchivo}}();}
-\DoxyCodeLine{00208\ }
-\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_marquesina_a2f4a7ec9c37da4db63663b178089570e}{estaVisible}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ejecutando\ \&\&\ !pausado\ \&\&\ !bloqueado;\ \}}
-\DoxyCodeLine{00214\ \};}
-\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MARQUESINA\_H}}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a4d1b8d42abcf0a8dea37049c159446d6}{marcarOperacionCritica}}();}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a6d1b94cc50c3785f9f7a99196204fa65}{finalizarOperacionCritica}}();}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a62f40a4d1b82ec2c3bb5fc9ec298aec9}{forzarActualizacion}}();}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_marquesina_a35d47b3670a39652ab61ee262340ee2a}{mostrarRutaArchivo}}();}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_marquesina_a2f4a7ec9c37da4db63663b178089570e}{estaVisible}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ejecutando\ \&\&\ !pausado\ \&\&\ !bloqueado;\ \}}
+\DoxyCodeLine{00231\ \};}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MARQUESINA\_H}}
 
 \end{DoxyCode}

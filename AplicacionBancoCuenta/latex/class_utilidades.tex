@@ -2,7 +2,7 @@
 \hypertarget{class_utilidades}{}\label{class_utilidades}\index{Utilidades@{Utilidades}}
 
 
-Clase estatica con funciones auxiliares para todo el sistema bancario.  
+Clase estática con funciones auxiliares para todo el sistema bancario.  
 
 
 
@@ -13,27 +13,27 @@ Clase estatica con funciones auxiliares para todo el sistema bancario.
 \begin{DoxyCompactItemize}
 \item 
 static double \mbox{\hyperlink{class_utilidades_a2398399cf0374dcbb7e87756baaaeaa6}{Convertir\+ADouble}} (const std\+::string \&texto)
-\begin{DoxyCompactList}\small\item\em Convierte una cadena de texto a un valor numerico double. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Convierte una cadena de texto a un valor numérico double. \end{DoxyCompactList}\item 
 static std\+::string \mbox{\hyperlink{class_utilidades_a1e6fe10f2960cc788f112022e533238f}{Formatear\+Monto}} (double monto, int decimales=2)
-\begin{DoxyCompactList}\small\item\em Formatea un monto numerico para presentacion. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Formatea un monto numérico para presentación. \end{DoxyCompactList}\item 
 static std\+::string \mbox{\hyperlink{class_utilidades_aa62e96976ade5a02288c2198264b87bd}{Formatear\+Fecha}} (int dia, int mes, int anio)
 \begin{DoxyCompactList}\small\item\em Formatea una fecha a partir de sus componentes. \end{DoxyCompactList}\item 
 static bool \mbox{\hyperlink{class_utilidades_adf8018a37af3792fdbe936edcea6de25}{Es\+Numerico}} (const std\+::string \&texto)
-\begin{DoxyCompactList}\small\item\em Verifica si una cadena contiene solo caracteres numericos. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Verifica si una cadena contiene solo caracteres numéricos. \end{DoxyCompactList}\item 
 static bool \mbox{\hyperlink{class_utilidades_a110676363257f0181034190039f2bec1}{Es\+Correo\+Valido}} (const std\+::string \&correo)
-\begin{DoxyCompactList}\small\item\em Verifica si una cadena representa un correo electronico valido. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Verifica si una cadena representa un correo electrónico válido. \end{DoxyCompactList}\item 
 static std\+::string \mbox{\hyperlink{class_utilidades_a07adefa53aa6f74b4ae78843e58d70d8}{Eliminar\+Espacios}} (const std\+::string \&texto)
 \begin{DoxyCompactList}\small\item\em Elimina espacios en blanco de una cadena. \end{DoxyCompactList}\item 
 static std\+::string \mbox{\hyperlink{class_utilidades_a3ffb41149be405c13c8b35fe47313b60}{Convertir\+AMayusculas}} (const std\+::string \&texto)
-\begin{DoxyCompactList}\small\item\em Convierte una cadena a mayusculas. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Convierte una cadena a mayúsculas. \end{DoxyCompactList}\item 
 static std\+::string \mbox{\hyperlink{class_utilidades_a555a980678eb7aae72cd841ad740a205}{Convertir\+AMinusculas}} (const std\+::string \&texto)
-\begin{DoxyCompactList}\small\item\em Convierte una cadena a minusculas. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Convierte una cadena a minúsculas. \end{DoxyCompactList}\item 
 static std\+::string \mbox{\hyperlink{class_utilidades_a147cf6bc4586bd09a371d2e542e09216}{Regresar}} ()
-\begin{DoxyCompactList}\small\item\em Retorna una cadena para la opcion de regresar al menu principal. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Retorna una cadena para la opción de regresar al menú principal. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_utilidades_a60988806e4bf7d59169a5a3a969b6c62}{gotoxy}} (int x, int y)
-\begin{DoxyCompactList}\small\item\em Posiciona el cursor en coordenadas especificas de la consola. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Posiciona el cursor en coordenadas específicas de la consola. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_utilidades_a83942d8a012ca32316e31bfe9f9d4206}{mostrar\+Menu\+Ayuda}} ()
-\begin{DoxyCompactList}\small\item\em Muestra el menu de ayuda del sistema. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Muestra el menú de ayuda del sistema. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T$>$ }\\static void \mbox{\hyperlink{class_utilidades_ace4415c756a46ae7fc19466949dc908c}{burbuja}} (std\+::vector$<$ T \texorpdfstring{$\ast$}{*} $>$ \&vec, std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const T \texorpdfstring{$\ast$}{*})$>$ criterio)
 \begin{DoxyCompactList}\small\item\em Ordena un vector de punteros utilizando el algoritmo burbuja. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename Nodo, typename T$>$ }\\static void \mbox{\hyperlink{class_utilidades_aef5eb832696866975e3d35695d854674}{burbuja\+Lista}} (Nodo \texorpdfstring{$\ast$}{*}cabeza, std\+::function$<$ bool(const T \texorpdfstring{$\ast$}{*}, const T \texorpdfstring{$\ast$}{*})$>$ criterio)
@@ -47,21 +47,27 @@ static void \mbox{\hyperlink{class_utilidades_ac83daf17a86e8c08e4b9b4c10fc5a8bf}
 static std\+::string \mbox{\hyperlink{class_utilidades_ae7c3d1a1b8a1809fe818fc997a35f6b3}{leer\+Hash\+Archivo}} (const std\+::string \&ruta\+Hash\+Archivo)
 \begin{DoxyCompactList}\small\item\em Lee el hash almacenado en un archivo. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_utilidades_a7e9cab0e64b2d36ce00df8e57051a72a}{Por\+ArbolB}} (\mbox{\hyperlink{class_nodo_persona}{Nodo\+Persona}} \texorpdfstring{$\ast$}{*}cabeza)
-\begin{DoxyCompactList}\small\item\em Muestra una demostracion didactica de arbol B con personas. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Muestra una demostración didáctica de Árbol B con personas. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_utilidades_ac1d02a7bbc9a85dc10818ea945628ee4}{iniciar\+Operacion\+Critica}} ()
-\begin{DoxyCompactList}\small\item\em Marca el inicio de una operacion critica de interfaz. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Marca el inicio de una operación crítica de interfaz. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_utilidades_a9f017933719545945520d2b34033f730}{finalizar\+Operacion\+Critica}} ()
-\begin{DoxyCompactList}\small\item\em Marca el fin de una operacion critica de interfaz. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Marca el fin de una operación crítica de interfaz. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{class_utilidades_a798d5a2301c4f0cfba55ad2693eb8afe}{limpiar\+Pantalla\+Preservando\+Marquesina}} (int lineas\+Marquesina=2)
 \begin{DoxyCompactList}\small\item\em Limpia la pantalla preservando la marquesina superior. \end{DoxyCompactList}\item 
 static bool \mbox{\hyperlink{class_utilidades_a6b3a9dee347b2ee4f77a391cbe2c312d}{generar\+QR}} (const \mbox{\hyperlink{class_persona}{Persona}} \&persona, const std\+::string \&numero\+Cuenta)
-\begin{DoxyCompactList}\small\item\em Genera un archivo PDF con codigo QR. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Genera un archivo PDF con código QR. \end{DoxyCompactList}\item 
+\Hypertarget{class_utilidades_a5a8803b6bd366f27fdb02b75878dae09}\label{class_utilidades_a5a8803b6bd366f27fdb02b75878dae09} 
+static void {\bfseries ocultar\+Cursor} ()
+\begin{DoxyCompactList}\small\item\em Oculta el cursor de la consola. \end{DoxyCompactList}\item 
+\Hypertarget{class_utilidades_abbbf314f23c4f92559e1dafb035597fd}\label{class_utilidades_abbbf314f23c4f92559e1dafb035597fd} 
+static void {\bfseries mostrar\+Cursor} ()
+\begin{DoxyCompactList}\small\item\em Muestra el cursor de la consola. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Clase estatica con funciones auxiliares para todo el sistema bancario. 
+Clase estática con funciones auxiliares para todo el sistema bancario. 
 
-Esta clase proporciona metodos utilitarios para manipulacion de datos, formateo, validaciones, operaciones con archivos, generacion de codigos QR, y otras funcionalidades de soporte que son utilizadas por todo el sistema bancario. 
+Esta clase proporciona métodos utilitarios para manipulación de datos, formateo, validaciones, operaciones con archivos, generación de códigos QR, y otras funcionalidades de soporte que son utilizadas por todo el sistema bancario. 
 
 \label{doc-func-members}
 \Hypertarget{class_utilidades_doc-func-members}
@@ -86,7 +92,7 @@ Ordena un vector de punteros utilizando el algoritmo burbuja.
 \begin{DoxyParams}{Parameters}
 {\em vec} & Vector de punteros a ordenar \\
 \hline
-{\em criterio} & Funcion que define el criterio de ordenamiento \\
+{\em criterio} & Función que define el criterio de ordenamiento \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_utilidades_aef5eb832696866975e3d35695d854674}\index{Utilidades@{Utilidades}!burbujaLista@{burbujaLista}}
@@ -111,7 +117,7 @@ Ordena una lista enlazada utilizando el algoritmo burbuja.
 \begin{DoxyParams}{Parameters}
 {\em cabeza} & Puntero al primer nodo de la lista \\
 \hline
-{\em criterio} & Funcion que define el criterio de ordenamiento \\
+{\em criterio} & Función que define el criterio de ordenamiento \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_utilidades_acb4a08cf12b0839fde039e18ae64e2d5}\index{Utilidades@{Utilidades}!calcularSHA1@{calcularSHA1}}
@@ -134,7 +140,7 @@ Calcula un hash simplificado de un archivo.
 \begin{DoxyReturn}{Returns}
 Hash SHA1 calculado como cadena hexadecimal
 \end{DoxyReturn}
-Implementacion didactica de un algoritmo de hash para archivos
+Implementación didáctica de un algoritmo de hash para archivos
 
 
 \begin{DoxyParams}{Parameters}
@@ -152,9 +158,9 @@ double Utilidades\+::\+Convertir\+ADouble (\begin{DoxyParamCaption}\item[{const 
 
 
 
-Convierte una cadena de texto a un valor numerico double. 
+Convierte una cadena de texto a un valor numérico double. 
 
-Convierte una cadena a valor numerico double.
+Convierte una cadena a valor numérico double.
 
 
 \begin{DoxyParams}{Parameters}
@@ -162,7 +168,7 @@ Convierte una cadena a valor numerico double.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Valor numerico double
+Valor numérico double
 \end{DoxyReturn}
 Maneja excepciones y realiza validaciones para evitar errores
 
@@ -172,7 +178,7 @@ Maneja excepciones y realiza validaciones para evitar errores
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-double Valor numerico obtenido, 0.\+0 en caso de error 
+double Valor numérico obtenido, 0.\+0 en caso de error 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a3ffb41149be405c13c8b35fe47313b60}\index{Utilidades@{Utilidades}!ConvertirAMayusculas@{ConvertirAMayusculas}}
 \index{ConvertirAMayusculas@{ConvertirAMayusculas}!Utilidades@{Utilidades}}
@@ -182,9 +188,9 @@ std\+::string Utilidades\+::\+Convertir\+AMayusculas (\begin{DoxyParamCaption}\i
 
 
 
-Convierte una cadena a mayusculas. 
+Convierte una cadena a mayúsculas. 
 
-Convierte todos los caracteres de una cadena a mayusculas.
+Convierte todos los caracteres de una cadena a mayúsculas.
 
 
 \begin{DoxyParams}{Parameters}
@@ -192,7 +198,7 @@ Convierte todos los caracteres de una cadena a mayusculas.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Cadena convertida a mayusculas
+Cadena convertida a mayúsculas
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -200,7 +206,7 @@ Cadena convertida a mayusculas
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-std\+::string Cadena en mayusculas 
+std\+::string Cadena en mayúsculas 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a555a980678eb7aae72cd841ad740a205}\index{Utilidades@{Utilidades}!ConvertirAMinusculas@{ConvertirAMinusculas}}
 \index{ConvertirAMinusculas@{ConvertirAMinusculas}!Utilidades@{Utilidades}}
@@ -210,9 +216,9 @@ std\+::string Utilidades\+::\+Convertir\+AMinusculas (\begin{DoxyParamCaption}\i
 
 
 
-Convierte una cadena a minusculas. 
+Convierte una cadena a minúsculas. 
 
-Convierte todos los caracteres de una cadena a minusculas.
+Convierte todos los caracteres de una cadena a minúsculas.
 
 
 \begin{DoxyParams}{Parameters}
@@ -220,7 +226,7 @@ Convierte todos los caracteres de una cadena a minusculas.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Cadena convertida a minusculas
+Cadena convertida a minúsculas
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -228,7 +234,7 @@ Cadena convertida a minusculas
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-std\+::string Cadena en minusculas 
+std\+::string Cadena en minúsculas 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a07adefa53aa6f74b4ae78843e58d70d8}\index{Utilidades@{Utilidades}!EliminarEspacios@{EliminarEspacios}}
 \index{EliminarEspacios@{EliminarEspacios}!Utilidades@{Utilidades}}
@@ -266,17 +272,17 @@ bool Utilidades\+::\+Es\+Correo\+Valido (\begin{DoxyParamCaption}\item[{const st
 
 
 
-Verifica si una cadena representa un correo electronico valido. 
+Verifica si una cadena representa un correo electrónico válido. 
 
-Valida si una cadena es un correo electronico valido.
+Valida si una cadena es un correo electrónico válido.
 
 
 \begin{DoxyParams}{Parameters}
-{\em correo} & Direccion de correo a validar \\
+{\em correo} & Dirección de correo a validar \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si el correo es valido, false en caso contrario
+true si el correo es válido, false en caso contrario
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -284,7 +290,7 @@ true si el correo es valido, false en caso contrario
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool true si es un correo valido, false en caso contrario 
+bool true si es un correo válido, false en caso contrario 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_adf8018a37af3792fdbe936edcea6de25}\index{Utilidades@{Utilidades}!EsNumerico@{EsNumerico}}
 \index{EsNumerico@{EsNumerico}!Utilidades@{Utilidades}}
@@ -294,9 +300,9 @@ bool Utilidades\+::\+Es\+Numerico (\begin{DoxyParamCaption}\item[{const std\+::s
 
 
 
-Verifica si una cadena contiene solo caracteres numericos. 
+Verifica si una cadena contiene solo caracteres numéricos. 
 
-Verifica si una cadena representa un valor numerico valido.
+Verifica si una cadena representa un valor numérico válido.
 
 
 \begin{DoxyParams}{Parameters}
@@ -304,7 +310,7 @@ Verifica si una cadena representa un valor numerico valido.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si la cadena es numerica, false en caso contrario
+true si la cadena es numérica, false en caso contrario
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -312,7 +318,7 @@ true si la cadena es numerica, false en caso contrario
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool true si es numerico, false en caso contrario 
+bool true si es numérico, false en caso contrario 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a9f017933719545945520d2b34033f730}\index{Utilidades@{Utilidades}!finalizarOperacionCritica@{finalizarOperacionCritica}}
 \index{finalizarOperacionCritica@{finalizarOperacionCritica}!Utilidades@{Utilidades}}
@@ -322,9 +328,9 @@ void Utilidades\+::finalizar\+Operacion\+Critica (\begin{DoxyParamCaption}{}{}\e
 
 
 
-Marca el fin de una operacion critica de interfaz. 
+Marca el fin de una operación crítica de interfaz. 
 
-Marca el fin de una operacion critica.
+Marca el fin de una operación crítica.
 
 Notifica a la marquesina para reanudar actualizaciones normales \Hypertarget{class_utilidades_aa62e96976ade5a02288c2198264b87bd}\index{Utilidades@{Utilidades}!FormatearFecha@{FormatearFecha}}
 \index{FormatearFecha@{FormatearFecha}!Utilidades@{Utilidades}}
@@ -338,11 +344,11 @@ Formatea una fecha a partir de sus componentes.
 
 
 \begin{DoxyParams}{Parameters}
-{\em dia} & Dia del mes \\
+{\em dia} & Día del mes \\
 \hline
-{\em mes} & Mes del a�o \\
+{\em mes} & Mes del año \\
 \hline
-{\em anio} & A�o \\
+{\em anio} & Año \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -350,7 +356,7 @@ Cadena con la fecha formateada
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em dia} & Dia del mes \\
+{\em dia} & Día del mes \\
 \hline
 {\em mes} & Mes del año \\
 \hline
@@ -368,15 +374,15 @@ std\+::string Utilidades\+::\+Formatear\+Monto (\begin{DoxyParamCaption}\item[{d
 
 
 
-Formatea un monto numerico para presentacion. 
+Formatea un monto numérico para presentación. 
 
-Formatea un valor numerico con separadores de miles y decimales.
+Formatea un valor numérico con separadores de miles y decimales.
 
 
 \begin{DoxyParams}{Parameters}
 {\em monto} & Valor a formatear \\
 \hline
-{\em decimales} & Numero de decimales a mostrar (por defecto 2) \\
+{\em decimales} & Número de decimales a mostrar (por defecto 2) \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -386,7 +392,7 @@ Cadena formateada
 \begin{DoxyParams}{Parameters}
 {\em monto} & Valor a formatear \\
 \hline
-{\em decimales} & Numero de decimales a mostrar \\
+{\em decimales} & Número de decimales a mostrar \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -400,31 +406,31 @@ bool Utilidades\+::generar\+QR (\begin{DoxyParamCaption}\item[{const \mbox{\hype
 
 
 
-Genera un archivo PDF con codigo QR. 
+Genera un archivo PDF con código QR. 
 
-Genera un codigo QR para una persona y su cuenta bancaria.
+Genera un código QR para una persona y su cuenta bancaria.
 
 
 \begin{DoxyParams}{Parameters}
 {\em persona} & Referencia a un objeto \doxylink{class_persona}{Persona} \\
 \hline
-{\em numero\+Cuenta} & Numero de cuenta asociada \\
+{\em numero\+Cuenta} & Número de cuenta asociada \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-true si se genero correctamente, false en caso contrario
+true si se generó correctamente, false en caso contrario
 \end{DoxyReturn}
-Esta funcion toma los datos de una persona y un numero de cuenta para generar un codigo QR que puede ser mostrado en pantalla o guardado como PDF.
+Esta función toma los datos de una persona y un número de cuenta para generar un código QR que puede ser mostrado en pantalla o guardado como PDF.
 
 
 \begin{DoxyParams}{Parameters}
-{\em persona} & Referencia al objeto \doxylink{class_persona}{Persona} cuyos datos se incluiran en el QR \\
+{\em persona} & Referencia al objeto \doxylink{class_persona}{Persona} cuyos datos se incluirán en el QR \\
 \hline
-{\em numero\+Cuenta\+QR} & Numero de cuenta a incluir en el QR \\
+{\em numero\+Cuenta} & Número de cuenta a incluir en el QR \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool true si la generacion fue exitosa, false si se cancelo o hubo error 
+bool true si la generación fue exitosa, false si se canceló o hubo error 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a60988806e4bf7d59169a5a3a969b6c62}\index{Utilidades@{Utilidades}!gotoxy@{gotoxy}}
 \index{gotoxy@{gotoxy}!Utilidades@{Utilidades}}
@@ -434,7 +440,7 @@ void Utilidades\+::gotoxy (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int
 
 
 
-Posiciona el cursor en coordenadas especificas de la consola. 
+Posiciona el cursor en coordenadas específicas de la consola. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -443,13 +449,13 @@ Posiciona el cursor en coordenadas especificas de la consola.
 {\em y} & Coordenada vertical\\
 \hline
 \end{DoxyParams}
-Version mejorada y thread-\/safe de la funcion gotoxy tradicional
+Versión mejorada y thread-\/safe de la función gotoxy tradicional
 
 
 \begin{DoxyParams}{Parameters}
-{\em x} & Posicion horizontal (columna) \\
+{\em x} & Posición horizontal (columna) \\
 \hline
-{\em y} & Posicion vertical (fila) \\
+{\em y} & Posición vertical (fila) \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_utilidades_ac83daf17a86e8c08e4b9b4c10fc5a8bf}\index{Utilidades@{Utilidades}!guardarHashArchivo@{guardarHashArchivo}}
@@ -483,13 +489,13 @@ void Utilidades\+::iniciar\+Operacion\+Critica (\begin{DoxyParamCaption}{}{}\end
 
 
 
-Marca el inicio de una operacion critica de interfaz. 
+Marca el inicio de una operación crítica de interfaz. 
 
-Marca el inicio de una operacion critica que no debe ser interrumpida.
+Marca el inicio de una operación crítica que no debe ser interrumpida.
 
-Notifica a la marquesina para evitar interferencias durante operaciones criticas
+Notifica a la marquesina para evitar interferencias durante operaciones críticas
 
-Notifica a la marquesina para pausar actualizaciones durante operaciones criticas \Hypertarget{class_utilidades_ae7c3d1a1b8a1809fe818fc997a35f6b3}\index{Utilidades@{Utilidades}!leerHashArchivo@{leerHashArchivo}}
+Notifica a la marquesina para pausar actualizaciones durante operaciones críticas \Hypertarget{class_utilidades_ae7c3d1a1b8a1809fe818fc997a35f6b3}\index{Utilidades@{Utilidades}!leerHashArchivo@{leerHashArchivo}}
 \index{leerHashArchivo@{leerHashArchivo}!Utilidades@{Utilidades}}
 \doxysubsubsection{\texorpdfstring{leerHashArchivo()}{leerHashArchivo()}}
 {\footnotesize\ttfamily \label{class_utilidades_ae7c3d1a1b8a1809fe818fc997a35f6b3} 
@@ -507,7 +513,7 @@ Lee el hash desde un archivo de hash.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Hash leido como cadena
+Hash leído como cadena
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
@@ -515,7 +521,7 @@ Hash leido como cadena
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-std\+::string Hash leido o cadena vacia en caso de error 
+std\+::string Hash leído o cadena vacía en caso de error 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a798d5a2301c4f0cfba55ad2693eb8afe}\index{Utilidades@{Utilidades}!limpiarPantallaPreservandoMarquesina@{limpiarPantallaPreservandoMarquesina}}
 \index{limpiarPantallaPreservandoMarquesina@{limpiarPantallaPreservandoMarquesina}!Utilidades@{Utilidades}}
@@ -527,13 +533,13 @@ void Utilidades\+::limpiar\+Pantalla\+Preservando\+Marquesina (\begin{DoxyParamC
 
 Limpia la pantalla preservando la marquesina superior. 
 
-Limpia la pantalla preservando el area de la marquesina.
+Limpia la pantalla preservando el área de la marquesina.
 
 
 \begin{DoxyParams}{Parameters}
-{\em lineas\+Marquesina} & Numero de lineas que ocupa la marquesina (por defecto 2)\\
+{\em lineas\+Marquesina} & Número de líneas que ocupa la marquesina (por defecto 2)\\
 \hline
-{\em lineas\+Marquesina} & Numero de lineas reservadas para la marquesina \\
+{\em lineas\+Marquesina} & Número de líneas reservadas para la marquesina \\
 \hline
 \end{DoxyParams}
 \Hypertarget{class_utilidades_a83942d8a012ca32316e31bfe9f9d4206}\index{Utilidades@{Utilidades}!mostrarMenuAyuda@{mostrarMenuAyuda}}
@@ -544,9 +550,9 @@ void Utilidades\+::mostrar\+Menu\+Ayuda (\begin{DoxyParamCaption}{}{}\end{DoxyPa
 
 
 
-Muestra el menu de ayuda del sistema. 
+Muestra el menú de ayuda del sistema. 
 
-Ejecuta la aplicacion externa de ayuda desde la misma ruta del programa \Hypertarget{class_utilidades_a7e9cab0e64b2d36ce00df8e57051a72a}\index{Utilidades@{Utilidades}!PorArbolB@{PorArbolB}}
+Ejecuta la aplicación externa de ayuda desde la misma ruta del programa \Hypertarget{class_utilidades_a7e9cab0e64b2d36ce00df8e57051a72a}\index{Utilidades@{Utilidades}!PorArbolB@{PorArbolB}}
 \index{PorArbolB@{PorArbolB}!Utilidades@{Utilidades}}
 \doxysubsubsection{\texorpdfstring{PorArbolB()}{PorArbolB()}}
 {\footnotesize\ttfamily \label{class_utilidades_a7e9cab0e64b2d36ce00df8e57051a72a} 
@@ -554,16 +560,16 @@ void Utilidades\+::\+Por\+ArbolB (\begin{DoxyParamCaption}\item[{\mbox{\hyperlin
 
 
 
-Muestra una demostracion didactica de arbol B con personas. 
+Muestra una demostración didáctica de Árbol B con personas. 
 
-Presenta datos usando una estructura de arbol B para visualizacion.
+Presenta datos usando una estructura de árbol B para visualización y manipulación.
 
 
 \begin{DoxyParams}{Parameters}
 {\em cabeza} & Puntero al primer nodo de personas\\
 \hline
 \end{DoxyParams}
-Construye un arbol B a partir de una lista de personas y permite buscar en el
+Construye un árbol B a partir de una lista de personas y permite buscar y eliminar en él con visualización animada similar a la de una herramienta didáctica de estructuras de datos.
 
 
 \begin{DoxyParams}{Parameters}
@@ -578,14 +584,14 @@ std\+::string Utilidades\+::\+Regresar (\begin{DoxyParamCaption}{}{}\end{DoxyPar
 
 
 
-Retorna una cadena para la opcion de regresar al menu principal. 
+Retorna una cadena para la opción de regresar al menú principal. 
 
-Devuelve un mensaje para regresar al menu principal.
+Devuelve un mensaje para regresar al menú principal.
 
 \begin{DoxyReturn}{Returns}
-Cadena con la opcion de regreso
+Cadena con la opción de regreso
 
-std\+::string Mensaje estandar 
+std\+::string Mensaje estándar 
 \end{DoxyReturn}
 \Hypertarget{class_utilidades_a330568e40a45b2988f865bd9f013b199}\index{Utilidades@{Utilidades}!verificarSHA1@{verificarSHA1}}
 \index{verificarSHA1@{verificarSHA1}!Utilidades@{Utilidades}}
@@ -613,7 +619,7 @@ true si el hash coincide, false en caso contrario
 \begin{DoxyParams}{Parameters}
 {\em ruta\+Archivo} & Ruta al archivo a verificar \\
 \hline
-{\em hash\+Esperado} & Hash esperado para comparacion \\
+{\em hash\+Esperado} & Hash esperado para comparación \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
