@@ -1558,17 +1558,16 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
  * un código QR que puede ser mostrado en pantalla o guardado como PDF.
  *
  * @param persona Referencia al objeto Persona cuyos datos se incluirán en el QR
- * @param numeroCuentaQR Número de cuenta a incluir en el QR
+ * @param numeroCuenta Número de cuenta a incluir en el QR
  * @return bool true si la generación fue exitosa, false si se canceló o hubo error
  */
 bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuenta) {
 	try {
-		// Pausar la marquesina mientras se muestra contenido extenso
+		// Pausar la marquesina y limpiar la pantalla
 		if (marquesinaGlobal) {
 			marquesinaGlobal->marcarOperacionCritica();
 		}
-
-		Utilidades::limpiarPantallaPreservandoMarquesina();
+		limpiarPantallaPreservandoMarquesina(2);
 
 		// Crear y generar QR
 		CodigoQR::GeneradorQRTextoPlano qr(
@@ -1578,70 +1577,64 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 		qr.generarQR();
 
 		// Mostrar información y QR
-		std::cout << "\n\n=== CODIGO QR GENERADO ===\n\n";
+		std::cout << "\n=== CODIGO QR GENERADO ===\n\n";
 		qr.imprimirEnConsola();
-
-		// Verificar si el contenido es demasiado extenso para mostrar la marquesina
-		CONSOLE_SCREEN_BUFFER_INFO csbi;
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-
-		// Si hay muchas líneas o el cursor está muy abajo, mantener la marquesina pausada
-		bool contenidoExtenso = (csbi.dwCursorPosition.Y > (csbi.srWindow.Bottom - csbi.srWindow.Top) * 0.7);
-
-		// Si el contenido no es demasiado extenso, reanudar la marquesina
-		if (!contenidoExtenso && marquesinaGlobal) {
-			marquesinaGlobal->finalizarOperacionCritica();
-		}
 
 		// Opciones para el QR
 		std::string opcionesQRGen[] = {
-			"Generar PDF del QR",
+			"Generar PDF",
 			"Volver al menu principal"
 		};
 		int numOpcionesQRGen = sizeof(opcionesQRGen) / sizeof(opcionesQRGen[0]);
 		int seleccionQRGen = 0;
 
-		// Mostrar título de opciones solo una vez
-		std::cout << "\n=== OPCIONES ===\n";
+		// Mostrar título de opciones
+		std::cout << "\n=== OPCIONES ===\n\n";
 
-		// Guardar la posición inicial del menú para volver a ella
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		GetConsoleScreenBufferInfo(hConsole, &csbi);
-		COORD posicionInicialMenu = csbi.dwCursorPosition;
+		// Posición inicial del menú - se mantiene fija para redibujarlo
+		int menuY = 0;
+		bool opcionesDibujadas = false;
 
-		// Mostrar opciones iniciales
-		for (int i = 0; i < numOpcionesQRGen; i++) {
-			if (i == seleccionQRGen)
-				std::cout << " > " << opcionesQRGen[i] << std::endl;
-			else
-				std::cout << "   " << opcionesQRGen[i] << std::endl;
-		}
-
+		// Bucle de navegación del menú
 		while (true) {
+			// Dibujar opciones solo la primera vez
+			if (!opcionesDibujadas) {
+				// Guardar la posición Y de la primera opción
+				CONSOLE_SCREEN_BUFFER_INFO csbi;
+				GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+				menuY = csbi.dwCursorPosition.Y - 2; // -2 por offset de marquesina
+
+				// Dibujar todas las opciones
+				for (int i = 0; i < numOpcionesQRGen; i++) {
+					if (i == seleccionQRGen)
+						std::cout << " > " << opcionesQRGen[i] << std::endl;
+					else
+						std::cout << "   " << opcionesQRGen[i] << std::endl;
+				}
+
+				opcionesDibujadas = true; // Marcar que ya se dibujaron las opciones
+			}
+
 			int teclaQRGen = _getch();
 			if (teclaQRGen == 224) {
 				teclaQRGen = _getch();
-				if (teclaQRGen == 72) // Arriba
-					seleccionQRGen = (seleccionQRGen - 1 + numOpcionesQRGen) % numOpcionesQRGen;
-				else if (teclaQRGen == 80) // Abajo
-					seleccionQRGen = (seleccionQRGen + 1) % numOpcionesQRGen;
+				if (teclaQRGen == 72 || teclaQRGen == 80) { // Arriba o Abajo
+					// Guardar la selección anterior
+					int seleccionAnterior = seleccionQRGen;
 
-				// Actualizar las opciones sin reimprimir el título
-				for (int i = 0; i < numOpcionesQRGen; i++) {
-					// Posicionar en la línea correspondiente a esta opción
-					COORD posOpcion = { posicionInicialMenu.X, (SHORT)(posicionInicialMenu.Y + i) };
-					SetConsoleCursorPosition(hConsole, posOpcion);
+					// Actualizar selección según la tecla presionada
+					if (teclaQRGen == 72) // Arriba
+						seleccionQRGen = (seleccionQRGen - 1 + numOpcionesQRGen) % numOpcionesQRGen;
+					else // Abajo (80)
+						seleccionQRGen = (seleccionQRGen + 1) % numOpcionesQRGen;
 
-					// Limpiar la línea actual
-					std::cout << std::string(50, ' ');
+					// Actualizar opción anterior (quitar cursor)
+					gotoxy(0, menuY + seleccionAnterior);
+					std::cout << "   " << opcionesQRGen[seleccionAnterior] << "   ";
 
-					// Volver al inicio de la línea y mostrar la opción
-					SetConsoleCursorPosition(hConsole, posOpcion);
-
-					if (i == seleccionQRGen)
-						std::cout << " > " << opcionesQRGen[i];
-					else
-						std::cout << "   " << opcionesQRGen[i];
+					// Actualizar nueva opción seleccionada (poner cursor)
+					gotoxy(0, menuY + seleccionQRGen);
+					std::cout << " > " << opcionesQRGen[seleccionQRGen] << "   ";
 				}
 			}
 			else if (teclaQRGen == 13) { // ENTER
@@ -1651,28 +1644,61 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 						persona.getNombres() + "_" +
 						persona.getApellidos();
 
-					// Código existente para generar el PDF...
-					// ...
+					// Eliminar caracteres no válidos para nombre de archivo
+					nombreArchivo = Utilidades::EliminarEspacios(nombreArchivo);
+
+					// Añadir extensión y ruta temporal
+					char tempPath[MAX_PATH];
+					GetTempPathA(MAX_PATH, tempPath);
+					std::string rutaCompleta = std::string(tempPath) + nombreArchivo + ".pdf";
+
+					try {
+						// Mostrar proceso de generación
+						gotoxy(0, menuY + numOpcionesQRGen);
+						std::cout << "\nGenerando PDF del código QR..." << std::endl;
+
+						// Llamar a la función de generación de PDF
+						qr.generarPDFQR(qr.qr, rutaCompleta);
+
+						// Abrir el PDF automáticamente
+						HINSTANCE resultado = ShellExecuteA(NULL, "open", rutaCompleta.c_str(), NULL, NULL, SW_SHOWNORMAL);
+
+						if (reinterpret_cast<INT_PTR>(resultado) <= 32) {
+							std::cerr << "Error al abrir el PDF. Se guardó en: " << rutaCompleta << std::endl;
+							Sleep(2000);
+						}
+					}
+					catch (const std::exception& e) {
+						std::cerr << "Error generando el PDF: " << e.what() << std::endl;
+						Sleep(2000);
+					}
 				}
 				else { // Volver al menu
+					if (marquesinaGlobal) {
+						marquesinaGlobal->finalizarOperacionCritica();
+					}
 					return true;
 				}
 			}
 			else if (teclaQRGen == 27) { // ESC
+				if (marquesinaGlobal) {
+					marquesinaGlobal->finalizarOperacionCritica();
+				}
 				return false;
 			}
 		}
 	}
 	catch (const std::exception& e) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		// Manejo de excepciones
+		if (marquesinaGlobal) {
+			marquesinaGlobal->finalizarOperacionCritica();
+		}
+		limpiarPantallaPreservandoMarquesina(2);
 		std::cout << "Error generando QR: " << e.what() << std::endl;
 		system("pause");
 		return false;
 	}
-
-	return true;
 }
-
 
 
 /**

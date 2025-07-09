@@ -321,6 +321,7 @@ bool Marquesina::debeRenderizarse() {
 
 	return true;
 }
+
 /**
  * @brief Renderiza la marquesina en la consola
  *
@@ -328,6 +329,11 @@ bool Marquesina::debeRenderizarse() {
  */
 void Marquesina::renderizarMarquesina()
 {
+	// Verificar si debemos renderizar la marquesina en este momento
+	if (operacionCritica || !debeRenderizarse()) {
+		return; // Evitar renderizado si hay scroll o cursor muy abajo
+	}
+
 	// Fase 1: Preparar el contenido en el buffer primario
 	std::string textoBuffer;
 	{
