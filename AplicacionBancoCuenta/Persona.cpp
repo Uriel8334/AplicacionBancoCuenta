@@ -1055,7 +1055,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		if (PersonaUI::seleccionarSiNo("\n\nDesea ingresar un monto inicial? (maximo 15000.00 USD)"))
 		{ // Si desea ingresar un monto inicial 
 			do {
-				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\n\nIngrese el monto inicial (maximo 15000.00 USD): ");
+				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\n\nIngrese el monto inicial (maximo 15000.00 USD)");
 			} while (montoInicial < 0 || montoInicial > 15000.00);
 			nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		}
