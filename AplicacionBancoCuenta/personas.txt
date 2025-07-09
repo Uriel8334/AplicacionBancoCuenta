@@ -845,3 +845,101 @@ Fecha de nacimiento: 06/11/2004
 Correo: matamoros@hotmail.com
 Direccion: quito centro
 -----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 06/05/2003
+Correo: uriel@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: Uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------

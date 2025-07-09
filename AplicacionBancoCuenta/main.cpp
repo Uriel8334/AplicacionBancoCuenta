@@ -233,6 +233,7 @@ int main() {
 			case 3: // Realizar Transferencias
 			{
 				banco.realizarTransferencia();
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -306,10 +307,10 @@ int main() {
 				std::string opcionesCarga[] = { "Recuparar de Respaldo (.bak)", "Recuperar de Archivo cifrado (.bin)", "Cancelar" };
 				int numOpcionesCarga = sizeof(opcionesCarga) / sizeof(opcionesCarga[0]);
 				int selCarga = 0;
-				Utilidades::limpiarPantallaPreservandoMarquesina();
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
-					std::cout << "\n\nSeleccione el tipo de archivo a cargar:\n\n";
+					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					std::cout << "Seleccione el tipo de archivo a cargar:\n\n";
 					for (int i = 0; i < numOpcionesCarga; i++) {
 						if (i == selCarga)
 							std::cout << " > " << opcionesCarga[i] << std::endl;
@@ -334,7 +335,7 @@ int main() {
 					break;
 				}
 
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				std::cout << "\n\nIngrese el nombre del archivo (sin extension): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -355,6 +356,7 @@ int main() {
 				}
 				}
 				system("pause");
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -366,7 +368,7 @@ int main() {
 				int selDescifrado = 0;
 
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(2);
 					std::cout << "Seleccione a que descifrar:\n\n";
 					for (int i = 0; i < numOpcionesDescifrado; i++) {
 						if (i == selDescifrado)
@@ -460,11 +462,11 @@ int main() {
 			}
 			case 7: // Menu de ayuda
 			{
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
 				// se llama a la aplicacion de ayuda
 				Utilidades::mostrarMenuAyuda();
 				system("pause");
 				necesitaRedibujado = true;
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				break;
 			}
 			case 8: // Explorador de archivos
@@ -554,8 +556,8 @@ int main() {
 						break;
 					}
 				}
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				necesitaRedibujado = true;
-
 				break;
 			}
 			case 9: // Gestion de Hash
@@ -566,7 +568,7 @@ int main() {
 				int seleccionHash = 0;
 
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(2);
 					std::cout << "GESTIÓN DE HASH DE ARCHIVOS\n\n";
 					std::cout << "Seleccione una operación:\n\n";
 					for (int i = 0; i < numOpcionesHash; i++) {
@@ -596,7 +598,7 @@ int main() {
 					break;
 				}
 
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				std::cout << "Ingrese el nombre del archivo (sin extensión): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -633,6 +635,7 @@ int main() {
 					}
 				}
 				system("pause");
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -646,6 +649,7 @@ int main() {
 				}
 
 				Utilidades::PorArbolB(banco.getListaPersonas());
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -653,7 +657,7 @@ int main() {
 			{
 				// Verificar que haya personas en la base de datos
 				if (banco.getListaPersonas() == nullptr) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(2);
 					std::cout << "No hay personas registradas en el sistema.\n";
 					system("pause");
 					break;
@@ -671,7 +675,7 @@ int main() {
 				}
 
 				if (personasOrdenadas.empty()) {
-					Utilidades::limpiarPantallaPreservandoMarquesina();
+					Utilidades::limpiarPantallaPreservandoMarquesina(2);
 					std::cout << "No hay personas validas para mostrar.\n";
 					system("pause");
 					break;
@@ -719,7 +723,7 @@ int main() {
 				while (true) {
 					actualizarListaPersonas();
 
-					Utilidades::limpiarPantallaPreservandoMarquesina();
+					Utilidades::limpiarPantallaPreservandoMarquesina(2);
 					std::cout << "=== EXPLORADOR DE PERSONAS - SELECCIONAR PERSONA ===\n\n";
 					std::cout << "Ordenar por: ";
 
@@ -792,7 +796,7 @@ int main() {
 
 						// Si no hay cuentas, mostrar mensaje y volver
 						if (cuentasDisponibles.empty()) {
-							Utilidades::limpiarPantallaPreservandoMarquesina();
+							Utilidades::limpiarPantallaPreservandoMarquesina(2);
 							std::cout << "La persona seleccionada no tiene cuentas asociadas.\n";
 							system("pause");
 							continue;
@@ -803,7 +807,7 @@ int main() {
 						std::string numeroCuentaQR;
 
 						while (true) {
-							Utilidades::limpiarPantallaPreservandoMarquesina();
+							Utilidades::limpiarPantallaPreservandoMarquesina(2);
 							std::cout << "=== SELECCIONAR CUENTA PARA QR ===\n\n";
 							std::cout << "Titular: " << personaSeleccionada->getNombres() << " "
 								<< personaSeleccionada->getApellidos() << "\n\n";
@@ -841,7 +845,7 @@ int main() {
 						}
 
 						// Generar QR directamente aqui en main.cpp
-						Utilidades::limpiarPantallaPreservandoMarquesina();
+						Utilidades::limpiarPantallaPreservandoMarquesina(2);
 
 						// Reemplazar el bloque de código seleccionado por:
 						try {
@@ -853,7 +857,7 @@ int main() {
 							break; // Si terminó correctamente o se seleccionó "Volver al menú principal"
 						}
 						catch (const std::exception& e) {
-							Utilidades::limpiarPantallaPreservandoMarquesina();
+							Utilidades::limpiarPantallaPreservandoMarquesina(2);
 							std::cout << "\n\nError generando QR: " << e.what() << std::endl;
 							system("pause");
 						}
@@ -861,12 +865,14 @@ int main() {
 						break;
 					}
 					else if (tecla == 27) { // ESC
+						Utilidades::limpiarPantallaPreservandoMarquesina(2);
 						break; // Cancelar
 					}
 					else if (tecla == 32) { // ESPACIO - cambiar orden
 						ascendente = !ascendente;
 					}
 				}
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				necesitaRedibujado = true;
 				break;
 			}

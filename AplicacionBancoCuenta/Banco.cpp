@@ -64,6 +64,7 @@ void Banco::agregarPersonaConCuenta() {
 
 	// Menu con cursor
 	while (true) {
+		Utilidades::ocultarCursor();
 		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << "\nSeleccione el tipo de cuenta a crear para la persona:\n\n";
 		for (int i = 0; i < numOpciones; i++) {
@@ -86,6 +87,7 @@ void Banco::agregarPersonaConCuenta() {
 		else if (tecla == 13) { // ENTER
 			break;
 		}
+		Utilidades::mostrarCursor();
 	}
 
 	if (seleccion == 2) {
@@ -109,8 +111,8 @@ void Banco::agregarPersonaConCuenta() {
 			// Solicitar cedula antes de ingresar todos los datos
 			std::string cedulaTemp;
 			while (true) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
-				std::cout << "\n\n----- INGRESE SUS DATOS -----\n";
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				std::cout << "----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
 				int digitos = 0;
@@ -275,8 +277,8 @@ void Banco::agregarPersonaConCuenta() {
 			// Solicitar cedula antes de ingresar todos los datos
 			std::string cedulaTemp;
 			while (true) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
-				std::cout << "\n\n----- INGRESE SUS DATOS -----\n";
+				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				std::cout << "----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
 				int digitos = 0;

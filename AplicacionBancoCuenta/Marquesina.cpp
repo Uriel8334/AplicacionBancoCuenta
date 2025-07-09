@@ -298,6 +298,30 @@ void Marquesina::actualizarBuffer()
 }
 
 /**
+ * @brief Verifica si la marquesina debe renderizarse en la consola
+ *
+ * Esto se basa en la posición del cursor y el tamaño de la ventana de la consola
+ *
+ * @return bool true si debe renderizarse, false en caso contrario
+ */ 
+bool Marquesina::debeRenderizarse() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+
+	// Calcular altura visible de la ventana
+	int alturaVentana = csbi.srWindow.Bottom - csbi.srWindow.Top;
+
+	// Calcular posición actual del cursor
+	int posicionCursorY = csbi.dwCursorPosition.Y;
+
+	// Si hay scroll o el cursor está muy abajo, no renderizar
+	if (posicionCursorY > alturaVentana * 0.7) {
+		return false;
+	}
+
+	return true;
+}
+/**
  * @brief Renderiza la marquesina en la consola
  *
  * Utiliza las APIs de Windows para escribir directamente en el buffer de la consola

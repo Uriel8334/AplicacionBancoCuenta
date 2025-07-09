@@ -138,6 +138,11 @@ private:
      */
     void renderizarMarquesina();
 
+    /**
+	* @brief Verifica si la marquesina debe renderizarse en pantalla
+    */
+    bool debeRenderizarse();
+
 public:
     /**
      * @brief Constructor de la marquesina

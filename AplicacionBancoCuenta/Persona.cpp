@@ -40,10 +40,34 @@ namespace PersonaUI {
 	const std::function<bool(const std::string&)> seleccionarSiNo = [](const std::string& mensaje) -> bool {
 		int seleccion = 0;
 		int tecla = 0;
-		//system("pause");
+		// Variable para controlar si ya se mostró el mensaje
+		bool mensajeMostrado = false;
+		// Variable para guardar la posición de las opciones
+		COORD posicionOpciones = { 0, 0 };
+
 		do {
-			Utilidades::limpiarPantallaPreservandoMarquesina(3);
-			cout << mensaje << endl;
+			Utilidades::ocultarCursor(); // Oculta el cursor para una mejor experiencia visual
+
+			CONSOLE_SCREEN_BUFFER_INFO csbi;
+			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+
+			// Solo mostramos el mensaje la primera vez y guardamos la posición para las opciones
+			if (!mensajeMostrado) {
+				cout << mensaje << endl;
+				mensajeMostrado = true;
+
+				// Guardamos la posición donde aparecerán las opciones (2 líneas más abajo)
+				GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+				posicionOpciones = { 0, (SHORT)(csbi.dwCursorPosition.Y + 2) };
+			}
+
+			// Siempre usamos la misma posición para las opciones
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), posicionOpciones);
+
+			// Limpiamos solo la línea de opciones
+			cout << string(80, ' ');
+			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), posicionOpciones);
+
 			const char* opciones[2] = { "Si", "No" };
 			for (int i = 0; i < 2; ++i) {
 				if (i == seleccion) {
@@ -55,7 +79,7 @@ namespace PersonaUI {
 					cout << "   " << opciones[i] << "   ";
 				}
 			}
-			cout << "\r"; // Retorna el cursor al inicio de la linea
+
 			tecla = _getch();
 			if (tecla == 224) {
 				tecla = _getch();
@@ -66,9 +90,11 @@ namespace PersonaUI {
 					++seleccion;
 				}
 			}
+			Utilidades::mostrarCursor(); // Muestra el cursor nuevamente
 		} while (tecla != 13); // Enter
+
 		return (seleccion == 0); // Retorna true si selecciona "Si"
-		};
+	};
 
 	/**
 	 * @brief Lambda para ingresar y validar montos numéricos con límites
@@ -180,16 +206,15 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 		std::string fechaNacimiento = ingresarFechaNacimiento(this->fechaNacimiento); // Llamar al metodo para ingresar la fecha de nacimiento
 		std::string correo = ingresarCorreo(this->correo); // Llamar al metodo para ingresar el correo
 		std::string direccion = ingresarDireccion(this->direccion); // Llamar al metodo para ingresar la direccion
-		Utilidades::limpiarPantallaPreservandoMarquesina(3); // Limpiar la pantalla
+
 		// Si el usuario considera que los datos son correctos, 
 		// selecciona "Si" para setear los datos o "No" para repetir
 		// Mostrar los datos ingresados y preguntar si desea corregirlos
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
-		system("pause");
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		mostrarDatos();
-		cout << endl;
-
+		system("pause");
 		bool seleccion = corregirDatos(); // Llamar al metodo para corregir los datos`
+
 		// Si selecciona "Si", repetir el ingreso de datos
 		if (!(seleccion == 0)) { // Si selecciona "Si"
 			continue;
@@ -219,7 +244,7 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
  */
 std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Por seguridad ingrese nuevamente su cedula (10 digitos): ";
 
@@ -281,7 +306,7 @@ std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 std::string Persona::ingresarNombres(std::string& nombres) const {
 	// Ingreso nombres y validacion
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los nombres: ";
 		nombres.clear();
@@ -353,7 +378,7 @@ std::string Persona::ingresarNombres(std::string& nombres) const {
 std::string Persona::ingresarApellidos(std::string& apellidos) const {
 	// Ingreso apellidos y validacion
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los apellidos: ";
 		apellidos.clear();
@@ -437,7 +462,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	int campo = 0;
 
 	while (!fechaSeleccionada) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << msgIngresoDatos() << endl;
 		std::cout << "Use Flechas Izquierda/Derecha para cambiar [DIA|MES|AÑO]\n";
 		std::cout << "Flechas Arriba/Abajo para aumentar/disminuir\n";
@@ -527,142 +552,149 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
  */
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
-    do {
-        Utilidades::limpiarPantallaPreservandoMarquesina(3);
-        std::cout << msgIngresoDatos() << std::endl;
-        std::cout << "Ingrese el correo: ";
-        correo.clear();
+	do {
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		std::cout << msgIngresoDatos() << std::endl;
+		std::cout << "Ingrese el correo: ";
+		correo.clear();
 
-        std::string correoBase = "";
-        char c;
-        int x = 0, y = 0;
-        bool eligiendo = false;
-        int seleccion = 0;
-        bool correoCompleto = false;
-        bool dominioElegido = false; // NUEVO: bandera para saber si ya se eligió dominio
+		std::string correoBase = "";
+		char c;
+		int x = 0, y = 0;
+		bool eligiendo = false;
+		int seleccion = 0;
+		bool correoCompleto = false;
+		bool dominioElegido = false; // NUEVO: bandera para saber si ya se eligió dominio
 
-        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO csbi;
-        std::string dominios[] = { "gmail.com", "hotmail.com", "outlook.com" };
-        const int numDominios = 3;
+		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+		CONSOLE_SCREEN_BUFFER_INFO csbi;
+		std::string dominios[] = { "gmail.com", "hotmail.com", "outlook.com" };
+		const int numDominios = 3;
 
-        auto mostrarOpciones = [&](int x, int y, int seleccion) {
-            for (int i = 0; i < numDominios; ++i) {
-                COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
-                SetConsoleCursorPosition(h, pos);
-                if (i == seleccion) {
-                    std::cout << "> " << dominios[i] << " <";
-                } else {
-                    std::cout << "  " << dominios[i] << "  ";
-                }
-            }
-        };
+		auto mostrarOpciones = [&](int x, int y, int seleccion) {
+			for (int i = 0; i < numDominios; ++i) {
+				COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
+				SetConsoleCursorPosition(h, pos);
+				if (i == seleccion) {
+					std::cout << "> " << dominios[i] << " <";
+				}
+				else {
+					std::cout << "  " << dominios[i] << "  ";
+				}
+			}
+			};
 
-        auto limpiarOpciones = [&](int x, int y) {
-            for (int i = 0; i < numDominios; ++i) {
-                COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
-                SetConsoleCursorPosition(h, pos);
-                std::cout << "                   ";
-            }
-            // Regresar el cursor justo después del '@'
-            COORD pos = { (SHORT)x, (SHORT)y };
-            SetConsoleCursorPosition(h, pos);
-        };
+		auto limpiarOpciones = [&](int x, int y) {
+			for (int i = 0; i < numDominios; ++i) {
+				COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
+				SetConsoleCursorPosition(h, pos);
+				std::cout << "                   ";
+			}
+			// Regresar el cursor justo después del '@'
+			COORD pos = { (SHORT)x, (SHORT)y };
+			SetConsoleCursorPosition(h, pos);
+			};
 
-        while (!correoCompleto) {
-            c = _getch();
+		while (!correoCompleto) {
+			Utilidades::ocultarCursor();
+			c = _getch();
 
-            if (eligiendo) {
-                if ((unsigned char)c == 224) {
-                    char tecla = _getch();
-                    if (tecla == 72 && seleccion > 0) { // flecha arriba
-                        seleccion--;
-                    } else if (tecla == 80 && seleccion < numDominios - 1) { // flecha abajo
-                        seleccion++;
-                    }
-                    mostrarOpciones(x, y, seleccion);
-                } else if (c == 13) { // Enter para elegir dominio
-                    limpiarOpciones(x, y);
-                    correoBase += dominios[seleccion];
-                    std::cout << dominios[seleccion];
-                    eligiendo = false;
-                    dominioElegido = true; // NUEVO: ya no se puede escribir más
-                }
-            } else if (dominioElegido) {
-                // Solo permitir ENTER para finalizar o BACKSPACE para borrar el dominio
-                if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-                    correoCompleto = true;
-                    std::cout << std::endl;
-                    break;
-                }
-                if (c == 8 && !correoBase.empty()) {
-                    // Permitir borrar solo si el usuario borra parte del dominio
-                    // Si borra hasta el '@', permitir volver a escribir
-                    std::cout << "\b \b";
-                    if (!correoBase.empty()) {
-                        if (correoBase.back() == '@') {
-                            dominioElegido = false;
-                        }
-                        correoBase.pop_back();
-                    }
-                }
-                // Ignorar cualquier otra tecla
-            } else {
-                if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-                    // Segundo enter: finalizar correo
-                    correoCompleto = true;
-                    std::cout << std::endl;
-                    break;
-                }
-                // Permitir backspace antes de elegir dominio
-                if (c == 8 && !correoBase.empty()) {
-                    if (correoBase.back() == '@') {
-                        if (eligiendo) {
-                            limpiarOpciones(x, y);
-                            eligiendo = false;
-                        }
-                    }
-                    std::cout << "\b \b";
-                    correoBase.pop_back();
-                }
-                else if (isprint(c) && c != ' ') {
-                    std::cout << c;
-                    correoBase += c;
-                    if (c == '@') {
-                        GetConsoleScreenBufferInfo(h, &csbi);
-                        x = csbi.dwCursorPosition.X;
-                        y = csbi.dwCursorPosition.Y;
-                        eligiendo = true;
-                        seleccion = 0;
-                        mostrarOpciones(x, y, seleccion);
-                    }
-                }
-            }
-        }
+			if (eligiendo) {
+				if ((unsigned char)c == 224) {
+					char tecla = _getch();
+					if (tecla == 72 && seleccion > 0) { // flecha arriba
+						seleccion--;
+					}
+					else if (tecla == 80 && seleccion < numDominios - 1) { // flecha abajo
+						seleccion++;
+					}
+					mostrarOpciones(x, y, seleccion);
+				}
+				else if (c == 13) { // Enter para elegir dominio
+					limpiarOpciones(x, y);
+					correoBase += dominios[seleccion];
+					std::cout << dominios[seleccion];
+					eligiendo = false;
+					dominioElegido = true; // NUEVO: ya no se puede escribir más
+				}
+			}
+			else if (dominioElegido) {
+				// Solo permitir ENTER para finalizar o BACKSPACE para borrar el dominio
+				if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
+					correoCompleto = true;
+					std::cout << std::endl;
+					break;
+				}
+				if (c == 8 && !correoBase.empty()) {
+					// Permitir borrar solo si el usuario borra parte del dominio
+					// Si borra hasta el '@', permitir volver a escribir
+					std::cout << "\b \b";
+					if (!correoBase.empty()) {
+						if (correoBase.back() == '@') {
+							dominioElegido = false;
+						}
+						correoBase.pop_back();
+					}
+				}
+				// Ignorar cualquier otra tecla
+			}
+			else {
+				if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
+					// Segundo enter: finalizar correo
+					correoCompleto = true;
+					std::cout << std::endl;
+					break;
+				}
+				// Permitir backspace antes de elegir dominio
+				if (c == 8 && !correoBase.empty()) {
+					if (correoBase.back() == '@') {
+						if (eligiendo) {
+							limpiarOpciones(x, y);
+							eligiendo = false;
+						}
+					}
+					std::cout << "\b \b";
+					correoBase.pop_back();
+				}
+				else if (isprint(c) && c != ' ') {
+					std::cout << c;
+					correoBase += c;
+					if (c == '@') {
+						GetConsoleScreenBufferInfo(h, &csbi);
+						x = csbi.dwCursorPosition.X;
+						y = csbi.dwCursorPosition.Y;
+						eligiendo = true;
+						seleccion = 0;
+						mostrarOpciones(x, y, seleccion);
+					}
+				}
+			}
+			Utilidades::mostrarCursor();
+		}
 
-        correo = correoBase;
+		correo = correoBase;
 
-        // Validación básica de correo
-        size_t atPos = correo.find('@');
-        bool formatoValido = atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1;
-        if (!correo.empty()) {
-            if (!formatoValido) {
-                std::cout << "\nCorreo invalido, presione cualquier tecla para volver a ingresar." << std::endl;
-                int teclaCualquiera = _getch();
-                (void)teclaCualquiera;
-            }
-            else {
-                break; // Salir del bucle si el correo es valido
-            }
-        }
-        else {
-            std::cout << "\nEl correo no puede estar vacio, presione cualquier tecla para volver a ingresar." << std::endl;
-            int teclaCualquiera = _getch();
-            (void)teclaCualquiera;
-        }
-    } while (true);
+		// Validación básica de correo
+		size_t atPos = correo.find('@');
+		bool formatoValido = atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1;
+		if (!correo.empty()) {
+			if (!formatoValido) {
+				std::cout << "\nCorreo invalido, presione cualquier tecla para volver a ingresar." << std::endl;
+				int teclaCualquiera = _getch();
+				(void)teclaCualquiera;
+			}
+			else {
+				break; // Salir del bucle si el correo es valido
+			}
+		}
+		else {
+			std::cout << "\nEl correo no puede estar vacio, presione cualquier tecla para volver a ingresar." << std::endl;
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+		}
+	} while (true);
 
-    return correo;
+	return correo;
 }
 
 /**
@@ -677,7 +709,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
 {
 	// Ingreso de direccion con getch, maximo 100 caracteres, permitiendo letras, numeros, espacios y simbolos comunes en Ecuador
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese la direccion: ";
 		direccion.clear();
@@ -736,7 +768,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
  */
 bool Persona::corregirDatos()
 {
-	if (PersonaUI::seleccionarSiNo("\n\n¿Los datos ingresados son correctos?")) {
+	if (PersonaUI::seleccionarSiNo("\n¿Los datos ingresados son correctos?")) {
 		return false; // Si selecciona "Si", retorna false para no repetir el ingreso de datos
 	}
 	else {
@@ -1049,13 +1081,18 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		nuevaCuenta->setFechaApertura(fechaStr);
 		nuevaCuenta->setEstadoCuenta("ACTIVA");
 
-		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
-		double montoInicial = 0.0;
+		Utilidades::limpiarPantallaPreservandoMarquesina(2);
 
-		if (PersonaUI::seleccionarSiNo("\n\nDesea ingresar un monto inicial? (maximo 15000.00 USD)"))
+		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
+		std::cout << "Ahora puede configurar un monto inicial para su cuenta de ahorros.\n" << std::endl;
+
+		double montoInicial = 0.0;
+		bool siIngresoMonto = PersonaUI::seleccionarSiNo("Desea ingresar un monto inicial? (maximo 15000.00 USD)\n");
+		
+		if (siIngresoMonto)
 		{ // Si desea ingresar un monto inicial 
 			do {
-				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\n\nIngrese el monto inicial (maximo 15000.00 USD): ");
+				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "Ingrese el monto inicial (maximo 15000.00 USD): ");
 			} while (montoInicial < 0 || montoInicial > 15000.00);
 			nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		}
@@ -1413,8 +1450,8 @@ std::string Persona::seleccionSucursal() {
 	int numOpciones = sizeof(sucursales) / sizeof(sucursales[0]);
 	int seleccion = 0;
 
-	Utilidades::limpiarPantallaPreservandoMarquesina(3);
-	std::cout << "\n\nSeleccione la sucursal donde se encuentra:\n\n";
+	Utilidades::limpiarPantallaPreservandoMarquesina(2);
+	std::cout << "Seleccione la sucursal donde se encuentra:\n\n";
 
 	// Mostrar opciones inicialmente
 	for (int i = 0; i < numOpciones; i++) {
@@ -1426,6 +1463,7 @@ std::string Persona::seleccionSucursal() {
 
 	// Navegación del menú
 	while (true) {
+		Utilidades::ocultarCursor();
 		int tecla = _getch();
 
 		if (tecla == 224) { // Tecla especial
@@ -1461,6 +1499,7 @@ std::string Persona::seleccionSucursal() {
 		else if (tecla == 27) { // ESC - valor por defecto
 			return "210"; // Retorna código de sucursal por defecto
 		}
+		Utilidades::mostrarCursor();
 	}
 }
 
@@ -1470,5 +1509,5 @@ std::string Persona::seleccionSucursal() {
  * @return std::string Mensaje formateado
  */
 std::string Persona::msgIngresoDatos() const {
-	return "\n\n----- INGRESO DE DATOS -----\n";
+	return "----- INGRESO DE DATOS -----\n";
 }
