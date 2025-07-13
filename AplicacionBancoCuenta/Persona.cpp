@@ -1117,7 +1117,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
-		std::cout << "Ahora puede configurar un monto inicial para su cuenta de ahorros.\n" << std::endl;
+		std::cout << "\nAhora puede configurar un monto inicial para su cuenta de ahorros.\n" << std::endl;
 
 		double montoInicial = 0.0;
 		bool siIngresoMonto = PersonaUI::seleccionarSiNo("Desea ingresar un monto inicial? (maximo 15000.00 USD)\n");
@@ -1125,7 +1125,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		if (siIngresoMonto)
 		{ // Si desea ingresar un monto inicial 
 			do {
-				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "Ingrese el monto inicial (maximo 15000.00 USD): ");
+				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\nIngrese el monto inicial (maximo 15000.00 USD): ");
 			} while (montoInicial < 0 || montoInicial > 15000.00);
 			nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		}
@@ -1196,7 +1196,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
-			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "Ingrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
+			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
@@ -1341,7 +1341,7 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
-			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "Ingrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
+			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
@@ -1528,7 +1528,7 @@ std::string Persona::seleccionSucursal() {
 	int seleccion = 0;
 
 	Utilidades::limpiarPantallaPreservandoMarquesina(1);
-	std::cout << "Seleccione la sucursal donde se encuentra:\n\n";
+	std::cout << "\nSeleccione la sucursal donde se encuentra:\n\n";
 
 	// Mostrar opciones inicialmente
 	for (int i = 0; i < numOpciones; i++) {
@@ -1586,5 +1586,5 @@ std::string Persona::seleccionSucursal() {
  * @return std::string Mensaje formateado
  */
 std::string Persona::msgIngresoDatos() const {
-	return "----- INGRESO DE DATOS -----\n";
+	return "\n----- INGRESO DE DATOS -----\n";
 }

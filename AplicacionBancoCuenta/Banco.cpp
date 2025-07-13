@@ -113,7 +113,7 @@ void Banco::agregarPersonaConCuenta() {
 			std::string cedulaTemp;
 			while (true) {
 				Utilidades::limpiarPantallaPreservandoMarquesina(1);
-				std::cout << "----- INGRESE SUS DATOS -----\n";
+				std::cout << "\n----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
 				int digitos = 0;
@@ -279,7 +279,7 @@ void Banco::agregarPersonaConCuenta() {
 			std::string cedulaTemp;
 			while (true) {
 				Utilidades::limpiarPantallaPreservandoMarquesina(1);
-				std::cout << "----- INGRESE SUS DATOS -----\n";
+				std::cout << "\n----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
 				int digitos = 0;
@@ -973,7 +973,7 @@ void Banco::buscarCuenta() {
 
 	while (true) {
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
-		std::cout << "Seleccione el tipo de busqueda:\n\n";
+		std::cout << "\nSeleccione el tipo de busqueda:\n\n";
 		for (int i = 0; i < numOpcionesBusqueda; i++) {
 			if (i == seleccionBusqueda)
 				std::cout << " > " << opcionesBusqueda[i] << std::endl;
@@ -1011,7 +1011,7 @@ void Banco::buscarCuenta() {
 
 		while (!fechaSeleccionada) {
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
-			std::cout << "Seleccione la fecha de creacion, usando las flechas del teclado. ENTER para aceptar.\n";
+			std::cout << "\nSeleccione la fecha de creacion, usando las flechas del teclado. ENTER para aceptar.\n";
 			for (int i = 0; i < 3; ++i) {
 				if (i == campo)
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
@@ -1069,7 +1069,7 @@ void Banco::buscarCuenta() {
 	// Busqueda por numero de cuenta
 	if (seleccionBusqueda == 2) {
 		std::string numCuentaBuscar;
-		std::cout << "Ingrese el numero de cuenta: ";
+		std::cout << "\nIngrese el numero de cuenta: ";
 		// Ingreso solo numerico con getch
 		while (true) {
 			char tecla = _getch();
@@ -1105,7 +1105,7 @@ void Banco::buscarCuenta() {
 		}
 
 		if (cuentasEncontradas == 0) {
-			std::cout << "No se encontraron cuentas con el numero: " << numCuentaBuscar << std::endl;
+			std::cout << "\nNo se encontraron cuentas con el numero: " << numCuentaBuscar << std::endl;
 		}
 		else {
 			std::cout << "Se encontraron " << cuentasEncontradas << " cuenta(s)." << std::endl;
@@ -1270,7 +1270,7 @@ void Banco::buscarCuentasPorCriterio() {
 		// Menu de seleccion con cursor
 		while (true) {
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
-			std::cout << "Seleccione el criterio de busqueda de cuentas:\n\n";
+			std::cout << "\nSeleccione el criterio de busqueda de cuentas:\n\n";
 			for (int i = 0; i < numCriterios; i++) {
 				if (i == seleccion)
 					std::cout << " > " << criterios[i] << std::endl;
@@ -1294,7 +1294,7 @@ void Banco::buscarCuentasPorCriterio() {
 		// Solicitar el valor segun el criterio
 		if (seleccion == 0) { // Numero de cuenta
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
-			std::cout << "Ingrese el numero de cuenta: ";
+			std::cout << "\nIngrese el numero de cuenta: ";
 			numCuentaIngresada.clear();
 
 			// Control de entrada numerica similar a otros lugares
@@ -1338,7 +1338,7 @@ void Banco::buscarCuentasPorCriterio() {
 
 			while (!fechaSeleccionada) {
 				Utilidades::limpiarPantallaPreservandoMarquesina(1);
-				std::cout << "Seleccione la fecha de apertura, usando las flechas del teclado. ENTER para aceptar.\n";
+				std::cout << "\nSeleccione la fecha de apertura, usando las flechas del teclado. ENTER para aceptar.\n";
 				for (int i = 0; i < 3; ++i) {
 					if (i == campo)
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
@@ -2391,7 +2391,7 @@ bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 	else { // Buscar por numero de cuenta
 		std::string numCuenta;
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
-		std::cout << "Ingrese el numero de cuenta: ";
+		std::cout << "\nIngrese el numero de cuenta: ";
 		while (true) {
 			char tecla = _getch();
 			if (tecla >= '0' && tecla <= '9') {
