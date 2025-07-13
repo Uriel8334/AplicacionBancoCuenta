@@ -1196,7 +1196,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
-			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\n\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
+			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "Ingrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
