@@ -390,7 +390,7 @@ void Banco::agregarPersonaConCuenta() {
 									std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
 								}
 								else {
-									std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
+									//std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
 								}
 							}
 							if (!resultado) {
@@ -424,7 +424,7 @@ void Banco::agregarPersonaConCuenta() {
 						std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
 					}
 					else {
-						std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
+						//std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
 					}
 				}
 				if (!resultado) {

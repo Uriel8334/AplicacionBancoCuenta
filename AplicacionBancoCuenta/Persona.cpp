@@ -572,8 +572,8 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 
 		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
-		std::string dominios[] = { "gmail.com", "hotmail.com", "outlook.com" };
-		const int numDominios = 3;
+		std::string dominios[] = { "gmail.com", "hotmail.com", "outlook.com", "espe.edu.ec", "<Otro dominio>"};
+		const int numDominios = 5;
 
 		auto mostrarOpciones = [&](int x, int y, int seleccion) {
 			for (int i = 0; i < numDominios; ++i) {
@@ -616,40 +616,69 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 				}
 				else if (c == 13) { // Enter para elegir dominio
 					limpiarOpciones(x, y);
-					correoBase += dominios[seleccion];
-					std::cout << dominios[seleccion];
-					eligiendo = false;
-					dominioElegido = true; // NUEVO: ya no se puede escribir más
+					if (seleccion == numDominios - 1) { // "Otro dominio"
+						// Permitir escribir el dominio directamente después del @
+						eligiendo = false;
+						dominioElegido = true;
+					}
+					else {
+						correoBase += dominios[seleccion];
+						std::cout << dominios[seleccion];
+						eligiendo = false;
+						dominioElegido = true;
+					}
 				}
 			}
 			else if (dominioElegido) {
-				// Solo permitir ENTER para finalizar o BACKSPACE para borrar el dominio
-				if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-					correoCompleto = true;
-					std::cout << std::endl;
-					break;
-				}
-				if (c == 8 && !correoBase.empty()) {
-					// Permitir borrar solo si el usuario borra parte del dominio
-					// Si borra hasta el '@', permitir volver a escribir
-					std::cout << "\b \b";
-					if (!correoBase.empty()) {
-						if (correoBase.back() == '@') {
-							dominioElegido = false;
-						}
-						correoBase.pop_back();
+				// Si el usuario eligió "Otro dominio", permitir escribir normalmente
+				if (seleccion == numDominios - 1) {
+					if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
+						correoCompleto = true;
+						std::cout << std::endl;
+						break;
 					}
+					if (c == 8 && !correoBase.empty()) {
+						std::cout << "\b \b";
+						if (!correoBase.empty()) {
+							if (correoBase.back() == '@') {
+								dominioElegido = false;
+							}
+							correoBase.pop_back();
+						}
+					}
+					else if (isprint(c) && c != ' ') {
+						std::cout << c;
+						correoBase += c;
+
+					}
+					// Ignorar cualquier otra tecla
 				}
-				// Ignorar cualquier otra tecla
+				else {
+					// Si eligió un dominio predefinido, solo permitir ENTER o BACKSPACE
+					if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
+						correoCompleto = true;
+						std::cout << std::endl;
+						break;
+					}
+					if (c == 8 && !correoBase.empty()) {
+						std::cout << "\b \b";
+						if (!correoBase.empty()) {
+							// Si borra hasta el '@', permitir volver a escribir
+							if (correoBase.back() == '@') {
+								dominioElegido = false;
+							}
+							correoBase.pop_back();
+						}
+					}
+					// No permitir escribir más caracteres
+				}
 			}
 			else {
 				if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-					// Segundo enter: finalizar correo
 					correoCompleto = true;
 					std::cout << std::endl;
 					break;
 				}
-				// Permitir backspace antes de elegir dominio
 				if (c == 8 && !correoBase.empty()) {
 					if (correoBase.back() == '@') {
 						if (eligiendo) {
@@ -1167,7 +1196,7 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
-			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\n\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
+			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "Ingrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
 		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		// No es necesario setear el saldo, ya que depositar lo hace automaticamente

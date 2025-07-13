@@ -82,7 +82,7 @@ std::string CuentaCorriente::formatearSaldo() const {
  */
 std::string CuentaCorriente::formatearConComas(double saldo) const {
 	// Convertir de centavos a valor decimal
-	double valorReal = saldo / 100.0;
+	double valorReal = saldo;
 	std::ostringstream oss;
 	oss.imbue(std::locale("en_US.UTF-8")); // Usar formato americano: 1,234.56
 	oss << std::fixed << std::setprecision(2) << valorReal;
@@ -112,6 +112,7 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 	}
 
 	// Titulo con formato especifico para CuentaCorriente
+	std::cout << "\n" << std::string(50, '=') << std::endl;
 	std::cout << "          INFORMACION DE CUENTA CORRIENTE" << std::endl;
 	std::cout << std::string(50, '=') << "\n" << std::endl;
 
