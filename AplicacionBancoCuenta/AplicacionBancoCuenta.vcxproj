@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".vscode\settings.json" />
+    <None Include="DOCUMENTACION_QR_OPTIMIZADO.md" />
     <None Include="Doxyfile" />
     <None Include="Doxyfile.bak" />
     <None Include="html\annotated.html" />
@@ -464,6 +465,7 @@
     <None Include="latex\_validar_8h_source.tex" />
     <None Include="latex\___cdocs_main_8h.tex" />
     <None Include="latex\___cdocs_main_8h_source.tex" />
+    <None Include="marquesina.html" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="html\classvector.png" />

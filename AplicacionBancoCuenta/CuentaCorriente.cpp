@@ -108,7 +108,7 @@ void CuentaCorriente::mostrarInformacion(const std::string& cedula = "", bool li
 
 	// Limpieza de pantalla solo si se solicita
 	if (limpiarPantalla) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	}
 
 	// Titulo con formato especifico para CuentaCorriente

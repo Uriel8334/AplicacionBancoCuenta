@@ -11,24 +11,24 @@
 
 /**
  * @class Cuenta
- * @brief Clase abstracta que representa una cuenta bancaria genérica
+ * @brief Clase abstracta que representa una cuenta bancaria genÃ©rica
  *
  * Esta clase implementa una estructura de lista doblemente enlazada y utiliza
  * templates para permitir diferentes tipos de datos para el saldo (T).
  * Sirve como base para diferentes tipos de cuentas bancarias.
  *
- * @tparam T Tipo de dato para almacenar el saldo (típicamente double o float)
+ * @tparam T Tipo de dato para almacenar el saldo (tÃ­picamente double o float)
  */
 template <typename T>
 class Cuenta {
 protected:
-    /** @brief Número identificador único de la cuenta */
+    /** @brief NÃºmero identificador Ãºnico de la cuenta */
     std::string numeroCuenta;
 
     /** @brief Saldo actual disponible en la cuenta */
     T saldo;
 
-    /** @brief Fecha en que se abrió la cuenta */
+    /** @brief Fecha en que se abriÃ³ la cuenta */
     Fecha fechaApertura;
 
     /** @brief Estado actual de la cuenta (activa, inactiva, bloqueada, etc.) */
@@ -43,16 +43,16 @@ protected:
     /**
      * @brief Constructor por defecto
      *
-     * Inicializa una cuenta con valores vacíos y punteros nulos
+     * Inicializa una cuenta con valores vacÃ­os y punteros nulos
      */
     Cuenta()
-        : numeroCuenta(""), saldo(0), fechaApertura(), estadoCuenta(""), siguiente(nullptr), anterior(nullptr) {
+        : numeroCuenta(""), saldo(0), fechaApertura(""), estadoCuenta(""), siguiente(nullptr), anterior(nullptr) {
     }
 
     /**
-     * @brief Constructor con parámetros
+     * @brief Constructor con parÃ¡metros
      *
-     * @param numeroCuenta Número identificador de la cuenta
+     * @param numeroCuenta NÃºmero identificador de la cuenta
      * @param saldo Saldo inicial de la cuenta
      * @param fechaStr Fecha de apertura en formato de cadena
      * @param estadoCuenta Estado inicial de la cuenta
@@ -65,14 +65,14 @@ protected:
     /**
      * @brief Destructor virtual
      *
-     * Permite la correcta liberación de recursos en clases derivadas
+     * Permite la correcta liberaciÃ³n de recursos en clases derivadas
      */
     virtual ~Cuenta() {}
 
 public:
     /**
-     * @brief Obtiene el número de cuenta
-     * @return Número de cuenta como cadena
+     * @brief Obtiene el nÃºmero de cuenta
+     * @return NÃºmero de cuenta como cadena
      */
     std::string getNumeroCuenta() const { return numeroCuenta; }
 
@@ -107,9 +107,9 @@ public:
     Cuenta<T>* getAnterior() const { return anterior; }
 
     /**
-     * @brief Establece el número de cuenta
-     * @param numero Nuevo número de cuenta
-     * @return Número de cuenta actualizado
+     * @brief Establece el nÃºmero de cuenta
+     * @param numero Nuevo nÃºmero de cuenta
+     * @return NÃºmero de cuenta actualizado
      */
     std::string setNumeroCuenta(const std::string& numero) { numeroCuenta = numero; return numeroCuenta; }
 
@@ -147,7 +147,7 @@ public:
     void setAnterior(Cuenta<T>* ant) { anterior = ant; }
 
     /**
-     * @brief Realiza un depósito en la cuenta
+     * @brief Realiza un depÃ³sito en la cuenta
      * @param cantidad Monto a depositar
      */
     virtual void depositar(T cantidad) = 0;
@@ -183,8 +183,8 @@ public:
     virtual void cargarDesdeArchivo(const std::string& nombreArchivo) = 0;
 
     /**
-     * @brief Muestra la información de la cuenta
-     * @param cedula Cédula del titular (opcional)
+     * @brief Muestra la informaciÃ³n de la cuenta
+     * @param cedula CÃ©dula del titular (opcional)
      * @param limpiarPantalla Indica si se debe limpiar la pantalla antes de mostrar (por defecto es true)
      */
     virtual void mostrarInformacion(const std::string& cedula = "", bool limpiarPantalla = true) const = 0;

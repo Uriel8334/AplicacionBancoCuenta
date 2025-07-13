@@ -203,7 +203,7 @@ int main() {
 				banco.agregarPersonaConCuenta();
 				Utilidades::finalizarOperacionCritica();
 				Utilidades::ocultarCursor();
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -212,7 +212,7 @@ int main() {
 				Utilidades::mostrarCursor();
 				banco.buscarCuenta();
 				Utilidades::ocultarCursor();
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -228,14 +228,14 @@ int main() {
 				Utilidades::ocultarCursor();
 				banco.subMenuCuentasBancarias();
 				Utilidades::ocultarCursor();
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
 			case 3: // Realizar Transferencias
 			{
 				banco.realizarTransferencia();
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -243,9 +243,10 @@ int main() {
 			{
 				// Verificar si hay datos para guardar
 				if (banco.getListaPersonas() == nullptr) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "No hay datos para guardar. Cree al menos una cuenta primero.\n";
 					system("pause");
+					necesitaRedibujado = true;
 					break;
 				}
 
@@ -255,7 +256,7 @@ int main() {
 				int selGuardado = 0;
 
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "Seleccione el tipo de guardado:\n\n";
 					for (int i = 0; i < numOpcionesGuardado; i++) {
 						if (i == selGuardado)
@@ -281,7 +282,7 @@ int main() {
 				}
 
 				// Pedir nombre del archivo
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 				if (selGuardado == 0) { // Respaldo (.bak)
 					std::cout << "Guardando respaldo en archivo .bak\n";
@@ -300,7 +301,7 @@ int main() {
 					Cifrado::cifrarYGuardarDatos(banco, nombreArchivo, clave);
 				}
 				else if (selGuardado == 2) { // Archivo PDF de (.bak) o (.txt)
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "GENERACIÓN DE PDF\n\n";
 
 					// Solicitar el nombre del archivo de respaldo a convertir
@@ -333,19 +334,19 @@ int main() {
 						system("pause");
 					}
 				}
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
 			case 5: // Recuperar Archivo
 			{
 				// Submenu para tipo de carga
-				std::string opcionesCarga[] = { "Recuparar de Respaldo (.bak)", "Recuperar de Archivo cifrado (.bin)", "Cancelar" };
+				std::string opcionesCarga[] = { "Recuperar de Respaldo (.bak)", "Recuperar de Archivo cifrado (.bin)", "Cancelar" };
 				int numOpcionesCarga = sizeof(opcionesCarga) / sizeof(opcionesCarga[0]);
 				int selCarga = 0;
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "Seleccione el tipo de archivo a cargar:\n\n";
 					for (int i = 0; i < numOpcionesCarga; i++) {
 						if (i == selCarga)
@@ -368,10 +369,12 @@ int main() {
 
 				// Si se selecciona la opcion "Cancelar" (indice 2), finaliza
 				if (selCarga == 2) {
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
+					necesitaRedibujado = true;
 					break;
 				}
 
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "\n\nIngrese el nombre del archivo (sin extension): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -392,7 +395,7 @@ int main() {
 				}
 				}
 				system("pause");
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -404,7 +407,7 @@ int main() {
 				int selDescifrado = 0;
 
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "Seleccione a que descifrar:\n\n";
 					for (int i = 0; i < numOpcionesDescifrado; i++) {
 						if (i == selDescifrado)
@@ -427,6 +430,8 @@ int main() {
 				}
 
 				if (selDescifrado == 1) { // Cancelar
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
+					necesitaRedibujado = true;
 					break;
 				}
 
@@ -440,7 +445,7 @@ int main() {
 				int selSubDescifrado = 0;
 
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "Seleccione el tipo de descifrado:\n\n";
 					for (int i = 0; i < numSubOpcionesDescifrado; i++) {
 						if (i == selSubDescifrado)
@@ -467,7 +472,7 @@ int main() {
 					break;
 				}
 
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "Ingrese el nombre del archivo (sin extension): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -501,8 +506,8 @@ int main() {
 				// se llama a la aplicacion de ayuda
 				Utilidades::mostrarMenuAyuda();
 				system("pause");
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
 				break;
 			}
 			case 8: // Explorador de archivos
@@ -551,7 +556,7 @@ int main() {
 				int seleccion = 0;
 				bool ascendente = true;
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					// Encabezado horizontal con cursor
 					for (size_t i = 0; i < opcionesPersona.size(); ++i) {
 						if (i == seleccion)
@@ -592,7 +597,7 @@ int main() {
 						break;
 					}
 				}
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -604,7 +609,7 @@ int main() {
 				int seleccionHash = 0;
 
 				while (true) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "GESTIÓN DE HASH DE ARCHIVOS\n\n";
 					std::cout << "Seleccione una operación:\n\n";
 					for (int i = 0; i < numOpcionesHash; i++) {
@@ -626,15 +631,19 @@ int main() {
 						break;
 					else if (teclaHash == 27) { // ESC
 						seleccionHash = 2; // Cancelar
+						Utilidades::limpiarPantallaPreservandoMarquesina(1);
+						necesitaRedibujado = true;
 						break;
 					}
 				}
 
 				if (seleccionHash == 2) { // Cancelar
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
+					necesitaRedibujado = true;
 					break;
 				}
 
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "Ingrese el nombre del archivo (sin extensión): ";
 				std::string nombreArchivo;
 				std::cin >> nombreArchivo;
@@ -671,21 +680,23 @@ int main() {
 					}
 				}
 				system("pause");
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
 			case 10: // Arbol B
 			{
 				if (banco.getListaPersonas() == nullptr) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "No hay personas registradas. Cree una cuenta primero.\n";
 					system("pause");
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
+					necesitaRedibujado = true;
 					break;
 				}
 
 				Utilidades::PorArbolB(banco.getListaPersonas());
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
@@ -693,9 +704,11 @@ int main() {
 			{
 				// Verificar que haya personas en la base de datos
 				if (banco.getListaPersonas() == nullptr) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "No hay personas registradas en el sistema.\n";
 					system("pause");
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
+					necesitaRedibujado = true;
 					break;
 				}
 
@@ -711,9 +724,11 @@ int main() {
 				}
 
 				if (personasOrdenadas.empty()) {
-					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "No hay personas validas para mostrar.\n";
 					system("pause");
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
+					necesitaRedibujado = true;
 					break;
 				}
 
@@ -759,7 +774,7 @@ int main() {
 				while (true) {
 					actualizarListaPersonas();
 
-					Utilidades::limpiarPantallaPreservandoMarquesina(2);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					std::cout << "=== EXPLORADOR DE PERSONAS - SELECCIONAR PERSONA ===\n\n";
 					std::cout << "Ordenar por: ";
 
@@ -830,9 +845,15 @@ int main() {
 							cuentaCorriente = cuentaCorriente->getSiguiente();
 						}
 
+						int debugCuentas = 0;
+						CuentaAhorros* ca = personaSeleccionada->getCabezaAhorros();
+						while (ca) { debugCuentas++; ca = ca->getSiguiente(); }
+						std::cout << "[DEBUG] Cuentas de ahorro: " << debugCuentas << std::endl;
+
+
 						// Si no hay cuentas, mostrar mensaje y volver
 						if (cuentasDisponibles.empty()) {
-							Utilidades::limpiarPantallaPreservandoMarquesina(2);
+							//Utilidades::limpiarPantallaPreservandoMarquesina(1);
 							std::cout << "La persona seleccionada no tiene cuentas asociadas.\n";
 							system("pause");
 							continue;
@@ -843,7 +864,7 @@ int main() {
 						std::string numeroCuentaQR;
 
 						while (true) {
-							Utilidades::limpiarPantallaPreservandoMarquesina(2);
+							Utilidades::limpiarPantallaPreservandoMarquesina(1);
 							std::cout << "=== SELECCIONAR CUENTA PARA QR ===\n\n";
 							std::cout << "Titular: " << personaSeleccionada->getNombres() << " "
 								<< personaSeleccionada->getApellidos() << "\n\n";
@@ -881,7 +902,7 @@ int main() {
 						}
 
 						// Generar QR directamente aqui en main.cpp
-						Utilidades::limpiarPantallaPreservandoMarquesina(2);
+						Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 						// Reemplazar el bloque de código seleccionado por:
 						try {
@@ -893,7 +914,7 @@ int main() {
 							break; // Si terminó correctamente o se seleccionó "Volver al menú principal"
 						}
 						catch (const std::exception& e) {
-							Utilidades::limpiarPantallaPreservandoMarquesina(2);
+							Utilidades::limpiarPantallaPreservandoMarquesina(1);
 							std::cout << "\n\nError generando QR: " << e.what() << std::endl;
 							system("pause");
 						}
@@ -901,67 +922,148 @@ int main() {
 						break;
 					}
 					else if (tecla == 27) { // ESC
-						Utilidades::limpiarPantallaPreservandoMarquesina(2);
+						Utilidades::limpiarPantallaPreservandoMarquesina(1);
+						necesitaRedibujado = true;
 						break; // Cancelar
 					}
 					else if (tecla == 32) { // ESPACIO - cambiar orden
 						ascendente = !ascendente;
 					}
 				}
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
 			}
+			//case 12: // Abrir documentacion
+			//{
+			//	Utilidades::limpiarPantallaPreservandoMarquesina(1);
+			//	std::cout << "Abriendo documentación en el navegador...\n";
+
+			//	// Definir la ruta a la documentación HTML
+			//	std::string rutaBase = "html\\index.html";
+
+			//	// Usar ShellExecute para abrir el archivo en el navegador por defecto
+			//	// Esto es más robusto que system() porque:
+			//	// 1. Usa el navegador predeterminado del sistema
+			//	// 2. Maneja correctamente rutas con espacios
+			//	// 3. No muestra ventanas de comandos
+			//	HINSTANCE resultado = ShellExecuteA(
+			//		NULL,           // Handle del padre (null = escritorio)
+			//		"open",         // Operación (abrir)
+			//		rutaBase.c_str(), // Archivo a abrir
+			//		NULL,           // Parámetros (ninguno)
+			//		NULL,           // Directorio de trabajo (usar actual)
+			//		SW_SHOWNORMAL   // Mostrar ventana normalmente
+			//	);
+
+			//	// Verificar si se pudo abrir
+			//	if ((int)resultado <= 32) { // ShellExecute devuelve valores <= 32 en caso de error
+			//		std::cout << "No se pudo abrir la documentación. Código de error: " << (int)resultado << "\n";
+			//		std::cout << "Intentando método alternativo...\n";
+
+			//		// Método alternativo usando system
+			//		std::string comando = "start " + rutaBase;
+			//		int resultadoSystem = system(comando.c_str());
+
+			//		if (resultadoSystem != 0) {
+			//			std::cout << "Error al abrir la documentación.\n";
+			//			std::cout << "Por favor, abra manualmente el archivo: " << rutaBase << "\n";
+			//		}
+			//		else {
+			//			std::cout << "Documentación abierta mediante método alternativo.\n";
+			//		}
+			//	}
+			//	else {
+			//		std::cout << "Documentación abierta correctamente.\n";
+			//	}
+
+			//	std::cout << "\nPresione cualquier tecla para continuar...\n";
+			//	int teclaCualquiera = _getch();
+			//	(void)teclaCualquiera;
+			//	Utilidades::limpiarPantallaPreservandoMarquesina(1);
+			//	necesitaRedibujado = true;
+			//	break;
+			//}			
 			case 12: // Abrir documentacion
 			{
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "Abriendo documentación en el navegador...\n";
 
-				// Definir la ruta a la documentación HTML
-				std::string rutaBase = "html\\index.html";
+				// Determinar rutas relativas y absolutas para la documentación
+				std::string rutaRelativa = "html\\index.html";
+				char rutaEjecutableCompleta[MAX_PATH];
+				GetModuleFileNameA(NULL, rutaEjecutableCompleta, MAX_PATH);
 
-				// Usar ShellExecute para abrir el archivo en el navegador por defecto
-				// Esto es más robusto que system() porque:
-				// 1. Usa el navegador predeterminado del sistema
-				// 2. Maneja correctamente rutas con espacios
-				// 3. No muestra ventanas de comandos
-				HINSTANCE resultado = ShellExecuteA(
-					NULL,           // Handle del padre (null = escritorio)
-					"open",         // Operación (abrir)
-					rutaBase.c_str(), // Archivo a abrir
-					NULL,           // Parámetros (ninguno)
-					NULL,           // Directorio de trabajo (usar actual)
-					SW_SHOWNORMAL   // Mostrar ventana normalmente
-				);
+				// Extraer directorio base del ejecutable
+				std::string rutaEjecutable(rutaEjecutableCompleta);
+				std::string directorioBase = rutaEjecutable.substr(0, rutaEjecutable.find_last_of("\\/"));
+				std::string rutaAbsoluta = directorioBase + "\\" + rutaRelativa;
 
-				// Verificar si se pudo abrir
-				if ((int)resultado <= 32) { // ShellExecute devuelve valores <= 32 en caso de error
-					std::cout << "No se pudo abrir la documentación. Código de error: " << (int)resultado << "\n";
-					std::cout << "Intentando método alternativo...\n";
+				// Verificar existencia del archivo antes de intentar abrirlo
+				bool archivoExiste = false;
+				std::ifstream verificarArchivo(rutaAbsoluta);
+				if (verificarArchivo) {
+					archivoExiste = true;
+					verificarArchivo.close();
+				}
 
-					// Método alternativo usando system
-					std::string comando = "start " + rutaBase;
-					int resultadoSystem = system(comando.c_str());
+				if (!archivoExiste) {
+					std::cout << "No se encontró la documentación en la ruta:\n" << rutaAbsoluta << "\n\n";
+					std::cout << "Buscando en directorio de instalación...\n";
 
-					if (resultadoSystem != 0) {
-						std::cout << "Error al abrir la documentación.\n";
-						std::cout << "Por favor, abra manualmente el archivo: " << rutaBase << "\n";
+					// Intentar buscar en una ubicación alternativa común para instalaciones
+					std::string rutaAlternativa = "C:\\Program Files\\SistemaBancario\\html\\index.html";
+					std::ifstream verificarAlternativa(rutaAlternativa);
+					if (verificarAlternativa) {
+						rutaAbsoluta = rutaAlternativa;
+						archivoExiste = true;
+						verificarAlternativa.close();
 					}
 					else {
-						std::cout << "Documentación abierta mediante método alternativo.\n";
+						std::cout << "No se encontró la documentación. Verifique la instalación.\n";
 					}
 				}
-				else {
-					std::cout << "Documentación abierta correctamente.\n";
+
+				if (archivoExiste) {
+					// Usar ShellExecute para abrir el archivo en el navegador predeterminado
+					HINSTANCE resultado = ShellExecuteA(
+						NULL,                 // Handle del padre (null = escritorio)
+						"open",               // Operación (abrir)
+						rutaAbsoluta.c_str(), // Archivo a abrir (ruta absoluta)
+						NULL,                 // Parámetros (ninguno)
+						NULL,                 // Directorio de trabajo (usar actual)
+						SW_SHOWNORMAL         // Mostrar ventana normalmente
+					);
+
+					// Verificar si se pudo abrir
+					if ((int)resultado <= 32) { // ShellExecute devuelve valores <= 32 en caso de error
+						std::cout << "No se pudo abrir la documentación. Código de error: " << (int)resultado << "\n";
+						std::cout << "Intentando método alternativo...\n";
+
+						// Método alternativo usando system
+						std::string comando = "start \"\" \"" + rutaAbsoluta + "\"";
+						int resultadoSystem = system(comando.c_str());
+
+						if (resultadoSystem != 0) {
+							std::cout << "Error al abrir la documentación.\n";
+							std::cout << "Por favor, abra manualmente el archivo:\n" << rutaAbsoluta << "\n";
+						}
+						else {
+							std::cout << "Documentación abierta mediante método alternativo.\n";
+						}
+					}
+					else {
+						std::cout << "Documentación abierta correctamente.\n";
+					}
 				}
 
 				std::cout << "\nPresione cualquier tecla para continuar...\n";
 				int teclaCualquiera = _getch();
 				(void)teclaCualquiera;
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				necesitaRedibujado = true;
 				break;
-			}			
+			}
 			case 13: // Salir			
 			{
 				Utilidades::ocultarCursor();

@@ -118,7 +118,7 @@ namespace PersonaUI {
 
 		system("pause");
 		while (!terminado) {
-			Utilidades::limpiarPantallaPreservandoMarquesina(3);
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			std::cout << mensaje << ": ";
 			std::cout << entrada;
 
@@ -214,7 +214,7 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 		// Si el usuario considera que los datos son correctos, 
 		// selecciona "Si" para setear los datos o "No" para repetir
 		// Mostrar los datos ingresados y preguntar si desea corregirlos
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		mostrarDatos();
 		system("pause");
 		bool seleccion = corregirDatos(); // Llamar al metodo para corregir los datos`
@@ -248,7 +248,7 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
  */
 std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Por seguridad ingrese nuevamente su cedula (10 digitos): ";
 
@@ -310,7 +310,7 @@ std::string Persona::ingresarCedula(std::string& cedulaIngresada) {
 std::string Persona::ingresarNombres(std::string& nombres) const {
 	// Ingreso nombres y validacion
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los nombres: ";
 		nombres.clear();
@@ -382,7 +382,7 @@ std::string Persona::ingresarNombres(std::string& nombres) const {
 std::string Persona::ingresarApellidos(std::string& apellidos) const {
 	// Ingreso apellidos y validacion
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese los apellidos: ";
 		apellidos.clear();
@@ -466,7 +466,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 	int campo = 0;
 
 	while (!fechaSeleccionada) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << endl;
 		std::cout << "Use Flechas Izquierda/Derecha para cambiar [DIA|MES|AÑO]\n";
 		std::cout << "Flechas Arriba/Abajo para aumentar/disminuir\n";
@@ -557,7 +557,7 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << std::endl;
 		std::cout << "Ingrese el correo: ";
 		correo.clear();
@@ -713,7 +713,7 @@ std::string Persona::ingresarDireccion(std::string& direccion) const
 {
 	// Ingreso de direccion con getch, maximo 100 caracteres, permitiendo letras, numeros, espacios y simbolos comunes en Ecuador
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << endl;
 		cout << "Ingrese la direccion: ";
 		direccion.clear();
@@ -1085,7 +1085,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		nuevaCuenta->setFechaApertura(fechaStr);
 		nuevaCuenta->setEstadoCuenta("ACTIVA");
 
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
 		std::cout << "Ahora puede configurar un monto inicial para su cuenta de ahorros.\n" << std::endl;
@@ -1498,7 +1498,7 @@ std::string Persona::seleccionSucursal() {
 	int numOpciones = sizeof(sucursales) / sizeof(sucursales[0]);
 	int seleccion = 0;
 
-	Utilidades::limpiarPantallaPreservandoMarquesina(2);
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	std::cout << "Seleccione la sucursal donde se encuentra:\n\n";
 
 	// Mostrar opciones inicialmente

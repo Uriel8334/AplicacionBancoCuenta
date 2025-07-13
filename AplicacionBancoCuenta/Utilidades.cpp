@@ -546,7 +546,7 @@ public:
 		}
 
 		// Limpiar pantalla y dibujar el árbol
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "=== ÁRBOL B DIDÁCTICO ===" << std::endl;
 		std::cout << "Ordenado por: " << (selCriterio == 0 ? "Cédula" :
 			selCriterio == 1 ? "Nombre" :
@@ -1051,8 +1051,11 @@ void Utilidades::mostrarMenuAyuda() {
 	HINSTANCE resultado = ShellExecuteA(NULL, "open", ruta.c_str(), NULL, NULL, SW_SHOWNORMAL);
 
 	if (reinterpret_cast<INT_PTR>(resultado) <= 32) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cerr << "Error al abrir el menu de ayuda. Codigo: " << (int)resultado << std::endl;
 	}
+
+
 }
 
 /**
@@ -1567,7 +1570,7 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 		if (marquesinaGlobal) {
 			marquesinaGlobal->marcarOperacionCritica();
 		}
-		limpiarPantallaPreservandoMarquesina(2);
+		limpiarPantallaPreservandoMarquesina(1);
 
 		// Crear y generar QR
 		CodigoQR::GeneradorQRTextoPlano qr(
@@ -1677,6 +1680,7 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 					if (marquesinaGlobal) {
 						marquesinaGlobal->finalizarOperacionCritica();
 					}
+					limpiarPantallaPreservandoMarquesina(1);
 					return true;
 				}
 			}
@@ -1684,6 +1688,7 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 				if (marquesinaGlobal) {
 					marquesinaGlobal->finalizarOperacionCritica();
 				}
+				limpiarPantallaPreservandoMarquesina(1);
 				return false;
 			}
 		}
@@ -1693,7 +1698,7 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 		if (marquesinaGlobal) {
 			marquesinaGlobal->finalizarOperacionCritica();
 		}
-		limpiarPantallaPreservandoMarquesina(2);
+		limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Error generando QR: " << e.what() << std::endl;
 		system("pause");
 		return false;
@@ -1738,7 +1743,7 @@ void mostrarMenuOrdenar(std::vector<T*>& vec, const std::vector<std::string>& op
 {
 	int seleccion = 0;
 	while (true) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Ordenar por:\n";
 		for (size_t i = 0; i < opciones.size(); ++i) {
 			if (i == seleccion)

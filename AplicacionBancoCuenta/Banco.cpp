@@ -66,7 +66,7 @@ void Banco::agregarPersonaConCuenta() {
 	// Menu con cursor
 	while (true) {
 		Utilidades::ocultarCursor();
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "\nSeleccione el tipo de cuenta a crear para la persona:\n\n";
 		for (int i = 0; i < numOpciones; i++) {
 			if (i == seleccion)
@@ -112,7 +112,7 @@ void Banco::agregarPersonaConCuenta() {
 			// Solicitar cedula antes de ingresar todos los datos
 			std::string cedulaTemp;
 			while (true) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
@@ -169,7 +169,7 @@ void Banco::agregarPersonaConCuenta() {
 					}
 
 					while (true) {
-						Utilidades::limpiarPantallaPreservandoMarquesina(3);
+						Utilidades::limpiarPantallaPreservandoMarquesina(1);
 						if (personaExistente == nullptr) {
 							std::cout << "Error: El puntero 'personaExistente' es NULL.\n";
 							return;
@@ -278,7 +278,7 @@ void Banco::agregarPersonaConCuenta() {
 			// Solicitar cedula antes de ingresar todos los datos
 			std::string cedulaTemp;
 			while (true) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(2);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "----- INGRESE SUS DATOS -----\n";
 				std::cout << "Ingrese su cedula (10 digitos): ";
 				cedulaTemp.clear();
@@ -335,7 +335,7 @@ void Banco::agregarPersonaConCuenta() {
 					}
 
 					while (true) {
-						Utilidades::limpiarPantallaPreservandoMarquesina(3);
+						Utilidades::limpiarPantallaPreservandoMarquesina(1);
 						std::cout << "La cedula " << cedulaTemp << " ya esta registrada en el sistema.\n";
 						std::cout << "Titular: " << personaExistente->getNombres() << " "
 							<< personaExistente->getApellidos() << "\n\n";
@@ -502,7 +502,6 @@ void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
  * Crea un respaldo con la fecha actual en el nombre y verifica que la fecha
  * del sistema no haya sido manipulada antes de realizar el respaldo.
  */
-
 void Banco::guardarCuentasEnArchivo() {
 	Fecha fechaActual;
 	if ((fechaActual.getEsFechaSistemaManipulada())) {
@@ -817,15 +816,19 @@ void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
 	bool enCuentaAhorro = false;
 	bool enCuentaCorriente = false;
 	int contadorPersonas = 0;
+	CuentaAhorros* cuentaAhorrosTemp = nullptr;
+	CuentaCorriente* cuentaCorrienteTemp = nullptr;
 
 	std::string numCuenta = "";
 	int saldo = 0;
 	std::string fechaApertura, estado;
 
 	while (std::getline(archivo, linea)) {
+
 		if (linea == "===PERSONA_INICIO===") {
 			personaActual = new Persona();
 			enPersona = true;
+			//std::cout << "[DEBUG] Linea: '" << linea << "' personaActual: " << (personaActual ? "OK" : "nullptr") << std::endl;
 			continue;
 		}
 		else if (linea == "===PERSONA_FIN===") {
@@ -837,50 +840,70 @@ void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
 			}
 			enPersona = false;
 			personaActual = nullptr;
+			//std::cout << "[DEBUG] Linea: '" << linea << "' personaActual: " << (personaActual ? "OK" : "nullptr") << std::endl;
 			continue;
 		}
-		else if (linea == "===CUENTAS_AHORRO_INICIO===") {
-			enCuentasAhorro = true;
+		else if (linea == "===CUENTAS_AHORRO_INICIO===" && personaActual) {
+			cuentaAhorrosTemp = new CuentaAhorros();
+			numCuenta = "";
+			saldo = 0;
+			fechaApertura = "";
+			estado = "";
+			//std::cout << "[DEBUG] Linea: '" << linea << "' personaActual: " << (personaActual ? "OK" : "nullptr") << std::endl;
 			continue;
 		}
-		else if (linea == "===CUENTAS_AHORRO_FIN===") {
-			enCuentasAhorro = false;
+		else if (linea == "===CUENTAS_AHORRO_FIN===" && personaActual && cuentaAhorrosTemp) {
+			/*std::cout << "[DEBUG] ===CUENTAS_AHORRO_FIN=== detectado. Datos leídos: numCuenta=" << numCuenta
+				<< ", saldo=" << saldo << ", fechaApertura=" << fechaApertura << ", estado=" << estado << std::endl;
+			*/
+			cuentaAhorrosTemp->setNumeroCuenta(numCuenta);
+			cuentaAhorrosTemp->depositar(saldo);
+			cuentaAhorrosTemp->setEstadoCuenta(estado);
+			cuentaAhorrosTemp->setFechaApertura(fechaApertura);
+
+			if (!personaActual->getCabezaAhorros()) {
+				personaActual->setCabezaAhorros(cuentaAhorrosTemp);
+				//std::cout << "[DEBUG] Cuenta de ahorros enlazada como cabeza." << std::endl;
+			}
+			else {
+				CuentaAhorros* actual = personaActual->getCabezaAhorros();
+				while (actual->getSiguiente()) {
+					actual = actual->getSiguiente();
+				}
+				actual->setSiguiente(cuentaAhorrosTemp);
+				cuentaAhorrosTemp->setAnterior(actual);
+				//std::cout << "[DEBUG] Cuenta de ahorros enlazada al final de la lista." << std::endl;
+			}
+			cuentaAhorrosTemp = nullptr;
 			continue;
 		}
-		else if (linea == "===CUENTAS_CORRIENTE_INICIO===") {
-			enCuentasCorriente = true;
-			continue;
-		}
-		else if (linea == "===CUENTAS_CORRIENTE_FIN===") {
-			enCuentasCorriente = false;
-			continue;
-		}
-		else if (linea == "CUENTA_AHORRO_INICIO") {
-			enCuentaAhorro = true;
-			numCuenta = ""; // Cambiado a string para evitar problemas con std::stoi
+		else if (linea == "CUENTA_CORRIENTE_INICIO" && personaActual) {
+			cuentaCorrienteTemp = new CuentaCorriente();
+			numCuenta = "";
 			saldo = 0;
 			fechaApertura = "";
 			estado = "";
 			continue;
 		}
-		else if (linea == "CUENTA_AHORRO_FIN" && enCuentaAhorro && personaActual) {
-			CuentaAhorros* nuevaCuenta = new CuentaAhorros(numCuenta, saldo, fechaApertura, estado, 5);
-			personaActual->setCabezaAhorros(nuevaCuenta);
-			enCuentaAhorro = false;
-			continue;
-		}
-		else if (linea == "CUENTA_CORRIENTE_INICIO") {
-			enCuentaCorriente = true;
-			numCuenta = ""; // Cambiado a string para evitar problemas con std::stoi
-			saldo = 0;
-			fechaApertura = "";
-			estado = "";
-			continue;
-		}
-		else if (linea == "CUENTA_CORRIENTE_FIN" && enCuentaCorriente && personaActual) {
-			CuentaCorriente* nuevaCuenta = new CuentaCorriente(numCuenta, saldo, fechaApertura, estado, 0);
-			personaActual->setCabezaCorriente(nuevaCuenta);
-			enCuentaCorriente = false;
+		else if (linea == "CUENTA_CORRIENTE_FIN" && personaActual && cuentaCorrienteTemp) {
+			cuentaCorrienteTemp->setNumeroCuenta(numCuenta);
+			cuentaCorrienteTemp->depositar(saldo); // O setSaldo si tienes ese método
+			cuentaCorrienteTemp->setEstadoCuenta(estado);
+			// Si tienes método para la fecha, asígnala también
+
+			// Enlazar la cuenta a la lista de la persona
+			if (!personaActual->getCabezaCorriente()) {
+				personaActual->setCabezaCorriente(cuentaCorrienteTemp);
+			}
+			else {
+				CuentaCorriente* actual = personaActual->getCabezaCorriente();
+				while (actual->getSiguiente()) {
+					actual = actual->getSiguiente();
+				}
+				actual->setSiguiente(cuentaCorrienteTemp);
+				cuentaCorrienteTemp->setAnterior(actual);
+			}
+			cuentaCorrienteTemp = nullptr;
 			continue;
 		}
 
@@ -899,13 +922,23 @@ void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
 				personaActual->setDireccion(linea.substr(10));
 		}
 
-		if ((enCuentaAhorro || enCuentaCorriente) && (enCuentasAhorro || enCuentasCorriente)) {
-			if (linea.substr(0, 13) == "NUMERO_CUENTA:")
-				numCuenta = linea.substr(13);
+		if (cuentaAhorrosTemp) {
+			if (linea.substr(0, 14) == "NUMERO_CUENTA:")
+				numCuenta = linea.substr(14);
 			else if (linea.substr(0, 6) == "SALDO:")
-				saldo = std::stoi(linea.substr(6));
-			else if (linea.substr(0, 14) == "FECHA_APERTURA:")
-				fechaApertura = linea.substr(14);
+				saldo = std::stod(linea.substr(6));
+			else if (linea.substr(0, 15) == "FECHA_APERTURA:")
+				fechaApertura = linea.substr(15);
+			else if (linea.substr(0, 7) == "ESTADO:")
+				estado = linea.substr(7);
+		}
+		if (cuentaCorrienteTemp) {
+			if (linea.substr(0, 14) == "NUMERO_CUENTA:")
+				numCuenta = linea.substr(14);
+			else if (linea.substr(0, 6) == "SALDO:")
+				saldo = std::stod(linea.substr(6));
+			else if (linea.substr(0, 15) == "FECHA_APERTURA:")
+				fechaApertura = linea.substr(15);
 			else if (linea.substr(0, 7) == "ESTADO:")
 				estado = linea.substr(7);
 		}
@@ -925,7 +958,7 @@ void Banco::buscarCuenta() {
 	CuentaAhorros* cuentaAhorros = nullptr;
 	CuentaCorriente* cuentaCorriente = nullptr;
 	if (listaPersonas == nullptr || reinterpret_cast<uintptr_t>(listaPersonas) > 0xFFFFFFFF00000000) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "No hay personas registradas todavia.\n";
 		std::cout << "Presione cualquier tecla para continuar";
 		int tecla = _getch();
@@ -939,7 +972,7 @@ void Banco::buscarCuenta() {
 	int seleccionBusqueda = 0;
 
 	while (true) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Seleccione el tipo de busqueda:\n\n";
 		for (int i = 0; i < numOpcionesBusqueda; i++) {
 			if (i == seleccionBusqueda)
@@ -977,7 +1010,7 @@ void Banco::buscarCuenta() {
 			};
 
 		while (!fechaSeleccionada) {
-			Utilidades::limpiarPantallaPreservandoMarquesina(2);
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			std::cout << "Seleccione la fecha de creacion, usando las flechas del teclado. ENTER para aceptar.\n";
 			for (int i = 0; i < 3; ++i) {
 				if (i == campo)
@@ -1061,7 +1094,7 @@ void Banco::buscarCuenta() {
 			if (actual->persona && actual->persona->isValidInstance()) {
 				try {
 					// El metodo muestra la informacion y devuelve cuantas cuentas encontro
-					Utilidades::limpiarPantallaPreservandoMarquesina(3);
+					Utilidades::limpiarPantallaPreservandoMarquesina(1);
 					cuentasEncontradas += actual->persona->buscarPersonaPorCuentas(numCuentaBuscar);
 				}
 				catch (...) {
@@ -1236,7 +1269,7 @@ void Banco::buscarCuentasPorCriterio() {
 	while (continuarBusqueda) {
 		// Menu de seleccion con cursor
 		while (true) {
-			Utilidades::limpiarPantallaPreservandoMarquesina(2);
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			std::cout << "Seleccione el criterio de busqueda de cuentas:\n\n";
 			for (int i = 0; i < numCriterios; i++) {
 				if (i == seleccion)
@@ -1260,7 +1293,7 @@ void Banco::buscarCuentasPorCriterio() {
 
 		// Solicitar el valor segun el criterio
 		if (seleccion == 0) { // Numero de cuenta
-			Utilidades::limpiarPantallaPreservandoMarquesina(2);
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			std::cout << "Ingrese el numero de cuenta: ";
 			numCuentaIngresada.clear();
 
@@ -1304,7 +1337,7 @@ void Banco::buscarCuentasPorCriterio() {
 				};
 
 			while (!fechaSeleccionada) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "Seleccione la fecha de apertura, usando las flechas del teclado. ENTER para aceptar.\n";
 				for (int i = 0; i < 3; ++i) {
 					if (i == campo)
@@ -1527,7 +1560,7 @@ void Banco::buscarCuentasPorCriterio() {
 void Banco::realizarTransferencia() {
 	// Verificar que existan personas con cuentas
 	if (!listaPersonas) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "No hay cuentas registradas en el sistema.\n";
 		system("pause");
 		return;
@@ -1546,7 +1579,7 @@ void Banco::realizarTransferencia() {
 
 	// 1. Obtener la cuenta de origen
 	while (!cuentaOrigenEncontrada) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
 		std::cout << "Ingrese el numero de cuenta de origen (o ESC para cancelar): ";
 
@@ -1618,7 +1651,7 @@ void Banco::realizarTransferencia() {
 			int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
 			bool continuar = true;
 
-			Utilidades::limpiarPantallaPreservandoMarquesina(3);
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			std::cout << "Cuenta de origen no encontrada.\n";
 			std::cout << "Desea intentar con otro numero?\n\n";
 
@@ -1686,7 +1719,7 @@ void Banco::realizarTransferencia() {
 	}
 
 	// Mostrar informacion de la cuenta origen
-	Utilidades::limpiarPantallaPreservandoMarquesina(3);
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
 	std::cout << "CUENTA ORIGEN:\n";
 	if (esAhorrosOrigen) {
@@ -1780,7 +1813,7 @@ void Banco::realizarTransferencia() {
 	}
 
 	// Mostrar informacion de la cuenta destino
-	Utilidades::limpiarPantallaPreservandoMarquesina(3);
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
 	std::cout << "CUENTA ORIGEN:\n";
 	if (esAhorrosOrigen) {
@@ -2006,10 +2039,10 @@ bool Banco::verificarCuentasBanco() const
 {
 	// Verificar si hay cuentas
 	if (this->getListaPersonas() == nullptr) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "No hay cuentas registradas en el banco. Cree una cuenta primero.\n";
 		system("pause");
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		return false;
 	}
 	return true;
@@ -2028,7 +2061,7 @@ void Banco::subMenuCuentasBancarias()
 	int selCuenta = 0;
 
 	while (true) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(2);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Seleccione la operacion a realizar:\n\n";
 		for (int i = 0; i < numOpcionesCuenta; i++) {
 			if (i == selCuenta)
@@ -2224,7 +2257,7 @@ void Banco::subMenuCuentasBancarias()
  * @return bool true si se encontró una cuenta válida, false en caso contrario
  */
 bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorros, CuentaCorriente*& cuentaCorriente, std::string& cedula) {
-	Utilidades::limpiarPantallaPreservandoMarquesina(2);
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	std::cout << "\n===== OPERACIONES DE CUENTA =====\n\n";
 
 	// Menu de seleccion: buscar por cedula o numero
@@ -2233,7 +2266,7 @@ bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 	int seleccion = 0;
 
 	while (true) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Seleccione metodo de busqueda:\n\n";
 		for (int i = 0; i < numOpciones; i++) {
 			if (i == seleccion)
@@ -2255,7 +2288,7 @@ bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 
 	if (seleccion == 0) { // Buscar por cedula
 		cedula.clear();
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Ingrese la cedula (10 digitos): ";
 		int digitos = 0;
 		while (true) {
@@ -2283,7 +2316,7 @@ bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 
 		while (actual) {
 			if (actual->persona && actual->persona->getCedula() == cedula) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(3);
+				Utilidades::limpiarPantallaPreservandoMarquesina(1);
 				std::cout << "Titular: " << actual->persona->getNombres() << " "
 					<< actual->persona->getApellidos() << "\n\n";
 
@@ -2357,7 +2390,7 @@ bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 	}
 	else { // Buscar por numero de cuenta
 		std::string numCuenta;
-		Utilidades::limpiarPantallaPreservandoMarquesina(3);
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Ingrese el numero de cuenta: ";
 		while (true) {
 			char tecla = _getch();

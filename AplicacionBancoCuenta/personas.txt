@@ -1062,3 +1062,59 @@ Fecha de nacimiento: 23/12/2000
 Correo: jorelzq@hotmail.com
 Direccion: La magdalena
 -----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: ureil@hotmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 1713602173
+Nombres: francia
+Apellidos: hermosa
+Fecha de nacimiento: 01/01/2000
+Correo: francy@hotmail.com
+Direccion: quito norte
+-----------------------------
+Cedula: 1714387774
+Nombres: damian
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: damian@hotmail.com
+Direccion: labrador
+-----------------------------
+Cedula: 1001785722
+Nombres: daniel
+Apellidos: noboa
+Fecha de nacimiento: 22/02/2000
+Correo: danielito@outlook.com
+Direccion: plaza grande
+-----------------------------
+Cedula: 1707435127
+Nombres: jorge
+Apellidos: pineda
+Fecha de nacimiento: 07/06/1996
+Correo: jorgito@gmail.com
+Direccion: san blas
+-----------------------------
+Cedula: 1725629313
+Nombres: Kerly 
+Apellidos: Chuqui
+Fecha de nacimiento: 04/04/2000
+Correo: kachuqui@outlook.com
+Direccion: San Carlos
+-----------------------------

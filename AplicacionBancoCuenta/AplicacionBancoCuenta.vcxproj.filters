@@ -402,6 +402,8 @@
     <None Include="Doxyfile.bak" />
     <None Include="Doxyfile" />
     <None Include=".vscode\settings.json" />
+    <None Include="marquesina.html" />
+    <None Include="DOCUMENTACION_QR_OPTIMIZADO.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="html\class_codigo_q_r_1_1_bit_buffer.png">
