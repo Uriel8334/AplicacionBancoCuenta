@@ -707,9 +707,36 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 
 		correo = correoBase;
 
-		// Validación básica de correo
+		// Validación mejorada de correo
 		size_t atPos = correo.find('@');
-		bool formatoValido = atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1;
+		bool formatoValido = false;
+		if (!correo.empty() && atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1) {
+			// Expresión regular para validar el correo
+			// - Usuario: letras, números, puntos, guiones y guion bajo, pero no puede empezar/terminar con punto ni tener dos puntos seguidos
+			// - Dominio: letras, números, guiones, al menos un punto, no puede empezar/terminar con punto o guion, ni tener dos puntos seguidos
+			std::regex regexCorreo(R"(^[A-Za-z0-9]+([._-]?[A-Za-z0-9]+)*@[A-Za-z0-9]+([.-]?[A-Za-z0-9]+)*\.[A-Za-z]{2,}$)");
+			formatoValido = std::regex_match(correo, regexCorreo);
+
+			// Validaciones adicionales para evitar casos como @.banco.com, @banco..com, etc.
+			std::string usuario = correo.substr(0, atPos);
+			std::string dominio = correo.substr(atPos + 1);
+
+			// No permitir otro '@' en el dominio
+			if (dominio.find('@') != std::string::npos) formatoValido = false;
+			// No permitir que el dominio empiece con punto, guion o subrayado
+			if (!dominio.empty() && (dominio[0] == '.' || dominio[0] == '-' || dominio[0] == '_')) formatoValido = false;
+			// No permitir dos puntos seguidos en el dominio
+			if (dominio.find("..") != std::string::npos) formatoValido = false;
+			// No permitir caracteres especiales en el dominio
+			if (dominio.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") != std::string::npos) formatoValido = false;
+			// No permitir que el usuario termine con punto
+			if (!usuario.empty() && usuario.back() == '.') formatoValido = false;
+			// No permitir que el usuario empiece con punto
+			if (!usuario.empty() && usuario.front() == '.') formatoValido = false;
+			// No permitir dos puntos seguidos en el usuario
+			if (usuario.find("..") != std::string::npos) formatoValido = false;
+		}
+
 		if (!correo.empty()) {
 			if (!formatoValido) {
 				std::cout << "\nCorreo invalido, presione cualquier tecla para volver a ingresar." << std::endl;
@@ -725,6 +752,7 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 			int teclaCualquiera = _getch();
 			(void)teclaCualquiera;
 		}
+
 	} while (true);
 
 	return correo;

@@ -1118,24 +1118,31 @@ Fecha de nacimiento: 04/04/2000
 Correo: kachuqui@outlook.com
 Direccion: San Carlos
 -----------------------------
-Cedula: 1725629313
-Nombres: Sofia Alejandra
-Apellidos: Martinez Gomez
-Fecha de nacimiento: 05/05/2005
-Correo: carmen12@yahoo.com
-Direccion: Sangolqui
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@espe.edu.ec
+Direccion: san carlos
 -----------------------------
-Cedula: 1725629313
-Nombres: Maria Dayana
-Apellidos: Estrada
-Fecha de nacimiento: 04/04/2004
-Correo: Carmen123@lifemiles12!.com
-Direccion: Conocotoooooooooooo
+Cedula: 1714387774
+Nombres: francy
+Apellidos: hermosa
+Fecha de nacimiento: 01/01/2000
+Correo: francy@hotmail.com
+Direccion: san carlos
 -----------------------------
-Cedula: 1712938081
-Nombres: Lorena Luisa
-Apellidos: Grefa
-Fecha de nacimiento: 02/02/2002
-Correo: Lorena123@yahoo123.com
-Direccion: Sangolqui
+Cedula: 0401865381
+Nombres: uriel
+Apellidos: andrade
+Fecha de nacimiento: 01/01/2000
+Correo: uriel@gmail.com
+Direccion: san carlos
+-----------------------------
+Cedula: 1714387774
+Nombres: francy hermosa
+Apellidos: hermosa
+Fecha de nacimiento: 01/01/2000
+Correo: francy@outlook.com
+Direccion: san carlos 2
 -----------------------------
