@@ -1567,12 +1567,16 @@ void Banco::realizarTransferencia() {
 	}
 
 	// Variables para almacenar referencias a las cuentas
+
 	CuentaAhorros* cuentaAhorrosOrigen = nullptr;
 	CuentaCorriente* cuentaCorrienteOrigen = nullptr;
+
 	CuentaAhorros* cuentaAhorrosDestino = nullptr;
 	CuentaCorriente* cuentaCorrienteDestino = nullptr;
+
 	Persona* personaOrigen = nullptr;
 	Persona* personaDestino = nullptr;
+
 	std::string numCuentaOrigen, numCuentaDestino;
 	bool esAhorrosOrigen = false, esAhorrosDestino = false;
 	bool cuentaOrigenEncontrada = false, cuentaDestinoEncontrada = false;
@@ -1580,7 +1584,7 @@ void Banco::realizarTransferencia() {
 	// 1. Obtener la cuenta de origen
 	while (!cuentaOrigenEncontrada) {
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
-		std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
+		std::cout << "\n=== TRANSFERENCIA BANCARIA ===\n\n";
 		std::cout << "Ingrese el numero de cuenta de origen (o ESC para cancelar): ";
 
 		numCuentaOrigen.clear();
@@ -1720,19 +1724,19 @@ void Banco::realizarTransferencia() {
 
 	// Mostrar informacion de la cuenta origen
 	Utilidades::limpiarPantallaPreservandoMarquesina(1);
-	std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
+	std::cout << "\n=== TRANSFERENCIA BANCARIA ===\n\n";
 	std::cout << "CUENTA ORIGEN:\n";
 	if (esAhorrosOrigen) {
-		cuentaAhorrosOrigen->mostrarInformacion(numCuentaOrigen, false); // Pasar false para no limpiar pantalla
+		cuentaAhorrosOrigen->mostrarInformacion(personaOrigen->getCedula(), false); // Pasar false para no limpiar pantalla
 	}
 	else {
-		cuentaCorrienteOrigen->mostrarInformacion(numCuentaOrigen, false); // Pasar false para no limpiar pantalla
+		cuentaCorrienteOrigen->mostrarInformacion(personaOrigen->getCedula(), false); // Pasar false para no limpiar pantalla
 	}
 	std::cout << "\nTitular: " << personaOrigen->getNombres() << " " << personaOrigen->getApellidos() << "\n\n";
 
 	// 2. Obtener la cuenta de destino
 	while (!cuentaDestinoEncontrada) {
-		std::cout << "Ingrese el numero de cuenta de destino (o ESC para cancelar): ";
+		std::cout << "\nIngrese el numero de cuenta de destino (o ESC para cancelar): ";
 
 		numCuentaDestino.clear();
 		while (true) {
@@ -1802,9 +1806,9 @@ void Banco::realizarTransferencia() {
 		}
 
 		if (!cuentaDestinoEncontrada) {
-			std::cout << "Cuenta de destino no encontrada. Desea intentar con otro numero? (S/N): ";
+			std::cout << "Cuenta de destino no encontrada. \nDesea intentar con otro numero? (S/N): ";
 			char respuesta = _getch();
-			if (respuesta != 'S' && respuesta != 's') {
+			if (respuesta == 'N' && respuesta == 'n') {
 				std::cout << "\nOperacion cancelada.\n";
 				system("pause");
 				return;
@@ -1814,22 +1818,22 @@ void Banco::realizarTransferencia() {
 
 	// Mostrar informacion de la cuenta destino
 	Utilidades::limpiarPantallaPreservandoMarquesina(1);
-	std::cout << "=== TRANSFERENCIA BANCARIA ===\n\n";
+	std::cout << "\n=== TRANSFERENCIA BANCARIA ===\n\n";
 	std::cout << "CUENTA ORIGEN:\n";
 	if (esAhorrosOrigen) {
-		cuentaAhorrosOrigen->mostrarInformacion(numCuentaOrigen, false);
+		cuentaAhorrosOrigen->mostrarInformacion(personaOrigen->getCedula(), false);
 	}
 	else {
-		cuentaCorrienteOrigen->mostrarInformacion(numCuentaOrigen, false);
+		cuentaCorrienteOrigen->mostrarInformacion(personaOrigen->getCedula(), false);
 	}
 	std::cout << "\nTitular: " << personaOrigen->getNombres() << " " << personaOrigen->getApellidos() << "\n\n";
 
-	std::cout << "CUENTA DESTINO:\n";
+	std::cout << "\nCUENTA DESTINO:\n";
 	if (esAhorrosDestino) {
-		cuentaAhorrosDestino->mostrarInformacion(numCuentaDestino, false);
+		cuentaAhorrosDestino->mostrarInformacion(personaDestino->getCedula(), false);
 	}
 	else {
-		cuentaCorrienteDestino->mostrarInformacion(numCuentaDestino, false);
+		cuentaCorrienteDestino->mostrarInformacion(personaDestino->getCedula(), false);
 	}
 	std::cout << "\nTitular: " << personaDestino->getNombres() << " " << personaDestino->getApellidos() << "\n\n";
 
@@ -1881,7 +1885,7 @@ void Banco::realizarTransferencia() {
 						double valor = std::stod(entrada);
 						if (valor > 0) {
 							std::cout << std::endl;
-							montoEnCentavos = static_cast<double>(valor /* * 100*/ );
+							montoEnCentavos = static_cast<double>(valor /* * 100*/);
 							break;
 						}
 					}
@@ -1970,7 +1974,7 @@ void Banco::realizarTransferencia() {
 
 	// 7. Mostrar confirmacion
 	std::cout << "\nTransferencia realizada con exito!\n\n";
-	std::cout << "NUEVO SALDO CUENTA ORIGEN: $"
+	std::cout << "NUEVO SALDO EN SU CUENTA: $"
 		<< (esAhorrosOrigen ? cuentaAhorrosOrigen->formatearConComas(cuentaAhorrosOrigen->consultarSaldo()) :
 			formatearConComas(cuentaCorrienteOrigen->consultarSaldo()))
 		<< "\n";
@@ -2165,12 +2169,12 @@ void Banco::subMenuCuentasBancarias()
 				double montoEnCentavos = static_cast<double>(monto);
 				if (cuentaAhorros != nullptr) {
 					cuentaAhorros->depositar(montoEnCentavos);
-					std::cout << "Deposito realizado con exito.\n";
+					std::cout << "\nDeposito realizado con exito.\n";
 					std::cout << "Nuevo saldo: $" << cuentaAhorros->formatearSaldo() << std::endl;
 				}
 				else {
 					cuentaCorriente->depositar(montoEnCentavos);
-					std::cout << "Deposito realizado con exito.\n";
+					std::cout << "\nDeposito realizado con exito.\n";
 					std::cout << "Nuevo saldo: $" << cuentaCorriente->formatearSaldo() << std::endl;
 				}
 			}
