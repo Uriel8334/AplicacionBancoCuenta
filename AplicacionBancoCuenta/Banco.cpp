@@ -1808,7 +1808,7 @@ void Banco::realizarTransferencia() {
 		if (!cuentaDestinoEncontrada) {
 			std::cout << "Cuenta de destino no encontrada. \nDesea intentar con otro numero? (S/N): ";
 			char respuesta = _getch();
-			if (respuesta == 'N' && respuesta == 'n') {
+			if (respuesta == 'N' || respuesta == 'n') {
 				std::cout << "\nOperacion cancelada.\n";
 				system("pause");
 				return;
