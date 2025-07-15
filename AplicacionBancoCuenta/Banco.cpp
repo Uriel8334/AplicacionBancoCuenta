@@ -1834,7 +1834,7 @@ void Banco::realizarTransferencia() {
 	std::cout << "\nTitular: " << personaDestino->getNombres() << " " << personaDestino->getApellidos() << "\n\n";
 
 	// 3. Solicitar monto a transferir
-	int montoEnCentavos = 0;
+	double montoEnCentavos = 0;
 	std::string entrada;
 	bool tienePunto = false;
 	double digitosDecimales = 0;
@@ -1860,7 +1860,7 @@ void Banco::realizarTransferencia() {
 						entrada = pegado;
 						std::cout << "\rIngrese el monto a transferir (ejemplo: 1000.50): " << entrada;
 						std::cout << std::endl;
-						montoEnCentavos = static_cast<int>(valor * 100);
+						montoEnCentavos = static_cast<double>(valor /* * 100 */);
 						break;
 					}
 				}
@@ -1881,7 +1881,7 @@ void Banco::realizarTransferencia() {
 						double valor = std::stod(entrada);
 						if (valor > 0) {
 							std::cout << std::endl;
-							montoEnCentavos = static_cast<int>(valor * 100);
+							montoEnCentavos = static_cast<double>(valor /* * 100*/ );
 							break;
 						}
 					}
@@ -2162,7 +2162,7 @@ void Banco::subMenuCuentasBancarias()
 				std::cout << "El monto debe ser mayor a cero.\n";
 			}
 			else {
-				int montoEnCentavos = static_cast<int>(monto);
+				double montoEnCentavos = static_cast<double>(monto);
 				if (cuentaAhorros != nullptr) {
 					cuentaAhorros->depositar(montoEnCentavos);
 					std::cout << "Deposito realizado con exito.\n";
@@ -2206,7 +2206,7 @@ void Banco::subMenuCuentasBancarias()
 			std::cout << "El monto debe ser mayor a cero.\n";
 		}
 		else {
-			int montoEnCentavos = static_cast<int>(monto * 100);
+			double montoEnCentavos = static_cast<double>(monto /** 100*/);
 			if (montoEnCentavos > saldoActual) {
 				std::cout << "Fondos insuficientes.\n";
 			}
