@@ -1934,7 +1934,7 @@ void Banco::realizarTransferencia() {
 	// 4. Verificar fondos suficientes
 	double saldoOrigen = esAhorrosOrigen ? cuentaAhorrosOrigen->consultarSaldo() : cuentaCorrienteOrigen->consultarSaldo();
 
-	if (montoTransferencia > saldoOrigen) { // Comparar directamente sin convertir a centavos
+	if (montoEnCentavos > saldoOrigen) { // Comparar directamente sin convertir a centavos
 		std::cout << "Fondos insuficientes para realizar la transferencia.\n";
 		system("pause");
 		return;
@@ -1942,8 +1942,8 @@ void Banco::realizarTransferencia() {
 
 	// 5. Confirmar transferencia
 	std::cout << "Confirmar transferencia de $"
-		<< (esAhorrosOrigen ? cuentaAhorrosOrigen->formatearConComas(montoTransferencia) :
-			formatearConComas(montoTransferencia))
+		<< (esAhorrosOrigen ? cuentaAhorrosOrigen->formatearConComas(montoEnCentavos) :
+			formatearConComas(montoEnCentavos))
 		<< "? (S/N): ";
 
 	char confirmacion = _getch();
@@ -1955,17 +1955,17 @@ void Banco::realizarTransferencia() {
 
 	// 6. Realizar la transferencia
 	if (esAhorrosOrigen) {
-		cuentaAhorrosOrigen->retirar(montoTransferencia); // Usar el valor directamente
+		cuentaAhorrosOrigen->retirar(montoEnCentavos); // Usar el valor directamente
 	}
 	else {
-		cuentaCorrienteOrigen->retirar(montoTransferencia); // Usar el valor directamente
+		cuentaCorrienteOrigen->retirar(montoEnCentavos); // Usar el valor directamente
 	}
 
 	if (esAhorrosDestino) {
-		cuentaAhorrosDestino->depositar(montoTransferencia); // Usar el valor directamente
+		cuentaAhorrosDestino->depositar(montoEnCentavos); // Usar el valor directamente
 	}
 	else {
-		cuentaCorrienteDestino->depositar(montoTransferencia); // Usar el valor directamente
+		cuentaCorrienteDestino->depositar(montoEnCentavos); // Usar el valor directamente
 	}
 
 	// 7. Mostrar confirmacion
