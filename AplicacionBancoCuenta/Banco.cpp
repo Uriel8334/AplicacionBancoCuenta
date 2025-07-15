@@ -1834,12 +1834,12 @@ void Banco::realizarTransferencia() {
 	std::cout << "\nTitular: " << personaDestino->getNombres() << " " << personaDestino->getApellidos() << "\n\n";
 
 	// 3. Solicitar monto a transferir
-	int montoEnCentavos = 0;
+	double montoTransferencia = 0.0; // Cambiado de int a double
 	std::string entrada;
 	bool tienePunto = false;
-	double digitosDecimales = 0;
+	int digitosDecimales = 0;
 
-	std::cout << "Ingrese el monto a transferir (ejemplo: 1000.50): ";
+	std::cout << "Ingrese el monto a transferir (ejemplo: 100.50): ";
 	while (true) {
 		char tecla = _getch();
 
@@ -1858,15 +1858,15 @@ void Banco::realizarTransferencia() {
 					double valor = std::stod(pegado);
 					if (valor > 0) {
 						entrada = pegado;
-						std::cout << "\rIngrese el monto a transferir (ejemplo: 1000.50): " << entrada;
+						std::cout << "\rIngrese el monto a transferir (ejemplo: 100.50): " << entrada;
 						std::cout << std::endl;
-						montoEnCentavos = static_cast<int>(valor * 100);
+						montoTransferencia = valor; // Asignar directamente sin multiplicar por 100
 						break;
 					}
 				}
 				catch (...) {}
 			}
-			std::cout << "\nFormato invalido. Ingrese nuevamente (ejemplo: 1000.50): ";
+			std::cout << "\nFormato invalido. Ingrese nuevamente (ejemplo: 100.50): ";
 			entrada.clear();
 			tienePunto = false;
 			digitosDecimales = 0;
@@ -1881,14 +1881,14 @@ void Banco::realizarTransferencia() {
 						double valor = std::stod(entrada);
 						if (valor > 0) {
 							std::cout << std::endl;
-							montoEnCentavos = static_cast<int>(valor * 100);
+							montoTransferencia = valor; // Asignar directamente sin multiplicar por 100
 							break;
 						}
 					}
 					catch (...) {}
 				}
 			}
-			std::cout << "\nFormato invalido o monto menor o igual a cero. \nIngrese nuevamente (ejemplo: 1000.50): ";
+			std::cout << "\nFormato invalido o monto menor o igual a cero. \nIngrese nuevamente (ejemplo: 100.50): ";
 			entrada.clear();
 			tienePunto = false;
 			digitosDecimales = 0;
@@ -1904,8 +1904,8 @@ void Banco::realizarTransferencia() {
 				--digitosDecimales;
 			}
 			entrada.pop_back();
-			std::cout << "\rIngrese el monto a transferir (ejemplo: 1000.50): " << std::string(40, ' ') << "\r";
-			std::cout << "Ingrese el monto a transferir (ejemplo: 1000.50): " << entrada;
+			std::cout << "\rIngrese el monto a transferir (ejemplo: 100.50): " << std::string(40, ' ') << "\r";
+			std::cout << "Ingrese el monto a transferir (ejemplo: 100.50): " << entrada;
 			continue;
 		}
 
@@ -1934,7 +1934,7 @@ void Banco::realizarTransferencia() {
 	// 4. Verificar fondos suficientes
 	double saldoOrigen = esAhorrosOrigen ? cuentaAhorrosOrigen->consultarSaldo() : cuentaCorrienteOrigen->consultarSaldo();
 
-	if (montoEnCentavos > saldoOrigen) {
+	if (montoTransferencia > saldoOrigen) { // Comparar directamente sin convertir a centavos
 		std::cout << "Fondos insuficientes para realizar la transferencia.\n";
 		system("pause");
 		return;
@@ -1942,8 +1942,8 @@ void Banco::realizarTransferencia() {
 
 	// 5. Confirmar transferencia
 	std::cout << "Confirmar transferencia de $"
-		<< (esAhorrosOrigen ? cuentaAhorrosOrigen->formatearConComas(montoEnCentavos) :
-			formatearConComas(montoEnCentavos))
+		<< (esAhorrosOrigen ? cuentaAhorrosOrigen->formatearConComas(montoTransferencia) :
+			formatearConComas(montoTransferencia))
 		<< "? (S/N): ";
 
 	char confirmacion = _getch();
@@ -1955,17 +1955,17 @@ void Banco::realizarTransferencia() {
 
 	// 6. Realizar la transferencia
 	if (esAhorrosOrigen) {
-		cuentaAhorrosOrigen->retirar(montoEnCentavos);
+		cuentaAhorrosOrigen->retirar(montoTransferencia); // Usar el valor directamente
 	}
 	else {
-		cuentaCorrienteOrigen->retirar(montoEnCentavos);
+		cuentaCorrienteOrigen->retirar(montoTransferencia); // Usar el valor directamente
 	}
 
 	if (esAhorrosDestino) {
-		cuentaAhorrosDestino->depositar(montoEnCentavos);
+		cuentaAhorrosDestino->depositar(montoTransferencia); // Usar el valor directamente
 	}
 	else {
-		cuentaCorrienteDestino->depositar(montoEnCentavos);
+		cuentaCorrienteDestino->depositar(montoTransferencia); // Usar el valor directamente
 	}
 
 	// 7. Mostrar confirmacion
