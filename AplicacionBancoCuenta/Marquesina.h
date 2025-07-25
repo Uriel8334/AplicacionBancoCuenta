@@ -159,6 +159,11 @@ private:
      */
     void escribirBufferEnConsola();
 
+    /**
+     * @brief Configura la consola para aceptar UTF-8 (tildes, ñ, etc.)
+     */
+    void configurarConsolaUTF8() const;
+
 public:
     /**
      * @brief Constructor de la marquesina

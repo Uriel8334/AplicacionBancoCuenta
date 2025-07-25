@@ -52,6 +52,7 @@ Marquesina::~Marquesina()
  */
 void Marquesina::iniciar()
 {
+	configurarConsolaUTF8();
 	if (!ejecutando)
 	{
 		ejecutando = true;
@@ -180,9 +181,10 @@ static std::wstring stringToWideString(const std::string& str)
  */
 void Marquesina::mostrarRutaArchivo()
 {
-	char path[MAX_PATH];
-	GetFullPathNameA(archivoHTML.c_str(), MAX_PATH, path, NULL);
-	std::cout << "Ruta completa del archivo HTML: " << path << std::endl;
+    configurarConsolaUTF8();
+    char path[MAX_PATH];
+    GetFullPathNameA(archivoHTML.c_str(), MAX_PATH, path, NULL);
+    std::cout << "Ruta completa del archivo HTML: " << path << std::endl;
 }
 
 /**
@@ -199,8 +201,11 @@ void Marquesina::cargarDesdeHTML()
 		if (crear)
 		{
 			crear << "<marquesina>\n";
-			crear << "  <color=white bg=blue>Bienvenido al Sistema Bancario</color> - ";
-			crear << "<color=yellow>Desarrolladores: Uriel Andrade, Kerly Chuqui, Abner Proano</color>\n";
+			crear << "  <color=white bg=blue>Bienvenido al Sistema Bancario. |</color> -\n";
+			crear << "    <color=yellow>Desarrolladores: Uriel Andrade, Kerly Chuqui, Abner Proaño.</color> -\n";
+			crear << "  <color=green>Derechos Reservados en formato educativo © 2025</color> -\n";
+			crear << "  <color=cyan>Su seguridad es nuestra prioridad. Nunca comparta su contraseña.</color> -\n";
+			crear << "  <color=magenta>Para soporte, ingrese al menú de ayuda</color>\n";
 			crear << "</marquesina>";
 			crear.close();
 			archivo.open(archivoHTML);
@@ -315,6 +320,7 @@ void Marquesina::agregarElementosAlBuffer()
 bool Marquesina::debeRenderizarse() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	configurarConsolaUTF8();
 
 	// Calcular altura visible de la ventana
 	int alturaVentana = csbi.srWindow.Bottom - csbi.srWindow.Top;
@@ -337,6 +343,8 @@ bool Marquesina::debeRenderizarse() {
  */
 void Marquesina::renderizarMarquesina()
 {
+	configurarConsolaUTF8();
+
 	// Verificar si debemos renderizar la marquesina en este momento
 	if (operacionCritica || !debeRenderizarse()) {
 		return; // Evitar renderizado si hay scroll o cursor muy abajo
@@ -539,6 +547,10 @@ std::vector<ElementoMarquesina> Marquesina::parsearHTML(const std::string& conte
  */
 void Marquesina::ejecutarMarquesina()
 {
+	// Configurar consola para UTF-8
+	configurarConsolaUTF8();
+
+
 	while (ejecutando)
 	{
 		// Verificaciones múltiples antes de renderizar
@@ -567,4 +579,10 @@ void Marquesina::ejecutarMarquesina()
 		// Velocidad controlada
 		std::this_thread::sleep_for(std::chrono::milliseconds(velocidad));
 	}
+}
+
+void Marquesina::configurarConsolaUTF8() const
+{
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
 }

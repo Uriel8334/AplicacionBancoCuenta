@@ -23,6 +23,25 @@ private:
     /** @brief Lista enlazada de personas (clientes) del banco */
     NodoPersona* listaPersonas;
 
+    /**
+     * @brief Aplica una función a cada persona en la lista del banco (tipo foreach)
+     * @param funcion Función lambda o std::function<void(Persona*)>
+     */
+    void forEachPersona(const std::function<void(Persona*)>& funcion) const;
+
+    /**
+     * @brief Aplica una función a cada nodo de persona en la lista del banco (tipo foreach)
+     * @param funcion Función lambda o std::function<void(NodoPersona*)>
+     */
+    void forEachNodoPersona(const std::function<void(NodoPersona*)>& funcion) const;
+
+    /**
+     * @brief Guarda los datos de una persona en el archivo de respaldo
+     * @param archivo Referencia al archivo de salida
+     * @param p Puntero a la persona a guardar
+     */
+    void guardarPersonaEnArchivo(std::ofstream& archivo, Persona* p) const;
+
 public:
     /**
      * @brief Constructor por defecto

@@ -112,7 +112,10 @@ static void mostrarPersonas(const std::vector<Persona*>& personas) {
 	}
 }
 
-
+void configurarConsolaUTF8() {
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+}
 
 /**
  * @brief Función principal que inicia la aplicación bancaria
@@ -123,8 +126,7 @@ static void mostrarPersonas(const std::vector<Persona*>& personas) {
  * @return int Código de salida del programa (0 si termina correctamente)
  */
 int main() {
-	SetConsoleOutputCP(CP_UTF8);
-	SetConsoleCP(CP_UTF8);
+	configurarConsolaUTF8();
 
 	std::string opciones[] = {
 		"Crear Cuenta",
@@ -160,7 +162,7 @@ int main() {
 	int anchoConsola = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
 	// Crear la marquesina en la parte superior de la consola
-	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 50);
+	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 200);
 	marquesinaGlobal->iniciar();
 
 	// Dejar espacio para la marquesina
