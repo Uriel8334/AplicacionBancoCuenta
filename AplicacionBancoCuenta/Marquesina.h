@@ -87,13 +87,13 @@ private:
     std::vector<std::pair<char, WORD>> bufferPrimario;
 
     /** @brief Buffer interno secundario para separar el main de la marquesina */
-	std::vector<std::pair<char, WORD>> bufferSecundario;
+    std::vector<std::pair<char, WORD>> bufferSecundario;
 
-	/** @brief Indica si el buffer esta o no listo */
-	std::atomic<bool> bufferListo;
+    /** @brief Indica si el buffer esta o no listo */
+    std::atomic<bool> bufferListo;
 
-	/** @brief Indica si el buffer esta en conjunto de mutex */
-	std::mutex bufferMutex;
+    /** @brief Indica si el buffer esta en conjunto de mutex */
+    std::mutex bufferMutex;
 
     /** @brief Timestamp de la última modificación del archivo HTML */
     FILETIME ultimaModificacion;
@@ -139,9 +139,25 @@ private:
     void renderizarMarquesina();
 
     /**
-	* @brief Verifica si la marquesina debe renderizarse en pantalla
-    */
+     * @brief Verifica si la marquesina debe renderizarse en pantalla
+     */
     bool debeRenderizarse();
+
+    /**
+     * @brief Agrega los elementos de la marquesina al buffer
+     */
+    void agregarElementosAlBuffer();
+
+    /**
+     * @brief Prepara el buffer primario con el texto visible
+     * @param textoVisible Texto que se va a mostrar en la marquesina
+     */
+    void prepararBufferPrimario(const std::string& textoVisible);
+
+    /**
+     * @brief Escribe el buffer secundario en la consola
+     */
+    void escribirBufferEnConsola();
 
 public:
     /**
@@ -229,4 +245,5 @@ public:
      */
     bool estaVisible() const { return ejecutando && !pausado && !bloqueado; }
 };
+
 #endif // MARQUESINA_H

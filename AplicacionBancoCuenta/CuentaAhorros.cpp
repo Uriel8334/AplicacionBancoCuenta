@@ -26,24 +26,23 @@ using namespace std;
  * @param cantidad Monto a depositar en la cuenta
  */
 void CuentaAhorros::depositar(double cantidad) {
+    if (cantidad <= 0) {
+        std::cout << "El monto debe ser mayor a cero.\n";
+        return;
+    }
 
-	if (cantidad <= 0) {
-		std::cout << "El monto debe ser mayor a cero.\n";
-		return;
-	}
+    // Convertir a un tipo más amplio para evitar desbordamiento  
+    long double nuevoSaldo = static_cast<long double>(saldo) + static_cast<long double>(cantidad);
 
-	// Convertir a un tipo más amplio para evitar desbordamiento  
-	long double nuevoSaldo = static_cast<long double>(saldo) + static_cast<long double>(cantidad);
+    // Verificar si el nuevo saldo excede el límite de la cuenta (15000.00 dólares)
+    constexpr double LIMITE_MAXIMO = 15000.00;
+    if (nuevoSaldo > LIMITE_MAXIMO) {
+        std::cout << "Error: El saldo no puede exceder el límite de $15,000.00\n";
+        return;
+    }
 
-	// Verificar si el nuevo saldo excede el límite de la cuenta (15000.00 dólares)
-	constexpr double LIMITE_MAXIMO = 15000.00;
-	if (nuevoSaldo > LIMITE_MAXIMO) {
-		std::cout << "Error: El saldo no puede exceder el límite de $15,000.00\n";
-		return;
-	}
-
-	saldo = static_cast<double>(nuevoSaldo);
-	std::cout << "Depósito realizado con éxito. Nuevo saldo: $" << formatearSaldo() << std::endl;
+    saldo = static_cast<double>(nuevoSaldo);
+    std::cout << "Depósito realizado con éxito. Nuevo saldo: $" << formatearSaldo() << std::endl;
 }
 
 /**
@@ -54,12 +53,15 @@ void CuentaAhorros::depositar(double cantidad) {
  * @param cantidad Monto a retirar de la cuenta
  */
 void CuentaAhorros::retirar(double cantidad) {
-	if (cantidad <= this->saldo) {
-		this->saldo -= cantidad;
-	}
-	else {
-		std::cout << "Fondos insuficientes." << std::endl;
-	}
+    if (cantidad <= 0) {
+        std::cout << "El monto a retirar debe ser mayor a cero." << std::endl;
+        return;
+    }
+    if (cantidad > this->saldo) {
+        std::cout << "Fondos insuficientes." << std::endl;
+        return;
+    }
+    this->saldo -= cantidad;
 }
 
 /**
@@ -68,7 +70,7 @@ void CuentaAhorros::retirar(double cantidad) {
  * @return double Retorna el saldo actual de la cuenta
  */
 double CuentaAhorros::consultarSaldo() const {
-	return this->saldo;
+    return this->saldo;
 }
 
 /**
@@ -77,7 +79,7 @@ double CuentaAhorros::consultarSaldo() const {
  * @return std::string Retorna "ACTIVA" si no hay un estado explícito, o el estado actual de la cuenta
  */
 std::string CuentaAhorros::consultarEstado() const {
-	return this->estadoCuenta.empty() ? "ACTIVA" : this->estadoCuenta;
+    return this->estadoCuenta.empty() ? "ACTIVA" : this->estadoCuenta;
 }
 
 /**
@@ -86,7 +88,7 @@ std::string CuentaAhorros::consultarEstado() const {
  * @return std::string Saldo formateado con comas y dos decimales
  */
 std::string CuentaAhorros::formatearSaldo() const {
-	return formatearConComas(this->saldo);
+    return formatearConComas(this->saldo);
 }
 
 /**
@@ -96,12 +98,11 @@ std::string CuentaAhorros::formatearSaldo() const {
  * @return std::string Valor formateado como cadena con formato de moneda
  */
 std::string CuentaAhorros::formatearConComas(double saldo) const {
-	// Convertir de centavos a valor decimal
-	double valorReal = saldo;
-	std::ostringstream oss;
-	oss.imbue(std::locale("en_US.UTF-8")); // Usar formato americano: 1,234.56
-	oss << std::fixed << std::setprecision(2) << valorReal;
-	return oss.str();
+    double valorReal = saldo;
+    std::ostringstream oss;
+    oss.imbue(std::locale("en_US.UTF-8")); // Usar formato americano: 1,234.56
+    oss << std::fixed << std::setprecision(2) << valorReal;
+    return oss.str();
 }
 
 /**
@@ -113,44 +114,35 @@ std::string CuentaAhorros::formatearConComas(double saldo) const {
  * @param cedula Cédula del titular (opcional)
  * @param limpiarPantalla Indica si debe limpiarse la pantalla antes de mostrar información (por defecto true)
  */
-void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limpiarPantalla = true) const {
-	// Validacion basica
-	if (this == nullptr) {
-		return;
-	}
-	// Limpieza de pantalla solo si se solicita
-	if (limpiarPantalla) { // Limpiar pantalla si se solicita
-		Utilidades::limpiarPantallaPreservandoMarquesina();
-	}
-	// Titulo con formato especifico para CuentaAhorros
-	std::cout << "\n" << std::string(50, '=') << std::endl;
-	std::cout << "          INFORMACION DE CUENTA DE AHORROS" << std::endl;
-	std::cout << std::string(50, '=') << "\n" << std::endl;
-	// Informacion del titular si esta disponible
-	if (!cedula.empty()) {
-		std::cout << "Cedula del titular: " << cedula << std::endl;
-		std::cout << std::string(30, '-') << std::endl;
-	}
+void CuentaAhorros::mostrarInformacion(const std::string& cedula, bool limpiarPantalla) const {
+    if (this == nullptr) {
+        return;
+    }
+    if (limpiarPantalla) {
+        Utilidades::limpiarPantallaPreservandoMarquesina();
+    }
+    std::cout << "\n" << std::string(50, '=') << std::endl;
+    std::cout << "          INFORMACION DE CUENTA DE AHORROS" << std::endl;
+    std::cout << std::string(50, '=') << "\n" << std::endl;
+    if (!cedula.empty()) {
+        std::cout << "Cedula del titular: " << cedula << std::endl;
+        std::cout << std::string(30, '-') << std::endl;
+    }
 
-	std::cout << "Tipo de cuenta: AHORROS" << std::endl;
-	std::cout << "Numero de cuenta: " << this->numeroCuenta << std::endl;
+    std::cout << "Tipo de cuenta: AHORROS" << std::endl;
+    std::cout << "Numero de cuenta: " << this->numeroCuenta << std::endl;
+    std::cout << "Fecha de apertura: " << this->fechaApertura.obtenerFechaFormateada() << std::endl;
 
-	// Imprimir usando el metodo de la clase Fecha
-	std::cout << "Fecha de apertura: "
-		<< this->fechaApertura.obtenerFechaFormateada()
-		<< std::endl;
+    // Estado de la cuenta por defecto es "ACTIVA"
+    std::string estado = consultarEstado();
+    std::cout << "Estado de la cuenta: " << estado << std::endl;
+    std::cout << "Saldo actual: $" << formatearConComas(this->saldo) << std::endl;
+    std::cout << "Tasa de interes: " << this->tasaInteres << "%" << std::endl;
 
-	// Estado de la cuenta por defecto es "ACTIVA"
-	const_cast<std::string&>(this->estadoCuenta) = consultarEstado();
-	std::cout << "Estado de la cuenta: " << this->estadoCuenta << std::endl;
-	std::cout << "Saldo actual: $" << formatearConComas(this->saldo) << std::endl;
-	std::cout << "Tasa de interes: " << this->tasaInteres << "%" << std::endl;
-
-	// Pie de pagina
-	std::cout << "\n" << std::string(50, '-') << std::endl;
-	std::cout << "Presione cualquier tecla para continuar..." << std::endl;
-	int tecla = _getch();
-	(void)tecla;
+    std::cout << "\n" << std::string(50, '-') << std::endl;
+    std::cout << "Presione cualquier tecla para continuar..." << std::endl;
+    int tecla = _getch();
+    (void)tecla;
 }
 
 /**
@@ -159,19 +151,19 @@ void CuentaAhorros::mostrarInformacion(const std::string& cedula = "", bool limp
  * @param nombreArchivo Ruta del archivo donde se guardará la información
  */
 void CuentaAhorros::guardarEnArchivo(const std::string& nombreArchivo) const {
-	std::ofstream archivo(nombreArchivo, std::ios::binary);
-	if (archivo.is_open()) {
-		archivo.write(reinterpret_cast<const char*>(&this->numeroCuenta), sizeof(this->numeroCuenta));
-		archivo.write(reinterpret_cast<const char*>(&this->saldo), sizeof(this->saldo));
+    std::ofstream archivo(nombreArchivo, std::ios::binary);
+    if (!archivo.is_open()) {
+        return;
+    }
+    archivo.write(reinterpret_cast<const char*>(&this->numeroCuenta), sizeof(this->numeroCuenta));
+    archivo.write(reinterpret_cast<const char*>(&this->saldo), sizeof(this->saldo));
 
-		// Convertir Fecha a string y escribir
-		std::string fechaStr = this->fechaApertura.obtenerFechaFormateada();
-		archivo.write(fechaStr.c_str(), fechaStr.size() + 1);
+    std::string fechaStr = this->fechaApertura.obtenerFechaFormateada();
+    archivo.write(fechaStr.c_str(), fechaStr.size() + 1);
 
-		archivo.write(this->estadoCuenta.c_str(), this->estadoCuenta.size() + 1);
-		archivo.write(reinterpret_cast<const char*>(&tasaInteres), sizeof(tasaInteres));
-		archivo.close();
-	}
+    archivo.write(this->estadoCuenta.c_str(), this->estadoCuenta.size() + 1);
+    archivo.write(reinterpret_cast<const char*>(&tasaInteres), sizeof(tasaInteres));
+    archivo.close();
 }
 
 /**
@@ -180,22 +172,22 @@ void CuentaAhorros::guardarEnArchivo(const std::string& nombreArchivo) const {
  * @param nombreArchivo Ruta del archivo desde donde se cargará la información
  */
 void CuentaAhorros::cargarDesdeArchivo(const std::string& nombreArchivo) {
-	std::ifstream archivo(nombreArchivo, std::ios::binary);
-	if (archivo.is_open()) {
-		archivo.read(reinterpret_cast<char*>(&this->numeroCuenta), sizeof(this->numeroCuenta));
-		archivo.read(reinterpret_cast<char*>(&this->saldo), sizeof(this->saldo));
+    std::ifstream archivo(nombreArchivo, std::ios::binary);
+    if (!archivo.is_open()) {
+        return;
+    }
+    archivo.read(reinterpret_cast<char*>(&this->numeroCuenta), sizeof(this->numeroCuenta));
+    archivo.read(reinterpret_cast<char*>(&this->saldo), sizeof(this->saldo));
 
-		char buffer[100];
-		archivo.getline(buffer, 100, '\0');
-		// Reconstruir la fecha desde el string
-		this->fechaApertura = Fecha(buffer);
+    char buffer[100];
+    archivo.getline(buffer, 100, '\0');
+    this->fechaApertura = Fecha(buffer);
 
-		archivo.getline(buffer, 100, '\0');
-		this->estadoCuenta = buffer;
+    archivo.getline(buffer, 100, '\0');
+    this->estadoCuenta = buffer;
 
-		archivo.read(reinterpret_cast<char*>(&tasaInteres), sizeof(tasaInteres));
-		archivo.close();
-	}
+    archivo.read(reinterpret_cast<char*>(&tasaInteres), sizeof(tasaInteres));
+    archivo.close();
 }
 
 /**
@@ -204,13 +196,11 @@ void CuentaAhorros::cargarDesdeArchivo(const std::string& nombreArchivo) {
  * @return int Valor del interés calculado basado en el saldo actual y la tasa de interés
  */
 int CuentaAhorros::calcularInteres() const {
-	// Validamos que la tasa de interes sea positiva
-	if (this->tasaInteres < 0.0) {
-		std::cout << "La tasa de interes no puede ser negativa." << std::endl;
-		return 0;
-	}
-	// Calculamos el interes simple
-	double interes = (this->saldo * this->tasaInteres) / 100;
-	return static_cast<int>(interes);
+    if (this->tasaInteres < 0.0) {
+        std::cout << "La tasa de interes no puede ser negativa." << std::endl;
+        return 0;
+    }
+    double interes = (this->saldo * this->tasaInteres) / 100;
+    return static_cast<int>(interes);
 }
 #pragma endregion

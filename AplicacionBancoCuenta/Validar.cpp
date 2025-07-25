@@ -1,10 +1,10 @@
 /**
  * @file Validar.cpp
- * @brief Implementación de funciones de validación para datos bancarios
+ * @brief ImplementaciÃ³n de funciones de validaciÃ³n para datos bancarios
  *
- * Este archivo contiene la implementación de diversas funciones para validar
- * información bancaria como números de cuenta, cédulas, montos, fechas, etc.
- * Las validaciones están organizadas por categorías para facilitar su uso.
+ * Este archivo contiene la implementaciÃ³n de diversas funciones para validar
+ * informaciÃ³n bancaria como nÃºmeros de cuenta, cÃ©dulas, montos, fechas, etc.
+ * Las validaciones estÃ¡n organizadas por categorÃ­as para facilitar su uso.
  */
 #include "Validar.h"
 #include <regex>
@@ -17,12 +17,12 @@
 #include <fstream>
 
  /**
-  * @brief Valida que un número de cuenta tenga el formato correcto
+  * @brief Valida que un nÃºmero de cuenta tenga el formato correcto
   *
-  * Un número de cuenta válido debe contener exactamente 10 dígitos numéricos.
+  * Un nÃºmero de cuenta vÃ¡lido debe contener exactamente 10 dÃ­gitos numÃ©ricos.
   *
-  * @param numero Número de cuenta a validar
-  * @return bool true si el número de cuenta es válido, false en caso contrario
+  * @param numero NÃºmero de cuenta a validar
+  * @return bool true si el nÃºmero de cuenta es vÃ¡lido, false en caso contrario
   */
 bool Validar::ValidarNumeroCuenta(const std::string numero) {
     if (numero.length() != 10) {
@@ -37,13 +37,13 @@ bool Validar::ValidarNumeroCuenta(const std::string numero) {
 }
 
 /**
- * @brief Valida que una cadena represente un saldo válido
+ * @brief Valida que una cadena represente un saldo vÃ¡lido
  *
- * Un saldo válido debe contener solo dígitos y opcionalmente un punto decimal
- * seguido de uno o dos dígitos. Además, el valor numérico debe ser no negativo.
+ * Un saldo vÃ¡lido debe contener solo dÃ­gitos y opcionalmente un punto decimal
+ * seguido de uno o dos dÃ­gitos. AdemÃ¡s, el valor numÃ©rico debe ser no negativo.
  *
  * @param saldoStr Cadena que representa el saldo a validar
- * @return bool true si el saldo es válido, false en caso contrario
+ * @return bool true si el saldo es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarSaldo(const std::string& saldoStr) {
     std::regex regex("^[0-9]+(\\.[0-9]{1,2})?$");
@@ -63,12 +63,12 @@ bool Validar::ValidarSaldo(const std::string& saldoStr) {
 }
 
 /**
- * @brief Valida que el estado de una cuenta sea válido
+ * @brief Valida que el estado de una cuenta sea vÃ¡lido
  *
- * Un estado válido debe ser "Activa" o "Inactiva" (case sensitive).
+ * Un estado vÃ¡lido debe ser "Activa" o "Inactiva" (case sensitive).
  *
  * @param estado Estado de cuenta a validar
- * @return bool true si el estado es válido, false en caso contrario
+ * @return bool true si el estado es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarEstadoCuenta(const std::string& estado) {
     std::regex regex("^(Activa|Inactiva)$");
@@ -76,12 +76,12 @@ bool Validar::ValidarEstadoCuenta(const std::string& estado) {
 }
 
 /**
- * @brief Valida que el tipo de cuenta sea válido
+ * @brief Valida que el tipo de cuenta sea vÃ¡lido
  *
- * Un tipo de cuenta válido debe ser "Ahorros" o "Corriente" (case sensitive).
+ * Un tipo de cuenta vÃ¡lido debe ser "Ahorros" o "Corriente" (case sensitive).
  *
  * @param tipo Tipo de cuenta a validar
- * @return bool true si el tipo es válido, false en caso contrario
+ * @return bool true si el tipo es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarTipoCuenta(const std::string& tipo) {
     std::regex regex("^(Ahorros|Corriente)$");
@@ -89,12 +89,12 @@ bool Validar::ValidarTipoCuenta(const std::string& tipo) {
 }
 
 /**
- * @brief Valida que el tipo de transacción sea válido
+ * @brief Valida que el tipo de transacciÃ³n sea vÃ¡lido
  *
- * Un tipo de transacción válido debe ser "Retiro" o "Deposito" (case sensitive).
+ * Un tipo de transacciÃ³n vÃ¡lido debe ser "Retiro" o "Deposito" (case sensitive).
  *
- * @param tipo Tipo de transacción a validar
- * @return bool true si el tipo es válido, false en caso contrario
+ * @param tipo Tipo de transacciÃ³n a validar
+ * @return bool true si el tipo es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarTipoTransaccion(const std::string& tipo) {
     std::regex regex("^(Retiro|Deposito)$");
@@ -102,25 +102,25 @@ bool Validar::ValidarTipoTransaccion(const std::string& tipo) {
 }
 
 /**
- * @brief Valida que un monto de transacción sea válido
+ * @brief Valida que un monto de transacciÃ³n sea vÃ¡lido
  *
- * Un monto válido debe ser un valor entero no negativo.
+ * Un monto vÃ¡lido debe ser un valor entero no negativo.
  *
  * @param saldo Monto a validar
- * @return bool true si el monto es válido, false en caso contrario
+ * @return bool true si el monto es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarMontoTransaccion(int saldo) {
     return saldo >= 0;
 }
 
 /**
- * @brief Valida que una fecha tenga formato correcto y sea una fecha válida
+ * @brief Valida que una fecha tenga formato correcto y sea una fecha vÃ¡lida
  *
  * Verifica que la fecha tenga el formato "dd/mm/aaaa", que sea una fecha
  * existente en el calendario y que no sea futura respecto a la fecha del sistema.
  *
  * @param fecha Fecha a validar en formato "dd/mm/aaaa"
- * @return bool true si la fecha es válida, false en caso contrario
+ * @return bool true si la fecha es vÃ¡lida, false en caso contrario
  */
 bool Validar::ValidarFecha(const std::string& fecha) {
     // Validar formato dd/mm/aaaa
@@ -129,21 +129,21 @@ bool Validar::ValidarFecha(const std::string& fecha) {
         return false;
     }
 
-    // Extraer dia, mes y año
+    // Extraer dia, mes y aÃ±o
     int dia, mes, anio;
     if (sscanf_s(fecha.c_str(), "%d/%d/%d", &dia, &mes, &anio) != 3) {
         return false;
     }
 
-    // Validar año razonable
+    // Validar aÃ±o razonable
     if (anio < 1900) return false;
 
     // Validar mes
     if (mes < 1 || mes > 12) return false;
 
-    // Validar dias maximos por mes y año bisiesto
+    // Validar dias maximos por mes y aÃ±o bisiesto
     int diasMes[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-    // Año bisiesto
+    // AÃ±o bisiesto
     if (mes == 2 && ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0))) {
         diasMes[1] = 29;
     }
@@ -165,13 +165,13 @@ bool Validar::ValidarFecha(const std::string& fecha) {
 }
 
 /**
- * @brief Valida que una cadena represente un número con hasta dos decimales
+ * @brief Valida que una cadena represente un nÃºmero con hasta dos decimales
  *
- * Un valor válido debe contener solo dígitos y opcionalmente un punto decimal
- * seguido de uno o dos dígitos.
+ * Un valor vÃ¡lido debe contener solo dÃ­gitos y opcionalmente un punto decimal
+ * seguido de uno o dos dÃ­gitos.
  *
  * @param monto Cadena que representa el monto a validar
- * @return bool true si el formato es válido, false en caso contrario
+ * @return bool true si el formato es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarNumeroConDosDecimales(const std::string& monto) {
     // Permite numeros positivos, opcionalmente con hasta dos decimales
@@ -182,9 +182,9 @@ bool Validar::ValidarNumeroConDosDecimales(const std::string& monto) {
 /**
  * @brief Lee texto desde el portapapeles del sistema
  *
- * Útil para permitir operaciones de pegado en formularios.
+ * Ãštil para permitir operaciones de pegado en formularios.
  *
- * @return std::string Texto contenido en el portapapeles o cadena vacía si hay error
+ * @return std::string Texto contenido en el portapapeles o cadena vacÃ­a si hay error
  */
 std::string Validar::leerDesdePortapapeles() {
     if (!OpenClipboard(nullptr)) return "";
@@ -207,12 +207,12 @@ std::string Validar::leerDesdePortapapeles() {
 }
 
 /**
- * @brief Lee y valida interactivamente un número de cuenta
+ * @brief Lee y valida interactivamente un nÃºmero de cuenta
  *
- * Permite al usuario ingresar un número de cuenta de hasta 10 dígitos,
- * con validación en tiempo real.
+ * Permite al usuario ingresar un nÃºmero de cuenta de hasta 10 dÃ­gitos,
+ * con validaciÃ³n en tiempo real.
  *
- * @return std::string Número de cuenta ingresado
+ * @return std::string NÃºmero de cuenta ingresado
  */
 std::string Validar::ValidarLeerNumeroCuenta() {
     // Lee un numero de cuenta hasta 10 digitos
@@ -243,10 +243,10 @@ std::string Validar::ValidarLeerNumeroCuenta() {
 /**
  * @brief Valida que un nombre de persona tenga formato correcto
  *
- * Un nombre válido debe contener solo letras y espacios.
+ * Un nombre vÃ¡lido debe contener solo letras y espacios.
  *
  * @param nombre Nombre a validar
- * @return bool true si el nombre es válido, false en caso contrario
+ * @return bool true si el nombre es vÃ¡lido, false en caso contrario
  */
 bool Validar::ValidarNombrePersona(const std::string& nombre) {
     std::regex regex("^[a-zA-Z ]+$");
@@ -257,13 +257,13 @@ bool Validar::ValidarNombrePersona(const std::string& nombre) {
 // modelo usado https://medium.com/@bryansuarez/c%C3%B3mo-validar-c%C3%A9dula-y-ruc-en-ecuador-b62c5666186f
 // https://www.skypack.dev/view/udv-ec
 /**
- * @brief Valida que una cédula ecuatoriana tenga formato correcto
+ * @brief Valida que una cÃ©dula ecuatoriana tenga formato correcto
  *
- * Implementa el algoritmo oficial de validación de cédulas ecuatorianas,
- * verificando longitud, código de provincia, dígito verificador y otros requisitos.
+ * Implementa el algoritmo oficial de validaciÃ³n de cÃ©dulas ecuatorianas,
+ * verificando longitud, cÃ³digo de provincia, dÃ­gito verificador y otros requisitos.
  *
- * @param cedula Cédula a validar (debe tener 10 dígitos)
- * @return bool true si la cédula es válida, false en caso contrario
+ * @param cedula CÃ©dula a validar (debe tener 10 dÃ­gitos)
+ * @return bool true si la cÃ©dula es vÃ¡lida, false en caso contrario
  */
 bool Validar::ValidarCedula(const std::string& cedula) {
     // Paso 1: longitud y solo digitos
@@ -278,28 +278,61 @@ bool Validar::ValidarCedula(const std::string& cedula) {
 
     // Paso 3: validar codigo de provincia
     int provincia = std::stoi(cedula.substr(0, 2));
-    if (provincia < 1 || provincia > 24) { // 00 no es valido
+    if (!codigoProvinciaValido(provincia)) {
         return false;
     }
 
     // Paso 4: tercer digito debe estar entre 0 y 5 para personas naturales
     int tercerDigito = cedula[2] - '0';
-    if (tercerDigito < 0 || tercerDigito > 5) {
+    if (!tercerDigitoValido(tercerDigito)) {
         return false;
     }
 
     // Paso 5: validacion del digito verificador con el algoritmo oficial
-    int coeficientes[9] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
+    if (!digitoVerificadorValido(cedula)) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * @brief Verifica si el cÃ³digo de provincia es vÃ¡lido
+ * @param provincia CÃ³digo de provincia extraÃ­do de la cÃ©dula
+ * @return true si el cÃ³digo es vÃ¡lido, false en caso contrario
+ */
+bool Validar::codigoProvinciaValido(int provincia) {
+    return provincia >= 1 && provincia <= 24;
+}
+
+/**
+ * @brief Verifica si el tercer dÃ­gito es vÃ¡lido para personas naturales
+ * @param tercerDigito Tercer dÃ­gito de la cÃ©dula
+ * @return true si es vÃ¡lido, false en caso contrario
+ */
+bool Validar::tercerDigitoValido(int tercerDigito) {
+    return tercerDigito >= 0 && tercerDigito <= 5;
+}
+
+/**
+ * @brief Valida el dÃ­gito verificador de la cÃ©dula usando el algoritmo oficial
+ * @param cedula CÃ©dula a validar
+ * @return true si el dÃ­gito verificador es correcto, false en caso contrario
+ */
+bool Validar::digitoVerificadorValido(const std::string& cedula) {
+    static const int coeficientes[9] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
     int suma = 0;
 
-    for (int i = 0; i < 9; ++i) {
-        int digito = cedula[i] - '0';
+    // Usar std::for_each para recorrer los primeros 9 dÃ­gitos
+    std::for_each(cedula.begin(), cedula.begin() + 9, [&](char c) {
+        int i = &c - &cedula[0];
+        int digito = c - '0';
         int producto = digito * coeficientes[i];
         if (producto >= 10) {
             producto -= 9;
         }
         suma += producto;
-    }
+    });
 
     int digitoVerificador = cedula[9] - '0';
     int resultado = suma % 10;
@@ -313,13 +346,13 @@ bool Validar::ValidarCedula(const std::string& cedula) {
 #pragma region Funciones internas de ValidarPersona
 
 /**
- * @brief Verifica si todos los dígitos de una cadena son iguales
+ * @brief Verifica si todos los dÃ­gitos de una cadena son iguales
  *
- * Función auxiliar utilizada en la validación de cédulas para detectar
- * cédulas inválidas como "0000000000" o "9999999999".
+ * FunciÃ³n auxiliar utilizada en la validaciÃ³n de cÃ©dulas para detectar
+ * cÃ©dulas invÃ¡lidas como "0000000000" o "9999999999".
  *
- * @param cedula Cadena de dígitos a verificar
- * @return bool true si todos los dígitos son iguales, false en caso contrario
+ * @param cedula Cadena de dÃ­gitos a verificar
+ * @return bool true si todos los dÃ­gitos son iguales, false en caso contrario
  */
 bool Validar::todosLosDigitosIguales(const std::string& cedula) {
     return std::all_of(cedula.begin(), cedula.end(), [primero = cedula[0]](char c) {
@@ -335,13 +368,13 @@ bool Validar::todosLosDigitosIguales(const std::string& cedula) {
 #pragma endregion
 
 /**
- * @brief Valida si una tecla es aceptable según el tipo de entrada requerido
+ * @brief Valida si una tecla es aceptable segÃºn el tipo de entrada requerido
  *
- * Permite filtrar caracteres según el contexto de entrada (numérico, alfabético, etc.).
+ * Permite filtrar caracteres segÃºn el contexto de entrada (numÃ©rico, alfabÃ©tico, etc.).
  *
- * @param tecla Carácter a validar
- * @param tipo Tipo de entrada que determina las reglas de validación
- * @return bool true si la tecla es válida para el tipo de entrada, false en caso contrario
+ * @param tecla CarÃ¡cter a validar
+ * @param tipo Tipo de entrada que determina las reglas de validaciÃ³n
+ * @return bool true si la tecla es vÃ¡lida para el tipo de entrada, false en caso contrario
  */
 bool Validar::ValidarTecla(char tecla, TipoEntrada tipo) {
     switch (tipo)
@@ -381,14 +414,14 @@ bool Validar::archivoExiste(const std::string& rutaArchivo) {
 }
 
 /**
- * @brief Genera un nombre de archivo único basado en fecha y un índice incremental
+ * @brief Genera un nombre de archivo Ãºnico basado en fecha y un Ã­ndice incremental
  *
- * Útil para crear nombres de archivo para respaldos, evitando colisiones
- * al agregar un índice numérico si ya existe un archivo con el mismo nombre.
+ * Ãštil para crear nombres de archivo para respaldos, evitando colisiones
+ * al agregar un Ã­ndice numÃ©rico si ya existe un archivo con el mismo nombre.
  *
- * @param rutaDirectorio Directorio donde se almacenará el archivo
+ * @param rutaDirectorio Directorio donde se almacenarÃ¡ el archivo
  * @param fechaFormateada Fecha en formato de texto para incluir en el nombre
- * @return std::string Nombre de archivo único
+ * @return std::string Nombre de archivo Ãºnico
  */
 std::string Validar::generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada)
 {

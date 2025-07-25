@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file CodigoQR.cpp
  * @brief Implementación de las clases QrSegment y QrCode para generación de códigos QR
  *
@@ -730,13 +730,12 @@ namespace CodigoQR {
 			blocks.push_back(std::move(dat));
 		}
 
-		// Interleave (not concatenate) the bytes from every block into a single sequence
 		vector<uint8_t> result;
 		for (size_t i = 0; i < blocks.at(0).size(); i++) {
-			for (size_t j = 0; j < blocks.size(); j++) {
-				// Skip the padding byte in short blocks
+			for (auto& block : blocks) {
+				size_t j = &block - &blocks[0];
 				if (i != static_cast<unsigned int>(shortBlockLen - blockEccLen) || j >= static_cast<unsigned int>(numShortBlocks))
-					result.push_back(blocks.at(j).at(i));
+					result.push_back(block.at(i));
 			}
 		}
 		assert(result.size() == static_cast<unsigned int>(rawCodewords));
@@ -881,7 +880,7 @@ namespace CodigoQR {
 
 		// Balance of dark and light modules
 		int dark = 0;
-		for (const vector<bool>& row : modules) {
+		for (const auto& row : modules) {
 			for (bool color : row) {
 				if (color)
 					dark++;
@@ -992,7 +991,7 @@ namespace CodigoQR {
 	 */
 	vector<uint8_t> QrCode::reedSolomonComputeRemainder(const vector<uint8_t>& data, const vector<uint8_t>& divisor) {
 		vector<uint8_t> result(divisor.size());
-		for (uint8_t b : data) {  // Polynomial division
+		for (uint8_t b : data) {  // Polynomial division (foreach)
 			uint8_t factor = b ^ result.at(0);
 			result.erase(result.begin());
 			result.push_back(0);
@@ -1121,7 +1120,7 @@ namespace CodigoQR {
 	const int8_t QrCode::NUM_ERROR_CORRECTION_BLOCKS[4][41] = {
 		// Version: (note that index 0 is for padding, and is set to an illegal value)
 		//0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
-		{-1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4,  4,  4,  4,  4,  6,  6,  6,  6,  7,  8,  8,  9,  9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25},  // Low
+		{-1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4,  4,  4,  4,  4,  6,  6,  6,  6,  7,  8,  8, 9,  9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25},  // Low
 		{-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5,  5,  8,  9,  9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49},  // Medium
 		{-1, 1, 1, 2, 2, 4, 4, 6, 6, 8, 8,  8, 10, 12, 16, 12, 17, 16, 18, 21, 20, 23, 23, 25, 27, 29, 34, 34, 35, 38, 40, 43, 45, 48, 51, 53, 56, 59, 62, 65, 68},  // Quartile
 		{-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81},  // High

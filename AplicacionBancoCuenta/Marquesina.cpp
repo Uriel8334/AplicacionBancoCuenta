@@ -290,11 +290,19 @@ void Marquesina::actualizarBuffer()
 {
 	std::lock_guard<std::mutex> lock(mtx);
 	bufferMarquesina = "   ";
+	agregarElementosAlBuffer();
+	bufferActualizado = true;
+}
+
+/**
+ * @brief Agrega los elementos de la marquesina al buffer
+ */
+void Marquesina::agregarElementosAlBuffer()
+{
 	for (const auto& elem : elementos)
 	{
 		bufferMarquesina += elem.texto + "   ";
 	}
-	bufferActualizado = true;
 }
 
 /**
@@ -352,66 +360,88 @@ void Marquesina::renderizarMarquesina()
 	}
 
 	// Preparar el buffer primario
+	prepararBufferPrimario(textoVisible);
+
+	// Avanzar la posición para la próxima actualización
+	posicionTexto = (static_cast<unsigned long long>(posicionTexto) + 1) % textoBuffer.length();
+
+	// Intercambiar los buffers
 	{
 		std::lock_guard<std::mutex> lock(bufferMutex);
-		WORD colorTurquesa = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-
-		for (size_t i = 0; i < ancho; i++) {
-			if (i < textoVisible.length()) {
-				bufferPrimario[i] = { textoVisible[i], colorTurquesa };
-			}
-			else {
-				bufferPrimario[i] = { ' ', colorTurquesa };
-			}
-		}
-
-		// Avanzar la posición para la próxima actualización
-		posicionTexto = (static_cast<unsigned long long>(posicionTexto) + 1) % textoBuffer.length();
-
-		// Intercambiar los buffers
 		bufferPrimario.swap(bufferSecundario);
 		bufferListo = true;
 	}
 
 	// Fase 2: Transferir el buffer a la consola en una única operación atómica
 	if (bufferListo.load()) {
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-		if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
-			return;
-
-		// Crear arrays temporales para la API de Windows
-		std::vector<CHAR_INFO> charInfoArray(ancho);
-		{
-			std::lock_guard<std::mutex> lock(bufferMutex);
-			for (size_t i = 0; i < ancho; i++) {
-				charInfoArray[i].Char.AsciiChar = bufferSecundario[i].first;
-				charInfoArray[i].Attributes = bufferSecundario[i].second;
-			}
-		}
-
-		// Definir región de origen y destino
-		COORD bufferSize = { static_cast<SHORT>(ancho), 1 };
-		COORD bufferCoord = { 0, 0 };
-		SMALL_RECT writeRegion = {
-			static_cast<SHORT>(posX),
-			static_cast<SHORT>(posY),
-			static_cast<SHORT>(posX + ancho - 1),
-			static_cast<SHORT>(posY)
-		};
-
-		// Escribir todo el buffer de una vez usando WriteConsoleOutput
-		WriteConsoleOutputA(
-			hConsole,
-			charInfoArray.data(),
-			bufferSize,
-			bufferCoord,
-			&writeRegion
-		);
-
+		escribirBufferEnConsola();
 		bufferListo = false;
 	}
+}
+
+/**
+ * @brief Prepara el buffer primario con el texto visible
+ */
+void Marquesina::prepararBufferPrimario(const std::string& textoVisible)
+{
+	std::lock_guard<std::mutex> lock(bufferMutex);
+	WORD colorTurquesa = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+
+	size_t i = 0;
+	for (char c : textoVisible) {
+		if (i < ancho) {
+			bufferPrimario[i] = { c, colorTurquesa };
+			++i;
+		}
+	}
+	for (; i < ancho; ++i) {
+		bufferPrimario[i] = { ' ', colorTurquesa };
+	}
+}
+
+/**
+ * @brief Escribe el buffer secundario en la consola
+ */
+void Marquesina::escribirBufferEnConsola()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+		return;
+
+	// Crear arrays temporales para la API de Windows
+	std::vector<CHAR_INFO> charInfoArray(ancho);
+	{
+		std::lock_guard<std::mutex> lock(bufferMutex);
+		size_t i = 0;
+		for (const auto& par : bufferSecundario) {
+			if (i < ancho) {
+				charInfoArray[i].Char.AsciiChar = par.first;
+				charInfoArray[i].Attributes = par.second;
+				++i;
+			}
+		}
+	}
+
+	// Definir región de origen y destino
+	COORD bufferSize = { static_cast<SHORT>(ancho), 1 };
+	COORD bufferCoord = { 0, 0 };
+	SMALL_RECT writeRegion = {
+		static_cast<SHORT>(posX),
+		static_cast<SHORT>(posY),
+		static_cast<SHORT>(posX + ancho - 1),
+		static_cast<SHORT>(posY)
+	};
+
+	// Escribir todo el buffer de una vez usando WriteConsoleOutput
+	WriteConsoleOutputA(
+		hConsole,
+		charInfoArray.data(),
+		bufferSize,
+		bufferCoord,
+		&writeRegion
+	);
 }
 
 /**
