@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\mongo-c-driver\install\mongoc\include\libbson-1.0;C:\mongo-c-driver\install\mongoc\include\libmongoc-1.0;C:\mongo-cxx-driver\install\mongocxx\include\bsoncxx\v_noabi;C:\mongo-cxx-driver\install\mongocxx\include\mongocxx\v_noabi;C:\Windows\System32\SFML-2.6.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\mongo-c-driver\install\mongoc\include\libbson-1.0;C:\mongo-c-driver\install\mongoc\include\libmongoc-1.0;C:\mongo-cxx-driver\install\mongocxx\include\bsoncxx\v_noabi;C:\mongo-cxx-driver\install\mongocxx\include\mongocxx\v_noabi;C:\SFML-2.6.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Windows\System32\SFML-2.6.2\lib;C:\mongo-cxx-driver\install\mongoc\lib;C:\mongo-cxx-driver\install\mongocxx\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\SFML-2.6.2\lib;C:\mongo-cxx-driver\install\mongoc\lib;C:\mongo-cxx-driver\install\mongocxx\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-network-d.lib;mongocxx-static-dts-x64-v143-mdd.lib;bsoncxx-static-dts-x64-v143-mdd.lib;
 mongoc-static-1.0.lib;
 bson-static-1.0.lib;
@@ -130,7 +130,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\mongo-c-driver\install\mongoc\include\libbson-1.0;C:\mongo-c-driver\install\mongoc\include\libmongoc-1.0;C:\mongo-cxx-driver\install\mongocxx\include\bsoncxx\v_noabi;C:\mongo-cxx-driver\install\mongocxx\include\mongocxx\v_noabi;C:\Windows\System32\SFML-2.6.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\mongo-c-driver\install\mongoc\include\libbson-1.0;C:\mongo-c-driver\install\mongoc\include\libmongoc-1.0;C:\mongo-cxx-driver\install\mongocxx\include\bsoncxx\v_noabi;C:\mongo-cxx-driver\install\mongocxx\include\mongocxx\v_noabi;C:\SFML-2.6.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -138,7 +138,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\mongo-c-driver\lib;C:\Windows\System32\SFML-2.6.2\lib;C:\mongo-cxx-driver\install\mongoc\lib;C:\mongo-cxx-driver\install\mongocxx\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\mongo-c-driver\lib;C:\SFML-2.6.2\lib;C:\mongo-cxx-driver\install\mongoc\lib;C:\mongo-cxx-driver\install\mongocxx\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-window.lib;sfml-network.lib;mongocxx-static-rts-x64-v143-md.lib;bsoncxx-static-rts-x64-v143-md.lib;
 mongoc-static-1.0.lib;
 bson-static-1.0.lib;
@@ -537,32 +537,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\AplicacionBancoCuenta.lastbuildstate" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\CL.command.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\Cl.items.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\CL.read.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\CL.write.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.command.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.read.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.secondary.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.write.1.tlog" />
-    <None Include="x64\Debug\AplicacionBancoCuenta.exe.recipe" />
     <None Include="x64\Debug\AplicacionBancoCuenta.ilk" />
-    <None Include="x64\Debug\vc143.idb" />
-    <None Include="x64\Debug\vc143.pdb" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\AplicacionBancoCuenta.lastbuildstate" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\CL.command.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\Cl.items.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\CL.read.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\CL.write.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.command.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.read.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.secondary.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.write.1.tlog" />
-    <None Include="x64\Release\AplicacionBancoCuenta.exe.recipe" />
-    <None Include="x64\Release\AplicacionBancoCuenta.iobj" />
-    <None Include="x64\Release\AplicacionBancoCuenta.ipdb" />
-    <None Include="x64\Release\vc143.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="html\classvector.png" />
@@ -586,45 +561,6 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <Text Include="CMakeLists.txt" />
     <Text Include="personas.txt" />
     <Text Include="ultimo_numero_cuenta.txt" />
-    <Text Include="x64\Debug\AplicacionBancoCuenta.Build.CppClean.log" />
-    <Text Include="x64\Debug\AplicacionBancoCuenta.log" />
-    <Text Include="x64\Debug\AplicacionBancoCuenta.vcxproj.FileListAbsolute.txt" />
-    <Text Include="x64\Debug\vcpkg.applocal.log" />
-    <Text Include="x64\Release\AplicacionBancoCuenta.Build.CppClean.log" />
-    <Text Include="x64\Release\AplicacionBancoCuenta.log" />
-    <Text Include="x64\Release\AplicacionBancoCuenta.vcxproj.FileListAbsolute.txt" />
-    <Text Include="x64\Release\vcpkg.applocal.log" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="x64\Debug\ArbolBGrafico.obj" />
-    <Object Include="x64\Debug\Banco.obj" />
-    <Object Include="x64\Debug\Cifrado.obj" />
-    <Object Include="x64\Debug\CodigoQR.obj" />
-    <Object Include="x64\Debug\CuentaAhorros.obj" />
-    <Object Include="x64\Debug\CuentaCorriente.obj" />
-    <Object Include="x64\Debug\Fecha.obj" />
-    <Object Include="x64\Debug\main.obj" />
-    <Object Include="x64\Debug\Marquesina.obj" />
-    <Object Include="x64\Debug\Persona.obj" />
-    <Object Include="x64\Debug\Utilidades.obj" />
-    <Object Include="x64\Debug\Validar.obj" />
-    <Object Include="x64\Debug\_BaseDatosArchivos.obj" />
-    <Object Include="x64\Debug\_BaseDatosPersona.obj" />
-    <Object Include="x64\Debug\_ExportadorArchivo.obj" />
-    <Object Include="x64\Release\ArbolBGrafico.obj" />
-    <Object Include="x64\Release\Banco.obj" />
-    <Object Include="x64\Release\Cifrado.obj" />
-    <Object Include="x64\Release\CodigoQR.obj" />
-    <Object Include="x64\Release\CuentaAhorros.obj" />
-    <Object Include="x64\Release\CuentaCorriente.obj" />
-    <Object Include="x64\Release\Fecha.obj" />
-    <Object Include="x64\Release\main.obj" />
-    <Object Include="x64\Release\Marquesina.obj" />
-    <Object Include="x64\Release\Persona.obj" />
-    <Object Include="x64\Release\Utilidades.obj" />
-    <Object Include="x64\Release\Validar.obj" />
-    <Object Include="x64\Release\_BaseDatosPersona.obj" />
-    <Object Include="x64\Release\_ExportadorArchivo.obj" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="flac.lib" />

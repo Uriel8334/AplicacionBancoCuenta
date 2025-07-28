@@ -437,32 +437,7 @@
     <None Include=".vscode\settings.json" />
     <None Include="marquesina.html" />
     <None Include="DOCUMENTACION_QR_OPTIMIZADO.md" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\AplicacionBancoCuenta.lastbuildstate" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\CL.command.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\Cl.items.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\CL.read.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\CL.write.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.command.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.read.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.secondary.1.tlog" />
-    <None Include="x64\Debug\Aplicaci.16e67723.tlog\link.write.1.tlog" />
-    <None Include="x64\Debug\AplicacionBancoCuenta.exe.recipe" />
     <None Include="x64\Debug\AplicacionBancoCuenta.ilk" />
-    <None Include="x64\Debug\vc143.idb" />
-    <None Include="x64\Debug\vc143.pdb" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\AplicacionBancoCuenta.lastbuildstate" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\CL.command.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\Cl.items.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\CL.read.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\CL.write.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.command.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.read.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.secondary.1.tlog" />
-    <None Include="x64\Release\Aplicaci.16e67723.tlog\link.write.1.tlog" />
-    <None Include="x64\Release\AplicacionBancoCuenta.exe.recipe" />
-    <None Include="x64\Release\AplicacionBancoCuenta.iobj" />
-    <None Include="x64\Release\AplicacionBancoCuenta.ipdb" />
-    <None Include="x64\Release\vc143.pdb" />
     <None Include="openal32.dll" />
     <None Include="secuencial_cuentas.dat" />
     <None Include="sfml-audio-2.dll" />
@@ -530,47 +505,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
-    <Text Include="x64\Debug\AplicacionBancoCuenta.vcxproj.FileListAbsolute.txt" />
-    <Text Include="x64\Release\AplicacionBancoCuenta.vcxproj.FileListAbsolute.txt" />
-    <Text Include="x64\Debug\AplicacionBancoCuenta.Build.CppClean.log" />
-    <Text Include="x64\Debug\AplicacionBancoCuenta.log" />
-    <Text Include="x64\Debug\vcpkg.applocal.log" />
-    <Text Include="x64\Release\AplicacionBancoCuenta.Build.CppClean.log" />
-    <Text Include="x64\Release\AplicacionBancoCuenta.log" />
-    <Text Include="x64\Release\vcpkg.applocal.log" />
     <Text Include="personas.txt" />
     <Text Include="ultimo_numero_cuenta.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="x64\Debug\_BaseDatosArchivos.obj" />
-    <Object Include="x64\Debug\_BaseDatosPersona.obj" />
-    <Object Include="x64\Debug\_ExportadorArchivo.obj" />
-    <Object Include="x64\Debug\ArbolBGrafico.obj" />
-    <Object Include="x64\Debug\Banco.obj" />
-    <Object Include="x64\Debug\Cifrado.obj" />
-    <Object Include="x64\Debug\CodigoQR.obj" />
-    <Object Include="x64\Debug\CuentaAhorros.obj" />
-    <Object Include="x64\Debug\CuentaCorriente.obj" />
-    <Object Include="x64\Debug\Fecha.obj" />
-    <Object Include="x64\Debug\main.obj" />
-    <Object Include="x64\Debug\Marquesina.obj" />
-    <Object Include="x64\Debug\Persona.obj" />
-    <Object Include="x64\Debug\Utilidades.obj" />
-    <Object Include="x64\Debug\Validar.obj" />
-    <Object Include="x64\Release\_BaseDatosPersona.obj" />
-    <Object Include="x64\Release\_ExportadorArchivo.obj" />
-    <Object Include="x64\Release\ArbolBGrafico.obj" />
-    <Object Include="x64\Release\Banco.obj" />
-    <Object Include="x64\Release\Cifrado.obj" />
-    <Object Include="x64\Release\CodigoQR.obj" />
-    <Object Include="x64\Release\CuentaAhorros.obj" />
-    <Object Include="x64\Release\CuentaCorriente.obj" />
-    <Object Include="x64\Release\Fecha.obj" />
-    <Object Include="x64\Release\main.obj" />
-    <Object Include="x64\Release\Marquesina.obj" />
-    <Object Include="x64\Release\Persona.obj" />
-    <Object Include="x64\Release\Utilidades.obj" />
-    <Object Include="x64\Release\Validar.obj" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="ogg.lib" />
