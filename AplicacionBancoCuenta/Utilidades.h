@@ -2,6 +2,7 @@
 #ifndef UTILIDADES_H
 #define UTILIDADES_H
 
+#define NOMINMAX
 #include <string>
 #include <vector>
 #include <functional>
@@ -9,6 +10,12 @@
 #include <sstream>
 #include <iomanip>
 #include "CodigoQR.h"
+#include "Utilidades.h"
+#include <iostream>
+#include <windows.h>
+#include <mutex>
+#include <thread>
+
 
 
 class NodoPersona;
@@ -24,6 +31,30 @@ class Persona;
  */
 class Utilidades {
 public:
+
+
+	/**
+	 * @brief Muestra un menú en la consola
+	 * @param seleccion Opción seleccionada
+	 * @param opciones Lista de opciones a mostrar
+	 * @param numOpciones Número de opciones en la lista
+	 * @param x Coordenada X para la posición del menú
+	 * @param y Coordenada Y para la posición del menú
+	 * @param seleccionAnterior Opción seleccionada anteriormente (por defecto -1)
+	 */
+	static void mostrarMenu(int seleccion, const std::vector<std::string>& opciones, int x, int y, int seleccionAnterior);
+
+	/**
+	 * @brief Muestra un menú interactivo con opciones y permite seleccionar una
+	 * @param titulo Título del menú
+	 * @param opciones Lista de opciones a mostrar
+	 * @param numOpciones Número de opciones en la lista
+	 * @param x Coordenada X para la posición del menú
+	 * @param y Coordenada Y para la posición del menú
+	 * @return Índice de la opción seleccionada
+	 */
+	static int menuInteractivo(const std::string& titulo, const std::vector<std::string>& opciones, int x, int y);
+
 
 	/**
 	 * @brief Convierte una cadena de texto a un valor numérico double
@@ -216,6 +247,20 @@ public:
 	 */
 	static void mostrarCursor();
 
+	/**
+	 * @brief Extrae los caracteres válidos para un double de una cadena
+	 * @param texto Cadena a procesar
+	 * @return Cadena con solo los caracteres válidos para un double
+	 */
+	static std::string ExtraerNumerosParaDouble(const std::string& texto);
+
+	/**
+	 * @brief Inserta separadores de miles en una cadena numérica
+	 * @param numero Cadena numérica
+	 * @param posDecimal Posición del punto decimal
+	 * @return Cadena con separadores de miles
+	 */
+	static std::string InsertarSeparadoresMiles(const std::string& numero, size_t posDecimal);
 };
 
 #endif // UTILIDADES_H

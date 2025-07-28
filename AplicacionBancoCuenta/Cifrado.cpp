@@ -1,19 +1,20 @@
 /**
  * @file Cifrado.cpp
- * @brief ImplementaciÛn de la clase Cifrado que proporciona funcionalidades de cifrado/descifrado
+ * @brief Implementaci√≥n de la clase Cifrado que proporciona funcionalidades de cifrado/descifrado
  */
+#include "Cifrado.h"
+#include "Banco.h"
+#include "_ExportadorArchivo.h"
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
-#include "Cifrado.h"
-#include "Banco.h"
 
  /**
-  * @brief Cifra un archivo usando el algoritmo CÈsar
+  * @brief Cifra un archivo usando el algoritmo C√©sar
   *
   * @param rutaEntrada Ruta del archivo original a cifrar
-  * @param rutaSalida Ruta donde se guardar· el archivo cifrado
-  * @param clave Car·cter que determina el desplazamiento para el cifrado
+  * @param rutaSalida Ruta donde se guardar√° el archivo cifrado
+  * @param clave Car√°cter que determina el desplazamiento para el cifrado
   * @throws std::runtime_error Si hay problemas al abrir los archivos
   */
 void Cifrado::CifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char clave) {
@@ -32,7 +33,7 @@ void Cifrado::CifrarArchivo(const std::string& rutaEntrada, const std::string& r
 
     char byte;
     while (archivoEntrada.get(byte)) {
-        // Cifrado Cesar: aÒade el desplazamiento (modulo 256 implicito en byte)
+        // Cifrado Cesar: a√±ade el desplazamiento (modulo 256 implicito en byte)
         unsigned char byteOriginal = static_cast<unsigned char>(byte);
         unsigned char byteCifrado = (byteOriginal + desplazamiento) % 256;
         archivoSalida.put(static_cast<char>(byteCifrado));
@@ -43,11 +44,11 @@ void Cifrado::CifrarArchivo(const std::string& rutaEntrada, const std::string& r
 }
 
 /**
- * @brief Descifra un archivo cifrado previamente con el algoritmo CÈsar
+ * @brief Descifra un archivo cifrado previamente con el algoritmo C√©sar
  *
  * @param rutaEntrada Ruta del archivo cifrado
- * @param rutaSalida Ruta donde se guardar· el archivo descifrado
- * @param clave Car·cter usado originalmente para el cifrado
+ * @param rutaSalida Ruta donde se guardar√° el archivo descifrado
+ * @param clave Car√°cter usado originalmente para el cifrado
  * @throws std::runtime_error Si hay problemas al abrir los archivos
  */
 void Cifrado::desifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char clave) {
@@ -80,10 +81,10 @@ void Cifrado::desifrarArchivo(const std::string& rutaEntrada, const std::string&
  * @brief Guarda y cifra los datos del banco en un archivo
  *
  * Exporta los datos del banco a un archivo temporal, lo cifra y elimina el
- * archivo temporal despuÈs del proceso.
+ * archivo temporal despu√©s del proceso.
  *
  * @param banco Referencia al objeto Banco con los datos a guardar
- * @param nombreArchivo Nombre del archivo de salida (sin extensiÛn)
+ * @param nombreArchivo Nombre del archivo de salida (sin extensi√≥n)
  * @param claveCifrado Clave de cifrado a utilizar
  */
 void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado) {
@@ -96,7 +97,7 @@ void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreA
     std::string rutaDestino = rutaEscritorio + nombreArchivo + ".bin";
 
     // Guardar los datos en el archivo temporal
-    banco.guardarCuentasEnArchivo(nombreArchivoTemp);
+    ExportadorArchivo::guardarCuentasEnArchivo(banco,nombreArchivoTemp);
 
     try {
         // Cifrar el archivo temporal y guardarlo en el archivo final
@@ -116,10 +117,10 @@ void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreA
 /**
  * @brief Descifra un archivo y carga los datos en el objeto Banco
  *
- * @param banco Referencia al objeto Banco donde se cargar·n los datos
- * @param nombreArchivo Nombre del archivo cifrado (sin extensiÛn)
+ * @param banco Referencia al objeto Banco donde se cargar√°n los datos
+ * @param nombreArchivo Nombre del archivo cifrado (sin extensi√≥n)
  * @param claveCifrado Clave utilizada para el cifrado original
- * @return true si el proceso se completÛ exitosamente, false en caso contrario
+ * @return true si el proceso se complet√≥ exitosamente, false en caso contrario
  */
 bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchivo, char claveCifrado) {
     // Obtener la ruta del escritorio usando el metodo de Banco
@@ -145,7 +146,7 @@ bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchi
         archivo.close();
 
         // Cargar los datos descifrados al banco
-        banco.cargarCuentasDesdeArchivo(nombreArchivoTemp);
+        ExportadorArchivo::cargarCuentasDesdeArchivo(banco, nombreArchivoTemp);
 
         // Eliminar el archivo temporal despues de cargar
         if (std::remove(rutaArchivoTemp.c_str()) != 0) {
@@ -164,13 +165,13 @@ bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchi
  * @brief Descifra un archivo sin cargar los datos en el banco
  *
  * Permite descifrar un archivo y guardarlo con diferentes extensiones
- * seg˙n la opciÛn elegida.
+ * seg√∫n la opci√≥n elegida.
  *
  * @param banco Referencia al objeto Banco (usado solo para obtener rutas)
- * @param nombreArchivo Nombre del archivo cifrado (sin extensiÛn)
+ * @param nombreArchivo Nombre del archivo cifrado (sin extensi√≥n)
  * @param claveCifrado Clave utilizada para el cifrado original
  * @param opcion Formato de salida: 0 para .bak, 1 para .txt
- * @return true si el proceso se completÛ exitosamente, false en caso contrario
+ * @return true si el proceso se complet√≥ exitosamente, false en caso contrario
  */
 bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado, int opcion) {
     // Obtener la ruta del escritorio usando el metodo de Banco

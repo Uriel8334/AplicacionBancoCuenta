@@ -1,0 +1,3 @@
+C:/Users/Uriel Andrade/source/repos/AplicacionBancoCuenta/build/CMakeFiles/AplicacionBancoCuenta.dir
+C:/Users/Uriel Andrade/source/repos/AplicacionBancoCuenta/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Uriel Andrade/source/repos/AplicacionBancoCuenta/build/CMakeFiles/ZERO_CHECK.dir

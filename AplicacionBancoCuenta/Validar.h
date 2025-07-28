@@ -41,6 +41,10 @@ enum class TipoEntrada {
  * montos, etc. Se organiza en regiones según el tipo de validación.
  */
 class Validar {
+private:
+	
+
+
 public:
 #pragma region VALIDACIONES PARA CUENTA
 	/**
@@ -122,13 +126,6 @@ public:
 	static bool ValidarCedula(const std::string& cedula);
 
 	/**
-	 * @brief Verifica si todos los dígitos de una cédula son iguales
-	 * @param cedula Número de cédula a verificar
-	 * @return true si todos los dígitos son iguales, false en caso contrario
-	 */
-	static bool todosLosDigitosIguales(const std::string& cedula);
-
-	/**
 	 * @brief Valida la tecla ingresada según el tipo de entrada esperado
 	 * @param tecla Carácter ingresado
 	 * @param tipo Tipo de entrada esperada según enumeración TipoEntrada
@@ -159,22 +156,36 @@ public:
 	static std::string generarNombreConIndice(const std::string& rutaDirectorio, const std::string& fechaFormateada);
 
 	/**
-	 * @brief Verifica si el código de provincia es válido
-	 * @param provincia Código de provincia extraído de la cédula
-	 * @return true si el código es válido, false en caso contrario
+	 * @brief Verifica si una cédula tiene el formato correcto
+	 * @param cedula Cédula a validar
+	 * @return true si la cédula es válida, false en caso contrario
+	 */
+	static bool longitudYDigitosValidos(const std::string& cedula);
+
+	/**
+	 * @brief Verifica si todos los dígitos de una cédula son iguales
+	 * @param cedula Número de cédula a verificar
+	 * @return true si todos los dígitos son iguales, false en caso contrario
+	 */
+	static bool todosLosDigitosIguales(const std::string& cedula);
+
+	/**
+	 * @brief Valida el código de provincia de una cédula ecuatoriana
+	 * @param provincia Código de provincia a validar
+	 * @return true si el código de provincia es válido, false en caso contrario
 	 */
 	static bool codigoProvinciaValido(int provincia);
 
 	/**
 	 * @brief Verifica si el tercer dígito de la cédula es válido
-	 * @param tercerDigito Tercer dígito de la cédula
+	 * @param tercerDigito Tercer dígito de la cédula a verificar
 	 * @return true si el tercer dígito es válido, false en caso contrario
 	 */
 	static bool tercerDigitoValido(int tercerDigito);
 
 	/**
-	 * @brief Verifica si el dígito verificador de la cédula es válido
-	 * @param cedula Cédula completa a validar
+	 * @brief Valida el dígito verificador de una cédula ecuatoriana
+	 * @param cedula Cédula a validar
 	 * @return true si el dígito verificador es válido, false en caso contrario
 	 */
 	static bool digitoVerificadorValido(const std::string& cedula);

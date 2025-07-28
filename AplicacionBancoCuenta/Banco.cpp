@@ -4,6 +4,7 @@
  * @author Sistema Bancario, Uriel Andrade, Kerly Chuqui, Abner Proano
  * @date 2025
  */
+#define NOMINMAX
 #include "Banco.h"
 #include "CuentaAhorros.h"
 #include "CuentaCorriente.h"
@@ -18,6 +19,13 @@
 #include <iomanip>
 #include <map>
 #include <functional>
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/uri.hpp>
+#include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/builder/basic/kvp.hpp>
+#include <bsoncxx/document/value.hpp>
+#include "_BaseDatosPersona.h"
 
  /**
   * @brief Constructor por defecto de la clase Banco
@@ -42,6 +50,107 @@ Banco::~Banco() { // Destructor
 }
 
 /**
+ * @brief Guarda una cuenta de ahorros en la base de datos MongoDB
+ * @param cedula Cédula del titular de la cuenta
+ * @param cuenta Puntero a la cuenta de ahorros a guardar
+ */
+void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaAhorros* cuenta) {
+	try {
+		mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+		_BaseDatosPersona dbPersona(client);
+
+		auto cuentaDoc = bsoncxx::builder::basic::document{};
+		cuentaDoc.append(
+			bsoncxx::builder::basic::kvp("tipo", "ahorros"),
+			bsoncxx::builder::basic::kvp("numeroCuenta", cuenta->getNumeroCuenta()),
+			bsoncxx::builder::basic::kvp("saldo", cuenta->getSaldo()),
+			bsoncxx::builder::basic::kvp("fechaApertura", cuenta->getFechaApertura()),
+			bsoncxx::builder::basic::kvp("estado", cuenta->getEstadoCuenta())
+		);
+
+		if (dbPersona.agregarCuentaPersona(cedula, cuentaDoc.extract())) {
+			std::cout << "Cuenta agregada correctamente en MongoDB.\n";
+		}
+		else {
+			std::cout << "Error al agregar la cuenta en MongoDB.\n";
+		}
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error de conexión a MongoDB: " << e.what() << std::endl;
+	}
+}
+
+/**
+ * @brief Guarda una cuenta corriente en la base de datos MongoDB
+ * @param cedula Cédula del titular de la cuenta
+ * @param cuenta Puntero a la cuenta corriente a guardar
+ */
+void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaCorriente* cuenta) {
+	try {
+		mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+		_BaseDatosPersona dbPersona(client);
+
+		auto cuentaDoc = bsoncxx::builder::basic::document{};
+		cuentaDoc.append(
+			bsoncxx::builder::basic::kvp("tipo", "corriente"),
+			bsoncxx::builder::basic::kvp("numeroCuenta", cuenta->getNumeroCuenta()),
+			bsoncxx::builder::basic::kvp("saldo", cuenta->getSaldo()),
+			bsoncxx::builder::basic::kvp("fechaApertura", cuenta->getFechaApertura()),
+			bsoncxx::builder::basic::kvp("estado", cuenta->getEstadoCuenta())
+		);
+
+		if (dbPersona.agregarCuentaPersona(cedula, cuentaDoc.extract())) {
+			std::cout << "Cuenta agregada correctamente en MongoDB.\n";
+		}
+		else {
+			std::cout << "Error al agregar la cuenta en MongoDB.\n";
+		}
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error de conexión a MongoDB: " << e.what() << std::endl;
+	}
+}
+
+Persona* Banco::obtenerOPrepararPersona(const std::string& cedula, _BaseDatosPersona& dbPersona) {
+	Persona* personaExistente = dbPersona.obtenerPersonaPorCedula(cedula);
+	if (personaExistente) {
+		personaExistente->mostrarDatos();
+		if (!confirmarAgregarCuentaExistente(personaExistente, cedula)) {
+			delete personaExistente; // Evita fugas de memoria
+			return nullptr;
+		}
+		return personaExistente;
+	}
+	else {
+		Persona* nuevaPersona = new Persona();
+		nuevaPersona->setCedula(cedula);
+		nuevaPersona->ingresarDatos(cedula);
+		return nuevaPersona;
+	}
+}
+
+void Banco::agregarCuentaAPersona(Persona* persona, int tipoCuenta, const std::string& cedula, _BaseDatosPersona& dbPersona) {
+	if (tipoCuenta == 0) {
+		CuentaAhorros* nuevaCuenta = new CuentaAhorros();
+		if (persona->crearSoloCuentaAhorros(nuevaCuenta, cedula)) {
+			guardarCuentaEnMongoDB(cedula, nuevaCuenta);
+		}
+		else {
+			delete nuevaCuenta;
+		}
+	}
+	else if (tipoCuenta == 1) {
+		CuentaCorriente* nuevaCuenta = new CuentaCorriente();
+		if (persona->crearSoloCuentaCorriente(nuevaCuenta, cedula)) {
+			guardarCuentaEnMongoDB(cedula, nuevaCuenta);
+		}
+		else {
+			delete nuevaCuenta;
+		}
+	}
+}
+
+/**
  * @brief Agrega una nueva persona con una cuenta asociada al sistema bancario
  *
  * Este método presenta un menú para seleccionar el tipo de cuenta (ahorros o corriente),
@@ -50,21 +159,113 @@ Banco::~Banco() { // Destructor
  * cliente que ya existe en el sistema.
  */
 void Banco::agregarPersonaConCuenta() {
-	// variables locales
+	int seleccion = mostrarMenuTipoCuenta();
+	if (seleccion == 2) {
+		std::cout << "Operacion cancelada.\n";
+		return;
+	}
 
-	std::string opciones[] = { "Cuenta de Ahorros", "Cuenta Corriente", "Cancelar" };
-	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
-	int seleccion = 0;
-	// Creamos la persona dinamicamente
-	Persona* persona = new Persona();
-	int x = 5; // Posicion X inicial del menu
-	int y = 5; // Posicion Y inicial del menu
-	// Pasamos el puntero al constructor
+	std::string cedula = solicitarCedula();
+	if (cedula.empty()) {
+		std::cout << "Operacion cancelada por el usuario.\n";
+		return;
+	}
+
+	mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+	_BaseDatosPersona dbPersona(client);
+
+	bool personaExiste = dbPersona.existePersonaPorCedula(cedula);
+
+	// 1. Preparar persona
+	Persona* persona = obtenerOPrepararPersona(cedula, dbPersona);
+	if (!persona) return;
+
+	// 2. Preparar documento de cuenta
+	bsoncxx::document::value cuentaDoc = crearDocumentoCuenta(persona, seleccion, cedula);
+	if (cuentaDoc.view().empty()) {
+		delete persona;
+		return;
+	}
+
+	// 3. Persistir en base de datos
+	if (!personaExiste) {
+		insertarPersonaConCuenta(*persona, cuentaDoc, dbPersona);
+		agregarPersonaEnMemoria(persona);
+	}
+	else {
+		agregarCuentaPersonaExistente(cedula, cuentaDoc, dbPersona);
+	}
+
+	system("pause");
+}
+
+bsoncxx::document::value Banco::crearDocumentoCuenta(Persona* persona, int tipoCuenta, const std::string& cedula) {
+	if (tipoCuenta == 0) { // Ahorros
+		CuentaAhorros* nuevaCuenta = new CuentaAhorros();
+		if (persona->crearSoloCuentaAhorros(nuevaCuenta, cedula)) {
+			auto doc = bsoncxx::builder::basic::document{};
+			doc.append(
+				bsoncxx::builder::basic::kvp("tipo", "ahorros"),
+				bsoncxx::builder::basic::kvp("numeroCuenta", nuevaCuenta->getNumeroCuenta()),
+				bsoncxx::builder::basic::kvp("saldo", nuevaCuenta->getSaldo()),
+				bsoncxx::builder::basic::kvp("fechaApertura", nuevaCuenta->getFechaApertura()),
+				bsoncxx::builder::basic::kvp("estado", nuevaCuenta->getEstadoCuenta())
+			);
+			delete nuevaCuenta;
+			return doc.extract();
+		}
+		delete nuevaCuenta;
+	}
+	else if (tipoCuenta == 1) { // Corriente
+		CuentaCorriente* nuevaCuenta = new CuentaCorriente();
+		if (persona->crearSoloCuentaCorriente(nuevaCuenta, cedula)) {
+			auto doc = bsoncxx::builder::basic::document{};
+			doc.append(
+				bsoncxx::builder::basic::kvp("tipo", "corriente"),
+				bsoncxx::builder::basic::kvp("numeroCuenta", nuevaCuenta->getNumeroCuenta()),
+				bsoncxx::builder::basic::kvp("saldo", nuevaCuenta->getSaldo()),
+				bsoncxx::builder::basic::kvp("fechaApertura", nuevaCuenta->getFechaApertura()),
+				bsoncxx::builder::basic::kvp("estado", nuevaCuenta->getEstadoCuenta())
+			);
+			delete nuevaCuenta;
+			return doc.extract();
+		}
+		delete nuevaCuenta;
+	}
+	return bsoncxx::builder::basic::document{}.extract(); // Devuelve vacío si falla
+}
+
+void Banco::insertarPersonaConCuenta(const Persona& persona, const bsoncxx::document::value& cuentaDoc, _BaseDatosPersona& dbPersona) {
+	if (dbPersona.insertarPersona(persona, &cuentaDoc)) {
+		std::cout << "Persona y cuenta insertadas correctamente en MongoDB.\n";
+	}
+	else {
+		std::cout << "Error al insertar persona y cuenta en MongoDB.\n";
+	}
+}
+
+void Banco::agregarCuentaPersonaExistente(const std::string& cedula, const bsoncxx::document::value& cuentaDoc, _BaseDatosPersona& dbPersona) {
+	if (dbPersona.agregarCuentaPersona(cedula, cuentaDoc)) {
+		std::cout << "Cuenta agregada correctamente en MongoDB.\n";
+	}
+	else {
+		std::cout << "Error al agregar la cuenta en MongoDB.\n";
+	}
+}
+
+void Banco::agregarPersonaEnMemoria(Persona* persona) {
 	NodoPersona* nuevo = new NodoPersona(persona);
 	nuevo->siguiente = listaPersonas;
 	listaPersonas = nuevo;
+}
 
-	// Menu con cursor
+
+int Banco::mostrarMenuTipoCuenta() {
+	std::string opciones[] = { "Cuenta de Ahorros", "Cuenta Corriente", "Cancelar" };
+	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
+	int seleccion = 0;
+	int x = 5, y = 5;
+
 	while (true) {
 		Utilidades::ocultarCursor();
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
@@ -75,896 +276,208 @@ void Banco::agregarPersonaConCuenta() {
 			else
 				std::cout << "   " << opciones[i] << std::endl;
 		}
-		// Limpia cualquier linea sobrante si el menu se reduce
 		Utilidades::gotoxy(0, y + numOpciones);
 
 		int tecla = _getch();
-		if (tecla == 224) { // Teclas especiales
+		if (tecla == 224) {
 			tecla = _getch();
-			if (tecla == 72) // Flecha arriba
+			if (tecla == 72)
 				seleccion = (seleccion - 1 + numOpciones) % numOpciones;
-			else if (tecla == 80) // Flecha abajo
+			else if (tecla == 80)
 				seleccion = (seleccion + 1) % numOpciones;
 		}
-		else if (tecla == 13) { // ENTER
+		else if (tecla == 13) {
 			break;
 		}
 		Utilidades::mostrarCursor();
 	}
+	return seleccion;
+}
 
-	if (seleccion == 2) {
-		std::cout << "Operacion cancelada.\n";
-		return;
-	}
-
-	// Ingreso de datos de la persona con cursor
-	if (seleccion == 0 || seleccion == 1) {
-		std::cout << "\nPresione ENTER para confirmar y crear la cuenta, o ESC para cancelar...\n";
-		int tecla = _getch();
-		if (tecla == 27) { // ESC
-			std::cout << "Operacion cancelada por el usuario.\n";
-			return;
-		}
-
-		// Selecciona el tipo de cuenta AHORROS
-		if (seleccion == 0) {
-			CuentaAhorros* nuevaCuentaAhorros = nullptr;
-
-			// Solicitar cedula antes de ingresar todos los datos
-			std::string cedulaTemp;
-			while (true) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(1);
-				std::cout << "\n----- INGRESE SUS DATOS -----\n";
-				std::cout << "Ingrese su cedula (10 digitos): ";
-				cedulaTemp.clear();
-				int digitos = 0;
-				while (true) {
-					char tecla = _getch();
-					if ((tecla >= '0' && tecla <= '9') && digitos < 10) {
-						cedulaTemp += tecla;
-						digitos++;
-						std::cout << tecla;
-					}
-					else if (tecla == 8 && !cedulaTemp.empty()) {
-						cedulaTemp.pop_back();
-						digitos--;
-						std::cout << "\b \b";
-					}
-					else if (tecla == 13) {
-						std::cout << std::endl;
-						break;
-					}
-				}
-				if (!Validar::ValidarCedula(cedulaTemp)) {
-					std::cout << "Cedula invalida, presione cualquier tecla para volver a ingresar." << std::endl;
-					int teclaCualquiera = _getch();
-					(void)teclaCualquiera;
-					continue;
-				}
-
-				// Verificar si la cedula ya existe
-				bool existe = false;
-				NodoPersona* actual = listaPersonas;
-				while (actual) {
-					Persona* p = actual->persona;
-					if (p && p->getCedula() == cedulaTemp) {
-						existe = true;
-						break;
-					}
-					actual = actual->siguiente;
-				}
-				if (existe) {
-					const char* opciones[2] = { "Si", "No" };
-					int seleccion = 1; // Por defecto "No"
-					int tecla = 0;
-
-					// Guardar una referencia a la persona existente con la cedula
-					Persona* personaExistente = nullptr;
-					NodoPersona* nodoActual = listaPersonas;
-					while (nodoActual) {
-						if (nodoActual->persona && nodoActual->persona->getCedula() == cedulaTemp) {
-							personaExistente = nodoActual->persona;
-							break;
-						}
-						nodoActual = nodoActual->siguiente;
-					}
-
-					while (true) {
-						Utilidades::limpiarPantallaPreservandoMarquesina(1);
-						if (personaExistente == nullptr) {
-							std::cout << "Error: El puntero 'personaExistente' es NULL.\n";
-							return;
-						}
-						std::cout << "La cedula " << cedulaTemp << " ya esta registrada en el sistema.\n";
-						std::cout << "Titular: " << personaExistente->getNombres() << " " << personaExistente->getApellidos() << "\n\n";
-						std::cout << "Desea agregar una nueva cuenta para este titular?\n\n";
-						for (int i = 0; i < 2; ++i) {
-							if (i == seleccion) {
-								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-									BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN |
-									FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-								std::cout << " > " << opciones[i] << " < ";
-								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-									FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-							}
-							else {
-								std::cout << "   " << opciones[i] << "   ";
-							}
-						}
-						std::cout << "\r";
-						tecla = _getch();
-						if (tecla == 224) {
-							tecla = _getch();
-							if (tecla == 75 && seleccion > 0) --seleccion; // Izquierda
-							else if (tecla == 77 && seleccion < 1) ++seleccion; // Derecha
-						}
-						else if (tecla == 13) break; // Enter
-					}
-					std::cout << std::endl;
-
-					if (seleccion == 1) { // No
-						std::cout << "Operacion cancelada.\n";
-						// Eliminar el nodo y la persona recien creados para evitar memoria no utilizada
-						NodoPersona* temp = listaPersonas;
-						listaPersonas = listaPersonas->siguiente;
-						delete temp;
-						return;
-					}
-					else { // Si - usar la persona existente
-						delete persona;
-						nuevo->persona = personaExistente;
-						persona = personaExistente;
-						std::cout << "Usando datos de titular existente.\n";
-						system("pause");
-
-						try {
-							Fecha fechaActual;
-							std::string fechaStr = fechaActual.obtenerFechaFormateada();
-							nuevaCuentaAhorros = new CuentaAhorros("0", 0.0, fechaStr, "Activa", 5.0);
-
-							bool resultado = persona->crearSoloCuentaAhorros(nuevaCuentaAhorros, cedulaTemp);
-							if (!resultado) {
-								delete nuevaCuentaAhorros; // Evitar fugas de memoria
-							}
-						}
-						catch (const std::exception& e) {
-							std::cerr << "Error: " << e.what() << std::endl;
-							system("pause");
-							return;
-						}
-						//std::cout << "Cuenta de ahorros creada correctamente para el titular existente.\n";
-
-						system("pause");
-						return;
-					}
-				}
-				// Si no existe o selecciona "Si" (usando persona existente), continuar
+std::string Banco::solicitarCedula() {
+	std::string cedulaTemp;
+	while (true) {
+		system("pause");
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
+		std::cout << "\n----- INGRESE SUS DATOS -----\n";
+		std::cout << "Ingrese su cedula (10 digitos): ";
+		cedulaTemp.clear();
+		int digitos = 0;
+		while (true) {
+			char tecla = _getch();
+			if ((tecla >= '0' && tecla <= '9') && digitos < 10) {
+				cedulaTemp += tecla;
+				digitos++;
+				std::cout << tecla;
+			}
+			else if (tecla == 8 && !cedulaTemp.empty()) {
+				cedulaTemp.pop_back();
+				digitos--;
+				std::cout << "\b \b";
+			}
+			else if (tecla == 13) {
+				std::cout << std::endl;
 				break;
 			}
-
-			// Esta seccion se ejecuta solo para personas nuevas
-			persona->setCedula(cedulaTemp);
-			try {
-				Fecha fechaActual;
-				std::string fechaStr = fechaActual.obtenerFechaFormateada();
-				nuevaCuentaAhorros = new CuentaAhorros("0", 0.0, fechaStr, "Activa", 5.0);
-
-				bool resultado = persona->crearAgregarCuentaAhorros(nuevaCuentaAhorros, cedulaTemp);
-				if (resultado) {
-					CuentaAhorros* verificacion = persona->getCabezaAhorros();
-					if (verificacion) {
-						//std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
-					}
-					else {
-						//std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
-					}
-				}
-				if (!resultado) {
-					delete nuevaCuentaAhorros; // Evitar fugas de memoria
-				}
+			else if (tecla == 27) {
+				return "";
 			}
-			catch (const std::exception& e) {
-				std::cerr << "Error: " << e.what() << std::endl;
-				system("pause");
-				return;
-			}
-			std::cout << "Persona y cuenta de ahorros creadas correctamente.\n";
 		}
-
-		// Selecciona el tipo de cuenta CORRIENTE
-		else if (seleccion == 1)
+		if (!Validar::ValidarCedula(cedulaTemp)) {
+			std::cout << "Cedula invalida, presione cualquier tecla para volver a ingresar." << std::endl;
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+			continue;
+		}
+		else
 		{
-			CuentaCorriente* nuevaCuentaCorriente = nullptr;
+			std::cout << "\nCargando, por favor espere...\n";
+		}
+		break;
+	}
+	return cedulaTemp;
+}
 
-			// Solicitar cedula antes de ingresar todos los datos
-			std::string cedulaTemp;
-			while (true) {
-				Utilidades::limpiarPantallaPreservandoMarquesina(1);
-				std::cout << "\n----- INGRESE SUS DATOS -----\n";
-				std::cout << "Ingrese su cedula (10 digitos): ";
-				cedulaTemp.clear();
-				int digitos = 0;
-				while (true) {
-					char tecla = _getch();
-					if ((tecla >= '0' && tecla <= '9') && digitos < 10) {
-						cedulaTemp += tecla;
-						digitos++;
-						std::cout << tecla;
-					}
-					else if (tecla == 8 && !cedulaTemp.empty()) {
-						cedulaTemp.pop_back();
-						digitos--;
-						std::cout << "\b \b";
-					}
-					else if (tecla == 13) {
-						std::cout << std::endl;
-						break;
-					}
-				}
-				if (!Validar::ValidarCedula(cedulaTemp)) {
-					std::cout << "Cedula invalida, presione cualquier tecla para volver a ingresar." << std::endl;
-					int teclaCualquiera = _getch();
-					(void)teclaCualquiera;
-					continue;
-				}
+Persona* Banco::buscarPersonaPorCedula(const std::string& cedula) {
+	Persona* resultado = nullptr;
+	forEachPersona([&](Persona* p) {
+		if (p->getCedula() == cedula) {
+			resultado = p;
+		}
+		});
+	return resultado;
+}
 
-				// Verificar si la cedula ya existe
-				bool existe = false;
-				NodoPersona* actual = listaPersonas;
-				while (actual) {
-					Persona* p = actual->persona;
-					if (p && p->getCedula() == cedulaTemp) {
-						existe = true;
-						break;
-					}
-					actual = actual->siguiente;
-				}
-				if (existe) {
-					const char* opciones[2] = { "Si", "No" };
-					int seleccion = 1;
-					int tecla = 0;
-
-					// Guardar una referencia a la persona existente con la cedula
-					Persona* personaExistente = nullptr;
-					NodoPersona* nodoActual = listaPersonas;
-					while (nodoActual) {
-						if (nodoActual->persona && nodoActual->persona->getCedula() == cedulaTemp) {
-							personaExistente = nodoActual->persona;
-							break;
-						}
-						nodoActual = nodoActual->siguiente;
-					}
-
-					while (true) {
-						Utilidades::limpiarPantallaPreservandoMarquesina(1);
-						std::cout << "La cedula " << cedulaTemp << " ya esta registrada en el sistema.\n";
-						std::cout << "Titular: " << personaExistente->getNombres() << " "
-							<< personaExistente->getApellidos() << "\n\n";
-						std::cout << "Desea crear una nueva cuenta para este titular?\n\n";
-						for (int i = 0; i < 2; ++i) {
-							if (i == seleccion) {
-								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-									BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN |
-									FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-								std::cout << " > " << opciones[i] << " < ";
-								SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-									FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-							}
-							else {
-								std::cout << "   " << opciones[i] << "   ";
-							}
-						}
-						std::cout << "\r";
-						tecla = _getch();
-						if (tecla == 224) {
-							tecla = _getch();
-							if (tecla == 75 && seleccion > 0) --seleccion; // Izquierda
-							else if (tecla == 77 && seleccion < 1) ++seleccion; // Derecha
-						}
-						else if (tecla == 13) break; // Enter
-					}
-					std::cout << std::endl;
-
-					if (seleccion == 1) {
-						std::cout << "Operacion cancelada.\n";
-						NodoPersona* temp = listaPersonas;
-						listaPersonas = listaPersonas->siguiente;
-						delete temp;
-						return;
-					}
-					else {
-						delete persona;
-						nuevo->persona = personaExistente;
-						persona = personaExistente;
-						std::cout << "Usando datos de titular existente.\n";
-						system("pause");
-
-						try {
-							Fecha fechaActual;
-							std::string fechaStr = fechaActual.obtenerFechaFormateada();
-							nuevaCuentaCorriente = new CuentaCorriente("0", 0.0, fechaStr, "Activa", 0.0);
-
-							bool resultado = persona->crearSoloCuentaCorriente(nuevaCuentaCorriente, cedulaTemp);
-							if (resultado) {
-								CuentaAhorros* verificacion = persona->getCabezaAhorros();
-								if (verificacion) {
-									std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
-								}
-								else {
-									//std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
-								}
-							}
-							if (!resultado) {
-								delete nuevaCuentaCorriente; // Evitar fugas de memoria
-							}
-						}
-						catch (const std::exception& e) {
-							std::cerr << "Error: " << e.what() << std::endl;
-							system("pause");
-							return;
-						}
-
-						//std::cout << "Cuenta corriente creada correctamente para el titular existente.\n";
-						system("pause");
-						return;
-					}
-				}
-				break;
+bool Banco::confirmarAgregarCuentaExistente(Persona* personaExistente, const std::string& cedula) {
+	const char* opciones[2] = { "Si", "No" };
+	int seleccion = 1;
+	int tecla = 0;
+	while (true) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
+		std::cout << "La cedula " << cedula << " ya esta registrada en el sistema.\n";
+		std::cout << "Titular: " << personaExistente->getNombres() << " " << personaExistente->getApellidos() << "\n\n";
+		std::cout << "Desea agregar una nueva cuenta para este titular?\n\n";
+		for (int i = 0; i < 2; ++i) {
+			if (i == seleccion) {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
+					BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN |
+					FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+				std::cout << " > " << opciones[i] << " < ";
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
+					FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 			}
-			persona->setCedula(cedulaTemp);
+			else {
+				std::cout << "   " << opciones[i] << "   ";
+			}
+		}
+		std::cout << "\r";
+		tecla = _getch();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 75 && seleccion > 0) --seleccion;
+			else if (tecla == 77 && seleccion < 1) ++seleccion;
+		}
+		else if (tecla == 13) break;
+	}
+	std::cout << std::endl;
+	if (seleccion == 1) {
+		std::cout << "Operacion cancelada.\n";
+		system("pause");
+		return false;
+	}
+	std::cout << "Usando datos de titular existente.\n";
+	system("pause");
+	return true;
+}
 
+void Banco::crearCuentaAhorrosParaPersona(Persona* persona, const std::string& cedula) {
+	try {
+		Fecha fechaActual;
+		std::string fechaStr = fechaActual.obtenerFechaFormateada();
+		CuentaAhorros* nuevaCuentaAhorros = new CuentaAhorros("0", 0.0, fechaStr, "Activa", 5.0);
+		bool resultado = persona->crearAgregarCuentaAhorros(nuevaCuentaAhorros, cedula);
+		if (!resultado) {
+			delete nuevaCuentaAhorros;
+		}
+		else {
+			std::cout << "Cuenta de ahorros creada correctamente.\n";
+
+			// --- INICIO BLOQUE MONGODB ---
 			try {
-				Fecha fechaActual;
-				std::string fechaStr = fechaActual.obtenerFechaFormateada();
-				nuevaCuentaCorriente = new CuentaCorriente("0", 0.0, fechaStr, "Activa", 0.0);
+				mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+				_BaseDatosPersona dbPersona(client);
 
-				bool resultado = persona->crearAgregarCuentaCorriente(nuevaCuentaCorriente, cedulaTemp);
-				if (resultado) {
-					CuentaAhorros* verificacion = persona->getCabezaAhorros();
-					if (verificacion) {
-						std::cout << "Cuenta vinculada correctamente: " << verificacion->getNumeroCuenta() << std::endl;
-					}
-					else {
-						//std::cout << "Error: La cuenta no se vinculo correctamente" << std::endl;
-					}
+				auto cuentaDoc = bsoncxx::builder::basic::document{};
+				cuentaDoc.append(
+					bsoncxx::builder::basic::kvp("tipo", "ahorros"),
+					bsoncxx::builder::basic::kvp("numeroCuenta", nuevaCuentaAhorros->getNumeroCuenta()),
+					bsoncxx::builder::basic::kvp("saldo", nuevaCuentaAhorros->consultarSaldo()),
+					bsoncxx::builder::basic::kvp("fechaApertura", nuevaCuentaAhorros->getFechaApertura()),
+					bsoncxx::builder::basic::kvp("estado", nuevaCuentaAhorros->getEstadoCuenta())
+				);
+
+				if (dbPersona.agregarCuentaPersona(cedula, cuentaDoc.extract())) {
+					std::cout << "Cuenta agregada correctamente en MongoDB.\n";
 				}
-				if (!resultado) {
-					delete nuevaCuentaCorriente; // Evitar fugas de memoria
+				else {
+					std::cout << "Error al agregar la cuenta en MongoDB.\n";
 				}
 			}
 			catch (const std::exception& e) {
-				std::cerr << "Error: " << e.what() << std::endl;
-				system("pause");
-				return;
+				std::cerr << "Error de conexión a MongoDB: " << e.what() << std::endl;
 			}
-
-			std::cout << "Persona y cuenta corriente creadas correctamente.\n";
+			// --- FIN BLOQUE MONGODB ---
 		}
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
 		system("pause");
 	}
 }
 
-/**
- * @brief Guarda todas las cuentas en un archivo con nombre específico
- *
- * @param nombreArchivo Nombre del archivo donde se guardarán los datos
- */
-void Banco::guardarCuentasEnArchivo(const std::string& nombreArchivo) const {
-    std::string rutaEscritorio = obtenerRutaEscritorio();
-    std::string rutaCompleta = rutaEscritorio + nombreArchivo + ".bak";
-
-    std::ofstream archivo(rutaCompleta, std::ios::out | std::ios::trunc);
-    if (!archivo.is_open()) {
-        std::cout << "No se pudo abrir el archivo para guardar en: " << rutaCompleta << "\n";
-        return;
-    }
-
-    archivo << "BANCO_BACKUP_V1.0\n";
-
-    int contadorPersonas = 0;
-    forEachPersona([&](Persona* p) {
-        if (p && p->isValidInstance()) {
-            guardarPersonaEnArchivo(archivo, p);
-            contadorPersonas++;
-        }
-    });
-
-    archivo << "TOTAL_PERSONAS:" << contadorPersonas << "\n";
-    archivo << "FIN_BACKUP\n";
-    archivo.close();
-    std::cout << "Respaldo guardado correctamente en " << rutaCompleta << "\n";
-}
-
-/**
- * @brief Guarda los datos de una persona en el archivo de respaldo
- * @param archivo Referencia al archivo de salida
- * @param p Puntero a la persona a guardar
- */
-void Banco::guardarPersonaEnArchivo(std::ofstream& archivo, Persona* p) const {
-    archivo << "===PERSONA_INICIO===\n";
-    archivo << "CEDULA:" << p->getCedula() << "\n";
-    archivo << "NOMBRES:" << p->getNombres() << "\n";
-    archivo << "APELLIDOS:" << p->getApellidos() << "\n";
-    archivo << "FECHA_NACIMIENTO:" << p->getFechaNacimiento() << "\n";
-    archivo << "CORREO:" << p->getCorreo() << "\n";
-    archivo << "DIRECCION:" << p->getDireccion() << "\n";
-
-    archivo << "===CUENTAS_AHORRO_INICIO===\n";
-    int cuentasAhorro = p->guardarCuentas(archivo, "AHORROS");
-    archivo << "TOTAL_CUENTAS_AHORRO:" << cuentasAhorro << "\n";
-    archivo << "===CUENTAS_AHORRO_FIN===\n";
-
-    archivo << "===CUENTAS_CORRIENTE_INICIO===\n";
-    int cuentasCorriente = p->guardarCuentas(archivo, "CORRIENTE");
-    archivo << "TOTAL_CUENTAS_CORRIENTE:" << cuentasCorriente << "\n";
-    archivo << "===CUENTAS_CORRIENTE_FIN===\n";
-
-    archivo << "===PERSONA_FIN===\n\n";
-}
-/**
- * @brief Guarda todas las cuentas en un archivo con nombre generado automáticamente
- *
- * Crea un respaldo con la fecha actual en el nombre y verifica que la fecha
- * del sistema no haya sido manipulada antes de realizar el respaldo.
- */
-void Banco::guardarCuentasEnArchivo() {
-	Fecha fechaActual;
-	if ((fechaActual.getEsFechaSistemaManipulada())) {
-		std::cout << "Error: la fecha del sistema parece haber sido manipulada. No se guardara el respaldo.\n";
-		return;
-	}
-
-	std::string fechaFormateada = fechaActual.obtenerFechaFormateada();
-	for (auto& c : fechaFormateada) {
-		if (c == '/') c = '_';
-	}
-
-	std::string nombreArchivo = "Respaldo_" + fechaFormateada;
-	std::string rutaEscritorio = obtenerRutaEscritorio();
-	std::string nombreArchivoUnico = Validar::generarNombreConIndice(rutaEscritorio, fechaFormateada);
-	std::string rutaCompleta = rutaEscritorio + nombreArchivoUnico + ".bak";
-
-	std::ofstream archivo(rutaCompleta, std::ios::out | std::ios::trunc);
-	if (!archivo.is_open()) {
-		std::cout << "No se pudo abrir el archivo para guardar en: " << rutaCompleta << "\n";
-		return;
-	}
-
-	archivo << "BANCO_BACKUP_V1.0\n";
-
-	int contadorPersonas = 0;
-	NodoPersona* actual = listaPersonas;
-	while (actual) {
-		Persona* p = actual->persona;
-		if (p && p->isValidInstance()) {
-			archivo << "===PERSONA_INICIO===\n";
-			archivo << "CEDULA:" << p->getCedula() << "\n";
-			archivo << "NOMBRES:" << p->getNombres() << "\n";
-			archivo << "APELLIDOS:" << p->getApellidos() << "\n";
-			archivo << "FECHA_NACIMIENTO:" << p->getFechaNacimiento() << "\n";
-			archivo << "CORREO:" << p->getCorreo() << "\n";
-			archivo << "DIRECCION:" << p->getDireccion() << "\n";
-
-			archivo << "===CUENTAS_AHORRO_INICIO===\n";
-			int cuentasAhorro = p->guardarCuentas(archivo, "AHORROS");
-			archivo << "TOTAL_CUENTAS_AHORRO:" << cuentasAhorro << "\n";
-			archivo << "===CUENTAS_AHORRO_FIN===\n";
-
-			archivo << "===CUENTAS_CORRIENTE_INICIO===\n";
-			int cuentasCorriente = p->guardarCuentas(archivo, "CORRIENTE");
-			archivo << "TOTAL_CUENTAS_CORRIENTE:" << cuentasCorriente << "\n";
-			archivo << "===CUENTAS_CORRIENTE_FIN===\n";
-
-			archivo << "===PERSONA_FIN===\n\n";
-			contadorPersonas++;
+void Banco::crearCuentaCorrienteParaPersona(Persona* persona, const std::string& cedula) {
+	try {
+		Fecha fechaActual;
+		std::string fechaStr = fechaActual.obtenerFechaFormateada();
+		CuentaCorriente* nuevaCuentaCorriente = new CuentaCorriente("0", 0.0, fechaStr, "Activa", 0.0);
+		bool resultado = persona->crearAgregarCuentaCorriente(nuevaCuentaCorriente, cedula);
+		if (!resultado) {
+			delete nuevaCuentaCorriente;
 		}
-		actual = actual->siguiente;
-	}
+		else {
+			std::cout << "Cuenta de ahorros creada correctamente.\n";
 
-	archivo << "TOTAL_PERSONAS:" << contadorPersonas << "\n";
-	archivo << "FIN_BACKUP\n";
-	archivo.close();
-	std::cout << "Respaldo guardado correctamente en " << rutaCompleta << "\n";
-}
+			// --- INICIO BLOQUE MONGODB ---
+			try {
+				mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+				_BaseDatosPersona dbPersona(client);
 
-/**
- * @brief Convierte un archivo de respaldo .bak a formato PDF
- *
- * Este método lee un archivo de respaldo previamente generado, crea un
- * archivo HTML con formato mejorado y lo convierte a PDF usando wkhtmltopdf.
- *
- * @param nombreArchivo Nombre del archivo de respaldo (sin extensión)
- * @return bool true si la conversión fue exitosa, false en caso contrario
- */
-bool Banco::archivoGuardadoHaciaPDF(const std::string& nombreArchivo) {
-	std::string rutaEscritorio = obtenerRutaEscritorio();
-	std::string rutaBak = rutaEscritorio + nombreArchivo + ".bak";
-	std::string rutaHtml = rutaEscritorio + nombreArchivo + "_temp.html";
-	std::string rutaPdf = rutaEscritorio + nombreArchivo + ".pdf";
+				auto cuentaDoc = bsoncxx::builder::basic::document{};
+				cuentaDoc.append(
+					bsoncxx::builder::basic::kvp("tipo", "corriente"),
+					bsoncxx::builder::basic::kvp("numeroCuenta", nuevaCuentaCorriente->getNumeroCuenta()),
+					bsoncxx::builder::basic::kvp("saldo", nuevaCuentaCorriente->consultarSaldo()),
+					bsoncxx::builder::basic::kvp("fechaApertura", nuevaCuentaCorriente->getFechaApertura()),
+					bsoncxx::builder::basic::kvp("estado", nuevaCuentaCorriente->getEstadoCuenta())
+				);
 
-	// Verificar si existe el archivo de respaldo
-	std::ifstream archivoEntrada(rutaBak);
-	if (!archivoEntrada.is_open()) {
-		std::cout << "No se pudo abrir el archivo de respaldo: " << rutaBak << std::endl;
-		return false;
-	}
-
-	// Crear archivo HTML temporal con estilo
-	std::ofstream archivoHtml(rutaHtml);
-	if (!archivoHtml.is_open()) {
-		std::cout << "No se pudo crear el archivo HTML temporal" << std::endl;
-		archivoEntrada.close();
-		return false;
-	}
-
-	// Escribir encabezado HTML con estilos CSS
-	archivoHtml << "<!DOCTYPE html>\n";
-	archivoHtml << "<html>\n<head>\n";
-	archivoHtml << "<meta charset=\"UTF-8\">\n";
-	archivoHtml << "<title>Informe de Cuentas Bancarias</title>\n";
-	archivoHtml << "<style>\n";
-	archivoHtml << "body { font-family: Arial, sans-serif; margin: 20px; }\n";
-	archivoHtml << "h1, h2 { color: #003366; }\n";
-	archivoHtml << "h1 { text-align: center; border-bottom: 2px solid #003366; padding-bottom: 10px; }\n";
-	archivoHtml << "h2 { margin-top: 20px; border-bottom: 1px solid #ccc; }\n";
-	archivoHtml << ".persona { background-color: #f9f9f9; border: 1px solid #ddd; margin: 15px 0; padding: 10px; border-radius: 5px; }\n";
-	archivoHtml << ".cuenta { background-color: #eef6ff; margin: 10px 0; padding: 8px; border-left: 4px solid #003366; }\n";
-	archivoHtml << ".cuenta-ahorro { border-left-color: #007700; }\n";
-	archivoHtml << ".cuenta-corriente { border-left-color: #770000; }\n";
-	archivoHtml << ".label { font-weight: bold; color: #555; min-width: 150px; display: inline-block; }\n";
-	archivoHtml << ".total { font-weight: bold; margin-top: 20px; color: #003366; }\n";
-	archivoHtml << "footer { text-align: center; margin-top: 30px; font-size: 0.8em; color: #777; }\n";
-	archivoHtml << "</style>\n</head>\n<body>\n";
-
-	// Añadir encabezado del informe
-	Fecha fechaActual;
-	archivoHtml << "<h1>Informe de Cuentas Bancarias</h1>\n";
-	archivoHtml << "<p style='text-align: center;'>Generado el " << fechaActual.obtenerFechaFormateada() << "</p>\n";
-
-	// Variables para leer y procesar el archivo
-	std::string linea;
-	bool enPersona = false;
-	bool enCuentasAhorro = false;
-	bool enCuentasCorriente = false;
-	bool enCuentaAhorro = false;
-	bool enCuentaCorriente = false;
-	int contadorPersonas = 0;
-	int totalCuentasAhorro = 0;
-	int totalCuentasCorriente = 0;
-
-	// Leer la primera línea que debería ser la versión del archivo
-	std::getline(archivoEntrada, linea);
-	if (linea != "BANCO_BACKUP_V1.0") {
-		archivoHtml << "<p style='color: red;'>Formato de archivo inválido.</p>\n";
-		archivoHtml << "</body>\n</html>";
-		archivoHtml.close();
-		archivoEntrada.close();
-		return false;
-	}
-
-	// Leer y procesar el resto del archivo
-	std::map<std::string, std::string> datosPersona;
-
-	while (std::getline(archivoEntrada, linea)) {
-		// Procesamiento de secciones principales
-		if (linea == "===PERSONA_INICIO===") {
-			enPersona = true;
-			datosPersona.clear();
-			continue;
-		}
-		else if (linea == "===PERSONA_FIN===") {
-			if (enPersona) {
-				// Escribir los datos de la persona en el HTML
-				archivoHtml << "<div class='persona'>\n";
-				archivoHtml << "  <h2>Cliente: " << datosPersona["NOMBRES"] << " " << datosPersona["APELLIDOS"] << "</h2>\n";
-				archivoHtml << "  <p><span class='label'>Cédula:</span> " << datosPersona["CEDULA"] << "</p>\n";
-				archivoHtml << "  <p><span class='label'>Fecha Nacimiento:</span> " << datosPersona["FECHA_NACIMIENTO"] << "</p>\n";
-				archivoHtml << "  <p><span class='label'>Correo:</span> " << datosPersona["CORREO"] << "</p>\n";
-				archivoHtml << "  <p><span class='label'>Dirección:</span> " << datosPersona["DIRECCION"] << "</p>\n";
-				archivoHtml << "</div>\n";
-
-				contadorPersonas++;
-			}
-			enPersona = false;
-			continue;
-		}
-		else if (linea == "===CUENTAS_AHORRO_INICIO===") {
-			enCuentasAhorro = true;
-			archivoHtml << "<h3>Cuentas de Ahorro</h3>\n";
-			continue;
-		}
-		else if (linea == "===CUENTAS_AHORRO_FIN===") {
-			enCuentasAhorro = false;
-			continue;
-		}
-		else if (linea == "===CUENTAS_CORRIENTE_INICIO===") {
-			enCuentasCorriente = true;
-			archivoHtml << "<h3>Cuentas Corrientes</h3>\n";
-			continue;
-		}
-		else if (linea == "===CUENTAS_CORRIENTE_FIN===") {
-			enCuentasCorriente = false;
-			continue;
-		}
-		else if (linea == "CUENTA_AHORROS_INICIO") {
-			enCuentaAhorro = true;
-			archivoHtml << "<div class='cuenta cuenta-ahorro'>\n";
-			continue;
-		}
-		else if (linea == "CUENTA_AHORROS_FIN") {
-			archivoHtml << "</div>\n";
-			enCuentaAhorro = false;
-			totalCuentasAhorro++;
-			continue;
-		}
-		else if (linea == "CUENTA_CORRIENTE_INICIO") {
-			enCuentaCorriente = true;
-			archivoHtml << "<div class='cuenta cuenta-corriente'>\n";
-			continue;
-		}
-		else if (linea == "CUENTA_CORRIENTE_FIN") {
-			archivoHtml << "</div>\n";
-			enCuentaCorriente = false;
-			totalCuentasCorriente++;
-			continue;
-		}
-		else if (linea.substr(0, 14) == "TOTAL_PERSONAS:") {
-			archivoHtml << "<div class='total'>Total de Clientes: " << contadorPersonas << "</div>\n";
-			continue;
-		}
-		else if (linea.substr(0, 21) == "TOTAL_CUENTAS_AHORRO:") {
-			archivoHtml << "<div class='total'>Total de Cuentas de Ahorro: " << linea.substr(21) << "</div>\n";
-			continue;
-		}
-		else if (linea.substr(0, 24) == "TOTAL_CUENTAS_CORRIENTE:") {
-			archivoHtml << "<div class='total'>Total de Cuentas Corrientes: " << linea.substr(24) << "</div>\n";
-			continue;
-		}
-		else if (linea == "FIN_BACKUP") {
-			break;
-		}
-
-		// Procesar datos individuales
-		if (enPersona) {
-			size_t pos = linea.find(':');
-			if (pos != std::string::npos) {
-				std::string clave = linea.substr(0, pos);
-				std::string valor = linea.substr(pos + 1);
-				datosPersona[clave] = valor;
-			}
-		}
-
-		// Procesar detalles de cuentas
-		if (enCuentaAhorro || enCuentaCorriente) {
-			size_t pos = linea.find(':');
-			if (pos != std::string::npos) {
-				std::string clave = linea.substr(0, pos);
-				std::string valor = linea.substr(pos + 1);
-
-				if (clave == "NUMERO_CUENTA") {
-					archivoHtml << "  <p><span class='label'>Número de Cuenta:</span> " << valor << "</p>\n";
+				if (dbPersona.agregarCuentaPersona(cedula, cuentaDoc.extract())) {
+					std::cout << "Cuenta agregada correctamente en MongoDB.\n";
 				}
-				else if (clave == "SALDO") {
-					double saldo = std::stod(valor);
-					archivoHtml << "  <p><span class='label'>Saldo:</span> $" << std::fixed << std::setprecision(2) << saldo << "</p>\n";
-				}
-				else if (clave == "FECHA_APERTURA") {
-					archivoHtml << "  <p><span class='label'>Fecha de Apertura:</span> " << valor << "</p>\n";
-				}
-				else if (clave == "ESTADO") {
-					archivoHtml << "  <p><span class='label'>Estado:</span> " << valor << "</p>\n";
+				else {
+					std::cout << "Error al agregar la cuenta en MongoDB.\n";
 				}
 			}
+			catch (const std::exception& e) {
+				std::cerr << "Error de conexión a MongoDB: " << e.what() << std::endl;
+			}
+			// --- FIN BLOQUE MONGODB ---
 		}
 	}
-
-	// Cerrar archivo HTML
-	archivoHtml << "<footer>Este documento fue generado automáticamente por el sistema bancario.</footer>\n";
-	archivoHtml << "</body>\n</html>";
-	archivoHtml.close();
-	archivoEntrada.close();
-
-	// Convertir HTML a PDF usando wkhtmltopdf
-	std::string comando = "wkhtmltopdf \"" + rutaHtml + "\" \"" + rutaPdf + "\"";
-	int resultado = system(comando.c_str());
-
-	if (resultado != 0) {
-		std::cout << "Error al convertir a PDF. Asegúrese de que wkhtmltopdf esté instalado." << std::endl;
-		std::cout << "Puede descargar wkhtmltopdf desde: https://wkhtmltopdf.org/downloads.html" << std::endl;
-		std::cout << "Se ha generado un archivo HTML en: " << rutaHtml << std::endl;
-		return false;
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+		system("pause");
 	}
-
-	// Eliminar archivo HTML temporal
-	if (remove(rutaHtml.c_str()) != 0) {
-		std::cout << "Advertencia: No se pudo eliminar el archivo HTML temporal." << std::endl;
-	}
-
-	std::cout << "PDF generado correctamente: " << rutaPdf << std::endl;
-	return true;
-}
-
-/**
- * @brief Carga las cuentas desde un archivo de respaldo
- *
- * @param nombreArchivo Nombre del archivo desde donde cargar los datos
- */
-void Banco::cargarCuentasDesdeArchivo(const std::string& nombreArchivo) {
-	std::string rutaEscritorio = obtenerRutaEscritorio();
-	std::string rutaCompleta = rutaEscritorio + nombreArchivo + ".bak";
-
-	std::ifstream archivo(rutaCompleta);
-	if (!archivo.is_open()) {
-		std::cout << "No se pudo abrir el archivo para cargar desde: " << rutaCompleta << "\n";
-		return;
-	}
-
-	while (listaPersonas) {
-		NodoPersona* temp = listaPersonas;
-		listaPersonas = listaPersonas->siguiente;
-		delete temp;
-	}
-
-	std::string linea;
-	std::getline(archivo, linea);
-
-	if (linea != "BANCO_BACKUP_V1.0") {
-		std::cout << "Formato de archivo invalido.\n";
-		archivo.close();
-		return;
-	}
-
-	Persona* personaActual = nullptr;
-	bool enPersona = false;
-	bool enCuentasAhorro = false;
-	bool enCuentasCorriente = false;
-	bool enCuentaAhorro = false;
-	bool enCuentaCorriente = false;
-	int contadorPersonas = 0;
-	CuentaAhorros* cuentaAhorrosTemp = nullptr;
-	CuentaCorriente* cuentaCorrienteTemp = nullptr;
-
-	std::string numCuenta = "";
-	int saldo = 0;
-	std::string fechaApertura, estado;
-
-	while (std::getline(archivo, linea)) {
-
-		if (linea == "===PERSONA_INICIO===") {
-			personaActual = new Persona();
-			enPersona = true;
-			//std::cout << "[DEBUG] Linea: '" << linea << "' personaActual: " << (personaActual ? "OK" : "nullptr") << std::endl;
-			continue;
-		}
-		else if (linea == "===PERSONA_FIN===") {
-			if (personaActual && enPersona) {
-				NodoPersona* nuevo = new NodoPersona(personaActual);
-				nuevo->siguiente = listaPersonas;
-				listaPersonas = nuevo;
-				contadorPersonas++;
-			}
-			enPersona = false;
-			personaActual = nullptr;
-			//std::cout << "[DEBUG] Linea: '" << linea << "' personaActual: " << (personaActual ? "OK" : "nullptr") << std::endl;
-			continue;
-		}
-		else if (linea == "===CUENTAS_AHORRO_INICIO===" && personaActual) {
-			cuentaAhorrosTemp = new CuentaAhorros();
-			numCuenta = "";
-			saldo = 0;
-			fechaApertura = "";
-			estado = "";
-			//std::cout << "[DEBUG] Linea: '" << linea << "' personaActual: " << (personaActual ? "OK" : "nullptr") << std::endl;
-			continue;
-		}
-		else if (linea == "===CUENTAS_AHORRO_FIN===" && personaActual && cuentaAhorrosTemp) {
-			/*std::cout << "[DEBUG] ===CUENTAS_AHORRO_FIN=== detectado. Valores leidos: numCuenta=" << numCuenta
-				<< ", saldo=" << saldo << ", fechaApertura=" << fechaApertura << ", estado=" << estado << std::endl;
-			*/
-			cuentaAhorrosTemp->setNumeroCuenta(numCuenta);
-			cuentaAhorrosTemp->depositar(saldo);
-			cuentaAhorrosTemp->setEstadoCuenta(estado);
-			cuentaAhorrosTemp->setFechaApertura(fechaApertura);
-
-			if (!personaActual->getCabezaAhorros()) {
-				personaActual->setCabezaAhorros(cuentaAhorrosTemp);
-				//std::cout << "[DEBUG] Cuenta de ahorros enlazada como cabeza." << std::endl;
-			}
-			else {
-				CuentaAhorros* actual = personaActual->getCabezaAhorros();
-				while (actual->getSiguiente()) {
-					actual = actual->getSiguiente();
-				}
-				actual->setSiguiente(cuentaAhorrosTemp);
-				cuentaAhorrosTemp->setAnterior(actual);
-				//std::cout << "[DEBUG] Cuenta de ahorros enlazada al final de la lista." << std::endl;
-			}
-			cuentaAhorrosTemp = nullptr;
-			continue;
-		}
-		else if (linea == "CUENTA_CORRIENTE_INICIO" && personaActual) {
-			cuentaCorrienteTemp = new CuentaCorriente();
-			numCuenta = "";
-			saldo = 0;
-			fechaApertura = "";
-			estado = "";
-			continue;
-		}
-		else if (linea == "CUENTA_CORRIENTE_FIN" && personaActual && cuentaCorrienteTemp) {
-			cuentaCorrienteTemp->setNumeroCuenta(numCuenta);
-			cuentaCorrienteTemp->depositar(saldo); // O setSaldo si tienes ese método
-			cuentaCorrienteTemp->setEstadoCuenta(estado);
-			// Si tienes método para la fecha, asígnala también
-
-			// Enlazar la cuenta a la lista de la persona
-			if (!personaActual->getCabezaCorriente()) {
-				personaActual->setCabezaCorriente(cuentaCorrienteTemp);
-			}
-			else {
-				CuentaCorriente* actual = personaActual->getCabezaCorriente();
-				while (actual->getSiguiente()) {
-					actual = actual->getSiguiente();
-				}
-				actual->setSiguiente(cuentaCorrienteTemp);
-				cuentaCorrienteTemp->setAnterior(actual);
-			}
-			cuentaCorrienteTemp = nullptr;
-			continue;
-		}
-
-		if (enPersona && personaActual) {
-			if (linea.substr(0, 7) == "CEDULA:") {
-				personaActual->setCedula(linea.substr(7));
-			}
-			else if (linea.substr(0, 8) == "NOMBRES:") {
-				personaActual->setNombres(linea.substr(8));
-			}
-			else if (linea.substr(0, 10) == "APELLIDOS:") {
-				personaActual->setApellidos(linea.substr(10));
-			}
-			else if (linea.substr(0, 17) == "FECHA_NACIMIENTO:") {
-				personaActual->setFechaNacimiento(linea.substr(17));
-			}
-			else if (linea.substr(0, 7) == "CORREO:") {
-				personaActual->setCorreo(linea.substr(7));
-			}
-			else if (linea.substr(0, 10) == "DIRECCION:") {
-				personaActual->setDireccion(linea.substr(10));
-			}
-		}
-
-		if (cuentaAhorrosTemp) {
-			if (linea.substr(0, 14) == "NUMERO_CUENTA:") {
-				numCuenta = linea.substr(14);
-			}
-			else if (linea.substr(0, 6) == "SALDO:") {
-				saldo = std::stod(linea.substr(6));
-			}
-			else if (linea.substr(0, 15) == "FECHA_APERTURA:") {
-				fechaApertura = linea.substr(15);
-			}
-			else if (linea.substr(0, 7) == "ESTADO:") {
-				estado = linea.substr(7);
-			}
-		}
-		if (cuentaCorrienteTemp) {
-			if (linea.substr(0, 14) == "NUMERO_CUENTA:") {
-				numCuenta = linea.substr(14);
-			}
-			else if (linea.substr(0, 6) == "SALDO:") {
-				saldo = std::stod(linea.substr(6));
-			}
-			else if (linea.substr(0, 15) == "FECHA_APERTURA:") {
-				fechaApertura = linea.substr(15);
-			}
-			else if (linea.substr(0, 7) == "ESTADO:") {
-				estado = linea.substr(7);
-			}
-		}
-	}
-
-	archivo.close();
-	std::cout << "Se cargaron " << contadorPersonas << " personas desde el archivo.\n";
 }
 
 /**
@@ -1136,7 +649,7 @@ void Banco::buscarCuenta() {
 
 	// Nuevo bloque para busqueda por cedula
 	if (seleccionBusqueda == 3) { // Por cedula
-		std::string cedulaBuscar;
+		std::string cedula;
 		std::cout << "Ingrese la cedula (10 digitos): ";
 
 		// Control de entrada para la cedula (solo numeros y maximo 10 digitos)
@@ -1144,12 +657,12 @@ void Banco::buscarCuenta() {
 		while (true) {
 			char tecla = _getch();
 			if ((tecla >= '0' && tecla <= '9') && digitos < 10) {
-				cedulaBuscar += tecla;
+				cedula += tecla;
 				digitos++;
 				std::cout << tecla;
 			}
-			else if (tecla == 8 && !cedulaBuscar.empty()) { // Backspace
-				cedulaBuscar.pop_back();
+			else if (tecla == 8 && !cedula.empty()) { // Backspace
+				cedula.pop_back();
 				digitos--;
 				std::cout << "\b \b";
 			}
@@ -1164,7 +677,7 @@ void Banco::buscarCuenta() {
 			}
 		}
 
-		if (!Validar::ValidarCedula(cedulaBuscar)) {
+		if (!Validar::ValidarCedula(cedula)) {
 			std::cout << "Cedula invalida.\n";
 			system("pause");
 			return;
@@ -1174,7 +687,7 @@ void Banco::buscarCuenta() {
 		bool encontrado = false;
 		NodoPersona* actual = listaPersonas;
 		while (actual) {
-			if (actual->persona && actual->persona->isValidInstance() && actual->persona->getCedula() == cedulaBuscar)
+			if (actual->persona && actual->persona->isValidInstance() && actual->persona->getCedula() == cedula)
 			{
 
 				// Encontramos la persona, mostrar sus datos y cuentas
@@ -1197,7 +710,7 @@ void Banco::buscarCuenta() {
 					if (cuentaAhorros->getCuentaAhorros()) {
 						std::cout << "\nCUENTA DE AHORROS #" << ++contadorAhorros << std::endl;
 						// Pasar false para no limpiar pantalla entre cuentas
-						cuentaAhorros->getCuentaAhorros()->mostrarInformacion(cedulaBuscar, false);
+						cuentaAhorros->getCuentaAhorros()->mostrarInformacion(cedula, false);
 					}
 					cuentaAhorros = cuentaAhorros->getSiguiente();
 				}
@@ -1208,7 +721,7 @@ void Banco::buscarCuenta() {
 					if (cuentaCorriente->getCuentaCorriente()) {
 						std::cout << "\nCUENTA CORRIENTE #" << ++contadorCorrientes << std::endl;
 						// Pasar false para no limpiar pantalla entre cuentas
-						cuentaCorriente->getCuentaCorriente()->mostrarInformacion(cedulaBuscar, false);
+						cuentaCorriente->getCuentaCorriente()->mostrarInformacion(cedula, false);
 					}
 					cuentaCorriente = cuentaCorriente->getSiguiente();
 				}
@@ -1227,7 +740,7 @@ void Banco::buscarCuenta() {
 		}
 
 		if (!encontrado) {
-			std::cout << "No se encontro ninguna persona con la cedula: " << cedulaBuscar << std::endl;
+			std::cout << "No se encontro ninguna persona con la cedula: " << cedula << std::endl;
 		}
 
 		system("pause");
@@ -1255,14 +768,14 @@ static void buscarCuentasPorFechaRec(NodoPersona* nodo, const std::string& fecha
  * @param fecha Fecha de apertura a buscar
  */
 void Banco::buscarCuentasPorFecha(const std::string& fecha) const {
-    int encontrados = 0;
-    forEachPersona([&](Persona* p) {
-        p->buscarPersonaPorFecha(fecha);
-        // Si buscarPersonaPorFecha retorna cantidad, puedes sumarla aquí
-    });
-    if (encontrados == 0) {
-        std::cout << "No se encontraron cuentas con esa fecha en el banco.\n";
-    }
+	int encontrados = 0;
+	forEachPersona([&](Persona* p) {
+		p->buscarPersonaPorFecha(fecha);
+		// Si buscarPersonaPorFecha retorna cantidad, puedes sumarla aquí
+		});
+	if (encontrados == 0) {
+		std::cout << "No se encontraron cuentas con esa fecha en el banco.\n";
+	}
 }
 
 /**
@@ -1272,7 +785,7 @@ void Banco::buscarCuentasPorFecha(const std::string& fecha) const {
  * tipo de cuenta o cédula del titular.
  */
 void Banco::buscarCuentasPorCriterio() {
-	std::string criterios[] = {
+	std::string opciones[] = {
 		"Numero de cuenta",
 		"Fecha de apertura",
 		"Saldo mayor a",
@@ -1283,7 +796,7 @@ void Banco::buscarCuentasPorCriterio() {
 	CuentaAhorros* cuentaAhorros = nullptr;
 	CuentaCorriente* cuentaCorriente = nullptr;
 
-	int numCriterios = sizeof(criterios) / sizeof(criterios[0]);
+	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
 	int seleccion = 0;
 
 	bool continuarBusqueda = true;
@@ -1293,21 +806,21 @@ void Banco::buscarCuentasPorCriterio() {
 		while (true) {
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			std::cout << "\nSeleccione el criterio de busqueda de cuentas:\n\n";
-			for (int i = 0; i < numCriterios; i++) {
+			for (int i = 0; i < numOpciones; i++) {
 				if (i == seleccion)
-					std::cout << " > " << criterios[i] << std::endl;
+					std::cout << " > " << opciones[i] << std::endl;
 				else
-					std::cout << "   " << criterios[i] << std::endl;
+					std::cout << "   " << opciones[i] << std::endl;
 			}
 			int tecla = _getch();
 			if (tecla == 224) {
 				tecla = _getch();
-				if (tecla == 72) seleccion = (seleccion - 1 + numCriterios) % numCriterios;
-				else if (tecla == 80) seleccion = (seleccion + 1) % numCriterios;
+				if (tecla == 72) seleccion = (seleccion - 1 + numOpciones) % numOpciones;
+				else if (tecla == 80) seleccion = (seleccion + 1) % numOpciones;
 			}
 			else if (tecla == 13) break;
 		}
-		if (seleccion == numCriterios - 1) return; // Cancelar
+		if (seleccion == numOpciones - 1) return; // Cancelar
 
 		std::string fechaIngresada;
 		std::string numCuentaIngresada;
@@ -1473,8 +986,6 @@ void Banco::buscarCuentasPorCriterio() {
 			}
 		}
 
-		// El resto de criterios esta bien implementado
-
 		// A continuacion, modificamos como se muestran los resultados de busqueda:
 
 		int totalCuentasEncontradas = 0;
@@ -1553,7 +1064,7 @@ void Banco::buscarCuentasPorCriterio() {
 			while (actual) {
 				if (actual->persona && actual->persona->isValidInstance()) {
 					// Contar las cuentas encontradas por persona
-					int cuentasEncontradas = actual->persona->buscarPersonaPorCriterio(criterios[seleccion], numCuentaIngresada, fechaIngresada, valorNum);
+					int cuentasEncontradas = actual->persona->buscarPersonaPorCriterio(opciones[seleccion], numCuentaIngresada, fechaIngresada, valorNum);
 					totalCuentasEncontradas += cuentasEncontradas;
 				}
 				actual = actual->siguiente;
@@ -1673,7 +1184,7 @@ void Banco::realizarTransferencia() {
 		if (!cuentaOrigenEncontrada) {
 			// Configuracion de opciones para el menu de confirmacion
 			const char* opciones[] = { "Si", "No" };
-			int seleccion = 0; // Por defecto seleccionar "Si"
+			int seleccion = 1; // Por defecto seleccionar "Si"
 			int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
 			bool continuar = true;
 
@@ -1713,14 +1224,10 @@ void Banco::realizarTransferencia() {
 				int tecla = _getch();
 
 				// Procesar la tecla
-				if (tecla == 224 || tecla == 0) { // Teclas especiales
+				if (tecla == 224) {
 					tecla = _getch();
-					if (tecla == 72) { // Flecha arriba
-						seleccion = (seleccion > 0) ? seleccion - 1 : 0;
-					}
-					else if (tecla == 80) { // Flecha abajo
-						seleccion = (seleccion < numOpciones - 1) ? seleccion + 1 : numOpciones - 1;
-					}
+					if (tecla == 75 && seleccion > 0) --seleccion;
+					else if (tecla == 77 && seleccion < numOpciones - 1) ++seleccion;
 				}
 				else if (tecla == 13) { // Enter
 					continuar = false;
@@ -2163,7 +1670,7 @@ void Banco::subMenuCuentasBancarias()
 					tienePunto = false;
 				}
 				else if (tienePunto && digitosDecimales > 0) {
-					digitosDecimales--;
+					--digitosDecimales;
 				}
 				entrada.pop_back();
 				std::cout << "\b \b"; // Retrocede, imprime espacio y retrocede
@@ -2478,13 +1985,13 @@ bool Banco::buscarCuentaParaOperacion(Banco& banco, CuentaAhorros*& cuentaAhorro
 * @param funcion Funcion a aplicar a cada Persona
 */
 void Banco::forEachPersona(const std::function<void(Persona*)>& funcion) const {
-    NodoPersona* actual = listaPersonas;
-    while (actual) {
-        if (actual->persona) {
-            funcion(actual->persona);
-        }
-        actual = actual->siguiente;
-    }
+	NodoPersona* actual = listaPersonas;
+	while (actual) {
+		if (actual->persona) {
+			funcion(actual->persona);
+		}
+		actual = actual->siguiente;
+	}
 }
 
 /**
@@ -2492,10 +1999,10 @@ void Banco::forEachPersona(const std::function<void(Persona*)>& funcion) const {
  * @param funcion Funcion a aplicar a cada NodoPersona
  */
 void Banco::forEachNodoPersona(const std::function<void(NodoPersona*)>& funcion) const {
-    NodoPersona* actual = listaPersonas;
-    while (actual) {
-        funcion(actual);
-        actual = actual->siguiente;
-    }
+	NodoPersona* actual = listaPersonas;
+	while (actual) {
+		funcion(actual);
+		actual = actual->siguiente;
+	}
 }
 

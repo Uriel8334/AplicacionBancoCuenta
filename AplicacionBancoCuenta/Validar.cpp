@@ -257,52 +257,73 @@ bool Validar::ValidarNombrePersona(const std::string& nombre) {
 // modelo usado https://medium.com/@bryansuarez/c%C3%B3mo-validar-c%C3%A9dula-y-ruc-en-ecuador-b62c5666186f
 // https://www.skypack.dev/view/udv-ec
 /**
- * @brief Valida que una cédula ecuatoriana tenga formato correcto
- *
- * Implementa el algoritmo oficial de validación de cédulas ecuatorianas,
- * verificando longitud, código de provincia, dígito verificador y otros requisitos.
- *
- * @param cedula Cédula a validar (debe tener 10 dígitos)
- * @return bool true si la cédula es válida, false en caso contrario
- */
+* @brief Valida el número de cédula ecuatoriana
+* @param cedula Número de cédula a validar
+* @return bool true si la cédula es válida, false en caso contrario
+*/
 bool Validar::ValidarCedula(const std::string& cedula) {
+    //std::cout << "DEBUG: Validando cedula: [" << cedula << "]" << std::endl;
+
     // Paso 1: longitud y solo digitos
-    if (cedula.length() != 10 || !std::all_of(cedula.begin(), cedula.end(), ::isdigit)) {
+    if (!longitudYDigitosValidos(cedula)) {
+        //std::cout << "DEBUG: Fallo en longitud o digitos." << std::endl;
         return false;
     }
 
     // Paso 2: todos los digitos iguales (ej. 0000000000, 1111111111)
     if (todosLosDigitosIguales(cedula)) {
+        //std::cout << "DEBUG: Fallo por digitos iguales." << std::endl;
         return false;
     }
 
     // Paso 3: validar codigo de provincia
     int provincia = std::stoi(cedula.substr(0, 2));
     if (!codigoProvinciaValido(provincia)) {
+        //std::cout << "DEBUG: Fallo en codigo de provincia." << std::endl;
         return false;
     }
 
     // Paso 4: tercer digito debe estar entre 0 y 5 para personas naturales
     int tercerDigito = cedula[2] - '0';
     if (!tercerDigitoValido(tercerDigito)) {
+        //std::cout << "DEBUG: Fallo en tercer digito." << std::endl;
         return false;
     }
 
     // Paso 5: validacion del digito verificador con el algoritmo oficial
     if (!digitoVerificadorValido(cedula)) {
+        //std::cout << "DEBUG: Fallo en digito verificador." << std::endl;
         return false;
     }
 
+    //std::cout << "DEBUG: Cedula [" << cedula << "] es VALIDA." << std::endl;
     return true;
 }
+
+bool Validar::longitudYDigitosValidos(const std::string& cedula) {
+    if (cedula.length() != 10) {
+        //std::cout << "DEBUG: Longitud de cedula incorrecta." << std::endl;
+        return false;
+    }
+    if (!std::all_of(cedula.begin(), cedula.end(), ::isdigit)) {
+        //std::cout << "DEBUG: La cedula contiene caracteres no numericos." << std::endl;
+        return false;
+    }
+    return true;
+}
+
 
 /**
  * @brief Verifica si el código de provincia es válido
  * @param provincia Código de provincia extraído de la cédula
  * @return true si el código es válido, false en caso contrario
  */
-bool Validar::codigoProvinciaValido(int provincia) {
-    return provincia >= 1 && provincia <= 24;
+bool Validar::codigoProvinciaValido(int provincia)  {
+    if (provincia < 1 || provincia > 24) { // Provincias de 1 a 24 en Ecuador
+        //std::cout << "DEBUG: Codigo de provincia invalido: " << provincia << std::endl;
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -310,36 +331,49 @@ bool Validar::codigoProvinciaValido(int provincia) {
  * @param tercerDigito Tercer dígito de la cédula
  * @return true si es válido, false en caso contrario
  */
-bool Validar::tercerDigitoValido(int tercerDigito) {
-    return tercerDigito >= 0 && tercerDigito <= 5;
+bool Validar::tercerDigitoValido(int tercerDigito)  {
+    if (tercerDigito < 0 || tercerDigito > 5) { // Para personas naturales
+        //std::cout << "DEBUG: Tercer digito invalido para persona natural: " << tercerDigito << std::endl;
+        return false;
+    }
+    return true;
 }
 
 /**
- * @brief Valida el dígito verificador de la cédula usando el algoritmo oficial
+ * @brief Valida el dígito verificador de una cédula ecuatoriana
  * @param cedula Cédula a validar
- * @return true si el dígito verificador es correcto, false en caso contrario
+ * @return bool true si el dígito verificador es válido, false en caso contrario
+ * Esta función implementa el algoritmo oficial de validación de cédulas ecuatorianas.
+ * El dígito verificador se calcula a partir de los primeros 9 dígitos
+ * y se compara con el décimo dígito de la cédula.
+ * El algoritmo utiliza coeficientes específicos para cada posición
+ * y aplica una suma con un ajuste para dígitos mayores o iguales a 10.
  */
-bool Validar::digitoVerificadorValido(const std::string& cedula) {
+bool Validar::digitoVerificadorValido(const std::string& cedula)  {
     static const int coeficientes[9] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
     int suma = 0;
+    int i = 0; // Contador manual para el índice
 
-    // Usar std::for_each para recorrer los primeros 9 dígitos
-    std::for_each(cedula.begin(), cedula.begin() + 9, [&](char c) {
-        int i = &c - &cedula[0];
+    // Usamos un bucle for basado en rango (range-based for)
+    // que es la alternativa moderna al for tradicional para iterar sobre colecciones,
+    // pero mantenemos un contador manual 'i' para acceder a los coeficientes.
+    for (char c : cedula.substr(0, 9)) { // Iteramos solo sobre los primeros 9 dígitos
         int digito = c - '0';
         int producto = digito * coeficientes[i];
         if (producto >= 10) {
             producto -= 9;
         }
         suma += producto;
-    });
+        i++; // Incrementar el contador para el siguiente coeficiente
+    }
 
     int digitoVerificador = cedula[9] - '0';
     int resultado = suma % 10;
     int comparacion = (resultado == 0) ? 0 : 10 - resultado;
 
+    //std::cout << "DEBUG: Calculo digito verificador - Comparacion: " << comparacion << " vs " << digitoVerificador << std::endl;
     return comparacion == digitoVerificador;
-} 
+}
 
 
 
@@ -355,21 +389,17 @@ bool Validar::digitoVerificadorValido(const std::string& cedula) {
  * @return bool true si todos los dígitos son iguales, false en caso contrario
  */
 bool Validar::todosLosDigitosIguales(const std::string& cedula) {
-    return std::all_of(cedula.begin(), cedula.end(), [primero = cedula[0]](char c) {
-        return c == primero;
-        });
+    if (cedula.empty()) return false; // Caso borde
+    char primerDigito = cedula[0];
+    bool allEqual = std::all_of(cedula.begin(), cedula.end(), [&](char c) { return c == primerDigito; });
+    if (allEqual) {
+        std::cout << "DEBUG: Todos los digitos son iguales." << std::endl;
+    }
+    return allEqual;
 }
-
-#pragma endregion
-
-
-
-
-#pragma endregion
 
 /**
  * @brief Valida si una tecla es aceptable según el tipo de entrada requerido
- *
  * Permite filtrar caracteres según el contexto de entrada (numérico, alfabético, etc.).
  *
  * @param tecla Carácter a validar

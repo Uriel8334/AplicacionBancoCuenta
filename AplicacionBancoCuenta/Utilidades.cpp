@@ -27,11 +27,101 @@
 #include "ArbolB.h"
 #include "NodoPersona.h"
 #include "Persona.h"
-
+#include <mutex>
+#include <thread>
+#include <vector>
 
  // Variable externa para acceso a la marquesina global
 extern Marquesina* marquesinaGlobal;
+// Variables para control de operaciones críticas y actualizaciones de menú
+extern std::atomic<bool> actualizandoMenu;
+extern std::mutex mtxActualizacion;
 
+/**
+ * @brief Muestra un menú en la consola
+ *
+ * Esta función muestra un menú de opciones en la consola, resaltando la opción seleccionada
+ * y permitiendo al usuario navegar por las opciones con las teclas de flecha.
+ *
+ * @param seleccion Índice de la opción seleccionada actualmente
+ * @param opciones Lista de opciones a mostrar en el menú
+ * @param x Coordenada X para la posición del menú
+ * @param y Coordenada Y para la posición del menú
+ * @param seleccionAnterior Opción seleccionada anteriormente (por defecto -1)
+ */
+void Utilidades::mostrarMenu(int seleccion, const std::vector<std::string>& opciones, int x, int y, int seleccionAnterior) {
+	std::lock_guard<std::mutex> lock(mtxActualizacion);
+	actualizandoMenu = true;
+
+	if (seleccionAnterior != -1 && seleccionAnterior != seleccion) {
+		Utilidades::gotoxy(x, y + seleccionAnterior);
+		std::cout << "    " << opciones[seleccionAnterior] << "    ";
+	}
+
+	Utilidades::gotoxy(x, y + seleccion);
+	std::cout << " > " << opciones[seleccion] << "    ";
+	std::cout.flush();
+	// Sleep(2); // Considera si realmente lo necesitas
+	actualizandoMenu = false;
+}
+
+/**
+ * @brief Muestra un menú interactivo y permite al usuario seleccionar una opción
+ *
+ * Permite al usuario navegar por un menú de opciones utilizando las teclas de flecha
+ * y seleccionar una opción con Enter. También maneja la tecla ESC para cancelar.
+ *
+ * @param titulo Título del menú a mostrar
+ * @param opciones Lista de opciones a mostrar en el menú
+ * @param x Coordenada X para la posición del menú
+ * @param y Coordenada Y para la posición del menú
+ * @return Índice de la opción seleccionada o -1 si se presiona ESC
+ */
+int Utilidades::menuInteractivo(const std::string& titulo, const std::vector<std::string>& opciones, int x, int y) {
+	int seleccion = 0;
+	int seleccionAnterior = -1;
+	int numOpciones = opciones.size();
+
+	if (!titulo.empty()) {
+		Utilidades::gotoxy(x, y);
+		std::cout << titulo << "\n\n";
+	}
+	int opcionesY = y + (titulo.empty() ? 0 : 2);
+
+	for (int i = 0; i < numOpciones; ++i) {
+		Utilidades::gotoxy(x, opcionesY + i);
+		if (i == seleccion) {
+			std::cout << " > " << opciones[i] << "    ";
+		}
+		else {
+			std::cout << "    " << opciones[i] << "    ";
+		}
+	}
+	std::cout.flush();
+
+	while (true) {
+		int tecla = _getch();
+		if (tecla == 224) {
+			tecla = _getch();
+			if (tecla == 72) { // Flecha arriba
+				seleccionAnterior = seleccion;
+				seleccion = (seleccion - 1 + numOpciones) % numOpciones;
+				Utilidades::mostrarMenu(seleccion, opciones, x, opcionesY, seleccionAnterior);
+			}
+			else if (tecla == 80) { // Flecha abajo
+				seleccionAnterior = seleccion;
+				seleccion = (seleccion + 1) % numOpciones;
+				Utilidades::mostrarMenu(seleccion, opciones, x, opcionesY, seleccionAnterior);
+			}
+		}
+		else if (tecla == 13) { // Enter
+			return seleccion;
+		}
+		else if (tecla == 27) { // ESC
+			return -1; // Devuelve -1 para indicar ESC
+		}
+	}
+}
 
 /**
 * @brief Marca el inicio de una operación crítica que no debe ser interrumpida
@@ -127,17 +217,46 @@ void Utilidades::limpiarPantallaPreservandoMarquesina(int lineasMarquesina)
  * @return double Valor numérico obtenido, 0.0 en caso de error
  */
 double Utilidades::ConvertirADouble(const std::string& texto) {
-	// Verificar si el texto esta vacio
 	if (texto.empty()) {
 		std::cout << "Texto vacio, retornando 0.0" << std::endl;
 		return 0.0;
 	}
 
-	// Eliminar caracteres no numericos excepto el punto decimal y signo negativo
+	std::string soloNumeros = ExtraerNumerosParaDouble(texto);
+
+	if (soloNumeros.empty() || soloNumeros == "-") {
+		std::cout << "No se encontraron digitos validos, retornando 0.0" << std::endl;
+		return 0.0;
+	}
+
+	try {
+		double resultado = std::stod(soloNumeros);
+		std::cout << "Conversion exitosa: " << std::fixed << std::setprecision(2) << resultado << std::endl;
+		return resultado;
+	}
+	catch (const std::invalid_argument&) {
+		std::cout << "Error: argumento invalido en la conversion" << std::endl;
+		return 0.0;
+	}
+	catch (const std::out_of_range&) {
+		std::cout << "Error: valor fuera de rango" << std::endl;
+		return 0.0;
+	}
+	catch (const std::exception& e) {
+		std::cout << "Error desconocido: " << e.what() << std::endl;
+		return 0.0;
+	}
+}
+
+/**
+ * @brief Extrae los caracteres válidos para un double de una cadena
+ * @param texto Cadena a procesar
+ * @return Cadena con solo los caracteres válidos para un double
+ */
+std::string Utilidades::ExtraerNumerosParaDouble(const std::string& texto) {
 	std::string soloNumeros;
 	bool puntoEncontrado = false;
-
-	for (char c : texto) {
+	for (const char& c : texto) {
 		if (std::isdigit(c)) {
 			soloNumeros += c;
 		}
@@ -146,36 +265,10 @@ double Utilidades::ConvertirADouble(const std::string& texto) {
 			puntoEncontrado = true;
 		}
 		else if (c == '-' && soloNumeros.empty()) {
-			// Solo permitir el signo negativo al principio
 			soloNumeros += c;
 		}
 	}
-
-	// Si la cadena resultante esta vacia o solo tiene un signo negativo
-	if (soloNumeros.empty() || soloNumeros == "-") {
-		std::cout << "No se encontraron digitos validos, retornando 0.0" << std::endl;
-		return 0.0;
-	}
-
-	// Bloque para manejar excepciones
-	try {
-		// Convertir la cadena limpia a double
-		double resultado = std::stod(soloNumeros);
-		std::cout << "Conversion exitosa: " << std::fixed << std::setprecision(2) << resultado << std::endl; // Para depuracion
-		return resultado;
-	}
-	catch (const std::invalid_argument&) {
-		std::cout << "Error: argumento invalido en la conversion" << std::endl; // Para depuracion
-		return 0.0;
-	}
-	catch (const std::out_of_range&) {
-		std::cout << "Error: valor fuera de rango" << std::endl; // Para depuracion
-		return 0.0;
-	}
-	catch (const std::exception& e) {
-		std::cout << "Error desconocido: " << e.what() << std::endl; // Para depuracion
-		return 0.0;
-	}
+	return soloNumeros;
 }
 
 /**
@@ -188,24 +281,33 @@ double Utilidades::ConvertirADouble(const std::string& texto) {
 std::string Utilidades::FormatearMonto(double monto, int decimales) {
 	std::ostringstream oss;
 	oss << std::fixed << std::setprecision(decimales) << monto;
-
 	std::string resultado = oss.str();
 
-	// Agregar separadores de miles
 	size_t posDecimal = resultado.find('.');
 	if (posDecimal == std::string::npos) {
 		posDecimal = resultado.length();
 	}
 
-	// Usar size_t para el indice del bucle para evitar la conversion
-	if (posDecimal > 3) { // Verificar que hay suficientes digitos para insertar comas
+	// Refactor: Separar la inserción de comas en una función auxiliar
+	resultado = InsertarSeparadoresMiles(resultado, posDecimal);
+
+	return resultado;
+}
+
+/**
+ * @brief Inserta separadores de miles en una cadena numérica
+ * @param numero Cadena numérica
+ * @param posDecimal Posición del punto decimal
+ * @return Cadena con separadores de miles
+ */
+std::string Utilidades::InsertarSeparadoresMiles(const std::string& numero, size_t posDecimal) {
+	std::string resultado = numero;
+	if (posDecimal > 3) {
 		for (size_t i = posDecimal - 3; i > 0; i -= 3) {
 			resultado.insert(i, ",");
-			// Evitar el problema del unsigned underflow cuando i es menor que 3
 			if (i <= 3) break;
 		}
 	}
-
 	return resultado;
 }
 

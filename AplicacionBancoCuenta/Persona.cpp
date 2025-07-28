@@ -26,6 +26,7 @@
 #include "Fecha.h"
 #include "Persona.h"
 #include "Utilidades.h"
+#include "_BaseDatosPersona.h"
 
  /**
   * @namespace PersonaUI
@@ -160,6 +161,12 @@ namespace PersonaUI {
 			}
 
 			// Digitos (0-9)
+			if (tecla == 0 || tecla == -32 || tecla == 224) {
+				// Es una tecla especial (flechas, etc.), consumir el siguiente valor y no hacer nada
+				int teclaEspecial = _getch();
+				(void)teclaEspecial;
+				continue;
+			}
 			if (isdigit(tecla)) {
 				if (tienePunto && digitosDecimales >= 2) {
 					continue; // Maximo 2 decimales
@@ -231,6 +238,7 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 			setFechaNacimiento(fechaNacimiento);
 			setCorreo(correo);
 			setDireccion(direccion);
+
 			// Guardar los datos en el archivo
 			guardarEnArchivo();
 			break;
@@ -858,48 +866,30 @@ void Persona::mostrarDatos() const {
  */
 int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 {
-	int cuentasEncontradas = 0;
-	bool mostrarDatosTitular = false;
+    int cuentasEncontradas = 0;
+    bool mostrarDatosTitular = false;
 
-	// Lambda para buscar en cada tipo de cuenta
-	auto buscarEnCuentas = [&](Cuenta<double>* actual, const std::string& tipo) -> void {
-		while (actual) {
-			bool encontrado = false;
-
-			if (tipoCuenta == "Ahorros" && dynamic_cast<CuentaAhorros*>(actual)) {
-				encontrado = true;
-			}
-			else if (tipoCuenta == "Corriente" && dynamic_cast<CuentaCorriente*>(actual)) {
-				encontrado = true;
-			}
-			else if (tipoCuenta == "Ambas") {
-				encontrado = true;
-			}
-
-			if (encontrado) {
-				// Mostrar datos del titular solo la primera vez
-				if (!mostrarDatosTitular) { // Si es la primera cuenta encontrada
-					std::cout << "\n ===== DATOS DEL TITULAR =====\n";
-					std::cout << "Cedula: " << this->cedula << std::endl;
-					std::cout << "Nombre: " << this->nombres << " " << this->apellidos << std::endl;
-					std::cout << "Correo: " << this->correo << std::endl;
-					std::cout << "Direccion: " << this->direccion << std::endl;
-					std::cout << std::string(30, '-') << std::endl;
-					mostrarDatosTitular = true;
-				}
-				std::cout << "\nCUENTA DE " << tipo << ":\n";
-				actual->mostrarInformacion(this->cedula, false); // false para no borrar la pantalla
-				cuentasEncontradas++;
-			}
-			actual = actual->getSiguiente(); // Avanzar al siguiente nodo
-		}
-		};
-
-	// Buscar en ambas listas
-	buscarEnCuentas(cabezaAhorros, "Ahorros");
-	buscarEnCuentas(cabezaCorriente, "Corriente");
-
-	return cuentasEncontradas; // Retorna el numero de cuentas encontradas
+    if (tipoCuenta == "Ahorros" || tipoCuenta == "Ambas") {
+        for (auto cuenta : obtenerCuentasAhorros()) {
+            if (!mostrarDatosTitular) {
+                // Mostrar datos del titular...
+                mostrarDatosTitular = true;
+            }
+            cuenta->mostrarInformacion(this->cedula, false);
+            cuentasEncontradas++;
+        }
+    }
+    if (tipoCuenta == "Corriente" || tipoCuenta == "Ambas") {
+        for (auto cuenta : obtenerCuentasCorriente()) {
+            if (!mostrarDatosTitular) {
+                // Mostrar datos del titular...
+                mostrarDatosTitular = true;
+            }
+            cuenta->mostrarInformacion(this->cedula, false);
+            cuentasEncontradas++;
+        }
+    }
+    return cuentasEncontradas;
 }
 
 /**
@@ -1087,7 +1077,7 @@ int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
 				archivo << "SALDO:" << actual->consultarSaldo() << "\n";
 				archivo << "FECHA_APERTURA:" << actual->getFechaApertura().toString() << "\n";
 				archivo << "ESTADO:" << actual->consultarEstado() << "\n";
-				// Aqui se podrian añadir otros campos especificos de cada tipo de cuenta
+				// Aqui se podrian añadirse otros campos especificos de cada tipo de cuenta
 				archivo << "CUENTA_" << tipo << "_FIN\n";
 				contador++;
 			}
@@ -1399,7 +1389,7 @@ bool Persona::crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::
 		this->cabezaCorriente = nuevaCuenta;
 		this->numCuentas++;
 
-		std::cout << "---- Cuenta de Ahorros creada correctamente ----" << std::endl;
+		std::cout << "---- Cuenta de Corriente creada correctamente ----" << std::endl;
 		return true;
 	}
 	catch (const std::exception& e) {
@@ -1615,4 +1605,32 @@ std::string Persona::seleccionSucursal() {
  */
 std::string Persona::msgIngresoDatos() const {
 	return "\n----- INGRESO DE DATOS -----\n";
+}
+
+/**
+ * @brief Convierte la lista enlazada de cuentas de ahorros a un vector para iteración limpia
+ * @return std::vector<CuentaAhorros*> Vector de punteros a cuentas de ahorros
+ */
+std::vector<CuentaAhorros*> Persona::obtenerCuentasAhorros() const {
+    std::vector<CuentaAhorros*> cuentas;
+    CuentaAhorros* actual = cabezaAhorros;
+    while (actual) {
+        cuentas.push_back(actual);
+        actual = actual->getSiguiente();
+    }
+    return cuentas;
+}
+
+/**
+ * @brief Convierte la lista enlazada de cuentas corrientes a un vector para iteración limpia
+ * @return std::vector<CuentaCorriente*> Vector de punteros a cuentas corrientes
+ */
+std::vector<CuentaCorriente*> Persona::obtenerCuentasCorriente() const {
+    std::vector<CuentaCorriente*> cuentas;
+    CuentaCorriente* actual = cabezaCorriente;
+    while (actual) {
+        cuentas.push_back(actual);
+        actual = actual->getSiguiente();
+    }
+    return cuentas;
 }

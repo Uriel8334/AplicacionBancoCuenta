@@ -7,26 +7,27 @@
 #include "CuentaAhorros.h"  
 #include "CuentaCorriente.h"  
 #include <functional>
+#include <vector>
 
 /**
  * @namespace PersonaUI
  * @brief Namespace que contiene funciones de utilidad para la interfaz de usuario de Persona
  *
  * Proporciona funciones lambda reutilizables para interactuar con el usuario
- * en el contexto de la gestión de personas y cuentas.
+ * en el contexto de la gestiÃ³n de personas y cuentas.
  */
 namespace PersonaUI {
     /**
-     * @brief Función para solicitar una confirmación (Sí/No) al usuario
+     * @brief FunciÃ³n para solicitar una confirmaciÃ³n (SÃ­/No) al usuario
      * @param mensaje El mensaje a mostrar para la solicitud
-     * @return true si el usuario selecciona "Sí", false en caso contrario
+     * @return true si el usuario selecciona "SÃ­", false en caso contrario
      */
     extern const std::function<bool(const std::string&)> seleccionarSiNo;
 
     /**
-     * @brief Función para solicitar el ingreso de un monto con validación
-     * @param min Valor mínimo aceptable
-     * @param max Valor máximo aceptable
+     * @brief FunciÃ³n para solicitar el ingreso de un monto con validaciÃ³n
+     * @param min Valor mÃ­nimo aceptable
+     * @param max Valor mÃ¡ximo aceptable
      * @param mensaje El mensaje a mostrar para la solicitud
      * @return El monto ingresado y validado por el usuario
      */
@@ -39,13 +40,13 @@ using namespace std;
  * @class Persona
  * @brief Clase que representa a una persona cliente del banco
  *
- * Esta clase gestiona la información personal de un cliente y administra
+ * Esta clase gestiona la informaciÃ³n personal de un cliente y administra
  * sus cuentas bancarias (tanto de ahorros como corrientes). Implementa
  * operaciones para crear, buscar y gestionar cuentas asociadas a la persona.
  */
 class Persona {
 private:
-    /** @brief Número de cédula (identificación) de la persona */
+    /** @brief NÃºmero de cÃ©dula (identificaciÃ³n) de la persona */
     string cedula;
 
     /** @brief Nombres de la persona */
@@ -57,10 +58,10 @@ private:
     /** @brief Fecha de nacimiento en formato de cadena */
     string fechaNacimiento;
 
-    /** @brief Dirección de correo electrónico */
+    /** @brief DirecciÃ³n de correo electrÃ³nico */
     string correo;
 
-    /** @brief Dirección domiciliaria */
+    /** @brief DirecciÃ³n domiciliaria */
     string direccion;
 
     /** @brief Puntero a la primera cuenta de ahorros en una lista enlazada */
@@ -69,32 +70,32 @@ private:
     /** @brief Puntero a la primera cuenta corriente en una lista enlazada */
     CuentaCorriente* cabezaCorriente;
 
-    /** @brief Número de cuentas de ahorro (limitadas a 5 por persona) */
+    /** @brief NÃºmero de cuentas de ahorro (limitadas a 5 por persona) */
     int numCuentas = 0;
 
-    /** @brief Número de cuentas corrientes (sin límite) */
+    /** @brief NÃºmero de cuentas corrientes (sin lÃ­mite) */
     int numCorrientes = 0;
 
-    /** @brief Indicador de si el objeto ha sido destruido, para evitar uso después de su destrucción */
+    /** @brief Indicador de si el objeto ha sido destruido, para evitar uso despuÃ©s de su destrucciÃ³n */
     bool isDestroyed = false;
 
 public:
     /**
      * @brief Constructor por defecto
      *
-     * Inicializa una nueva persona con valores vacíos y sin cuentas asociadas
+     * Inicializa una nueva persona con valores vacÃ­os y sin cuentas asociadas
      */
     Persona() : cabezaAhorros(nullptr), cabezaCorriente(nullptr), numCuentas(0), numCorrientes(0), isDestroyed(false) {}
 
     /**
-     * @brief Constructor con parámetros
+     * @brief Constructor con parÃ¡metros
      *
-     * @param cedula Número de identificación de la persona
+     * @param cedula NÃºmero de identificaciÃ³n de la persona
      * @param nombres Nombres de la persona
      * @param apellidos Apellidos de la persona
      * @param fechaNacimiento Fecha de nacimiento en formato de cadena
-     * @param correo Dirección de correo electrónico
-     * @param direccion Dirección domiciliaria
+     * @param correo DirecciÃ³n de correo electrÃ³nico
+     * @param direccion DirecciÃ³n domiciliaria
      */
     Persona(const string& cedula, const string& nombres, const string& apellidos,
         const string& fechaNacimiento, const string& correo, const string& direccion)
@@ -126,68 +127,68 @@ public:
     }
 
     /**
-     * @brief Verifica si la instancia es válida (no ha sido destruida)
-     * @return true si la instancia es válida, false en caso contrario
+     * @brief Verifica si la instancia es vÃ¡lida (no ha sido destruida)
+     * @return true si la instancia es vÃ¡lida, false en caso contrario
      */
     bool isValidInstance() const { return !isDestroyed; }
 
     /**
-     * @brief Establece el número de cédula
-     * @param cedula Nueva cédula
-     * @return true si se asignó correctamente
+     * @brief Establece el nÃºmero de cÃ©dula
+     * @param cedula Nueva cÃ©dula
+     * @return true si se asignÃ³ correctamente
      */
     bool setCedula(const string& cedula) { this->cedula = cedula; return true; }
 
     /**
      * @brief Establece los nombres
      * @param nombres Nuevos nombres
-     * @return true si se asignó correctamente
+     * @return true si se asignÃ³ correctamente
      */
     bool setNombres(const string& nombres) { this->nombres = nombres; return true; }
 
     /**
      * @brief Establece los apellidos
      * @param apellidos Nuevos apellidos
-     * @return true si se asignó correctamente
+     * @return true si se asignÃ³ correctamente
      */
     bool setApellidos(const string& apellidos) { this->apellidos = apellidos; return true; }
 
     /**
      * @brief Establece la fecha de nacimiento
      * @param fechaNacimiento Nueva fecha de nacimiento
-     * @return true si se asignó correctamente
+     * @return true si se asignÃ³ correctamente
      */
     bool setFechaNacimiento(const string& fechaNacimiento) { this->fechaNacimiento = fechaNacimiento; return true; }
 
     /**
-     * @brief Establece el correo electrónico
-     * @param correo Nuevo correo electrónico
-     * @return true si se asignó correctamente
+     * @brief Establece el correo electrÃ³nico
+     * @param correo Nuevo correo electrÃ³nico
+     * @return true si se asignÃ³ correctamente
      */
     bool setCorreo(const string& correo) { this->correo = correo; return true; }
 
     /**
-     * @brief Establece la dirección
-     * @param direccion Nueva dirección
-     * @return true si se asignó correctamente
+     * @brief Establece la direcciÃ³n
+     * @param direccion Nueva direcciÃ³n
+     * @return true si se asignÃ³ correctamente
      */
     bool setDireccion(const string& direccion) { this->direccion = direccion; return true; }
 
     /**
-     * @brief Establece el número de cuentas de ahorro
-     * @param numCuentas Nuevo número de cuentas
+     * @brief Establece el nÃºmero de cuentas de ahorro
+     * @param numCuentas Nuevo nÃºmero de cuentas
      */
     void setNumeCuentas(int numCuentas) { this->numCuentas = numCuentas; }
 
     /**
-     * @brief Establece el número de cuentas corrientes
-     * @param numCorrientes Nuevo número de cuentas corrientes
+     * @brief Establece el nÃºmero de cuentas corrientes
+     * @param numCorrientes Nuevo nÃºmero de cuentas corrientes
      */
     void setNumCorrientes(int numCorrientes) { this->numCorrientes = numCorrientes; }
 
     /**
      * @brief Establece la cabeza de la lista de cuentas de ahorro
-     * @param nuevaCabeza Puntero a la nueva cuenta que será la cabeza
+     * @param nuevaCabeza Puntero a la nueva cuenta que serÃ¡ la cabeza
      * @return Puntero a la nueva cabeza
      */
     CuentaAhorros* setCabezaAhorros(CuentaAhorros* nuevaCabeza) {
@@ -205,7 +206,7 @@ public:
 
     /**
      * @brief Establece la cabeza de la lista de cuentas corrientes
-     * @param nuevaCabeza Puntero a la nueva cuenta que será la cabeza
+     * @param nuevaCabeza Puntero a la nueva cuenta que serÃ¡ la cabeza
      * @return Puntero a la nueva cabeza
      */
     CuentaCorriente* setCabezaCorriente(CuentaCorriente* nuevaCabeza) {
@@ -221,8 +222,8 @@ public:
     }
 
     /**
-     * @brief Obtiene la cédula de la persona
-     * @return Cédula como cadena
+     * @brief Obtiene la cÃ©dula de la persona
+     * @return CÃ©dula como cadena
      */
     string getCedula() const { return this->cedula; }
 
@@ -245,26 +246,26 @@ public:
     string getFechaNacimiento() const { return this->fechaNacimiento; }
 
     /**
-     * @brief Obtiene el correo electrónico
-     * @return Correo electrónico como cadena
+     * @brief Obtiene el correo electrÃ³nico
+     * @return Correo electrÃ³nico como cadena
      */
     string getCorreo() const { return this->correo; }
 
     /**
-     * @brief Obtiene la dirección
-     * @return Dirección como cadena
+     * @brief Obtiene la direcciÃ³n
+     * @return DirecciÃ³n como cadena
      */
     string getDireccion() const { return this->direccion; }
 
     /**
-     * @brief Obtiene el número de cuentas de ahorro
-     * @return Número de cuentas de ahorro
+     * @brief Obtiene el nÃºmero de cuentas de ahorro
+     * @return NÃºmero de cuentas de ahorro
      */
     int getNumCuentas() const { return this->numCuentas; }
 
     /**
-     * @brief Obtiene el número de cuentas corrientes
-     * @return Número de cuentas corrientes
+     * @brief Obtiene el nÃºmero de cuentas corrientes
+     * @return NÃºmero de cuentas corrientes
      */
     int getNumCorrientes() const { return this->numCorrientes; }
 
@@ -286,50 +287,50 @@ public:
     void ingresarDatos();
 
     /**
-     * @brief Solicita al usuario ingresar datos con una cédula predeterminada
-     * @param cedulaEsperada Cédula que se espera validar
+     * @brief Solicita al usuario ingresar datos con una cÃ©dula predeterminada
+     * @param cedulaEsperada CÃ©dula que se espera validar
      */
     void ingresarDatos(const std::string& cedulaEsperada);
 
     /**
-     * @brief Solicita al usuario ingresar su número de cédula
-     * @param cedula Variable donde se almacenará la cédula
-     * @return Cédula ingresada y validada
+     * @brief Solicita al usuario ingresar su nÃºmero de cÃ©dula
+     * @param cedula Variable donde se almacenarÃ¡ la cÃ©dula
+     * @return CÃ©dula ingresada y validada
      */
     std::string ingresarCedula(std::string& cedula);
 
     /**
      * @brief Solicita al usuario ingresar sus nombres
-     * @param nombres Variable donde se almacenarán los nombres
+     * @param nombres Variable donde se almacenarÃ¡n los nombres
      * @return Nombres ingresados y validados
      */
     std::string ingresarNombres(std::string& nombres) const;
 
     /**
      * @brief Solicita al usuario ingresar sus apellidos
-     * @param apellidos Variable donde se almacenarán los apellidos
+     * @param apellidos Variable donde se almacenarÃ¡n los apellidos
      * @return Apellidos ingresados y validados
      */
     std::string ingresarApellidos(std::string& apellidos) const;
 
     /**
      * @brief Solicita al usuario ingresar su fecha de nacimiento
-     * @param fechaNacimiento Variable donde se almacenará la fecha
+     * @param fechaNacimiento Variable donde se almacenarÃ¡ la fecha
      * @return Fecha de nacimiento ingresada y validada
      */
     std::string ingresarFechaNacimiento(std::string& fechaNacimiento);
 
     /**
-     * @brief Solicita al usuario ingresar su correo electrónico
-     * @param correo Variable donde se almacenará el correo
-     * @return Correo electrónico ingresado y validado
+     * @brief Solicita al usuario ingresar su correo electrÃ³nico
+     * @param correo Variable donde se almacenarÃ¡ el correo
+     * @return Correo electrÃ³nico ingresado y validado
      */
     std::string ingresarCorreo(std::string& correo) const;
 
     /**
-     * @brief Solicita al usuario ingresar su dirección
-     * @param direccion Variable donde se almacenará la dirección
-     * @return Dirección ingresada y validada
+     * @brief Solicita al usuario ingresar su direcciÃ³n
+     * @param direccion Variable donde se almacenarÃ¡ la direcciÃ³n
+     * @return DirecciÃ³n ingresada y validada
      */
     std::string ingresarDireccion(std::string& direccion) const;
 
@@ -345,9 +346,9 @@ public:
     void mostrarDatos() const;
 
     /**
-     * @brief Muestra las cuentas del cliente según el tipo especificado
+     * @brief Muestra las cuentas del cliente segÃºn el tipo especificado
      * @param tipoCuenta Tipo de cuenta a mostrar ("ahorros" o "corriente")
-     * @return Número de cuentas mostradas
+     * @return NÃºmero de cuentas mostradas
      */
     int mostrarCuentas(const std::string& tipoCuenta) const;
 
@@ -357,12 +358,12 @@ public:
     void guardarEnArchivo() const;
 
     /**
-     * @brief Busca cuentas según diferentes criterios
-     * @param criterioBusqueda Criterio de búsqueda
-     * @param numeroCuenta Número de cuenta a buscar
+     * @brief Busca cuentas segÃºn diferentes criterios
+     * @param criterioBusqueda Criterio de bÃºsqueda
+     * @param numeroCuenta NÃºmero de cuenta a buscar
      * @param fechaApertura Fecha de apertura a buscar
      * @param saldo Saldo a buscar
-     * @return Número de resultados encontrados
+     * @return NÃºmero de resultados encontrados
      */
     int buscarPersonaPorCriterio(const std::string& criterioBusqueda, const std::string& numeroCuenta, const std::string& fechaApertura, double saldo) const;
 
@@ -373,63 +374,63 @@ public:
     void buscarPersonaPorFecha(const std::string& fechaApertura) const;
 
     /**
-     * @brief Busca una persona por el número de alguna de sus cuentas
-     * @param numeroCuenta Número de cuenta a buscar
-     * @return Número de resultados encontrados
+     * @brief Busca una persona por el nÃºmero de alguna de sus cuentas
+     * @param numeroCuenta NÃºmero de cuenta a buscar
+     * @return NÃºmero de resultados encontrados
      */
     int buscarPersonaPorCuentas(const string& numeroCuenta) const;
 
     /**
-     * @brief Guarda las cuentas de un tipo específico en un archivo
+     * @brief Guarda las cuentas de un tipo especÃ­fico en un archivo
      * @param archivo Flujo de salida donde guardar los datos
      * @param tipo Tipo de cuenta ("ahorros" o "corriente")
-     * @return Número de cuentas guardadas
+     * @return NÃºmero de cuentas guardadas
      */
     int guardarCuentas(std::ofstream& archivo, std::string tipo) const;
 
     /**
      * @brief Crea y agrega una cuenta de ahorros a la persona
      * @param nuevaCuenta Puntero a la cuenta de ahorros a agregar
-     * @param cedulaEsperada Cédula para validación
-     * @return true si se agregó correctamente, false en caso contrario
+     * @param cedulaEsperada CÃ©dula para validaciÃ³n
+     * @return true si se agregÃ³ correctamente, false en caso contrario
      */
     bool crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada);
 
     /**
      * @brief Crea y agrega una cuenta corriente a la persona
      * @param nuevaCuenta Puntero a la cuenta corriente a agregar
-     * @param cedulaEsperada Cédula para validación
-     * @return true si se agregó correctamente, false en caso contrario
+     * @param cedulaEsperada CÃ©dula para validaciÃ³n
+     * @return true si se agregÃ³ correctamente, false en caso contrario
      */
     bool crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada);
 
     /**
      * @brief Crea una cuenta de ahorros sin ingresar datos personales
      * @param nuevaCuenta Puntero a la cuenta de ahorros a crear
-     * @param cedulaEsperada Cédula para validación
-     * @return true si se creó correctamente, false en caso contrario
+     * @param cedulaEsperada CÃ©dula para validaciÃ³n
+     * @return true si se creÃ³ correctamente, false en caso contrario
      */
     bool crearSoloCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada);
 
     /**
      * @brief Crea una cuenta corriente sin ingresar datos personales
      * @param nuevaCuenta Puntero a la cuenta corriente a crear
-     * @param cedulaEsperada Cédula para validación
-     * @return true si se creó correctamente, false en caso contrario
+     * @param cedulaEsperada CÃ©dula para validaciÃ³n
+     * @return true si se creÃ³ correctamente, false en caso contrario
      */
     bool crearSoloCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada);
 
     /**
-     * @brief Genera un número de cuenta único basado en la sucursal
-     * @param nuevaCuenta Puntero a la cuenta para la que se generará el número
-     * @param sucursal Código de sucursal
-     * @return Número de cuenta generado
+     * @brief Genera un nÃºmero de cuenta Ãºnico basado en la sucursal
+     * @param nuevaCuenta Puntero a la cuenta para la que se generarÃ¡ el nÃºmero
+     * @param sucursal CÃ³digo de sucursal
+     * @return NÃºmero de cuenta generado
      */
     std::string crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::string& sucursal);
 
     /**
      * @brief Permite al usuario seleccionar una sucursal bancaria
-     * @return Código de la sucursal seleccionada
+     * @return CÃ³digo de la sucursal seleccionada
      */
     std::string seleccionSucursal();
 
@@ -439,79 +440,17 @@ public:
      */
     std::string msgIngresoDatos() const;
 
-    /*
-    // Metodo unificado para crear y agregar cuenta de ahorros
-    bool crearYAgregarCuentaAhorros(Persona* persona) {
-        // Verificar limite
-        if (numCuentas >= 5) {
-            std::cout << "No puede tener mas de 5 cuentas de ahorros.\n";
-            return false;
-        }
+    /**
+     * @brief Convierte la lista enlazada de cuentas de ahorros a un vector para iteraciÃ³n limpia
+     * @return std::vector<CuentaAhorros*> Vector de punteros a cuentas de ahorros
+     */
+    std::vector<CuentaAhorros*> obtenerCuentasAhorros() const;
 
-        // Crear la cuenta directamente como objeto dinamico
-        CuentaAhorros* nuevaCuenta;
-
-        // Llamar al metodo crearCuenta() del objeto nuevaCuenta
-        // que configura numero de cuenta, fecha, saldo inicial, etc.
-        nuevaCuenta->crearCuenta(persona);
-
-        // Crear el nodo y agregarlo a la lista directamente
-        NodoCuentaAhorros* nuevo = new NodoCuentaAhorros(nuevaCuenta);
-
-        // Verificacion de seguridad
-        if (nuevo->cuenta == nullptr) {
-            std::cout << "[ERROR] Cuenta no inicializada" << std::endl;
-            delete nuevo;
-            return false;
-        }
-
-        // Agregar a la lista con las validaciones normales
-        nuevo->siguiente = cabezaAhorros;
-        nuevo->anterior = nullptr;
-        if (cabezaAhorros != nullptr) {
-            cabezaAhorros->anterior = nuevo;
-        }
-        cabezaAhorros = nuevo;
-        numCuentas++;
-
-        std::cout << "Cuenta de Ahorros creada y agregada con exito." << std::endl;
-        return true;
-    }
-
-    // Metodo unificado para crear y agregar cuenta corriente
-    bool crearYAgregarCuentaCorriente(Persona* persona) {
-        // No hay limite para cuentas corrientes (a diferencia de las de ahorro)
-
-        // Crear la cuenta directamente como objeto dinamico
-        CuentaCorriente* nuevaCuenta;
-
-        // Llamar al metodo crearCuenta() del objeto nuevaCuenta
-        // que configura numero de cuenta, fecha, saldo inicial, etc.
-        nuevaCuenta->crearCuenta(persona);
-
-        // Crear el nodo y agregarlo a la lista directamente
-        //NodoCuentaCorriente* nuevo = new NodoCuentaCorriente(nuevaCuenta);
-
-        // Verificacion de seguridad
-        if (nuevo->cuenta == nullptr) {
-            std::cout << "[ERROR] Cuenta corriente no inicializada" << std::endl;
-            delete nuevo;
-            return false;
-        }
-
-        // Agregar a la lista con las validaciones normales
-        nuevo->siguiente = cabezaCorriente;
-        nuevo->anterior = nullptr;
-        if (cabezaCorriente != nullptr) {
-            cabezaCorriente->anterior = nuevo;
-        }
-        cabezaCorriente = nuevo;
-
-        std::cout << "Cuenta Corriente creada y agregada con exito." << std::endl;
-        return true;
-    }
-
-    void seleccionarFecha();
-    }; */
+    /**
+     * @brief Convierte la lista enlazada de cuentas corrientes a un vector para iteraciÃ³n limpia
+     * @return std::vector<CuentaCorriente*> Vector de punteros a cuentas corrientes
+     */
+    std::vector<CuentaCorriente*> obtenerCuentasCorriente() const;
 };
+
 #endif // PERSONA_H
