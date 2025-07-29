@@ -261,6 +261,18 @@ public:
 	 * @return Cadena con separadores de miles
 	 */
 	static std::string InsertarSeparadoresMiles(const std::string& numero, size_t posDecimal);
+
+	/**
+	 * @brief Configura la consola para usar UTF-8
+	 */
+	static void centrarVentanaConsola();
+
+	/**
+	 * @brief Configura la consola para usar codificación UTF-8
+	 */
+	static void restaurarBarraTituloConsola();
+
+
 };
 
 #endif // UTILIDADES_H

@@ -15,6 +15,8 @@
 #include <regex>
 #include <ctime>
 #include <conio.h>
+#include <shlobj.h>
+#include <vector>
 #include "Utilidades.h"
 
 /**
@@ -26,7 +28,7 @@
  * @return Nombre de la colección seleccionada o una cadena vacía si se cancela
  */
 std::string _BaseDatosArchivos::seleccionarColeccionParaExportar() {
-	std::vector<std::string> opciones = { "personas", "archivos", "Cancelar" };
+	std::vector<std::string> opciones = { "personas", "archivos", "Cancelar"};
 	int seleccion = Utilidades::menuInteractivo("Seleccione la colección a exportar:", opciones, 0, 0);
 
 	// Aquí, si seleccion es 0 (personas) o 1 (archivos), se devuelve la opción.
@@ -89,58 +91,68 @@ void _BaseDatosArchivos::mostrarMenuBaseDatos() {
 }
 
 /**
- * @brief Exporta un backup de MongoDB a un archivo JSON
+ * @brief Exporta un backup de la base de datos MongoDB a un archivo
  *
- * Este método crea un archivo con un nombre basado en la fecha y hora actual,
- * asegurándose de que no exista previamente. Exporta los documentos de la colección
- * especificada a este archivo en formato JSON.
+ * Este método crea un archivo JSON con los datos de una colección específica de MongoDB.
+ * El archivo se guarda en una carpeta llamada "BancoApp" en el escritorio del usuario.
  *
- * @param uri URI de conexión a MongoDB
+ * @param uri URI de conexión a MongoDB (ejemplo: mongodb+srv://<usuario>:<contraseña>@<cluster-url>)
  * @param db Nombre de la base de datos
  * @param coleccion Nombre de la colección a exportar
  */
 void _BaseDatosArchivos::exportarBackupMongoDB(const std::string& uri, const std::string& db, const std::string& coleccion) {
-	// Obtener fecha y hora actual
-	auto now = std::chrono::system_clock::now();
-	std::time_t t = std::chrono::system_clock::to_time_t(now);
-	std::tm tm;
+	// Obtener la ruta del escritorio del usuario
+	char pathEscritorio[MAX_PATH];
+	if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_DESKTOPDIRECTORY, NULL, 0, pathEscritorio))) {
+		std::string rutaCarpeta = std::string(pathEscritorio) + "\\BancoApp";
+		// Crear la carpeta BancoApp si no existe
+		std::filesystem::create_directories(rutaCarpeta);
+
+		// Obtener fecha y hora actual
+		auto now = std::chrono::system_clock::now();
+		std::time_t t = std::chrono::system_clock::to_time_t(now);
+		std::tm tm;
 #ifdef _WIN32
-	localtime_s(&tm, &t);
+		localtime_s(&tm, &t);
 #else
-	localtime_r(&t, &tm);
+		localtime_r(&t, &tm);
 #endif
 
-	// Construir base del nombre de archivo
-	std::ostringstream nombreBase;
-	nombreBase << "Respaldo_BaseDatos_Banco_" << coleccion << "_N";
+		// Construir base del nombre de archivo
+		std::ostringstream nombreBase;
+		nombreBase << "Respaldo_BaseDatos_Banco_" << coleccion << "_N";
 
-	// Buscar el siguiente índice disponible
-	int indice = 1;
-	std::string nombreArchivo;
-	do {
-		std::ostringstream nombreCompleto;
-		nombreCompleto << nombreBase.str() << indice << "_"
-			<< std::setfill('0') << std::setw(2) << tm.tm_mday << "_"
-			<< std::setfill('0') << std::setw(2) << (tm.tm_mon + 1) << "_"
-			<< (tm.tm_year + 1900) << "_"
-			<< std::setfill('0') << std::setw(2) << tm.tm_hour << "_"
-			<< std::setfill('0') << std::setw(2) << tm.tm_min << "_"
-			<< std::setfill('0') << std::setw(2) << tm.tm_sec << ".json";
-		nombreArchivo = nombreCompleto.str();
-		indice++;
-	} while (std::filesystem::exists(nombreArchivo));
+		// Buscar el siguiente índice disponible
+		int indice = 1;
+		std::string nombreArchivo;
+		do {
+			std::ostringstream nombreCompleto;
+			nombreCompleto << rutaCarpeta << "\\" << nombreBase.str() << indice << "_"
+				<< std::setfill('0') << std::setw(2) << tm.tm_mday << "_"
+				<< std::setfill('0') << std::setw(2) << (tm.tm_mon + 1) << "_"
+				<< (tm.tm_year + 1900) << "_"
+				<< std::setfill('0') << std::setw(2) << tm.tm_hour << "_"
+				<< std::setfill('0') << std::setw(2) << tm.tm_min << "_"
+				<< std::setfill('0') << std::setw(2) << tm.tm_sec << ".json";
+			nombreArchivo = nombreCompleto.str();
+			indice++;
+		} while (std::filesystem::exists(nombreArchivo));
 
-	// Exportar la colección a archivo
-	mongocxx::client conn{ mongocxx::uri{uri} };
-	auto collection = conn[db][coleccion];
+		// Exportar la colección a archivo
+		mongocxx::client conn{ mongocxx::uri{uri} };
+		auto collection = conn[db][coleccion];
 
-	std::ofstream archivo(nombreArchivo);
-	for (auto&& doc : collection.find({})) {
-		archivo << bsoncxx::to_json(doc) << std::endl;
+		std::ofstream archivo(nombreArchivo);
+		for (auto&& doc : collection.find({})) {
+			archivo << bsoncxx::to_json(doc) << std::endl;
+		}
+		archivo.close();
+
+		std::cout << "Backup exportado exitosamente a: " << nombreArchivo << std::endl;
 	}
-	archivo.close();
-
-	std::cout << "Backup exportado exitosamente a: " << nombreArchivo << std::endl;
+	else {
+		std::cerr << "No se pudo obtener la ruta del escritorio del usuario." << std::endl;
+	}
 }
 
 /**

@@ -21,6 +21,7 @@
 #include "Utilidades.h"
 #include "Cifrado.h" 
 #include <algorithm>
+#include <vector>
 #include "Marquesina.h"
 #include "CodigoQR.h"
 #include "_ExportadorArchivo.h"
@@ -122,6 +123,30 @@ void configurarConsolaUTF8() {
 }
 
 /**
+ * @brief Opciones del menú principal del sistema bancario
+ *
+ * Contiene las diferentes opciones que el usuario puede seleccionar
+ * para interactuar con el sistema bancario.
+ */
+std::vector<std::string> opcionesMenuPrincipal = {
+	"Crear Cuenta",
+	"Buscar Cuenta",
+	"Operaciones de Cuenta",
+	"Realizar Transferencias",
+	"Guardar Archivo",
+	"Recuperar Archivo",
+	"Descifrar Archivo",
+	"Menu de ayuda",
+	"Explorador de archivos",
+	"Gestion de Hash",
+	"Arbol B",
+	"Generar QR",
+	"Abrir documentacion",
+	"Operaciones Base de Datos",
+	"Salir"
+};
+
+/**
  * @brief Función principal que inicia la aplicación bancaria
  *
  * Configura la interfaz de usuario, crea la marquesina, y gestiona el
@@ -130,57 +155,36 @@ void configurarConsolaUTF8() {
  * @return int Código de salida del programa (0 si termina correctamente)
  */
 int main() {
-	configurarConsolaUTF8();
-
-	std::vector<std::string> opciones = {
-		"Crear Cuenta",
-		"Buscar Cuenta",
-		"Operaciones de Cuenta",
-		"Realizar Transferencias",
-		"Guardar Archivo",
-		"Recuperar Archivo",
-		"Descifrar Archivo",
-		"Menu de ayuda",
-		"Explorador de archivos",
-		"Gestion de Hash",
-		"Arbol B",
-		"Generar QR",
-		"Abrir documentacion",
-		"Operaciones Base de Datos",
-		"Salir"
-	};
-
+	//variables globales
 	mongocxx::instance instance{}; // Solo una vez por aplicación
 	int seleccion = 0;
 	int seleccionAnterior = -1; // Para evitar parpadeo al actualizar el menú
 	int x = 0, y = 0;
-
 	Banco banco;
-
-	// Imprime el menu una vez (para reservar espacio)
-	for (int i = 0; i < opciones.size(); i++)
-		std::cout << std::endl;
 
 	// Configuración de la consola
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	int anchoConsola = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	configurarConsolaUTF8();
 
 	// Crear la marquesina en la parte superior de la consola
 	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 200);
 	marquesinaGlobal->iniciar();
 
+	Utilidades::centrarVentanaConsola();
+
 	// Dejar espacio para la marquesina
 	std::cout << std::endl << std::endl; // 2 líneas para la marquesina
-
 	Utilidades::ocultarCursor(); // Ocultar el cursor al inicio
+	std::vector<std::string> opciones = opcionesMenuPrincipal; // Opciones Menu principal 
 
+	// Imprime el menu una vez (para reservar espacio)
+	for (int i = 0; i < static_cast<int>(opciones.size()); i++)
+		std::cout << std::endl;
+	
 	while (true) {
-		// Pausar la marquesina durante la actualización del menú
-		//pausarMarquesina();
 		int seleccion = Utilidades::menuInteractivo("SISTEMA BANCARIO-EDUCATIVO", opciones, x, y);
-		//reanudarMarquesina();
-
 		bool necesitaRedibujado = false;
 
 		// Si el usuario presiona ESC o selecciona "Salir"
@@ -191,7 +195,7 @@ int main() {
 			break;
 		}
 
-		Utilidades::gotoxy(0, y + opciones.size() + 1);
+		Utilidades::gotoxy(0, y + static_cast<int>(opciones.size()) + 1);
 
 		// Switch para manejar la opcion seleccionada
 		switch (seleccion)
@@ -199,9 +203,7 @@ int main() {
 		case 0: // Crear Cuenta
 		{
 			Utilidades::mostrarCursor();
-			Utilidades::iniciarOperacionCritica();
 			banco.agregarPersonaConCuenta();
-			Utilidades::finalizarOperacionCritica();
 			Utilidades::ocultarCursor();
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			necesitaRedibujado = true;
@@ -1031,8 +1033,8 @@ int main() {
 				);
 
 				// Verificar si se pudo abrir
-				if ((int)resultado <= 32) { // ShellExecute devuelve valores <= 32 en caso de error
-					std::cout << "No se pudo abrir la documentación. Código de error: " << (int)resultado << "\n";
+				if (reinterpret_cast<intptr_t>(resultado) <= 32) { // ShellExecute devuelve valores <= 32 en caso de error
+					std::cout << "No se pudo abrir la documentación. Código de error: " << reinterpret_cast<intptr_t>(resultado) << "\n";
 					std::cout << "Intentando método alternativo...\n";
 
 					// Método alternativo usando system
@@ -1076,10 +1078,11 @@ int main() {
 		}
 
 
-		if (marquesinaGlobal) {
-			marquesinaGlobal->detener();
-			delete marquesinaGlobal;
-		}
-		return 0;
+		
 	}
+	if (marquesinaGlobal) {
+		marquesinaGlobal->detener();
+		delete marquesinaGlobal;
+	}
+	return 0;
 }

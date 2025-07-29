@@ -80,7 +80,7 @@ private:
 	 * @param dbPersona Referencia a la base de datos de personas
 	 * @return Puntero a la persona encontrada o creada
 	 */
-	Persona* obtenerOPrepararPersona(const std::string& cedula, _BaseDatosPersona& dbPersona);
+	Persona* obtenerOIngresarPersona(const std::string& cedula, _BaseDatosPersona& dbPersona);
 
 	/**
 	 * @brief Agrega una cuenta a una persona existente

@@ -564,202 +564,95 @@ std::string Persona::ingresarFechaNacimiento(std::string& fechaNacimiento) {
  */
 std::string Persona::ingresarCorreo(std::string& correo) const
 {
+	std::vector<std::string> dominios = { "gmail.com", "hotmail.com", "outlook.com", "espe.edu.ec", "<Otro dominio>" };
+
 	do {
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		std::cout << msgIngresoDatos() << std::endl;
-		std::cout << "Ingrese el correo: ";
+		std::cout << "Ingrese la parte local del correo (antes del @): ";
 		correo.clear();
 
-		std::string correoBase = "";
+		std::string parteLocal;
 		char c;
-		int x = 0, y = 0;
-		bool eligiendo = false;
-		int seleccion = 0;
-		bool correoCompleto = false;
-		bool dominioElegido = false; // NUEVO: bandera para saber si ya se eligió dominio
-
-		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-		CONSOLE_SCREEN_BUFFER_INFO csbi;
-		std::string dominios[] = { "gmail.com", "hotmail.com", "outlook.com", "espe.edu.ec", "<Otro dominio>"};
-		const int numDominios = 5;
-
-		auto mostrarOpciones = [&](int x, int y, int seleccion) {
-			for (int i = 0; i < numDominios; ++i) {
-				COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
-				SetConsoleCursorPosition(h, pos);
-				if (i == seleccion) {
-					std::cout << "> " << dominios[i] << " <";
-				}
-				else {
-					std::cout << "  " << dominios[i] << "  ";
-				}
-			}
-			};
-
-		auto limpiarOpciones = [&](int x, int y) {
-			for (int i = 0; i < numDominios; ++i) {
-				COORD pos = { (SHORT)x, (SHORT)(y + i + 1) };
-				SetConsoleCursorPosition(h, pos);
-				std::cout << "                   ";
-			}
-			// Regresar el cursor justo después del '@'
-			COORD pos = { (SHORT)x, (SHORT)y };
-			SetConsoleCursorPosition(h, pos);
-			};
-
-		while (!correoCompleto) {
-			Utilidades::ocultarCursor();
+		// Entrada de la parte local
+		while (true) {
 			c = _getch();
-
-			if (eligiendo) {
-				if ((unsigned char)c == 224) {
-					char tecla = _getch();
-					if (tecla == 72 && seleccion > 0) { // flecha arriba
-						seleccion--;
-					}
-					else if (tecla == 80 && seleccion < numDominios - 1) { // flecha abajo
-						seleccion++;
-					}
-					mostrarOpciones(x, y, seleccion);
-				}
-				else if (c == 13) { // Enter para elegir dominio
-					limpiarOpciones(x, y);
-					if (seleccion == numDominios - 1) { // "Otro dominio"
-						// Permitir escribir el dominio directamente después del @
-						eligiendo = false;
-						dominioElegido = true;
-					}
-					else {
-						correoBase += dominios[seleccion];
-						std::cout << dominios[seleccion];
-						eligiendo = false;
-						dominioElegido = true;
-					}
-				}
+			if (c == 13 && !parteLocal.empty()) { // Enter
+				break;
 			}
-			else if (dominioElegido) {
-				// Si el usuario eligió "Otro dominio", permitir escribir normalmente
-				if (seleccion == numDominios - 1) {
-					if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-						correoCompleto = true;
-						std::cout << std::endl;
-						break;
-					}
-					if (c == 8 && !correoBase.empty()) {
-						std::cout << "\b \b";
-						if (!correoBase.empty()) {
-							if (correoBase.back() == '@') {
-								dominioElegido = false;
-							}
-							correoBase.pop_back();
-						}
-					}
-					else if (isprint(c) && c != ' ') {
-						std::cout << c;
-						correoBase += c;
-
-					}
-					// Ignorar cualquier otra tecla
-				}
-				else {
-					// Si eligió un dominio predefinido, solo permitir ENTER o BACKSPACE
-					if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-						correoCompleto = true;
-						std::cout << std::endl;
-						break;
-					}
-					if (c == 8 && !correoBase.empty()) {
-						std::cout << "\b \b";
-						if (!correoBase.empty()) {
-							// Si borra hasta el '@', permitir volver a escribir
-							if (correoBase.back() == '@') {
-								dominioElegido = false;
-							}
-							correoBase.pop_back();
-						}
-					}
-					// No permitir escribir más caracteres
-				}
+			if (c == 8 && !parteLocal.empty()) { // Backspace
+				parteLocal.pop_back();
+				std::cout << "\b \b";
 			}
-			else {
-				if (c == 13 && !correoBase.empty() && correoBase.find('@') != std::string::npos) {
-					correoCompleto = true;
-					std::cout << std::endl;
-					break;
-				}
-				if (c == 8 && !correoBase.empty()) {
-					if (correoBase.back() == '@') {
-						if (eligiendo) {
-							limpiarOpciones(x, y);
-							eligiendo = false;
-						}
-					}
-					std::cout << "\b \b";
-					correoBase.pop_back();
-				}
-				else if (isprint(c) && c != ' ') {
-					std::cout << c;
-					correoBase += c;
-					if (c == '@') {
-						GetConsoleScreenBufferInfo(h, &csbi);
-						x = csbi.dwCursorPosition.X;
-						y = csbi.dwCursorPosition.Y;
-						eligiendo = true;
-						seleccion = 0;
-						mostrarOpciones(x, y, seleccion);
-					}
-				}
+			else if (isprint(c) && c != ' ' && c != '@') {
+				parteLocal += c;
+				std::cout << c;
 			}
-			Utilidades::mostrarCursor();
+			else if (c == '@' && !parteLocal.empty()) {
+				std::cout << '@';
+				break;
+			}
 		}
 
-		correo = correoBase;
+		if (parteLocal.empty()) {
+			std::cout << "\nLa parte local no puede estar vacía. Presione una tecla para reintentar.\n";
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+			continue;
+		}
 
-		// Validación mejorada de correo
+		// Selección de dominio
+		int seleccion = Utilidades::menuInteractivo("Seleccione el dominio del correo:", dominios, 0, 0);
+		std::string dominioSeleccionado;
+		if (seleccion == dominios.size() - 1) { // "<Otro dominio>"
+			std::cout << "Ingrese el dominio manualmente: ";
+			std::getline(std::cin, dominioSeleccionado);
+			if (dominioSeleccionado.empty()) {
+				std::cout << "\nEl dominio no puede estar vacío. Presione una tecla para reintentar.\n";
+				int teclaCualquiera = _getch();
+				(void)teclaCualquiera;
+				continue;
+			}
+		}
+		else if (seleccion >= 0 && seleccion < dominios.size()) {
+			dominioSeleccionado = dominios[seleccion];
+		}
+		else {
+			std::cout << "\nSelección inválida. Presione una tecla para reintentar.\n";
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+			continue;
+		}
+
+		correo = parteLocal + "@" + dominioSeleccionado;
+
+		// Validación de formato
 		size_t atPos = correo.find('@');
 		bool formatoValido = false;
 		if (!correo.empty() && atPos != std::string::npos && atPos > 0 && atPos < correo.length() - 1) {
-			// Expresión regular para validar el correo
-			// - Usuario: letras, números, puntos, guiones y guion bajo, pero no puede empezar/terminar con punto ni tener dos puntos seguidos
-			// - Dominio: letras, números, guiones, al menos un punto, no puede empezar/terminar con punto o guion, ni tener dos puntos seguidos
 			std::regex regexCorreo(R"(^[A-Za-z0-9]+([._-]?[A-Za-z0-9]+)*@[A-Za-z0-9]+([.-]?[A-Za-z0-9]+)*\.[A-Za-z]{2,}$)");
 			formatoValido = std::regex_match(correo, regexCorreo);
 
-			// Validaciones adicionales para evitar casos como @.banco.com, @banco..com, etc.
 			std::string usuario = correo.substr(0, atPos);
 			std::string dominio = correo.substr(atPos + 1);
 
-			// No permitir otro '@' en el dominio
 			if (dominio.find('@') != std::string::npos) formatoValido = false;
-			// No permitir que el dominio empiece con punto, guion o subrayado
 			if (!dominio.empty() && (dominio[0] == '.' || dominio[0] == '-' || dominio[0] == '_')) formatoValido = false;
-			// No permitir dos puntos seguidos en el dominio
 			if (dominio.find("..") != std::string::npos) formatoValido = false;
-			// No permitir caracteres especiales en el dominio
 			if (dominio.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") != std::string::npos) formatoValido = false;
-			// No permitir que el usuario termine con punto
 			if (!usuario.empty() && usuario.back() == '.') formatoValido = false;
-			// No permitir que el usuario empiece con punto
 			if (!usuario.empty() && usuario.front() == '.') formatoValido = false;
-			// No permitir dos puntos seguidos en el usuario
 			if (usuario.find("..") != std::string::npos) formatoValido = false;
 		}
 
-		if (!correo.empty()) {
-			if (!formatoValido) {
-				std::cout << "\nCorreo invalido, presione cualquier tecla para volver a ingresar." << std::endl;
-				int teclaCualquiera = _getch();
-				(void)teclaCualquiera;
-			}
-			else {
-				break; // Salir del bucle si el correo es valido
-			}
-		}
-		else {
-			std::cout << "\nEl correo no puede estar vacio, presione cualquier tecla para volver a ingresar." << std::endl;
+		if (!formatoValido) {
+			std::cout << "\nCorreo invalido, presione cualquier tecla para volver a ingresar." << std::endl;
 			int teclaCualquiera = _getch();
 			(void)teclaCualquiera;
+			continue;
 		}
+
+		break; // Correo válido
 
 	} while (true);
 
@@ -866,30 +759,36 @@ void Persona::mostrarDatos() const {
  */
 int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 {
-    int cuentasEncontradas = 0;
-    bool mostrarDatosTitular = false;
+	int cuentasEncontradas = 0;
+	bool datosTitularMostrados = false;
 
-    if (tipoCuenta == "Ahorros" || tipoCuenta == "Ambas") {
-        for (auto cuenta : obtenerCuentasAhorros()) {
-            if (!mostrarDatosTitular) {
-                // Mostrar datos del titular...
-                mostrarDatosTitular = true;
-            }
-            cuenta->mostrarInformacion(this->cedula, false);
-            cuentasEncontradas++;
-        }
-    }
-    if (tipoCuenta == "Corriente" || tipoCuenta == "Ambas") {
-        for (auto cuenta : obtenerCuentasCorriente()) {
-            if (!mostrarDatosTitular) {
-                // Mostrar datos del titular...
-                mostrarDatosTitular = true;
-            }
-            cuenta->mostrarInformacion(this->cedula, false);
-            cuentasEncontradas++;
-        }
-    }
-    return cuentasEncontradas;
+	// Función lambda para mostrar datos del titular solo una vez
+	auto mostrarDatosTitular = [&]() {
+		if (!datosTitularMostrados) {
+			mostrarDatos();
+			datosTitularMostrados = true;
+		}
+		};
+
+	// Función lambda para mostrar cuentas de un vector
+	auto mostrarCuentasDeVector = [&](const auto& cuentas) {
+		for (const auto& cuenta : cuentas) {
+			mostrarDatosTitular();
+			cuenta->mostrarInformacion(this->cedula, false);
+			++cuentasEncontradas;
+		}
+		};
+
+	if (tipoCuenta == "Ahorros" || tipoCuenta == "Ambas") {
+		const auto& cuentasAhorros = obtenerCuentasAhorros();
+		mostrarCuentasDeVector(cuentasAhorros);
+	}
+	if (tipoCuenta == "Corriente" || tipoCuenta == "Ambas") {
+		const auto& cuentasCorriente = obtenerCuentasCorriente();
+		mostrarCuentasDeVector(cuentasCorriente);
+	}
+
+	return cuentasEncontradas;
 }
 
 /**

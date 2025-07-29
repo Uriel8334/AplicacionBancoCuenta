@@ -111,7 +111,7 @@ void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaCorrie
 	}
 }
 
-Persona* Banco::obtenerOPrepararPersona(const std::string& cedula, _BaseDatosPersona& dbPersona) {
+Persona* Banco::obtenerOIngresarPersona(const std::string& cedula, _BaseDatosPersona& dbPersona) {
 	Persona* personaExistente = dbPersona.obtenerPersonaPorCedula(cedula);
 	if (personaExistente) {
 		personaExistente->mostrarDatos();
@@ -121,7 +121,7 @@ Persona* Banco::obtenerOPrepararPersona(const std::string& cedula, _BaseDatosPer
 		}
 		return personaExistente;
 	}
-	else {
+	else { // Se crea una nueva persona
 		Persona* nuevaPersona = new Persona();
 		nuevaPersona->setCedula(cedula);
 		nuevaPersona->ingresarDatos(cedula);
@@ -165,6 +165,7 @@ void Banco::agregarPersonaConCuenta() {
 		return;
 	}
 
+	Utilidades::mostrarCursor();
 	std::string cedula = solicitarCedula();
 	if (cedula.empty()) {
 		std::cout << "Operacion cancelada por el usuario.\n";
@@ -177,7 +178,7 @@ void Banco::agregarPersonaConCuenta() {
 	bool personaExiste = dbPersona.existePersonaPorCedula(cedula);
 
 	// 1. Preparar persona
-	Persona* persona = obtenerOPrepararPersona(cedula, dbPersona);
+	Persona* persona = obtenerOIngresarPersona(cedula, dbPersona);
 	if (!persona) return;
 
 	// 2. Preparar documento de cuenta
@@ -259,38 +260,16 @@ void Banco::agregarPersonaEnMemoria(Persona* persona) {
 	listaPersonas = nuevo;
 }
 
-
+/**
+ * @brief Muestra un menú interactivo para seleccionar el tipo de cuenta a crear
+ * @return Entero que representa la opción seleccionada (0 para Ahorros, 1 para Corriente, 2 para Cancelar)
+ */
 int Banco::mostrarMenuTipoCuenta() {
-	std::string opciones[] = { "Cuenta de Ahorros", "Cuenta Corriente", "Cancelar" };
-	int numOpciones = sizeof(opciones) / sizeof(opciones[0]);
-	int seleccion = 0;
-	int x = 5, y = 5;
-
-	while (true) {
-		Utilidades::ocultarCursor();
-		Utilidades::limpiarPantallaPreservandoMarquesina(1);
-		std::cout << "\nSeleccione el tipo de cuenta a crear para la persona:\n\n";
-		for (int i = 0; i < numOpciones; i++) {
-			if (i == seleccion)
-				std::cout << " > " << opciones[i] << std::endl;
-			else
-				std::cout << "   " << opciones[i] << std::endl;
-		}
-		Utilidades::gotoxy(0, y + numOpciones);
-
-		int tecla = _getch();
-		if (tecla == 224) {
-			tecla = _getch();
-			if (tecla == 72)
-				seleccion = (seleccion - 1 + numOpciones) % numOpciones;
-			else if (tecla == 80)
-				seleccion = (seleccion + 1) % numOpciones;
-		}
-		else if (tecla == 13) {
-			break;
-		}
-		Utilidades::mostrarCursor();
-	}
+	std::vector<std::string> opciones = { "Cuenta de Ahorros", "Cuenta Corriente", "Cancelar" };
+	// Puedes ajustar las coordenadas x, y según tu preferencia visual
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
+	Utilidades::ocultarCursor();
+	int seleccion = Utilidades::menuInteractivo("Seleccione el tipo de cuenta a crear para la persona:", opciones, 0, 0);
 	return seleccion;
 }
 
@@ -298,7 +277,8 @@ std::string Banco::solicitarCedula() {
 	std::string cedulaTemp;
 	while (true) {
 		system("pause");
-		Utilidades::limpiarPantallaPreservandoMarquesina(1);
+		Utilidades::mostrarCursor();
+		Utilidades::limpiarPantallaPreservandoMarquesina(0);
 		std::cout << "\n----- INGRESE SUS DATOS -----\n";
 		std::cout << "Ingrese su cedula (10 digitos): ";
 		cedulaTemp.clear();
@@ -348,45 +328,33 @@ Persona* Banco::buscarPersonaPorCedula(const std::string& cedula) {
 	return resultado;
 }
 
+/**
+ * @brief Confirma si se desea agregar una cuenta a un titular existente
+ * @param personaExistente Puntero al objeto Persona existente
+ * @param cedula Cédula del titular
+ * @return true si se desea agregar una nueva cuenta, false si se cancela la operación
+ */
 bool Banco::confirmarAgregarCuentaExistente(Persona* personaExistente, const std::string& cedula) {
-	const char* opciones[2] = { "Si", "No" };
-	int seleccion = 1;
-	int tecla = 0;
-	while (true) {
-		Utilidades::limpiarPantallaPreservandoMarquesina(1);
-		std::cout << "La cedula " << cedula << " ya esta registrada en el sistema.\n";
-		std::cout << "Titular: " << personaExistente->getNombres() << " " << personaExistente->getApellidos() << "\n\n";
-		std::cout << "Desea agregar una nueva cuenta para este titular?\n\n";
-		for (int i = 0; i < 2; ++i) {
-			if (i == seleccion) {
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-					BACKGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN |
-					FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-				std::cout << " > " << opciones[i] << " < ";
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-					FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-			}
-			else {
-				std::cout << "   " << opciones[i] << "   ";
-			}
-		}
-		std::cout << "\r";
-		tecla = _getch();
-		if (tecla == 224) {
-			tecla = _getch();
-			if (tecla == 75 && seleccion > 0) --seleccion;
-			else if (tecla == 77 && seleccion < 1) ++seleccion;
-		}
-		else if (tecla == 13) break;
-	}
-	std::cout << std::endl;
-	if (seleccion == 1) {
+	Utilidades::limpiarPantallaPreservandoMarquesina(0);
+	Utilidades::ocultarCursor();
+
+	// Mensaje informativo
+	std::cout << "La cedula " << cedula << " ya esta registrada en el sistema.\n";
+	std::cout << "Titular: " << personaExistente->getNombres() << " " << personaExistente->getApellidos() << "\n\n";
+	std::cout << "Desea agregar una nueva cuenta para este titular?\n" << std::endl;
+
+	// Opciones del menú
+	std::vector<std::string> opciones = { "Si", "No" };
+	int seleccion = Utilidades::menuInteractivo("Seleccione una opcion:", opciones, 0, 0);
+
+	if (seleccion == 1 || seleccion == -1) {
 		std::cout << "Operacion cancelada.\n";
 		system("pause");
 		return false;
 	}
 	std::cout << "Usando datos de titular existente.\n";
 	system("pause");
+	Utilidades::mostrarCursor();
 	return true;
 }
 

@@ -61,7 +61,6 @@ void Utilidades::mostrarMenu(int seleccion, const std::vector<std::string>& opci
 	Utilidades::gotoxy(x, y + seleccion);
 	std::cout << " > " << opciones[seleccion] << "    ";
 	std::cout.flush();
-	// Sleep(2); // Considera si realmente lo necesitas
 	actualizandoMenu = false;
 }
 
@@ -1197,4 +1196,54 @@ void Utilidades::mostrarCursor() {
 	cursorInfo.dwSize = 25; // Tamaño normal
 	cursorInfo.bVisible = TRUE;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+}
+
+/**
+ * @brief Centra la ventana de la consola en la pantalla
+ *
+ * Utiliza las funciones de Windows API para mover la ventana de la consola
+ * al centro de la pantalla principal.
+ */
+void Utilidades::centrarVentanaConsola() {
+	HWND hConsole = GetConsoleWindow(); // Obtiene el handle de la ventana de la consola
+	RECT r;
+	GetWindowRect(hConsole, &r); // Obtiene las coordenadas actuales de la ventana
+
+	// Obtiene las dimensiones de la pantalla principal
+	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	// Calcula las nuevas coordenadas para centrar la ventana
+	// Ancho de la ventana
+	int windowWidth = r.right - r.left;
+	// Alto de la ventana
+	int windowHeight = r.bottom - r.top;
+
+	int newX = (screenWidth - windowWidth) / 2;
+	int newY = (screenHeight - windowHeight) / 2;
+
+	// Mueve la ventana a la nueva posición.
+	// Los últimos dos parámetros (width, height) son el tamaño actual de la ventana,
+	// el penúltimo es si debe redibujar la ventana (TRUE).
+	MoveWindow(hConsole, newX, newY, windowWidth, windowHeight, TRUE);
+}
+
+/**
+ * @brief Restaura la barra de título de la consola
+ *
+ * Esta función añade los estilos necesarios para que la consola tenga una barra de título,
+ * un menú del sistema y un marco que permita redimensionarla manualmente.
+ */
+void Utilidades::restaurarBarraTituloConsola() {
+	HWND hConsole = GetConsoleWindow();
+	LONG style = GetWindowLong(hConsole, GWL_STYLE);
+
+	// Añade los estilos para la barra de título, menú del sistema (para minimizar/maximizar/cerrar)
+	// y el marco de la ventana (para poder redimensionarla manualmente).
+	style |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME;
+
+	SetWindowLong(hConsole, GWL_STYLE, style);
+
+	// Necesario para que los cambios de estilo surtan efecto inmediatamente
+	SetWindowPos(hConsole, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
 }
