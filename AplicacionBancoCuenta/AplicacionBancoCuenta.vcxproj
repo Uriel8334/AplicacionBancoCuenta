@@ -154,6 +154,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClCompile Include="ArbolBGrafico.cpp" />
     <ClCompile Include="Banco.cpp" />
     <ClCompile Include="Cifrado.cpp" />
+    <ClCompile Include="ConexionMongo.cpp" />
     <ClCompile Include="CuentaAhorros.cpp" />
     <ClCompile Include="CuentaCorriente.cpp" />
     <ClCompile Include="PruebaQR.cpp" />

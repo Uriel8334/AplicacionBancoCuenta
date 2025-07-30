@@ -87,7 +87,7 @@ void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaAhorro
  */
 void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaCorriente* cuenta) {
 	try {
-		mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
+		mongocxx::client& client = ConexionMongo::getCliente();
 		_BaseDatosPersona dbPersona(client);
 
 		auto cuentaDoc = bsoncxx::builder::basic::document{};
@@ -172,7 +172,7 @@ void Banco::agregarPersonaConCuenta() {
 		return;
 	}
 
-	mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
+	mongocxx::client& client = ConexionMongo::getCliente();
 	_BaseDatosPersona dbPersona(client);
 
 	bool personaExiste = dbPersona.existePersonaPorCedula(cedula);
@@ -372,7 +372,7 @@ void Banco::crearCuentaAhorrosParaPersona(Persona* persona, const std::string& c
 
 			// --- INICIO BLOQUE MONGODB ---
 			try {
-				mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
+				mongocxx::client& client = ConexionMongo::getCliente();
 				_BaseDatosPersona dbPersona(client);
 
 				auto cuentaDoc = bsoncxx::builder::basic::document{};
@@ -417,7 +417,7 @@ void Banco::crearCuentaCorrienteParaPersona(Persona* persona, const std::string&
 
 			// --- INICIO BLOQUE MONGODB ---
 			try {
-				mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
+				mongocxx::client& client = ConexionMongo::getCliente();
 				_BaseDatosPersona dbPersona(client);
 
 				auto cuentaDoc = bsoncxx::builder::basic::document{};

@@ -56,7 +56,7 @@ void _BaseDatosArchivos::mostrarMenuBaseDatos() {
 			Utilidades::limpiarPantallaPreservandoMarquesina(0); // Limpia antes de mostrar el sub-menú
 			std::string coleccion = seleccionarColeccionParaExportar();
 			if (!coleccion.empty()) { // Solo exporta si se seleccionó una colección válida
-				std::string uri = "mongodb://localhost:27017/";
+				std::string uri = "mongodb://192.168.1.10:27017/?connectTimeoutMS=5000&serverSelectionTimeoutMS=3000";
 				std::string db = "Banco";
 				exportarBackupMongoDB(uri, db, coleccion);
 			}
@@ -73,7 +73,7 @@ void _BaseDatosArchivos::mostrarMenuBaseDatos() {
 			std::getline(std::cin, nombreArchivo);
 			// Si la cadena está vacía (por ejemplo, si el usuario solo presiona Enter), podrías querer manejarlo
 			if (!nombreArchivo.empty()) {
-				std::string uri = "mongodb://localhost:27017/";
+				std::string uri = "mongodb://192.168.1.10:27017/?connectTimeoutMS=5000&serverSelectionTimeoutMS=3000";
 				std::string db = "Banco";
 				restaurarBackupMongoDB(uri, db, nombreArchivo);
 			}
@@ -149,6 +149,9 @@ void _BaseDatosArchivos::exportarBackupMongoDB(const std::string& uri, const std
 		archivo.close();
 
 		std::cout << "Backup exportado exitosamente a: " << nombreArchivo << std::endl;
+		std::cout << "Presione Enter para continuar" << std::endl;
+		int teclaCualquiera = _getch();
+		(void)teclaCualquiera;
 	}
 	else {
 		std::cerr << "No se pudo obtener la ruta del escritorio del usuario." << std::endl;

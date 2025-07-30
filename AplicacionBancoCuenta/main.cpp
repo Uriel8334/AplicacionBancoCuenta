@@ -122,6 +122,52 @@ void configurarConsolaUTF8() {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 }
+  
+/**
+ * @brief Permite al usuario seleccionar el modo de conexión a MongoDB
+ * @return true si se seleccionó correctamente, false si se canceló
+ */
+bool seleccionarModoConexion() {
+	std::vector<std::string> opcionesConexion = {
+		"SERVIDOR (Local - localhost:27017)",
+		"CLIENTE (Remoto - 192.168.1.10:27017)"
+	};
+
+	std::cout << "=== CONFIGURACIÓN DE CONEXIÓN MONGODB ===" << std::endl;
+	std::cout << std::endl;
+	std::cout << "Seleccione el modo de conexión:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "• SERVIDOR: Para ejecutar en la máquina que tiene MongoDB instalado" << std::endl;
+	std::cout << "• CLIENTE: Para ejecutar en máquinas remotas conectadas al servidor" << std::endl;
+	std::cout << std::endl;
+
+	int seleccionConexion = Utilidades::menuInteractivo("Modo de Conexión MongoDB", opcionesConexion, 0, 0);
+
+	if (seleccionConexion == -1) {
+		// Usuario presionó ESC
+		std::cout << "Configuración cancelada. Saliendo del sistema..." << std::endl;
+		return false;
+	}
+
+	// Configurar el modo según la selección
+	if (seleccionConexion == 0) {
+		ConexionMongo::setModoConexion(ConexionMongo::SERVIDOR);
+		std::cout << std::endl;
+		std::cout << "=== MODO SERVIDOR SELECCIONADO ===" << std::endl;
+		std::cout << "• Conectará a: mongodb://localhost:27017" << std::endl;
+		std::cout << "• Asegúrese de que MongoDB esté ejecutándose localmente" << std::endl;
+	}
+	else {
+		ConexionMongo::setModoConexion(ConexionMongo::CLIENTE);
+		std::cout << std::endl;
+		std::cout << "=== MODO CLIENTE SELECCIONADO ===" << std::endl;
+		std::cout << "• Conectará a: mongodb://192.168.1.10:27017" << std::endl;
+		std::cout << "• Asegúrese de que pcServidor esté accesible en la red" << std::endl;
+	}
+
+	std::cout << std::endl;
+	return true;
+}
 
 /**
  * @brief Opciones del menú principal del sistema bancario
@@ -157,12 +203,31 @@ std::vector<std::string> opcionesMenuPrincipal = {
  */
 int main() {
 	configurarConsolaUTF8();
-	// Se consulta si se ha configurado la conexión a MongoDB y si es local o con internet
-	//Utilidades::ocultarCursor();
-	//int seleccionConexion = Utilidades::menuInteractivo("Seleccione el modo de conexión", { "Local", "Remota" }, 0, 0);
-	//ConexionMongo::setModoConexion(true); // Cambiar a false si se quiere usar conexión remota
-	ConexionMongo::getCliente(); // Inicializar el cliente de MongoDB
-	//Utilidades::limpiarPantallaPreservandoMarquesina(0);
+	// === SELECCIÓN DEL MODO DE CONEXIÓN ===
+	std::cout << "SISTEMA BANCARIO EDUCATIVO" << std::endl;
+	std::cout << "===================================" << std::endl;
+	std::cout << std::endl;
+
+	// Seleccionar modo de conexión
+	if (!seleccionarModoConexion()) {
+		return 0; // Salir si se canceló la configuración
+	}
+
+	// Inicializar el cliente de MongoDB con el modo seleccionado
+	std::cout << "Inicializando conexión MongoDB..." << std::endl;
+	try {
+		ConexionMongo::getCliente();
+		std::cout << "✓ Conexión MongoDB establecida correctamente" << std::endl;
+	}
+	catch (const std::exception& e) {
+		std::cerr << "✗ Error crítico al conectar con MongoDB: " << e.what() << std::endl;
+		std::cout << "La aplicación no puede continuar sin conexión a la base de datos." << std::endl;
+		system("pause");
+		return -1;
+	}
+	system("pause");
+
+	Utilidades::limpiarPantallaPreservandoMarquesina(0);
 
 	//variables globales
 	int seleccion = 0;
