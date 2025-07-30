@@ -110,7 +110,16 @@ std::vector<std::string> AdministradorChatRedLocal::leerMensajesNuevos() {
 
 bool AdministradorChatRedLocal::marcarConexion(bool conectado) {
     try {
-        std::ofstream archivo(rutaCompleta + ARCHIVO_ESTADO);
+        // Crear archivos de estado específicos para cada modo
+        std::string archivoEstadoLocal;
+        if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+            archivoEstadoLocal = "estado_servidor.txt";
+        }
+        else {
+            archivoEstadoLocal = "estado_cliente.txt";
+        }
+
+        std::ofstream archivo(rutaCompleta + archivoEstadoLocal);
         if (archivo.is_open()) {
             archivo << (conectado ? "CONECTADO" : "DESCONECTADO") << std::endl;
             archivo << obtenerModoTexto() << std::endl;
@@ -128,12 +137,33 @@ bool AdministradorChatRedLocal::marcarConexion(bool conectado) {
 
 bool AdministradorChatRedLocal::verificarConexionRemota() {
     try {
-        std::ifstream archivo(rutaCompleta + ARCHIVO_ESTADO);
+        // Verificar el archivo de estado del lado remoto
+        std::string archivoEstadoRemoto;
+        if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+            archivoEstadoRemoto = "estado_cliente.txt";
+        }
+        else {
+            archivoEstadoRemoto = "estado_servidor.txt";
+        }
+
+        std::ifstream archivo(rutaCompleta + archivoEstadoRemoto);
         if (archivo.is_open()) {
-            std::string estado;
+            std::string estado, modo, timestamp;
             std::getline(archivo, estado);
+            std::getline(archivo, modo);
+            std::getline(archivo, timestamp);
             archivo.close();
-            return (estado == "CONECTADO");
+
+            // Verificar que el estado sea CONECTADO y que no sea muy antiguo
+            if (estado == "CONECTADO") {
+                // Verificar también que el archivo de mensajes remoto exista
+                std::ifstream archivoMensajes(rutaCompleta + archivoMensajesRemoto);
+                bool existeArchivoMensajes = archivoMensajes.is_open();
+                if (existeArchivoMensajes) {
+                    archivoMensajes.close();
+                }
+                return existeArchivoMensajes;
+            }
         }
         return false;
     }
@@ -144,7 +174,7 @@ bool AdministradorChatRedLocal::verificarConexionRemota() {
 
 void AdministradorChatRedLocal::limpiarArchivos() {
     try {
-        // Limpiar archivos de mensajes al iniciar
+        // Limpiar archivo de mensajes local al iniciar
         std::ofstream archivoLocal(rutaCompleta + archivoMensajesLocal, std::ios::trunc);
         archivoLocal.close();
 
@@ -158,10 +188,13 @@ void AdministradorChatRedLocal::limpiarArchivos() {
 
 void AdministradorChatRedLocal::ejecutarMonitoreo() {
     while (chatActivo) {
+        // AMBOS (servidor y cliente) marcan su conexión regularmente
+        marcarConexion(true);
+
         if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
             servidorEnEjecucion = true;
-            marcarConexion(true);
         }
+
         std::this_thread::sleep_for(std::chrono::seconds(2));
     }
 }
@@ -240,17 +273,26 @@ void AdministradorChatRedLocal::iniciarChat() {
 
     chatActivo = true;
 
-    // Limpiar archivos anteriores
-    limpiarArchivos();
+    // Limpiar archivos anteriores solo del modo actual
+    try {
+        std::ofstream archivoLocal(rutaCompleta + archivoMensajesLocal, std::ios::trunc);
+        archivoLocal.close();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error limpiando archivo local: " << e.what() << std::endl;
+    }
 
     // Iniciar hilos
     hiloMonitoreo = std::thread(&AdministradorChatRedLocal::ejecutarMonitoreo, this);
     hiloEscucha = std::thread(&AdministradorChatRedLocal::escucharMensajes, this);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    // Dar tiempo para que se establezca la conexión
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     limpiarPantallaChat();
 
-    std::cout << "Chat iniciado correctamente. Esperando conexiones..." << std::endl;
+    std::cout << "Chat iniciado correctamente." << std::endl;
+    std::cout << "Estado de conexión: " << (verificarConexionRemota() ? "CONECTADO" : "ESPERANDO CONEXIÓN") << std::endl;
+    std::cout << std::endl;
 
     // Bucle principal del chat
     std::string mensaje;
@@ -265,10 +307,23 @@ void AdministradorChatRedLocal::iniciarChat() {
             break;
         }
 
-        // Verificar si hay otro usuario conectado
-        if (ConexionMongo::getModoConexion() == ConexionMongo::CLIENTE && !verificarConexionRemota()) {
-            std::cout << "[SISTEMA]: No hay servidor conectado actualmente" << std::endl;
+        // Verificar comando de estado
+        if (mensaje == "/estado") {
+            std::cout << "[SISTEMA]: Estado de conexión: " << (verificarConexionRemota() ? "CONECTADO" : "DESCONECTADO") << std::endl;
             continue;
+        }
+
+        // Verificar si hay otro usuario conectado (solo para cliente)
+        if (ConexionMongo::getModoConexion() == ConexionMongo::CLIENTE && !verificarConexionRemota()) {
+            std::cout << "[SISTEMA]: No hay servidor conectado actualmente. Use '/estado' para verificar." << std::endl;
+            continue;
+        }
+
+        // Para servidor, siempre permitir enviar mensajes
+        if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+            if (!verificarConexionRemota()) {
+                std::cout << "[SISTEMA]: Mensaje enviado (esperando cliente). Use '/estado' para verificar conexiones." << std::endl;
+            }
         }
 
         // Enviar mensaje
@@ -293,8 +348,8 @@ void AdministradorChatRedLocal::detenerChat() {
     chatActivo = false;
     servidorEnEjecucion = false;
 
-    // Limpiar archivos
-    limpiarArchivos();
+    // Marcar como desconectado
+    marcarConexion(false);
 
     // Esperar hilos
     if (hiloMonitoreo.joinable()) {
