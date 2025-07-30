@@ -30,6 +30,7 @@
 #include "ConexionMongo.h"
 #include "AdministradorChatRedLocal.h"
 
+
  /** @brief Puntero global a la marquesina utilizada en la aplicación */
 Marquesina* marquesinaGlobal = nullptr;
 
@@ -123,7 +124,7 @@ void configurarConsolaUTF8() {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 }
-
+  
 /**
  * @brief Permite al usuario seleccionar el modo de conexión a MongoDB
  * @return true si se seleccionó correctamente, false si se canceló
@@ -256,7 +257,7 @@ int main() {
 	// Imprime el menu una vez (para reservar espacio)
 	for (int i = 0; i < static_cast<int>(opciones.size()); i++)
 		std::cout << std::endl;
-
+	
 	while (true) {
 		int seleccion = Utilidades::menuInteractivo("SISTEMA BANCARIO-EDUCATIVO", opciones, x, y);
 		bool necesitaRedibujado = false;
@@ -1150,8 +1151,6 @@ int main() {
 		{
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
-			AdministradorChatRedLocal chatManager;
-
 			std::cout << "=== SISTEMA DE CHAT LOCAL ===" << std::endl;
 			std::cout << std::endl;
 			std::cout << "Este chat utiliza la misma configuración de red que MongoDB:" << std::endl;
@@ -1171,6 +1170,7 @@ int main() {
 
 			if (respuesta == 's' || respuesta == 'S') {
 				try {
+					AdministradorChatRedLocal chatManager;
 					chatManager.iniciarChat();
 				}
 				catch (const std::exception& e) {
@@ -1189,7 +1189,7 @@ int main() {
 		}
 
 
-
+		
 	}
 	if (marquesinaGlobal) {
 		marquesinaGlobal->detener();

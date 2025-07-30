@@ -1,3 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define NOMINMAX
+
 #include "AdministradorChatRedLocal.h"
 #include "Utilidades.h"
 #include <iostream>
@@ -5,177 +8,193 @@
 #include <iomanip>
 #include <sstream>
 #include <chrono>
+#include <string>
+#include <vector>
+#include <thread>
+#include <atomic>
+#include <mutex>
+#include <fstream>
+#include <filesystem>
+#include <windows.h>
 
 AdministradorChatRedLocal::AdministradorChatRedLocal()
-    : chatActivo(false), servidorEnEjecucion(false), socketServidor(INVALID_SOCKET),
-    socketCliente(INVALID_SOCKET), socketConexion(INVALID_SOCKET) {
-    inicializarWinsock();
+    : chatActivo(false), servidorEnEjecucion(false), ultimoMensajeLeido(0) {
+
+    rutaCompleta = DIRECTORIO_CHAT;
+
+    // Configurar archivos según el modo
+    ConexionMongo::ModoConexion modo = ConexionMongo::getModoConexion();
+    if (modo == ConexionMongo::SERVIDOR) {
+        archivoMensajesLocal = ARCHIVO_SERVIDOR;
+        archivoMensajesRemoto = ARCHIVO_CLIENTE;
+    }
+    else {
+        archivoMensajesLocal = ARCHIVO_CLIENTE;
+        archivoMensajesRemoto = ARCHIVO_SERVIDOR;
+    }
 }
 
 AdministradorChatRedLocal::~AdministradorChatRedLocal() {
     detenerChat();
-    limpiarWinsock();
 }
 
-bool AdministradorChatRedLocal::inicializarWinsock() {
-    WSADATA wsaData;
-    int resultado = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (resultado != 0) {
-        std::cerr << "Error inicializando Winsock: " << resultado << std::endl;
+bool AdministradorChatRedLocal::crearDirectorioChat() {
+    try {
+        if (!std::filesystem::exists(rutaCompleta)) {
+            std::filesystem::create_directories(rutaCompleta);
+        }
+        return true;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error creando directorio de chat: " << e.what() << std::endl;
         return false;
     }
-    return true;
-}
-
-void AdministradorChatRedLocal::limpiarWinsock() {
-    WSACleanup();
 }
 
 void AdministradorChatRedLocal::configurarSegunModoMongoDB() {
     ConexionMongo::ModoConexion modo = ConexionMongo::getModoConexion();
 
-    std::cout << "\n=== CONFIGURACIÓN DEL CHAT ===" << std::endl;
+    std::cout << "\n=== CONFIGURACIÓN DEL CHAT LOCAL ===" << std::endl;
     if (modo == ConexionMongo::SERVIDOR) {
-        std::cout << "• Modo: SERVIDOR (Esperará conexiones de clientes)" << std::endl;
-        std::cout << "• IP de escucha: " << IP_SERVIDOR << std::endl;
-        std::cout << "• Puerto: " << PUERTO_CHAT << std::endl;
+        std::cout << "• Modo: SERVIDOR (Esperará mensajes de clientes)" << std::endl;
+        std::cout << "• Archivo local: " << archivoMensajesLocal << std::endl;
+        std::cout << "• Archivo remoto: " << archivoMensajesRemoto << std::endl;
     }
     else {
-        std::cout << "• Modo: CLIENTE (Se conectará al servidor)" << std::endl;
-        std::cout << "• IP del servidor: " << IP_SERVIDOR << std::endl;
-        std::cout << "• Puerto: " << PUERTO_CHAT << std::endl;
+        std::cout << "• Modo: CLIENTE (Enviará mensajes al servidor)" << std::endl;
+        std::cout << "• Archivo local: " << archivoMensajesLocal << std::endl;
+        std::cout << "• Archivo remoto: " << archivoMensajesRemoto << std::endl;
     }
+    std::cout << "• Directorio: " << rutaCompleta << std::endl;
     std::cout << std::endl;
 }
 
-bool AdministradorChatRedLocal::iniciarServidor() {
-    socketServidor = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (socketServidor == INVALID_SOCKET) {
-        std::cerr << "Error creando socket servidor: " << WSAGetLastError() << std::endl;
-        return false;
-    }
-
-    // Configurar dirección del servidor
-    sockaddr_in direccionServidor;
-    direccionServidor.sin_family = AF_INET;
-    direccionServidor.sin_port = htons(PUERTO_CHAT);
-    inet_pton(AF_INET, IP_SERVIDOR, &direccionServidor.sin_addr);
-
-    // Vincular socket
-    if (bind(socketServidor, (SOCKADDR*)&direccionServidor, sizeof(direccionServidor)) == SOCKET_ERROR) {
-        std::cerr << "Error vinculando socket: " << WSAGetLastError() << std::endl;
-        closesocket(socketServidor);
-        return false;
-    }
-
-    // Escuchar conexiones
-    if (listen(socketServidor, SOMAXCONN) == SOCKET_ERROR) {
-        std::cerr << "Error escuchando en socket: " << WSAGetLastError() << std::endl;
-        closesocket(socketServidor);
-        return false;
-    }
-
-    servidorEnEjecucion = true;
-    std::cout << "Servidor iniciado correctamente en " << IP_SERVIDOR << ":" << PUERTO_CHAT << std::endl;
-    return true;
-}
-
-void AdministradorChatRedLocal::ejecutarServidor() {
-    while (servidorEnEjecucion && chatActivo) {
-        sockaddr_in direccionCliente;
-        int tamDireccion = sizeof(direccionCliente);
-
-        socketConexion = accept(socketServidor, (SOCKADDR*)&direccionCliente, &tamDireccion);
-        if (socketConexion != INVALID_SOCKET) {
-            char ipCliente[INET_ADDRSTRLEN];
-            inet_ntop(AF_INET, &direccionCliente.sin_addr, ipCliente, INET_ADDRSTRLEN);
-
-            std::lock_guard<std::mutex> lock(mtxMensajes);
-            std::string mensajeConexion = "[SISTEMA]: Cliente conectado desde " + std::string(ipCliente);
-            historialMensajes.push_back(mensajeConexion);
-            mostrarMensaje(mensajeConexion);
-
-            // Iniciar hilo de escucha para este cliente
-            if (hiloEscucha.joinable()) {
-                hiloEscucha.detach();
-            }
-            hiloEscucha = std::thread(&AdministradorChatRedLocal::escucharMensajes, this);
+bool AdministradorChatRedLocal::escribirMensaje(const std::string& mensaje) {
+    try {
+        std::ofstream archivo(rutaCompleta + archivoMensajesLocal, std::ios::app);
+        if (archivo.is_open()) {
+            archivo << obtenerTimestamp() << " " << mensaje << std::endl;
+            archivo.close();
+            return true;
         }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        return false;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error escribiendo mensaje: " << e.what() << std::endl;
+        return false;
     }
 }
 
-bool AdministradorChatRedLocal::conectarAServidor() {
-    socketCliente = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (socketCliente == INVALID_SOCKET) {
-        std::cerr << "Error creando socket cliente: " << WSAGetLastError() << std::endl;
+std::vector<std::string> AdministradorChatRedLocal::leerMensajesNuevos() {
+    std::vector<std::string> mensajesNuevos;
+    try {
+        std::ifstream archivo(rutaCompleta + archivoMensajesRemoto);
+        if (archivo.is_open()) {
+            std::string linea;
+            size_t contador = 0;
+            while (std::getline(archivo, linea)) {
+                if (contador >= ultimoMensajeLeido) {
+                    mensajesNuevos.push_back(linea);
+                }
+                contador++;
+            }
+            ultimoMensajeLeido = contador;
+            archivo.close();
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error leyendo mensajes: " << e.what() << std::endl;
+    }
+    return mensajesNuevos;
+}
+
+bool AdministradorChatRedLocal::marcarConexion(bool conectado) {
+    try {
+        std::ofstream archivo(rutaCompleta + ARCHIVO_ESTADO);
+        if (archivo.is_open()) {
+            archivo << (conectado ? "CONECTADO" : "DESCONECTADO") << std::endl;
+            archivo << obtenerModoTexto() << std::endl;
+            archivo << obtenerTimestamp() << std::endl;
+            archivo.close();
+            return true;
+        }
         return false;
     }
-
-    sockaddr_in direccionServidor;
-    direccionServidor.sin_family = AF_INET;
-    direccionServidor.sin_port = htons(PUERTO_CHAT);
-    inet_pton(AF_INET, IP_SERVIDOR, &direccionServidor.sin_addr);
-
-    if (connect(socketCliente, (SOCKADDR*)&direccionServidor, sizeof(direccionServidor)) == SOCKET_ERROR) {
-        std::cerr << "Error conectando al servidor: " << WSAGetLastError() << std::endl;
-        closesocket(socketCliente);
+    catch (const std::exception& e) {
+        std::cerr << "Error marcando conexión: " << e.what() << std::endl;
         return false;
     }
+}
 
-    std::cout << "Conectado al servidor exitosamente." << std::endl;
-    return true;
+bool AdministradorChatRedLocal::verificarConexionRemota() {
+    try {
+        std::ifstream archivo(rutaCompleta + ARCHIVO_ESTADO);
+        if (archivo.is_open()) {
+            std::string estado;
+            std::getline(archivo, estado);
+            archivo.close();
+            return (estado == "CONECTADO");
+        }
+        return false;
+    }
+    catch (const std::exception& e) {
+        return false;
+    }
+}
+
+void AdministradorChatRedLocal::limpiarArchivos() {
+    try {
+        // Limpiar archivos de mensajes al iniciar
+        std::ofstream archivoLocal(rutaCompleta + archivoMensajesLocal, std::ios::trunc);
+        archivoLocal.close();
+
+        // Marcar como desconectado al salir
+        marcarConexion(false);
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error limpiando archivos: " << e.what() << std::endl;
+    }
+}
+
+void AdministradorChatRedLocal::ejecutarMonitoreo() {
+    while (chatActivo) {
+        if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+            servidorEnEjecucion = true;
+            marcarConexion(true);
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
 }
 
 void AdministradorChatRedLocal::escucharMensajes() {
-    char buffer[1024];
-    SOCKET socketActivo = (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) ?
-        socketConexion : socketCliente;
+    while (chatActivo) {
+        std::vector<std::string> mensajesNuevos = leerMensajesNuevos();
 
-    while (chatActivo && socketActivo != INVALID_SOCKET) {
-        int bytesRecibidos = recv(socketActivo, buffer, sizeof(buffer) - 1, 0);
-        if (bytesRecibidos > 0) {
-            buffer[bytesRecibidos] = '\0';
-            std::string mensaje(buffer);
-
+        for (const auto& mensaje : mensajesNuevos) {
             std::lock_guard<std::mutex> lock(mtxMensajes);
             historialMensajes.push_back(mensaje);
-            mostrarMensaje(mensaje);
+            std::cout << "\r" << mensaje << std::endl;
+            std::cout << nombreUsuario << ": " << std::flush;
         }
-        else if (bytesRecibidos == 0) {
-            std::lock_guard<std::mutex> lock(mtxMensajes);
-            std::string mensajeDesconexion = "[SISTEMA]: Cliente desconectado";
-            historialMensajes.push_back(mensajeDesconexion);
-            mostrarMensaje(mensajeDesconexion);
-            break;
-        }
-        else {
-            std::cerr << "Error recibiendo mensaje: " << WSAGetLastError() << std::endl;
-            break;
-        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
 
 void AdministradorChatRedLocal::mostrarMensaje(const std::string& mensaje) {
-    // Obtener timestamp
-    auto ahora = std::chrono::system_clock::now();
-    auto tiempo = std::chrono::system_clock::to_time_t(ahora);
-    std::stringstream ss;
-    ss << std::put_time(std::localtime(&tiempo), "%H:%M:%S");
-
-    std::cout << "[" << ss.str() << "] " << mensaje << std::endl;
+    std::cout << mensaje << std::endl;
 }
 
 void AdministradorChatRedLocal::limpiarPantallaChat() {
     Utilidades::limpiarPantallaPreservandoMarquesina(1);
     std::cout << "=== CHAT LOCAL - " << obtenerModoTexto() << " ===" << std::endl;
-    std::cout << "Escriba sus mensajes. Presione ESC para salir." << std::endl;
-    std::cout << std::string(50, '-') << std::endl;
+    std::cout << "Escriba sus mensajes. Escriba '/exit' para salir." << std::endl;
+    std::cout << "Chat por archivos temporales - Directorio: " << rutaCompleta << std::endl;
+    std::cout << std::string(60, '-') << std::endl;
 
     // Mostrar historial reciente
     std::lock_guard<std::mutex> lock(mtxMensajes);
-    size_t inicio = historialMensajes.size() > 10 ? historialMensajes.size() - 10 : 0;
+    size_t inicio = historialMensajes.size() > 8 ? historialMensajes.size() - 8 : 0;
     for (size_t i = inicio; i < historialMensajes.size(); ++i) {
         std::cout << historialMensajes[i] << std::endl;
     }
@@ -185,13 +204,31 @@ std::string AdministradorChatRedLocal::obtenerModoTexto() {
     return (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) ? "SERVIDOR" : "CLIENTE";
 }
 
+std::string AdministradorChatRedLocal::obtenerTimestamp() {
+    auto ahora = std::chrono::system_clock::now();
+    auto tiempo = std::chrono::system_clock::to_time_t(ahora);
+
+    struct tm tiempoLocal;
+    localtime_s(&tiempoLocal, &tiempo);
+
+    std::stringstream ss;
+    ss << "[" << std::put_time(&tiempoLocal, "%H:%M:%S") << "]";
+    return ss.str();
+}
+
 bool AdministradorChatRedLocal::hayClientesConectados() const {
-    return (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) ?
-        (socketConexion != INVALID_SOCKET) : (socketCliente != INVALID_SOCKET);
+    return const_cast<AdministradorChatRedLocal*>(this)->verificarConexionRemota();
 }
 
 void AdministradorChatRedLocal::iniciarChat() {
     configurarSegunModoMongoDB();
+
+    // Crear directorio de chat
+    if (!crearDirectorioChat()) {
+        std::cout << "Error: No se pudo crear el directorio de chat." << std::endl;
+        system("pause");
+        return;
+    }
 
     // Solicitar nombre de usuario
     std::cout << "Ingrese su nombre de usuario: ";
@@ -203,31 +240,17 @@ void AdministradorChatRedLocal::iniciarChat() {
 
     chatActivo = true;
 
-    // Configurar según el modo
-    bool conexionExitosa = false;
-    if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
-        conexionExitosa = iniciarServidor();
-        if (conexionExitosa) {
-            hiloServidor = std::thread(&AdministradorChatRedLocal::ejecutarServidor, this);
-            std::cout << "Esperando conexiones de clientes..." << std::endl;
-        }
-    }
-    else {
-        conexionExitosa = conectarAServidor();
-        if (conexionExitosa) {
-            hiloEscucha = std::thread(&AdministradorChatRedLocal::escucharMensajes, this);
-        }
-    }
+    // Limpiar archivos anteriores
+    limpiarArchivos();
 
-    if (!conexionExitosa) {
-        std::cout << "No se pudo establecer la conexión. Verifique la red." << std::endl;
-        system("pause");
-        chatActivo = false;
-        return;
-    }
+    // Iniciar hilos
+    hiloMonitoreo = std::thread(&AdministradorChatRedLocal::ejecutarMonitoreo, this);
+    hiloEscucha = std::thread(&AdministradorChatRedLocal::escucharMensajes, this);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     limpiarPantallaChat();
+
+    std::cout << "Chat iniciado correctamente. Esperando conexiones..." << std::endl;
 
     // Bucle principal del chat
     std::string mensaje;
@@ -237,33 +260,29 @@ void AdministradorChatRedLocal::iniciarChat() {
 
         if (mensaje.empty()) continue;
 
-        // Verificar si presionó ESC (esto requiere manejo especial en Windows)
-        if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+        // Verificar comando de salida
+        if (mensaje == "/exit" || mensaje == "/salir") {
             break;
         }
 
+        // Verificar si hay otro usuario conectado
+        if (ConexionMongo::getModoConexion() == ConexionMongo::CLIENTE && !verificarConexionRemota()) {
+            std::cout << "[SISTEMA]: No hay servidor conectado actualmente" << std::endl;
+            continue;
+        }
+
         // Enviar mensaje
-        if (hayClientesConectados()) {
-            std::string mensajeCompleto = "[" + nombreUsuario + ":" + obtenerModoTexto() + "]: " + mensaje;
+        std::string mensajeCompleto = "[" + nombreUsuario + ":" + obtenerModoTexto() + "]: " + mensaje;
 
-            SOCKET socketEnvio = (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) ?
-                socketConexion : socketCliente;
-
-            int resultado = send(socketEnvio, mensajeCompleto.c_str(),
-                static_cast<int>(mensajeCompleto.length()), 0);
-
-            if (resultado == SOCKET_ERROR) {
-                std::cout << "[ERROR]: No se pudo enviar el mensaje" << std::endl;
-            }
-            else {
-                // Mostrar nuestro propio mensaje
-                std::lock_guard<std::mutex> lock(mtxMensajes);
-                historialMensajes.push_back(mensajeCompleto);
-                mostrarMensaje(mensajeCompleto);
-            }
+        if (escribirMensaje(mensajeCompleto)) {
+            // Mostrar nuestro propio mensaje
+            std::lock_guard<std::mutex> lock(mtxMensajes);
+            std::string mensajeConTimestamp = obtenerTimestamp() + " " + mensajeCompleto;
+            historialMensajes.push_back(mensajeConTimestamp);
+            mostrarMensaje(mensajeConTimestamp);
         }
         else {
-            std::cout << "[SISTEMA]: No hay dispositivos conectados actualmente" << std::endl;
+            std::cout << "[ERROR]: No se pudo enviar el mensaje" << std::endl;
         }
     }
 
@@ -274,28 +293,14 @@ void AdministradorChatRedLocal::detenerChat() {
     chatActivo = false;
     servidorEnEjecucion = false;
 
-    // Cerrar sockets
-    if (socketConexion != INVALID_SOCKET) {
-        closesocket(socketConexion);
-        socketConexion = INVALID_SOCKET;
-    }
-    if (socketCliente != INVALID_SOCKET) {
-        closesocket(socketCliente);
-        socketCliente = INVALID_SOCKET;
-    }
-    if (socketServidor != INVALID_SOCKET) {
-        closesocket(socketServidor);
-        socketServidor = INVALID_SOCKET;
-    }
+    // Limpiar archivos
+    limpiarArchivos();
 
     // Esperar hilos
-    if (hiloServidor.joinable()) {
-        hiloServidor.join();
+    if (hiloMonitoreo.joinable()) {
+        hiloMonitoreo.join();
     }
     if (hiloEscucha.joinable()) {
         hiloEscucha.join();
-    }
-    if (hiloEnvio.joinable()) {
-        hiloEnvio.join();
     }
 }

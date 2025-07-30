@@ -1,58 +1,62 @@
 #pragma once
+
+#define _CRT_SECURE_NO_WARNINGS
+#define NOMINMAX
+
 #include <string>
 #include <vector>
 #include <thread>
 #include <atomic>
 #include <mutex>
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include <fstream>
+#include <chrono>
+#include <filesystem>
 #include "ConexionMongo.h"
 
-#pragma comment(lib, "ws2_32.lib")
-
+// Chat local usando archivos temporales (sin sockets)
 class AdministradorChatRedLocal
 {
 private:
-    // Configuración de red
-    static constexpr int PUERTO_CHAT = 8080;
-    static constexpr const char* IP_SERVIDOR = "192.168.1.10";
+    // Configuración de comunicación
+    static constexpr const char* DIRECTORIO_CHAT = "C:\\temp\\chat_bancario\\";
+    static constexpr const char* ARCHIVO_SERVIDOR = "servidor_mensajes.txt";
+    static constexpr const char* ARCHIVO_CLIENTE = "cliente_mensajes.txt";
+    static constexpr const char* ARCHIVO_ESTADO = "estado_conexion.txt";
 
     // Estado del chat
     std::atomic<bool> chatActivo;
     std::atomic<bool> servidorEnEjecucion;
     std::string nombreUsuario;
-
-    // Sockets
-    SOCKET socketServidor;
-    SOCKET socketCliente;
-    SOCKET socketConexion; // Para conexiones entrantes
+    std::string archivoMensajesLocal;
+    std::string archivoMensajesRemoto;
+    std::string rutaCompleta;
 
     // Hilos
-    std::thread hiloServidor;
+    std::thread hiloMonitoreo;
     std::thread hiloEscucha;
-    std::thread hiloEnvio;
 
     // Sincronización
     std::mutex mtxMensajes;
     std::vector<std::string> historialMensajes;
+    size_t ultimoMensajeLeido;
 
-    // Inicialización de Winsock
-    bool inicializarWinsock();
-    void limpiarWinsock();
+    // Métodos de archivos
+    bool crearDirectorioChat();
+    bool escribirMensaje(const std::string& mensaje);
+    std::vector<std::string> leerMensajesNuevos();
+    bool marcarConexion(bool conectado);
+    bool verificarConexionRemota();
+    void limpiarArchivos();
 
-    // Funciones del servidor
-    bool iniciarServidor();
-    void ejecutarServidor();
-    void manejarConexionEntrante();
-
-    // Funciones del cliente
-    bool conectarAServidor();
+    // Funciones del chat
+    void ejecutarMonitoreo();
     void escucharMensajes();
 
     // Utilidades
     void mostrarMensaje(const std::string& mensaje);
     void limpiarPantallaChat();
     std::string obtenerModoTexto();
+    std::string obtenerTimestamp();
 
 public:
     AdministradorChatRedLocal();
