@@ -151,6 +151,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AdministradorChatRedLocal.cpp" />
     <ClCompile Include="ArbolBGrafico.cpp" />
     <ClCompile Include="Banco.cpp" />
     <ClCompile Include="Cifrado.cpp" />
@@ -170,6 +171,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClCompile Include="Validar.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdministradorChatRedLocal.h" />
     <ClInclude Include="ArbolB.h" />
     <ClInclude Include="ArbolBGrafico.h" />
     <ClInclude Include="Banco.h" />

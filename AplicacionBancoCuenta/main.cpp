@@ -28,6 +28,7 @@
 #include "_BaseDatosPersona.h"
 #include "_BaseDatosArchivos.h"
 #include "ConexionMongo.h"
+#include "AdministradorChatRedLocal.h"
 
  /** @brief Puntero global a la marquesina utilizada en la aplicación */
 Marquesina* marquesinaGlobal = nullptr;
@@ -122,7 +123,7 @@ void configurarConsolaUTF8() {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 }
-  
+
 /**
  * @brief Permite al usuario seleccionar el modo de conexión a MongoDB
  * @return true si se seleccionó correctamente, false si se canceló
@@ -190,6 +191,7 @@ std::vector<std::string> opcionesMenuPrincipal = {
 	"Generar QR",
 	"Abrir documentacion",
 	"Operaciones Base de Datos",
+	"Chat de mensajeria",
 	"Salir"
 };
 
@@ -254,13 +256,13 @@ int main() {
 	// Imprime el menu una vez (para reservar espacio)
 	for (int i = 0; i < static_cast<int>(opciones.size()); i++)
 		std::cout << std::endl;
-	
+
 	while (true) {
 		int seleccion = Utilidades::menuInteractivo("SISTEMA BANCARIO-EDUCATIVO", opciones, x, y);
 		bool necesitaRedibujado = false;
 
 		// Si el usuario presiona ESC o selecciona "Salir"
-		if (seleccion == 14) {
+		if (seleccion == 15) {
 			Utilidades::ocultarCursor();
 			Utilidades::limpiarPantallaPreservandoMarquesina(0);
 			std::cout << "Saliendo del sistema...\n";
@@ -1144,13 +1146,50 @@ int main() {
 			necesitaRedibujado = true;
 			break;
 		}
+		case 14: // Chat de mensajeria
+		{
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
+
+			AdministradorChatRedLocal chatManager;
+
+			std::cout << "=== SISTEMA DE CHAT LOCAL ===" << std::endl;
+			std::cout << std::endl;
+			std::cout << "Este chat utiliza la misma configuración de red que MongoDB:" << std::endl;
+
+			if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+				std::cout << "• Actuando como SERVIDOR (esperará conexiones)" << std::endl;
+			}
+			else {
+				std::cout << "• Actuando como CLIENTE (se conectará al servidor)" << std::endl;
+			}
+
+			std::cout << std::endl;
+			std::cout << "¿Desea continuar? (s/n): ";
+			char respuesta;
+			std::cin >> respuesta;
+			std::cin.ignore(); // Limpiar el buffer
+
+			if (respuesta == 's' || respuesta == 'S') {
+				try {
+					chatManager.iniciarChat();
+				}
+				catch (const std::exception& e) {
+					std::cout << "Error en el chat: " << e.what() << std::endl;
+					system("pause");
+				}
+			}
+
+			Utilidades::limpiarPantallaPreservandoMarquesina(1);
+			necesitaRedibujado = true;
+			break;
+		}
 		if (necesitaRedibujado) {
 			// Forzar redibujado completo del menú si es necesario
 		}
 		}
 
 
-		
+
 	}
 	if (marquesinaGlobal) {
 		marquesinaGlobal->detener();
