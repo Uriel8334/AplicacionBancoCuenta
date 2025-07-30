@@ -26,6 +26,7 @@
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/document/value.hpp>
 #include "_BaseDatosPersona.h"
+#include "ConexionMongo.h"
 
  /**
   * @brief Constructor por defecto de la clase Banco
@@ -56,8 +57,7 @@ Banco::~Banco() { // Destructor
  */
 void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaAhorros* cuenta) {
 	try {
-		mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
-		_BaseDatosPersona dbPersona(client);
+		_BaseDatosPersona dbPersona = ConexionMongo::getCliente();
 
 		auto cuentaDoc = bsoncxx::builder::basic::document{};
 		cuentaDoc.append(
@@ -87,7 +87,7 @@ void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaAhorro
  */
 void Banco::guardarCuentaEnMongoDB(const std::string& cedula, const CuentaCorriente* cuenta) {
 	try {
-		mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+		mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
 		_BaseDatosPersona dbPersona(client);
 
 		auto cuentaDoc = bsoncxx::builder::basic::document{};
@@ -172,7 +172,7 @@ void Banco::agregarPersonaConCuenta() {
 		return;
 	}
 
-	mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+	mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
 	_BaseDatosPersona dbPersona(client);
 
 	bool personaExiste = dbPersona.existePersonaPorCedula(cedula);
@@ -372,7 +372,7 @@ void Banco::crearCuentaAhorrosParaPersona(Persona* persona, const std::string& c
 
 			// --- INICIO BLOQUE MONGODB ---
 			try {
-				mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+				mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
 				_BaseDatosPersona dbPersona(client);
 
 				auto cuentaDoc = bsoncxx::builder::basic::document{};
@@ -417,7 +417,7 @@ void Banco::crearCuentaCorrienteParaPersona(Persona* persona, const std::string&
 
 			// --- INICIO BLOQUE MONGODB ---
 			try {
-				mongocxx::client client{ mongocxx::uri{"mongodb+srv://uaandrade:uriel8334@sistemaaplicacioncuenta.qnzmjnz.mongodb.net/"} };
+				mongocxx::client client{ mongocxx::uri{"mongodb://localhost:27017/"} };
 				_BaseDatosPersona dbPersona(client);
 
 				auto cuentaDoc = bsoncxx::builder::basic::document{};

@@ -27,6 +27,7 @@
 #include "_ExportadorArchivo.h"
 #include "_BaseDatosPersona.h"
 #include "_BaseDatosArchivos.h"
+#include "ConexionMongo.h"
 
  /** @brief Puntero global a la marquesina utilizada en la aplicación */
 Marquesina* marquesinaGlobal = nullptr;
@@ -155,8 +156,15 @@ std::vector<std::string> opcionesMenuPrincipal = {
  * @return int Código de salida del programa (0 si termina correctamente)
  */
 int main() {
+	configurarConsolaUTF8();
+	// Se consulta si se ha configurado la conexión a MongoDB y si es local o con internet
+	//Utilidades::ocultarCursor();
+	//int seleccionConexion = Utilidades::menuInteractivo("Seleccione el modo de conexión", { "Local", "Remota" }, 0, 0);
+	//ConexionMongo::setModoConexion(true); // Cambiar a false si se quiere usar conexión remota
+	ConexionMongo::getCliente(); // Inicializar el cliente de MongoDB
+	//Utilidades::limpiarPantallaPreservandoMarquesina(0);
+
 	//variables globales
-	mongocxx::instance instance{}; // Solo una vez por aplicación
 	int seleccion = 0;
 	int seleccionAnterior = -1; // Para evitar parpadeo al actualizar el menú
 	int x = 0, y = 0;
@@ -166,7 +174,6 @@ int main() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	int anchoConsola = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	configurarConsolaUTF8();
 
 	// Crear la marquesina en la parte superior de la consola
 	marquesinaGlobal = new Marquesina(0, 0, anchoConsola, "marquesina.html", 200);

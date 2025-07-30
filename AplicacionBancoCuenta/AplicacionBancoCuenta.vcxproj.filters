@@ -122,6 +122,9 @@
     <ClInclude Include="NodoArbolB.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="ConexionMongo.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="html\___cdocs_main_8h.html" />
@@ -440,6 +443,40 @@
     <None Include="x64\Debug\AplicacionBancoCuenta.ilk" />
     <None Include="openal32.dll" />
     <None Include="secuencial_cuentas.dat" />
+    <None Include="sfml-audio-2.dll" />
+    <None Include="sfml-audio-d-2.dll" />
+    <None Include="sfml-graphics-2.dll" />
+    <None Include="sfml-graphics-d-2.dll" />
+    <None Include="sfml-network-2.dll" />
+    <None Include="sfml-network-d-2.dll" />
+    <None Include="sfml-system-2.dll" />
+    <None Include="sfml-system-d-2.dll" />
+    <None Include="sfml-window-2.dll" />
+    <None Include="sfml-window-d-2.dll" />
+    <None Include="libwinpthread-1.dll" />
+    <None Include="libatomic_64-1.dll" />
+    <None Include="libatomic-1.dll" />
+    <None Include="libgcc_s_dw2-1.dll" />
+    <None Include="libgcc_s_seh_64-1.dll" />
+    <None Include="libgcc_s_sjlj-1.dll" />
+    <None Include="libgccjit-0.dll" />
+    <None Include="libgfortran_64-5.dll" />
+    <None Include="libgfortran-5.dll" />
+    <None Include="libgnarl-10.dll" />
+    <None Include="libgnat-10.dll" />
+    <None Include="libgomp_64-1.dll" />
+    <None Include="libgomp-1.dll" />
+    <None Include="libiconv-2.dll" />
+    <None Include="libintl-8.dll" />
+    <None Include="libobjc_64-4.dll" />
+    <None Include="libobjc-4.dll" />
+    <None Include="libquadmath_64-0.dll" />
+    <None Include="libquadmath-0.dll" />
+    <None Include="libssp_64-0.dll" />
+    <None Include="libssp-0.dll" />
+    <None Include="libstdc++_64-6.dll" />
+    <None Include="libstdc++-6.dll" />
+    <None Include="libwinpthread_64-1.dll" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="html\class_codigo_q_r_1_1_bit_buffer.png">
@@ -479,5 +516,30 @@
     <Library Include="openal32.lib" />
     <Library Include="flac.lib" />
     <Library Include="freetype.lib" />
+    <Library Include="sfml-audio.lib" />
+    <Library Include="sfml-audio-d.lib" />
+    <Library Include="sfml-audio-s.lib" />
+    <Library Include="sfml-audio-s-d.lib" />
+    <Library Include="sfml-graphics.lib" />
+    <Library Include="sfml-graphics-d.lib" />
+    <Library Include="sfml-graphics-s.lib" />
+    <Library Include="sfml-graphics-s-d.lib" />
+    <Library Include="sfml-main.lib" />
+    <Library Include="sfml-main-d.lib" />
+    <Library Include="sfml-network.lib" />
+    <Library Include="sfml-network-d.lib" />
+    <Library Include="sfml-network-s.lib" />
+    <Library Include="sfml-network-s-d.lib" />
+    <Library Include="sfml-system.lib" />
+    <Library Include="sfml-system-d.lib" />
+    <Library Include="sfml-system-s.lib" />
+    <Library Include="sfml-system-s-d.lib" />
+    <Library Include="sfml-window.lib" />
+    <Library Include="sfml-window-d.lib" />
+    <Library Include="sfml-window-s.lib" />
+    <Library Include="sfml-window-s-d.lib" />
+    <Library Include="vorbis.lib" />
+    <Library Include="vorbisenc.lib" />
+    <Library Include="vorbisfile.lib" />
   </ItemGroup>
 </Project>
