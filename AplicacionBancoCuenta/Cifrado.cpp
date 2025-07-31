@@ -89,7 +89,7 @@ void Cifrado::desifrarArchivo(const std::string& rutaEntrada, const std::string&
  */
 void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado) {
     // Obtener la ruta del escritorio usando el metodo de Banco
-    std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+    std::string rutaEscritorio = ExportadorArchivo::obtenerRutaEscritorio();
 
     // Definir nombres de archivo consistentes
     std::string nombreArchivoTemp = "temp_backup";
@@ -124,7 +124,7 @@ void Cifrado::cifrarYGuardarDatos(const Banco& banco, const std::string& nombreA
  */
 bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchivo, char claveCifrado) {
     // Obtener la ruta del escritorio usando el metodo de Banco
-    std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+    std::string rutaEscritorio = ExportadorArchivo::obtenerRutaEscritorio();
 
     // Definir nombres de archivo consistentes
     std::string nombreArchivoTemp = "temp_descifrado";
@@ -175,7 +175,7 @@ bool Cifrado::descifrarYCargarDatos(Banco& banco, const std::string& nombreArchi
  */
 bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado, int opcion) {
     // Obtener la ruta del escritorio usando el metodo de Banco
-    std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+    std::string rutaEscritorio = ExportadorArchivo::obtenerRutaEscritorio();
     std::string rutaOrigen = rutaEscritorio + nombreArchivo + ".bin";
 
     // Variables para la ruta de archivo temporal

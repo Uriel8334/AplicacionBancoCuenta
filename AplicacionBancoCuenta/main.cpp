@@ -32,7 +32,7 @@
 #include "ConexionMongo.h"
 #include "AdministradorChatRedLocal.h"
 #include "AdministradorChatSocket.h"
-
+#include "_ExportadorArchivo.h"
 
  /** @brief Puntero global a la marquesina utilizada en la aplicación */
 Marquesina* marquesinaGlobal = nullptr;
@@ -343,7 +343,7 @@ int main() {
 				std::cin >> nombreArchivo;
 
 				// Verificar que el archivo exista
-				std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+				std::string rutaEscritorio = ExportadorArchivo::obtenerRutaEscritorio();
 				std::string rutaCompleta = rutaEscritorio + nombreArchivo + ".bak";
 
 				std::ifstream verificarArchivo(rutaCompleta);
@@ -682,7 +682,7 @@ int main() {
 			std::cin >> nombreArchivo;
 
 			// Formar la ruta completa al archivo
-			std::string rutaEscritorio = banco.obtenerRutaEscritorio();
+			std::string rutaEscritorio = ExportadorArchivo::obtenerRutaEscritorio();
 			std::string rutaArchivo = rutaEscritorio + nombreArchivo + ".bak";
 
 			if (seleccionHash == 0) { // Crear Hash

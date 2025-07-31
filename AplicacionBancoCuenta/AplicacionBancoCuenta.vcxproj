@@ -143,6 +143,8 @@
     <ClCompile Include="AdministradorChatSocket.cpp" />
     <ClCompile Include="ArbolBGrafico.cpp" />
     <ClCompile Include="Banco.cpp" />
+    <ClCompile Include="BancoManejoCuenta.cpp" />
+    <ClCompile Include="BancoManejoPersona.cpp" />
     <ClCompile Include="Cifrado.cpp" />
     <ClCompile Include="ConexionMongo.cpp" />
     <ClCompile Include="CuentaAhorros.cpp" />
@@ -166,6 +168,8 @@
     <ClInclude Include="ArbolB.h" />
     <ClInclude Include="ArbolBGrafico.h" />
     <ClInclude Include="Banco.h" />
+    <ClInclude Include="BancoManejoCuenta.h" />
+    <ClInclude Include="BancoManejoPersona.h" />
     <ClInclude Include="Cifrado.h" />
     <ClInclude Include="ConexionMongo.h" />
     <ClInclude Include="Cuenta.h" />
