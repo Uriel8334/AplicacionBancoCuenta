@@ -7,7 +7,9 @@
  * texto, control de interfaz de usuario y generación de códigos QR.
  */
 
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
+
 #include <windows.h>
 #include <conio.h>
 #include <iostream>
@@ -21,6 +23,7 @@
 #include <queue>
 #include <limits>
 #include <set>
+#include <shellapi.h>
 #include "Marquesina.h"
 #include "Utilidades.h"
 #include "ArbolBGrafico.h"

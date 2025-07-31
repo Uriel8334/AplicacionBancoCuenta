@@ -4,7 +4,8 @@
  * @author Sistema Bancario, Uriel Andrade, Kerly Chuqui, Abner Proano
  * @date 2025
  */
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 #include "Banco.h"
 #include "CuentaAhorros.h"
 #include "CuentaCorriente.h"

@@ -2,7 +2,8 @@
 #ifndef _EXPORTADORARCHIVO_H
 #define _EXPORTADORARCHIVO_H
 
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 #include <string>
 #include <fstream>
 

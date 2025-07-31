@@ -40,6 +40,8 @@ bool ConexionMongo::verificarCliente(mongocxx::client& cliente) {
             std::cout << "✓ Fallback: Conexión básica a 'admin' funciona" << std::endl;
             std::cout << "⚠ Pero la base de datos 'Banco' no está disponible" << std::endl;
             std::cout << "✓ Conectado en modo: " << (modoActual == SERVIDOR ? "SERVIDOR" : "CLIENTE") << std::endl;
+			system("pause");
+			system("cls"); // Limpiar pantalla para evitar confusión
             return true; // Conexión básica funciona
         }
         catch (const std::exception& e2) {

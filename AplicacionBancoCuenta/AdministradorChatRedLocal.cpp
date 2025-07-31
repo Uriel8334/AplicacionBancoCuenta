@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define NOMINMAX
+ 
 
 #include "AdministradorChatRedLocal.h"
 #include "Utilidades.h"
@@ -22,7 +22,7 @@ AdministradorChatRedLocal::AdministradorChatRedLocal()
 
     rutaCompleta = DIRECTORIO_CHAT;
 
-    // Configurar archivos según el modo
+    // Configurar archivos segÃºn el modo
     ConexionMongo::ModoConexion modo = ConexionMongo::getModoConexion();
     if (modo == ConexionMongo::SERVIDOR) {
         archivoMensajesLocal = ARCHIVO_SERVIDOR;
@@ -54,18 +54,18 @@ bool AdministradorChatRedLocal::crearDirectorioChat() {
 void AdministradorChatRedLocal::configurarSegunModoMongoDB() {
     ConexionMongo::ModoConexion modo = ConexionMongo::getModoConexion();
 
-    std::cout << "\n=== CONFIGURACIÓN DEL CHAT LOCAL ===" << std::endl;
+    std::cout << "\n=== CONFIGURACIÃ“N DEL CHAT LOCAL ===" << std::endl;
     if (modo == ConexionMongo::SERVIDOR) {
-        std::cout << "• Modo: SERVIDOR (Esperará mensajes de clientes)" << std::endl;
-        std::cout << "• Archivo local: " << archivoMensajesLocal << std::endl;
-        std::cout << "• Archivo remoto: " << archivoMensajesRemoto << std::endl;
+        std::cout << "â€¢ Modo: SERVIDOR (EsperarÃ¡ mensajes de clientes)" << std::endl;
+        std::cout << "â€¢ Archivo local: " << archivoMensajesLocal << std::endl;
+        std::cout << "â€¢ Archivo remoto: " << archivoMensajesRemoto << std::endl;
     }
     else {
-        std::cout << "• Modo: CLIENTE (Enviará mensajes al servidor)" << std::endl;
-        std::cout << "• Archivo local: " << archivoMensajesLocal << std::endl;
-        std::cout << "• Archivo remoto: " << archivoMensajesRemoto << std::endl;
+        std::cout << "â€¢ Modo: CLIENTE (EnviarÃ¡ mensajes al servidor)" << std::endl;
+        std::cout << "â€¢ Archivo local: " << archivoMensajesLocal << std::endl;
+        std::cout << "â€¢ Archivo remoto: " << archivoMensajesRemoto << std::endl;
     }
-    std::cout << "• Directorio: " << rutaCompleta << std::endl;
+    std::cout << "â€¢ Directorio: " << rutaCompleta << std::endl;
     std::cout << std::endl;
 }
 
@@ -110,7 +110,7 @@ std::vector<std::string> AdministradorChatRedLocal::leerMensajesNuevos() {
 
 bool AdministradorChatRedLocal::marcarConexion(bool conectado) {
     try {
-        // Crear archivos de estado específicos para cada modo
+        // Crear archivos de estado especÃ­ficos para cada modo
         std::string archivoEstadoLocal;
         if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
             archivoEstadoLocal = "estado_servidor.txt";
@@ -130,7 +130,7 @@ bool AdministradorChatRedLocal::marcarConexion(bool conectado) {
         return false;
     }
     catch (const std::exception& e) {
-        std::cerr << "Error marcando conexión: " << e.what() << std::endl;
+        std::cerr << "Error marcando conexiÃ³n: " << e.what() << std::endl;
         return false;
     }
 }
@@ -156,7 +156,7 @@ bool AdministradorChatRedLocal::verificarConexionRemota() {
 
             // Verificar que el estado sea CONECTADO y que no sea muy antiguo
             if (estado == "CONECTADO") {
-                // Verificar también que el archivo de mensajes remoto exista
+                // Verificar tambiÃ©n que el archivo de mensajes remoto exista
                 std::ifstream archivoMensajes(rutaCompleta + archivoMensajesRemoto);
                 bool existeArchivoMensajes = archivoMensajes.is_open();
                 if (existeArchivoMensajes) {
@@ -188,7 +188,7 @@ void AdministradorChatRedLocal::limpiarArchivos() {
 
 void AdministradorChatRedLocal::ejecutarMonitoreo() {
     while (chatActivo) {
-        // AMBOS (servidor y cliente) marcan su conexión regularmente
+        // AMBOS (servidor y cliente) marcan su conexiÃ³n regularmente
         marcarConexion(true);
 
         if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
@@ -286,12 +286,12 @@ void AdministradorChatRedLocal::iniciarChat() {
     hiloMonitoreo = std::thread(&AdministradorChatRedLocal::ejecutarMonitoreo, this);
     hiloEscucha = std::thread(&AdministradorChatRedLocal::escucharMensajes, this);
 
-    // Dar tiempo para que se establezca la conexión
+    // Dar tiempo para que se establezca la conexiÃ³n
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     limpiarPantallaChat();
 
     std::cout << "Chat iniciado correctamente." << std::endl;
-    std::cout << "Estado de conexión: " << (verificarConexionRemota() ? "CONECTADO" : "ESPERANDO CONEXIÓN") << std::endl;
+    std::cout << "Estado de conexiÃ³n: " << (verificarConexionRemota() ? "CONECTADO" : "ESPERANDO CONEXIÃ“N") << std::endl;
     std::cout << std::endl;
 
     // Bucle principal del chat
@@ -309,7 +309,7 @@ void AdministradorChatRedLocal::iniciarChat() {
 
         // Verificar comando de estado
         if (mensaje == "/estado") {
-            std::cout << "[SISTEMA]: Estado de conexión: " << (verificarConexionRemota() ? "CONECTADO" : "DESCONECTADO") << std::endl;
+            std::cout << "[SISTEMA]: Estado de conexiÃ³n: " << (verificarConexionRemota() ? "CONECTADO" : "DESCONECTADO") << std::endl;
             continue;
         }
 

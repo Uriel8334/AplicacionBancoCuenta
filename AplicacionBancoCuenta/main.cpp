@@ -11,7 +11,8 @@
  * @author Kerly Chuqui
  * @author Abner Proano
  */
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <string>
 #include "Persona.h"
@@ -22,6 +23,7 @@
 #include "Cifrado.h" 
 #include <algorithm>
 #include <vector>
+#include <shellapi.h>
 #include "Marquesina.h"
 #include "CodigoQR.h"
 #include "_ExportadorArchivo.h"
@@ -29,6 +31,7 @@
 #include "_BaseDatosArchivos.h"
 #include "ConexionMongo.h"
 #include "AdministradorChatRedLocal.h"
+#include "AdministradorChatSocket.h"
 
 
  /** @brief Puntero global a la marquesina utilizada en la aplicación */
@@ -39,54 +42,6 @@ std::atomic<bool> actualizandoMenu(false);
 
 /** @brief Mutex para sincronización entre hilos */
 std::mutex mtxActualizacion;
-
-/**
- * @brief Muestra el menú principal en la consola sin parpadeo
- *
- * Utiliza técnicas para evitar parpadeo al actualizar la interfaz, realizando
- * operaciones críticas y limpiando líneas completas.
- *
- * @param seleccion Índice de la opción seleccionada actualmente
- * @param opciones Arreglo con las opciones del menú
- * @param numOpciones Número total de opciones disponibles
- * @param x Posición X donde comenzar a mostrar las opciones
- * @param y Posición Y donde comenzar a mostrar las opciones
- */
-static void mostrarMenu(int seleccion, std::string opciones[], int numOpciones, int x, int y, int seleccionAnterior = -1) {
-	// Bloquear actualizaciones simultáneas
-	std::lock_guard<std::mutex> lock(mtxActualizacion);
-	actualizandoMenu = true;
-
-	// Si no es la primera vez, solo actualiza las líneas que cambian
-	if (seleccionAnterior != -1) {
-		// Actualiza la opción anterior (quita el cursor)
-		Utilidades::gotoxy(x, y + seleccionAnterior);
-		std::cout << "   " << opciones[seleccionAnterior] << "   ";
-
-		// Actualiza la nueva opción seleccionada (pone el cursor)
-		Utilidades::gotoxy(x, y + seleccion);
-		std::cout << " > " << opciones[seleccion] << "   ";
-
-		// Forzar actualización inmediata del buffer de salida
-		std::cout.flush();
-	}
-	else {
-		// Primera vez, dibuja todo el menú de una vez
-		for (int i = 0; i < numOpciones; i++) {
-			Utilidades::gotoxy(x, y + i);
-			if (i == seleccion)
-				std::cout << " > " << opciones[i] << "   ";
-			else
-				std::cout << "   " << opciones[i] << "   ";
-		}
-		// Forzar actualización inmediata
-		std::cout.flush();
-	}
-
-	// Pequeña pausa para estabilizar la consola
-	Sleep(2);
-	actualizandoMenu = false;
-}
 
 /**
  * @brief Pausa temporalmente la marquesina durante operaciones críticas
@@ -1170,8 +1125,8 @@ int main() {
 
 			if (respuesta == 's' || respuesta == 'S') {
 				try {
-					AdministradorChatRedLocal chatManager;
-					chatManager.iniciarChat();
+					AdministradorChatSocket chat;
+					chat.iniciarChat();
 				}
 				catch (const std::exception& e) {
 					std::cout << "Error en el chat: " << e.what() << std::endl;
@@ -1187,9 +1142,6 @@ int main() {
 			// Forzar redibujado completo del menú si es necesario
 		}
 		}
-
-
-		
 	}
 	if (marquesinaGlobal) {
 		marquesinaGlobal->detener();

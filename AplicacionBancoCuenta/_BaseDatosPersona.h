@@ -1,7 +1,8 @@
 #pragma once  
 #ifndef _BASEDATOSPERSONA_H  
 #define _BASEDATOSPERSONA_H  
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 #include <cstdint>
 #include <iostream>
 #include <vector>

@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{16e67723-d7ea-4bb3-ad4c-22a515cce83e}</ProjectGuid>
     <RootNamespace>AplicacionBancoCuenta</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -102,7 +102,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN
+;NOMINMAX
+;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_STD_BYTE=0</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\mongo-c-driver\install\mongoc\include\libbson-1.0;C:\mongo-c-driver\install\mongoc\include\libmongoc-1.0;C:\mongo-cxx-driver\install\mongocxx\include\bsoncxx\v_noabi;C:\mongo-cxx-driver\install\mongocxx\include\mongocxx\v_noabi;C:\SFML-2.6.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -111,15 +113,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML-2.6.2\lib;C:\mongo-cxx-driver\install\mongoc\lib;C:\mongo-cxx-driver\install\mongocxx\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-network-d.lib;mongocxx-static-dts-x64-v143-mdd.lib;bsoncxx-static-dts-x64-v143-mdd.lib;
-mongoc-static-1.0.lib;
-bson-static-1.0.lib;
-ws2_32.lib;
-Dnsapi.lib;
-Secur32.lib;
-Crypt32.lib;
-Bcrypt.lib;
-advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-network-d.lib;mongocxx-static-dts-x64-v143-mdd.lib;bsoncxx-static-dts-x64-v143-mdd.lib;mongoc-static-1.0.lib;bson-static-1.0.lib;ws2_32.lib;Dnsapi.lib;Secur32.lib;Crypt32.lib;Bcrypt.lib;advapi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,7 +122,9 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);WIN32_LEAN_AND_MEAN
+;NOMINMAX
+;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_STD_BYTE=0</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\mongo-c-driver\install\mongoc\include\libbson-1.0;C:\mongo-c-driver\install\mongoc\include\libmongoc-1.0;C:\mongo-cxx-driver\install\mongocxx\include\bsoncxx\v_noabi;C:\mongo-cxx-driver\install\mongocxx\include\mongocxx\v_noabi;C:\SFML-2.6.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -139,25 +135,19 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\mongo-c-driver\lib;C:\SFML-2.6.2\lib;C:\mongo-cxx-driver\install\mongoc\lib;C:\mongo-cxx-driver\install\mongocxx\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-window.lib;sfml-network.lib;mongocxx-static-rts-x64-v143-md.lib;bsoncxx-static-rts-x64-v143-md.lib;
-mongoc-static-1.0.lib;
-bson-static-1.0.lib;
-ws2_32.lib;
-Dnsapi.lib;
-Secur32.lib;
-Crypt32.lib;
-Bcrypt.lib;
-advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-window.lib;sfml-network.lib;mongocxx-static-rts-x64-v143-md.lib;bsoncxx-static-rts-x64-v143-md.lib;mongoc-static-1.0.lib;bson-static-1.0.lib;ws2_32.lib;Dnsapi.lib;Secur32.lib;Crypt32.lib;Bcrypt.lib;advapi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AdministradorChatRedLocal.cpp" />
+    <ClCompile Include="AdministradorChatSocket.cpp" />
     <ClCompile Include="ArbolBGrafico.cpp" />
     <ClCompile Include="Banco.cpp" />
     <ClCompile Include="Cifrado.cpp" />
     <ClCompile Include="ConexionMongo.cpp" />
     <ClCompile Include="CuentaAhorros.cpp" />
     <ClCompile Include="CuentaCorriente.cpp" />
+    <ClCompile Include="ManejoMenus.cpp" />
     <ClCompile Include="PruebaQR.cpp" />
     <ClCompile Include="_BaseDatosArchivos.cpp" />
     <ClCompile Include="_BaseDatosPersona.cpp" />
@@ -172,6 +162,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdministradorChatRedLocal.h" />
+    <ClInclude Include="AdministradorChatSocket.h" />
     <ClInclude Include="ArbolB.h" />
     <ClInclude Include="ArbolBGrafico.h" />
     <ClInclude Include="Banco.h" />
@@ -180,6 +171,7 @@ advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="Cuenta.h" />
     <ClInclude Include="CuentaAhorros.h" />
     <ClInclude Include="CuentaCorriente.h" />
+    <ClInclude Include="ManejoMenus.h" />
     <ClInclude Include="NodoArbolB.h" />
     <ClInclude Include="_BaseDatosArchivos.h" />
     <ClInclude Include="_BaseDatosPersona.h" />

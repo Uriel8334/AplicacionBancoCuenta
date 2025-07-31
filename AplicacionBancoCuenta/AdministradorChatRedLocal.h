@@ -1,7 +1,7 @@
 #pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
-#define NOMINMAX
+ 
 
 #include <string>
 #include <vector>
@@ -17,7 +17,7 @@
 class AdministradorChatRedLocal
 {
 private:
-    // Configuraci髇 de comunicaci髇
+    // Configuraci贸n de comunicaci贸n
     static constexpr const char* DIRECTORIO_CHAT = "C:\\temp\\chat_bancario\\";
     static constexpr const char* ARCHIVO_SERVIDOR = "servidor_mensajes.txt";
     static constexpr const char* ARCHIVO_CLIENTE = "cliente_mensajes.txt";
@@ -35,12 +35,12 @@ private:
     std::thread hiloMonitoreo;
     std::thread hiloEscucha;
 
-    // Sincronizaci髇
+    // Sincronizaci贸n
     std::mutex mtxMensajes;
     std::vector<std::string> historialMensajes;
     size_t ultimoMensajeLeido;
 
-    // M閠odos de archivos
+    // M茅todos de archivos
     bool crearDirectorioChat();
     bool escribirMensaje(const std::string& mensaje);
     std::vector<std::string> leerMensajesNuevos();
@@ -62,11 +62,11 @@ public:
     AdministradorChatRedLocal();
     ~AdministradorChatRedLocal();
 
-    // M閠odos principales
+    // M茅todos principales
     void iniciarChat();
     void detenerChat();
     bool hayClientesConectados() const;
 
-    // Configuraci髇 seg鷑 el modo de conexi髇 MongoDB
+    // Configuraci贸n seg煤n el modo de conexi贸n MongoDB
     void configurarSegunModoMongoDB();
 };

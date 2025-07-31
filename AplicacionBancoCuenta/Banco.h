@@ -2,7 +2,8 @@
 #ifndef BANCO_H
 #define BANCO_H
 
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 #include "Persona.h"
 #include "NodoPersona.h"
 #include <Shlobj.h>  // Para SHGetKnownFolderPath

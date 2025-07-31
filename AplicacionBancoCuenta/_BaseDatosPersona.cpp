@@ -1,4 +1,5 @@
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 #include "_BaseDatosPersona.h"
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/basic/document.hpp>

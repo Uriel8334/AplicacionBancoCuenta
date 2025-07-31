@@ -1,4 +1,5 @@
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 #include "_ExportadorArchivo.h"
 #include "Banco.h"
 #include "Persona.h"

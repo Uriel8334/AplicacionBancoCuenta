@@ -7,7 +7,8 @@
  * a una persona, incluyendo cuentas de ahorro y cuentas corrientes.
  */
 
-#define NOMINMAX
+#define _CRT_SECURE_NO_WARNINGS
+ 
 
 #include <iostream>
 #include <fstream>
