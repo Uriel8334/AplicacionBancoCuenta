@@ -30,9 +30,7 @@
 #include "_BaseDatosPersona.h"
 #include "_BaseDatosArchivos.h"
 #include "ConexionMongo.h"
-#include "AdministradorChatRedLocal.h"
 #include "AdministradorChatSocket.h"
-#include "_ExportadorArchivo.h"
 
  /** @brief Puntero global a la marquesina utilizada en la aplicación */
 Marquesina* marquesinaGlobal = nullptr;
@@ -1094,10 +1092,8 @@ int main() {
 		case 13: // operaciones de la base de datos MongoDB
 		{
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
-
 			_BaseDatosArchivos baseDatos;
 			baseDatos.mostrarMenuBaseDatos();
-
 			Utilidades::limpiarPantallaPreservandoMarquesina(1);
 			necesitaRedibujado = true;
 			break;

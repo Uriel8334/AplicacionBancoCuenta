@@ -28,7 +28,7 @@ class AdministradorChatSocket {
 private:
 	// Configuración de red
 	static constexpr int PUERTO_SERVIDOR = 8888;
-	static constexpr const char* DIRECCION_SERVIDOR = "127.0.0.1";
+	// Removemos la constante hardcodeada y usaremos un método dinámico
 	static constexpr int BUFFER_SIZE = 1024;
 	static constexpr int MAX_CLIENTES = 5;
 
@@ -65,6 +65,7 @@ private:
 	void desconectarCliente(SOCKET clienteSocket);
 
 	// Utilidades
+	std::string obtenerDireccionServidor() const;
 	std::string obtenerTimestamp();
 	std::string obtenerModoTexto();
 	void mostrarMensaje(const std::string& mensaje);

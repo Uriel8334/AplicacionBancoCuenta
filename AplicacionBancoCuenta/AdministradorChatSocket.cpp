@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
- 
+
 
 #include "AdministradorChatSocket.h"
 #include "ConexionMongo.h"
@@ -13,6 +13,16 @@ AdministradorChatSocket::AdministradorChatSocket()
 
 AdministradorChatSocket::~AdministradorChatSocket() {
     detenerChat();
+}
+
+std::string AdministradorChatSocket::obtenerDireccionServidor() const {
+    // Usar la misma lógica que MongoDB: si es servidor usa localhost, si es cliente usa la IP del servidor
+    if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+        return "127.0.0.1";  // Servidor local
+    }
+    else {
+        return "192.168.1.10";  // Servidor remoto
+    }
 }
 
 bool AdministradorChatSocket::inicializarWinsock() {
@@ -85,10 +95,13 @@ bool AdministradorChatSocket::configurarSocketCliente() {
     ZeroMemory(&direccionServidor, sizeof(direccionServidor));
     direccionServidor.sin_family = AF_INET;
 
+    // Obtener la dirección correcta según el modo
+    std::string direccionIP = obtenerDireccionServidor();
+
     // Usar inet_addr en lugar de inet_pton para mayor compatibilidad
-    direccionServidor.sin_addr.s_addr = inet_addr(DIRECCION_SERVIDOR);
+    direccionServidor.sin_addr.s_addr = inet_addr(direccionIP.c_str());
     if (direccionServidor.sin_addr.s_addr == INADDR_NONE) {
-        std::cerr << "Error: Dirección IP inválida" << std::endl;
+        std::cerr << "Error: Dirección IP inválida: " << direccionIP << std::endl;
         closesocket(socketCliente);
         socketCliente = INVALID_SOCKET;
         return false;
@@ -105,7 +118,7 @@ bool AdministradorChatSocket::configurarSocketCliente() {
         return false;
     }
 
-    std::cout << "Conectado al servidor " << DIRECCION_SERVIDOR << ":" << PUERTO_SERVIDOR << std::endl;
+    std::cout << "Conectado al servidor " << direccionIP << ":" << PUERTO_SERVIDOR << std::endl;
     return true;
 }
 
@@ -295,6 +308,7 @@ void AdministradorChatSocket::desconectarCliente(SOCKET clienteSocket) {
 
 void AdministradorChatSocket::configurarSegunModoMongoDB() {
     ConexionMongo::ModoConexion modo = ConexionMongo::getModoConexion();
+    std::string direccionServidor = obtenerDireccionServidor();
 
     std::cout << "\n=== CONFIGURACIÓN DEL CHAT CON SOCKETS ===" << std::endl;
     if (modo == ConexionMongo::SERVIDOR) {
@@ -304,7 +318,7 @@ void AdministradorChatSocket::configurarSegunModoMongoDB() {
     }
     else {
         std::cout << "• Modo: CLIENTE (Se conectará al servidor)" << std::endl;
-        std::cout << "• Servidor: " << DIRECCION_SERVIDOR << ":" << PUERTO_SERVIDOR << std::endl;
+        std::cout << "• Servidor: " << direccionServidor << ":" << PUERTO_SERVIDOR << std::endl;
     }
     std::cout << "• Protocolo: TCP/IP" << std::endl;
     std::cout << std::endl;
