@@ -450,11 +450,15 @@ void AdministradorChatSocket::iniciarChat() {
         std::string mensajeCompleto = "[" + nombreUsuario + ":" + obtenerModoTexto() + "]: " + mensaje;
 
         if (enviarMensaje(mensajeCompleto)) {
-            // Mostrar nuestro propio mensaje
-            std::lock_guard<std::mutex> lock(mtxMensajes);
-            std::string mensajeConTimestamp = obtenerTimestamp() + " " + mensajeCompleto;
-            historialMensajes.push_back(mensajeConTimestamp);
-            mostrarMensaje(mensajeConTimestamp);
+            // SOLO EL SERVIDOR muestra sus propios mensajes inmediatamente
+            // Los CLIENTES esperan a recibirlos de vuelta del servidor
+            if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+                std::lock_guard<std::mutex> lock(mtxMensajes);
+                std::string mensajeConTimestamp = obtenerTimestamp() + " " + mensajeCompleto;
+                historialMensajes.push_back(mensajeConTimestamp);
+                mostrarMensaje(mensajeConTimestamp);
+            }
+            // Los clientes NO muestran el mensaje aquí, lo harán cuando lo reciban en escucharMensajes()
         }
         else {
             std::cout << "[ERROR]: No se pudo enviar el mensaje" << std::endl;
