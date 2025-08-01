@@ -13,150 +13,192 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NucleoBancario">
+      <UniqueIdentifier>{eed9790f-f5c1-4c84-8926-f6d0cc9dfe84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NucleoBancario\Entidad">
+      <UniqueIdentifier>{f56fff32-e6df-407a-9aeb-e6a00d422ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NucleoBancario\Business">
+      <UniqueIdentifier>{e17456b1-d6df-4cd6-b609-bf9a7b6c8255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Validaciones y Utilidades">
+      <UniqueIdentifier>{f4a656a9-b336-487c-877b-40a83bac98a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Validaciones y Utilidades\Validation">
+      <UniqueIdentifier>{c948e57f-fb39-4918-8c63-45050d99a778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Validaciones y Utilidades\Utils">
+      <UniqueIdentifier>{81250413-8da2-4644-8b72-1c7fcae4a820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{5f6e027d-8b9d-4b7a-b5a6-abae5e9384a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Menus">
+      <UniqueIdentifier>{5a58ff9b-c266-42a1-b40c-f00c6a9d1abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Display">
+      <UniqueIdentifier>{272ba52e-1516-496b-8b42-f2da52848366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Chat">
+      <UniqueIdentifier>{20c8c0a7-ad78-4632-95be-71f4c339161f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures">
+      <UniqueIdentifier>{4e68c48b-1cfc-4527-b407-17b92a39dd0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QR">
+      <UniqueIdentifier>{cbcd99f7-6594-4dcd-ad96-637113403d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QR\Export">
+      <UniqueIdentifier>{98a39280-d40d-44f2-bae1-5fe82aee49a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{131031c1-e10c-40c4-a121-9409101ac849}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Persona.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Fecha.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Validar.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilidades.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Cifrado.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Banco.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="CuentaAhorros.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="Persona.cpp">
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClCompile>
     <ClCompile Include="CuentaCorriente.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClCompile>
-    <ClCompile Include="Marquesina.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="CuentaAhorros.cpp">
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClCompile>
-    <ClCompile Include="CodigoQR.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ArbolBGrafico.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="_ExportadorArchivo.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="_BaseDatosPersona.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="_BaseDatosArchivos.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="PruebaQR.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ConexionMongo.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="AdministradorChatRedLocal.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="AdministradorChatSocket.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ManejoMenus.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="Banco.cpp">
+      <Filter>NucleoBancario\Business</Filter>
     </ClCompile>
     <ClCompile Include="BancoManejoCuenta.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>NucleoBancario\Business</Filter>
     </ClCompile>
     <ClCompile Include="BancoManejoPersona.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>NucleoBancario\Business</Filter>
+    </ClCompile>
+    <ClCompile Include="Validar.cpp">
+      <Filter>Validaciones y Utilidades\Validation</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilidades.cpp">
+      <Filter>Validaciones y Utilidades\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Fecha.cpp">
+      <Filter>Validaciones y Utilidades\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Cifrado.cpp">
+      <Filter>Validaciones y Utilidades\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ManejoMenus.cpp">
+      <Filter>UI\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Marquesina.cpp">
+      <Filter>UI\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="AdministradorChatRedLocal.cpp">
+      <Filter>UI\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="AdministradorChatSocket.cpp">
+      <Filter>UI\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="ArbolBGrafico.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="CodigoQR.cpp">
+      <Filter>QR</Filter>
+    </ClCompile>
+    <ClCompile Include="PruebaQR.cpp">
+      <Filter>QR</Filter>
+    </ClCompile>
+    <ClCompile Include="_ExportadorArchivo.cpp">
+      <Filter>QR\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="_BaseDatosArchivos.cpp">
+      <Filter>DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="_BaseDatosPersona.cpp">
+      <Filter>DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="ConexionMongo.cpp">
+      <Filter>DataBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Persona.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Fecha.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Cuenta.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="CuentaAhorros.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="CuentaCorriente.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Validar.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Cifrado.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilidades.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Banco.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="NodoPersona.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Marquesina.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="CodigoQR.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="_CdocsMain.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ArbolB.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="Persona.h">
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClInclude>
-    <ClInclude Include="ArbolBGrafico.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="Cuenta.h">
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClInclude>
-    <ClInclude Include="_ExportadorArchivo.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="CuentaAhorros.h">
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClInclude>
-    <ClInclude Include="_BaseDatosPersona.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="CuentaCorriente.h">
+      <Filter>NucleoBancario\Entidad</Filter>
     </ClInclude>
-    <ClInclude Include="_BaseDatosArchivos.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="NodoArbolB.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ConexionMongo.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="AdministradorChatRedLocal.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="AdministradorChatSocket.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ManejoMenus.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="Banco.h">
+      <Filter>NucleoBancario\Business</Filter>
     </ClInclude>
     <ClInclude Include="BancoManejoCuenta.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>NucleoBancario\Business</Filter>
     </ClInclude>
     <ClInclude Include="BancoManejoPersona.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>NucleoBancario\Business</Filter>
+    </ClInclude>
+    <ClInclude Include="Validar.h">
+      <Filter>Validaciones y Utilidades\Validation</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilidades.h">
+      <Filter>Validaciones y Utilidades\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Fecha.h">
+      <Filter>Validaciones y Utilidades\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Cifrado.h">
+      <Filter>Validaciones y Utilidades\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ManejoMenus.h">
+      <Filter>UI\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Marquesina.h">
+      <Filter>UI\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="AdministradorChatRedLocal.h">
+      <Filter>UI\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="AdministradorChatSocket.h">
+      <Filter>UI\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolB.h">
+      <Filter>DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolBGrafico.h">
+      <Filter>DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoArbolB.h">
+      <Filter>DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoPersona.h">
+      <Filter>DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="CodigoQR.h">
+      <Filter>QR</Filter>
+    </ClInclude>
+    <ClInclude Include="_ExportadorArchivo.h">
+      <Filter>QR\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="_BaseDatosArchivos.h">
+      <Filter>DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="_BaseDatosPersona.h">
+      <Filter>DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ConexionMongo.h">
+      <Filter>DataBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -510,6 +552,7 @@
     <None Include="libstdc++_64-6.dll" />
     <None Include="libstdc++-6.dll" />
     <None Include="libwinpthread_64-1.dll" />
+    <None Include="AplicacionBancoCuenta_NEW.vcxproj.filters" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="html\class_codigo_q_r_1_1_bit_buffer.png">
