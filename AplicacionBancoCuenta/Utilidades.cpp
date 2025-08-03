@@ -23,16 +23,22 @@
 #include <queue>
 #include <limits>
 #include <set>
+#include <algorithm>
+#include <numeric>
+#include <mutex>
+#include <thread>
+#include <vector>
 #include <shellapi.h>
+
 #include "Marquesina.h"
 #include "Utilidades.h"
 #include "ArbolBGrafico.h"
 #include "ArbolB.h"
 #include "NodoPersona.h"
 #include "Persona.h"
-#include <mutex>
-#include <thread>
-#include <vector>
+#include "ConexionMongo.h"
+#include "_BaseDatosPersona.h"
+#include "GestorHashBaseDatos.h"
 
  // Variable externa para acceso a la marquesina global
 extern Marquesina* marquesinaGlobal;
@@ -1116,6 +1122,296 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 	}
 }
 
+/**
+ * @brief Menú interactivo para generar QR desde datos de MongoDB
+ *
+ * Muestra una tabla interactiva con todas las personas y sus cuentas,
+ * permitiendo ordenamiento y búsqueda para generar códigos QR.
+ */
+void Utilidades::generarQR() {
+	// Datos para el manejo de la tabla
+	struct PersonaCuenta {
+		std::string cedula;
+		std::string nombreCompleto;
+		std::string numeroCuenta;
+		std::string tipoCuenta;
+		double saldo;
+		int totalCuentas;
+
+		PersonaCuenta(const std::string& ced, const std::string& nombre,
+			const std::string& cuenta, const std::string& tipo,
+			double sal, int total)
+			: cedula(ced), nombreCompleto(nombre), numeroCuenta(cuenta),
+			tipoCuenta(tipo), saldo(sal), totalCuentas(total) {
+		}
+	};
+
+	try {
+		//iniciarOperacionCritica();
+		limpiarPantallaPreservandoMarquesina(1);
+
+		// Obtener datos desde MongoDB usando ConexionMongo
+		auto& clienteDB = ConexionMongo::obtenerClienteBaseDatos();
+		_BaseDatosPersona baseDatos(clienteDB);
+
+		auto personas = baseDatos.mostrarTodasPersonas();
+
+		if (personas.empty()) {
+			std::cout << "\n[INFORMACIÓN] No hay personas registradas en la base de datos.\n";
+			std::cout << "Para generar códigos QR, primero debe registrar personas con cuentas.\n";
+			system("pause");
+			finalizarOperacionCritica();
+			return;
+		}
+
+		// Procesar datos para la tabla
+		std::vector<PersonaCuenta> datosTabla;
+		datosTabla.reserve(personas.size() * 5); // Estimación de cuentas promedio
+
+		std::for_each(personas.begin(), personas.end(), [&datosTabla](const auto& doc) {
+			auto view = doc.view();
+
+			std::string cedula = std::string(view["cedula"].get_string().value);
+			std::string nombreCompleto = std::string(view["nombre"].get_string().value) +
+				" " + std::string(view["apellido"].get_string().value);
+			int totalCuentas = view.find("totalCuentasExistentes") != view.end() ?
+				view["totalCuentasExistentes"].get_int32().value : 0;
+
+			// Procesar cuentas usando for_each
+			if (view.find("cuentas") != view.end() &&
+				view["cuentas"].type() == bsoncxx::type::k_array) {
+
+				auto cuentasArray = view["cuentas"].get_array().value;
+				std::for_each(cuentasArray.begin(), cuentasArray.end(),
+					[&datosTabla, &cedula, &nombreCompleto, totalCuentas](const auto& cuentaElement) {
+						if (cuentaElement.type() == bsoncxx::type::k_document) {
+							auto cuenta = cuentaElement.get_document().value;
+
+							std::string numeroCuenta = std::string(cuenta["numeroCuenta"].get_string().value);
+							std::string tipoCuenta = std::string(cuenta["tipo"].get_string().value);
+							double saldo = cuenta["saldo"].get_double().value;
+
+							datosTabla.emplace_back(cedula, nombreCompleto, numeroCuenta,
+								tipoCuenta, saldo, totalCuentas);
+						}
+					});
+			}
+			});
+
+		if (datosTabla.empty()) {
+			std::cout << "\n[INFORMACIÓN] No hay cuentas registradas para generar códigos QR.\n";
+			system("pause");
+			//finalizarOperacionCritica();
+			return;
+		}
+
+		// Variables de control de la tabla
+		enum class ColumnaOrden { NOMBRE, CUENTA, BUSCAR };
+		ColumnaOrden columnaActual = ColumnaOrden::NOMBRE;
+		bool ordenAscendente = true;
+		int filaSeleccionada = 0;
+		std::string textoBusqueda = "";
+		std::vector<int> indicesFiltrados;
+
+		// Funciones auxiliares usando principios SOLID
+		auto aplicarFiltro = [&datosTabla, &indicesFiltrados](const std::string& busqueda) {
+			indicesFiltrados.clear();
+			if (busqueda.empty()) {
+				indicesFiltrados.resize(datosTabla.size());
+				std::iota(indicesFiltrados.begin(), indicesFiltrados.end(), 0);
+			}
+			else {
+				std::string busquedaLower = ConvertirAMinusculas(busqueda);
+				for (size_t i = 0; i < datosTabla.size(); ++i) {
+					std::string nombreLower = ConvertirAMinusculas(datosTabla[i].nombreCompleto);
+					if (nombreLower.find(busquedaLower) != std::string::npos) {
+						indicesFiltrados.push_back(static_cast<int>(i));
+					}
+				}
+			}
+			};
+
+		auto ordenarDatos = [&datosTabla, &indicesFiltrados](ColumnaOrden columna, bool ascendente) {
+			std::function<bool(int, int)> comparador;
+
+			switch (columna) {
+			case ColumnaOrden::NOMBRE:
+				comparador = [&datosTabla, ascendente](int a, int b) {
+					auto resultado = datosTabla[a].nombreCompleto.compare(datosTabla[b].nombreCompleto);
+					return ascendente ? resultado < 0 : resultado > 0;
+					};
+				break;
+			case ColumnaOrden::CUENTA:
+				comparador = [&datosTabla, ascendente](int a, int b) {
+					auto resultado = datosTabla[a].numeroCuenta.compare(datosTabla[b].numeroCuenta);
+					return ascendente ? resultado < 0 : resultado > 0;
+					};
+				break;
+			default:
+				return;
+			}
+
+			std::sort(indicesFiltrados.begin(), indicesFiltrados.end(), comparador);
+			};
+
+		auto mostrarTabla = [&]() {
+			limpiarPantallaPreservandoMarquesina(1);
+
+			std::cout << "=== GENERADOR DE CÓDIGOS QR ===\n\n";
+			std::cout << "Total de cuentas: " << indicesFiltrados.size() << "\n";
+			if (!textoBusqueda.empty()) {
+				std::cout << "Filtro activo: \"" << textoBusqueda << "\"\n";
+			}
+			std::cout << "\n";
+
+			// Encabezados con indicadores de ordenamiento
+			std::string headerNombre = "Nombre-Apellido";
+			std::string headerCuenta = "N. Cuenta";
+			std::string headerBuscar = "Buscar específico";
+
+			if (columnaActual == ColumnaOrden::NOMBRE) {
+				headerNombre += (ordenAscendente ? " ↑" : " ↓");
+			}
+			else if (columnaActual == ColumnaOrden::CUENTA) {
+				headerCuenta += (ordenAscendente ? " ↑" : " ↓");
+			}
+
+			std::cout << std::setw(35) << std::left << headerNombre
+				<< std::setw(20) << std::left << headerCuenta
+				<< std::setw(15) << std::left << "Tipo"
+				<< std::setw(15) << std::left << "Saldo"
+				<< std::setw(20) << std::left << headerBuscar << "\n";
+			std::cout << std::string(105, '-') << "\n";
+
+			// Mostrar datos paginados (máximo 15 filas por página)
+			const int filasPorPagina = 15;
+			int inicioFila = (filaSeleccionada / filasPorPagina) * filasPorPagina;
+			int finFila = std::min(inicioFila + filasPorPagina, static_cast<int>(indicesFiltrados.size()));
+
+			for (int i = inicioFila; i < finFila; ++i) {
+				const auto& item = datosTabla[indicesFiltrados[i]];
+
+				if (i == filaSeleccionada) {
+					std::cout << "> ";
+				}
+				else {
+					std::cout << "  ";
+				}
+
+				std::cout << std::setw(33) << std::left << item.nombreCompleto
+					<< std::setw(18) << std::left << item.numeroCuenta
+					<< std::setw(13) << std::left << item.tipoCuenta
+					<< "$" << std::setw(12) << std::right << std::fixed << std::setprecision(2) << item.saldo
+					<< "\n";
+			}
+
+			std::cout << "\n=== CONTROLES ===\n";
+			std::cout << "↑↓: Navegar | ←→: Cambiar columna | ENTER: Generar QR | F: Buscar | ESC: Salir\n";
+			std::cout << "Columna actual: ";
+			switch (columnaActual) {
+			case ColumnaOrden::NOMBRE: std::cout << "Nombre-Apellido"; break;
+			case ColumnaOrden::CUENTA: std::cout << "N. Cuenta"; break;
+			case ColumnaOrden::BUSCAR: std::cout << "Búsqueda"; break;
+			}
+			std::cout << " (" << (ordenAscendente ? "ASC" : "DESC") << ")\n";
+			};
+
+		// Inicializar filtro y ordenamiento
+		aplicarFiltro("");
+		ordenarDatos(columnaActual, ordenAscendente);
+
+		// Bucle principal de interacción
+		while (true) {
+			mostrarTabla();
+
+			int tecla = _getch();
+
+			if (tecla == 224) { // Teclas especiales
+				tecla = _getch();
+				switch (tecla) {
+				case 72: // Flecha arriba
+					filaSeleccionada = std::max(0, filaSeleccionada - 1);
+					break;
+				case 80: // Flecha abajo
+					filaSeleccionada = std::min(static_cast<int>(indicesFiltrados.size()) - 1,
+						filaSeleccionada + 1);
+					break;
+				case 75: // Flecha izquierda
+					columnaActual = static_cast<ColumnaOrden>((static_cast<int>(columnaActual) - 1 + 3) % 3);
+					if (columnaActual != ColumnaOrden::BUSCAR) {
+						ordenarDatos(columnaActual, ordenAscendente);
+					}
+					break;
+				case 77: // Flecha derecha
+					columnaActual = static_cast<ColumnaOrden>((static_cast<int>(columnaActual) + 1) % 3);
+					if (columnaActual != ColumnaOrden::BUSCAR) {
+						ordenarDatos(columnaActual, ordenAscendente);
+					}
+					break;
+				}
+			}
+			else if (tecla == 13) { // ENTER - Generar QR
+				if (!indicesFiltrados.empty() && filaSeleccionada < indicesFiltrados.size()) {
+					const auto& seleccionado = datosTabla[indicesFiltrados[filaSeleccionada]];
+
+					// Crear objeto Persona temporal para generar QR
+					Persona personaTemp;
+					size_t espacioPos = seleccionado.nombreCompleto.find(' ');
+					if (espacioPos != std::string::npos) {
+						personaTemp.setNombres(seleccionado.nombreCompleto.substr(0, espacioPos));
+						personaTemp.setApellidos(seleccionado.nombreCompleto.substr(espacioPos + 1));
+					}
+					else {
+						personaTemp.setNombres(seleccionado.nombreCompleto);
+						personaTemp.setApellidos("");
+					}
+					personaTemp.setCedula(seleccionado.cedula);
+
+					// Generar QR usando la función existente
+					bool qrGenerado = generarQR(personaTemp, seleccionado.numeroCuenta);
+
+					if (qrGenerado) {
+						std::cout << "\nCódigo QR generado exitosamente para "
+							<< seleccionado.nombreCompleto << "\n";
+					}
+
+					system("pause");
+				}
+				break;
+			}
+			else if (tecla == 'f' || tecla == 'F') { // Búsqueda
+				std::cout << "\nIngrese texto a buscar: ";
+				mostrarCursor();
+				std::getline(std::cin, textoBusqueda);
+				ocultarCursor();
+
+				aplicarFiltro(textoBusqueda);
+				filaSeleccionada = 0;
+
+				if (columnaActual != ColumnaOrden::BUSCAR) {
+					ordenarDatos(columnaActual, ordenAscendente);
+				}
+			}
+			else if (tecla == ' ') { // Espacio - Cambiar orden ASC/DESC
+				if (columnaActual != ColumnaOrden::BUSCAR) {
+					ordenAscendente = !ordenAscendente;
+					ordenarDatos(columnaActual, ordenAscendente);
+				}
+			}
+			else if (tecla == 27) { // ESC - Salir
+				break;
+			}
+		}
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "\nError en generación de QR: " << e.what() << std::endl;
+		system("pause");
+	}
+
+	//finalizarOperacionCritica();
+	limpiarPantallaPreservandoMarquesina(1);
+}
 
 /**
  * @brief Formatea un valor monetario con formato americano ($1,000.23)
@@ -1185,7 +1481,7 @@ void mostrarMenuOrdenar(std::vector<T*>& vec, const std::vector<std::string>& op
  * @brief Oculta el cursor de la consola
  */
 void Utilidades::ocultarCursor() {
-	CONSOLE_CURSOR_INFO cursorInfo;
+	CONSOLE_CURSOR_INFO cursorInfo{};
 	cursorInfo.dwSize = 1;
 	cursorInfo.bVisible = FALSE;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
@@ -1195,7 +1491,7 @@ void Utilidades::ocultarCursor() {
  * @brief Muestra el cursor de la consola
  */
 void Utilidades::mostrarCursor() {
-	CONSOLE_CURSOR_INFO cursorInfo;
+	CONSOLE_CURSOR_INFO cursorInfo{};
 	cursorInfo.dwSize = 25; // Tamaño normal
 	cursorInfo.bVisible = TRUE;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
@@ -1249,4 +1545,408 @@ void Utilidades::restaurarBarraTituloConsola() {
 
 	// Necesario para que los cambios de estilo surtan efecto inmediatamente
 	SetWindowPos(hConsole, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+}
+
+/**
+ * @brief Explorador interactivo de archivos de personas desde MongoDB
+ *
+ * Muestra una tabla interactiva con todas las personas y sus cuentas,
+ * permitiendo ordenamiento por nombre, apellido y número de cuenta,
+ * además de funciones de búsqueda avanzada.
+ */
+void Utilidades::exploradorArchivosInteractivo(Banco& banco) {
+	// Estructura para manejar datos de la tabla
+	struct PersonaArchivo {
+		std::string cedula;
+		std::string nombres;
+		std::string apellidos;
+		std::string nombreCompleto;
+		std::string correo;
+		std::string direccion;
+		std::string fechaNacimiento;
+		std::string numeroCuenta;
+		std::string tipoCuenta;
+		double saldo;
+		int totalCuentas;
+
+		PersonaArchivo(const std::string& ced, const std::string& nom, const std::string& ape,
+			const std::string& email, const std::string& dir, const std::string& fecha,
+			const std::string& cuenta, const std::string& tipo, double sal, int total)
+			: cedula(ced), nombres(nom), apellidos(ape), correo(email), direccion(dir),
+			fechaNacimiento(fecha), numeroCuenta(cuenta), tipoCuenta(tipo),
+			saldo(sal), totalCuentas(total) {
+			nombreCompleto = nombres + " " + apellidos;
+		}
+	};
+
+	try {
+		iniciarOperacionCritica();
+		limpiarPantallaPreservandoMarquesina(1);
+
+		// Obtener datos desde MongoDB
+		auto& clienteDB = ConexionMongo::obtenerClienteBaseDatos();
+		_BaseDatosPersona baseDatos(clienteDB);
+
+		auto personas = baseDatos.mostrarTodasPersonas();
+
+		if (personas.empty()) {
+			std::cout << "\n[INFORMACIÓN] No hay personas registradas en la base de datos.\n";
+			std::cout << "Para explorar archivos, primero debe registrar personas.\n";
+			system("pause");
+			finalizarOperacionCritica();
+			return;
+		}
+
+		// Procesar datos para la tabla
+		std::vector<PersonaArchivo> datosTabla;
+		datosTabla.reserve(personas.size() * 5); // Estimación de cuentas promedio
+
+		// Usar for_each para procesar personas aplicando principios SOLID
+		std::for_each(personas.begin(), personas.end(), [&datosTabla](const auto& doc) {
+			auto view = doc.view();
+
+			std::string cedula = std::string(view["cedula"].get_string().value);
+			std::string nombres = std::string(view["nombre"].get_string().value);
+			std::string apellidos = std::string(view["apellido"].get_string().value);
+			std::string correo = view.find("correo") != view.end() ?
+				std::string(view["correo"].get_string().value) : "No especificado";
+			std::string direccion = view.find("direccion") != view.end() ?
+				std::string(view["direccion"].get_string().value) : "No especificada";
+			std::string fechaNacimiento = view.find("fechaNacimiento") != view.end() ?
+				std::string(view["fechaNacimiento"].get_string().value) : "No especificada";
+
+			int totalCuentas = view.find("totalCuentasExistentes") != view.end() ?
+				view["totalCuentasExistentes"].get_int32().value : 0;
+
+			// Si la persona no tiene cuentas, agregar registro sin cuenta
+			if (totalCuentas == 0) {
+				datosTabla.emplace_back(cedula, nombres, apellidos, correo, direccion,
+					fechaNacimiento, "Sin cuentas", "N/A", 0.0, 0);
+			}
+			else {
+				// Procesar cuentas usando for_each
+				if (view.find("cuentas") != view.end() &&
+					view["cuentas"].type() == bsoncxx::type::k_array) {
+
+					auto cuentasArray = view["cuentas"].get_array().value;
+					std::for_each(cuentasArray.begin(), cuentasArray.end(),
+						[&](const auto& cuentaElement) {
+							if (cuentaElement.type() == bsoncxx::type::k_document) {
+								auto cuenta = cuentaElement.get_document().value;
+
+								std::string numeroCuenta = std::string(cuenta["numeroCuenta"].get_string().value);
+								std::string tipoCuenta = std::string(cuenta["tipo"].get_string().value);
+								double saldo = cuenta["saldo"].get_double().value;
+
+								datosTabla.emplace_back(cedula, nombres, apellidos, correo, direccion,
+									fechaNacimiento, numeroCuenta, tipoCuenta,
+									saldo, totalCuentas);
+							}
+						});
+				}
+			}
+			});
+
+		if (datosTabla.empty()) {
+			std::cout << "\n[INFORMACIÓN] No hay datos para explorar.\n";
+			system("pause");
+			finalizarOperacionCritica();
+			return;
+		}
+
+		// Variables de control de la tabla aplicando principios SOLID
+		enum class ColumnaOrden { NOMBRE, APELLIDO, NUMERO_CUENTA, BUSCAR };
+		ColumnaOrden columnaActual = ColumnaOrden::NOMBRE;
+		bool ordenAscendente = true;
+		int filaSeleccionada = 0;
+		std::string textoBusqueda = "";
+		std::vector<int> indicesFiltrados;
+
+		// Función lambda para aplicar filtros (SRP: responsabilidad única de filtrado)
+		auto aplicarFiltro = [&datosTabla, &indicesFiltrados](const std::string& busqueda) {
+			indicesFiltrados.clear();
+			if (busqueda.empty()) {
+				indicesFiltrados.resize(datosTabla.size());
+				std::iota(indicesFiltrados.begin(), indicesFiltrados.end(), 0);
+			}
+			else {
+				std::string busquedaLower = ConvertirAMinusculas(busqueda);
+
+				// Buscar en múltiples campos
+				for (size_t i = 0; i < datosTabla.size(); ++i) {
+					const auto& item = datosTabla[i];
+
+					std::string textoCompleto = ConvertirAMinusculas(
+						item.nombreCompleto + " " + item.cedula + " " +
+						item.numeroCuenta + " " + item.correo + " " + item.direccion
+					);
+
+					if (textoCompleto.find(busquedaLower) != std::string::npos) {
+						indicesFiltrados.push_back(static_cast<int>(i));
+					}
+				}
+			}
+			};
+
+		// Función lambda para ordenar datos (SRP: responsabilidad única de ordenamiento)
+		auto ordenarDatos = [&datosTabla, &indicesFiltrados](ColumnaOrden columna, bool ascendente) {
+			std::function<bool(int, int)> comparador;
+
+			switch (columna) {
+			case ColumnaOrden::NOMBRE:
+				comparador = [&datosTabla, ascendente](int a, int b) {
+					auto resultado = datosTabla[a].nombres.compare(datosTabla[b].nombres);
+					return ascendente ? resultado < 0 : resultado > 0;
+					};
+				break;
+			case ColumnaOrden::APELLIDO:
+				comparador = [&datosTabla, ascendente](int a, int b) {
+					auto resultado = datosTabla[a].apellidos.compare(datosTabla[b].apellidos);
+					return ascendente ? resultado < 0 : resultado > 0;
+					};
+				break;
+			case ColumnaOrden::NUMERO_CUENTA:
+				comparador = [&datosTabla, ascendente](int a, int b) {
+					auto resultado = datosTabla[a].numeroCuenta.compare(datosTabla[b].numeroCuenta);
+					return ascendente ? resultado < 0 : resultado > 0;
+					};
+				break;
+			default:
+				return;
+			}
+
+			std::sort(indicesFiltrados.begin(), indicesFiltrados.end(), comparador);
+			};
+
+		// Función lambda para mostrar la tabla (SRP: responsabilidad única de visualización)
+		auto mostrarTabla = [&]() {
+			limpiarPantallaPreservandoMarquesina(1);
+
+			std::cout << "=== EXPLORADOR DE ARCHIVOS DE PERSONAS ===\n\n";
+			std::cout << "Total de registros: " << indicesFiltrados.size() << "\n";
+			if (!textoBusqueda.empty()) {
+				std::cout << "Filtro activo: \"" << textoBusqueda << "\"\n";
+			}
+			std::cout << "\n";
+
+			// Encabezados con indicadores de ordenamiento
+			std::string headerNombre = "Nombre";
+			std::string headerApellido = "Apellido";
+			std::string headerNumeroCuenta = "N. Cuenta";
+			std::string headerBuscar = "Buscar específico";
+
+			if (columnaActual == ColumnaOrden::NOMBRE) {
+				headerNombre += (ordenAscendente ? " ↑" : " ↓");
+			}
+			else if (columnaActual == ColumnaOrden::APELLIDO) {
+				headerApellido += (ordenAscendente ? " ↑" : " ↓");
+			}
+			else if (columnaActual == ColumnaOrden::NUMERO_CUENTA) {
+				headerNumeroCuenta += (ordenAscendente ? " ↑" : " ↓");
+			}
+
+			std::cout << std::setw(4) << std::left << "Sel"
+				<< std::setw(20) << std::left << headerNombre
+				<< std::setw(20) << std::left << headerApellido
+				<< std::setw(15) << std::left << "Cédula"
+				<< std::setw(18) << std::left << headerNumeroCuenta
+				<< std::setw(12) << std::left << "Tipo"
+				<< std::setw(15) << std::left << "Saldo"
+				<< std::setw(20) << std::left << headerBuscar << "\n";
+			std::cout << std::string(124, '-') << "\n";
+
+			// Mostrar datos paginados (máximo 12 filas por página)
+			const int filasPorPagina = 12;
+			int inicioFila = (filaSeleccionada / filasPorPagina) * filasPorPagina;
+			int finFila = std::min(inicioFila + filasPorPagina, static_cast<int>(indicesFiltrados.size()));
+
+			for (int i = inicioFila; i < finFila; ++i) {
+				const auto& item = datosTabla[indicesFiltrados[i]];
+
+				std::cout << std::setw(4) << std::left << (i == filaSeleccionada ? ">>> " : "   ")
+					<< std::setw(20) << std::left << item.nombres.substr(0, 19)
+					<< std::setw(20) << std::left << item.apellidos.substr(0, 19)
+					<< std::setw(15) << std::left << item.cedula
+					<< std::setw(18) << std::left << item.numeroCuenta.substr(0, 17)
+					<< std::setw(12) << std::left << item.tipoCuenta.substr(0, 11)
+					<< "$" << std::setw(12) << std::right << std::fixed << std::setprecision(2) << item.saldo
+					<< "\n";
+			}
+
+			std::cout << "\n=== CONTROLES ===\n";
+			std::cout << "↑↓: Navegar | ←→: Cambiar columna | ENTER: Ver detalles | F: Buscar | ESPACIO: Orden ASC/DESC | ESC: Salir\n";
+			std::cout << "Columna actual: ";
+			switch (columnaActual) {
+			case ColumnaOrden::NOMBRE: std::cout << "Nombre"; break;
+			case ColumnaOrden::APELLIDO: std::cout << "Apellido"; break;
+			case ColumnaOrden::NUMERO_CUENTA: std::cout << "N. Cuenta"; break;
+			case ColumnaOrden::BUSCAR: std::cout << "Búsqueda"; break;
+			}
+			std::cout << " (" << (ordenAscendente ? "ASC" : "DESC") << ")\n";
+			};
+
+		// Función lambda para mostrar detalles (SRP: responsabilidad única de mostrar detalles)
+		auto mostrarDetallesPersona = [&](const PersonaArchivo& persona) {
+			limpiarPantallaPreservandoMarquesina(1);
+
+			std::cout << "=== DETALLES DE LA PERSONA ===\n\n";
+			std::cout << "Cédula: " << persona.cedula << "\n";
+			std::cout << "Nombres: " << persona.nombres << "\n";
+			std::cout << "Apellidos: " << persona.apellidos << "\n";
+			std::cout << "Fecha de Nacimiento: " << persona.fechaNacimiento << "\n";
+			std::cout << "Correo: " << persona.correo << "\n";
+			std::cout << "Dirección: " << persona.direccion << "\n";
+			std::cout << "Total de Cuentas: " << persona.totalCuentas << "\n\n";
+
+			if (persona.numeroCuenta != "Sin cuentas") {
+				std::cout << "=== INFORMACIÓN DE CUENTA SELECCIONADA ===\n";
+				std::cout << "Número de Cuenta: " << persona.numeroCuenta << "\n";
+				std::cout << "Tipo de Cuenta: " << persona.tipoCuenta << "\n";
+				std::cout << "Saldo: $" << std::fixed << std::setprecision(2) << persona.saldo << "\n\n";
+			}
+
+			// Obtener todas las cuentas de la persona desde la base de datos
+			auto personaCompleta = baseDatos.buscarPersonaCompletaPorCedula(persona.cedula);
+			if (!personaCompleta.view().empty()) {
+				auto view = personaCompleta.view();
+
+				if (view.find("cuentas") != view.end() &&
+					view["cuentas"].type() == bsoncxx::type::k_array) {
+
+					auto cuentasArray = view["cuentas"].get_array().value;
+					if (std::distance(cuentasArray.begin(), cuentasArray.end()) > 0) {
+						std::cout << "=== TODAS LAS CUENTAS ===\n";
+						std::cout << std::setw(18) << std::left << "Número"
+							<< std::setw(12) << std::left << "Tipo"
+							<< std::setw(15) << std::left << "Saldo"
+							<< std::setw(15) << std::left << "F. Apertura" << "\n";
+						std::cout << std::string(60, '-') << "\n";
+
+						std::for_each(cuentasArray.begin(), cuentasArray.end(),
+							[](const auto& cuentaElement) {
+								if (cuentaElement.type() == bsoncxx::type::k_document) {
+									auto cuenta = cuentaElement.get_document().value;
+
+									std::string numCuenta = std::string(cuenta["numeroCuenta"].get_string().value);
+									std::string tipo = std::string(cuenta["tipo"].get_string().value);
+									double saldo = cuenta["saldo"].get_double().value;
+									std::string fecha = cuenta.find("fechaApertura") != cuenta.end() ?
+										std::string(cuenta["fechaApertura"].get_string().value) : "N/A";
+
+									std::cout << std::setw(18) << std::left << numCuenta
+										<< std::setw(12) << std::left << tipo
+										<< "$" << std::setw(12) << std::right << std::fixed << std::setprecision(2) << saldo
+										<< std::setw(15) << std::left << fecha << "\n";
+								}
+							});
+					}
+				}
+			}
+
+			std::cout << "\nPresione cualquier tecla para regresar...";
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+			};
+
+		// Inicializar filtro y ordenamiento
+		aplicarFiltro("");
+		ordenarDatos(columnaActual, ordenAscendente);
+
+		// Bucle principal de interacción
+		while (true) {
+			mostrarTabla();
+
+			int tecla = _getch();
+
+			if (tecla == 224) { // Teclas especiales
+				tecla = _getch();
+				switch (tecla) {
+				case 72: // Flecha arriba
+					filaSeleccionada = std::max(0, filaSeleccionada - 1);
+					break;
+				case 80: // Flecha abajo
+					filaSeleccionada = std::min(static_cast<int>(indicesFiltrados.size()) - 1,
+						filaSeleccionada + 1);
+					break;
+				case 75: // Flecha izquierda
+					columnaActual = static_cast<ColumnaOrden>((static_cast<int>(columnaActual) - 1 + 4) % 4);
+					if (columnaActual != ColumnaOrden::BUSCAR) {
+						ordenarDatos(columnaActual, ordenAscendente);
+					}
+					break;
+				case 77: // Flecha derecha
+					columnaActual = static_cast<ColumnaOrden>((static_cast<int>(columnaActual) + 1) % 4);
+					if (columnaActual != ColumnaOrden::BUSCAR) {
+						ordenarDatos(columnaActual, ordenAscendente);
+					}
+					break;
+				}
+			}
+			else if (tecla == 13) { // ENTER - Ver detalles
+				if (!indicesFiltrados.empty() && filaSeleccionada < indicesFiltrados.size()) {
+					const auto& seleccionado = datosTabla[indicesFiltrados[filaSeleccionada]];
+					mostrarDetallesPersona(seleccionado);
+				}
+			}
+			else if (tecla == 'f' || tecla == 'F') { // Búsqueda
+				std::cout << "\nIngrese texto a buscar (nombre, apellido, cédula, cuenta, correo): ";
+				mostrarCursor();
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::getline(std::cin, textoBusqueda);
+				ocultarCursor();
+
+				aplicarFiltro(textoBusqueda);
+				filaSeleccionada = 0;
+
+				if (columnaActual != ColumnaOrden::BUSCAR) {
+					ordenarDatos(columnaActual, ordenAscendente);
+				}
+			}
+			else if (tecla == ' ') { // Espacio - Cambiar orden ASC/DESC
+				if (columnaActual != ColumnaOrden::BUSCAR) {
+					ordenAscendente = !ordenAscendente;
+					ordenarDatos(columnaActual, ordenAscendente);
+				}
+			}
+			else if (tecla == 27) { // ESC - Salir
+				break;
+			}
+		}
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "\nError en explorador de archivos: " << e.what() << std::endl;
+		system("pause");
+	}
+
+	finalizarOperacionCritica();
+	limpiarPantallaPreservandoMarquesina(1);
+}
+
+/**
+ * @brief Función principal de gestión de hash interactiva
+ *
+ * Implementa el patrón Facade y utiliza los principios SOLID
+ */
+void Utilidades::gestionHashInteractiva() {
+	try {
+		// Crear conexión MongoDB (DIP - Dependency Injection)
+		ConexionMongo conexion;
+
+		// Crear gestor hash con factory method
+		auto gestorHash = GestorHashBaseDatos::crear(conexion);
+
+		// Crear interfaz con inyección de dependencias
+		InterfazGestionHash interfaz(std::move(gestorHash));
+
+		// Mostrar interfaz principal
+		interfaz.mostrarMenuPrincipal();
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error en gestión de hash: " << e.what() << std::endl;
+		std::cout << "Presione Enter para continuar...";
+		std::cin.get();
+	}
 }

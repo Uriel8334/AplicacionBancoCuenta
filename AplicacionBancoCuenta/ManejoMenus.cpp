@@ -21,7 +21,8 @@ int ManejoMenus::mostrarMenuTipoCuenta() {
 	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	Utilidades::ocultarCursor();
 	int seleccion = Utilidades::menuInteractivo("Seleccione el tipo de cuenta a crear para la persona:", opciones, 0, 0);
-	return seleccion;
+
+	return (seleccion == 0) ? 0 : (seleccion == 1) ? 1 : -1;
 }
 
 /**
@@ -185,6 +186,7 @@ bool ManejoMenus::confirmarOperacion(const std::string& mensaje) {
  * @return true si el usuario confirma, false en caso contrario
  */
 bool ManejoMenus::confirmarAgregarCuentaExistente(const std::string& cedula, const std::string& nombre) {
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	std::cout << std::endl << "=== PERSONA EXISTENTE ENCONTRADA ===" << std::endl;
 	std::cout << "Cedula: " << cedula << std::endl;
 	std::cout << "Nombre: " << nombre << std::endl;

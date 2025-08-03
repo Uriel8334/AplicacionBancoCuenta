@@ -6,76 +6,146 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 /**
  * @class Cifrado
  * @brief Clase que implementa funcionalidades de cifrado y descifrado de archivos
  *
- * Esta clase est·tica proporciona mÈtodos para cifrar y descifrar archivos utilizando
- * el algoritmo XOR. TambiÈn contiene funcionalidades especÌficas para el manejo
- * de datos del banco, permitiendo cifrar, guardar, y recuperar informaciÛn bancaria
+ * Esta clase est√°tica proporciona m√©todos para cifrar y descifrar archivos utilizando
+ * el algoritmo C√©sar. Tambi√©n contiene funcionalidades espec√≠ficas para el manejo
+ * de datos del banco, permitiendo cifrar, guardar, y recuperar informaci√≥n bancaria
  * de manera segura.
  */
 class Cifrado {
 public:
-    /**
-     * @brief Cifra un archivo usando el algoritmo XOR
-     * @param rutaEntrada Ruta completa del archivo origen a cifrar
-     * @param rutaSalida Ruta completa donde se guardar· el archivo cifrado
-     * @param clave Car·cter usado como clave de cifrado para el algoritmo XOR
-     *
-     * Este mÈtodo lee un archivo byte por byte, aplica una operaciÛn XOR con la clave
-     * especificada, y guarda el resultado en un nuevo archivo.
-     */
-    static void CifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char clave);
+	/**
+	 * @brief Cifra un archivo usando el algoritmo C√©sar
+	 * @param rutaEntrada Ruta completa del archivo origen a cifrar
+	 * @param rutaSalida Ruta completa donde se guardar√° el archivo cifrado
+	 * @param clave Car√°cter usado como clave de cifrado para el algoritmo C√©sar
+	 *
+	 * Este m√©todo lee un archivo byte por byte, aplica una operaci√≥n C√©sar con la clave
+	 * especificada, y guarda el resultado en un nuevo archivo.
+	 */
+	static void CifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char clave);
 
-    /**
-     * @brief Descifra un archivo previamente cifrado con el algoritmo XOR
-     * @param rutaEntrada Ruta completa del archivo cifrado
-     * @param rutaSalida Ruta completa donde se guardar· el archivo descifrado
-     * @param valor Car·cter usado como clave de descifrado (debe ser el mismo usado para cifrar)
-     *
-     * Este mÈtodo invierte el proceso de cifrado, aplicando XOR con la misma clave
-     * para recuperar el contenido original.
-     */
-    static void desifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char valor);
+	/**
+	 * @brief Descifra un archivo previamente cifrado con el algoritmo C√©sar
+	 * @param rutaEntrada Ruta completa del archivo cifrado
+	 * @param rutaSalida Ruta completa donde se guardar√° el archivo descifrado
+	 * @param valor Car√°cter usado como clave de descifrado (debe ser el mismo usado para cifrar)
+	 *
+	 * Este m√©todo invierte el proceso de cifrado, aplicando C√©sar con la misma clave
+	 * para recuperar el contenido original.
+	 */
+	static void desifrarArchivo(const std::string& rutaEntrada, const std::string& rutaSalida, char valor);
 
-    /**
-     * @brief Cifra y guarda los datos del banco en un archivo binario
-     * @param banco Referencia al objeto Banco cuyos datos ser·n cifrados
-     * @param nombreArchivo Nombre base del archivo (sin extensiÛn) donde guardar los datos
-     * @param claveCifrado Car·cter usado como clave de cifrado
-     *
-     * Este mÈtodo serializa los datos del banco a un archivo temporal, luego
-     * cifra este archivo y guarda el resultado como un archivo binario (.bin).
-     */
-    static void cifrarYGuardarDatos(const class Banco& banco, const std::string& nombreArchivo, char claveCifrado);
+	/**
+	 * @brief Cifra y guarda los datos del banco en un archivo binario
+	 * @param banco Referencia al objeto Banco cuyos datos ser√°n cifrados
+	 * @param nombreArchivo Nombre base del archivo (sin extensi√≥n) donde guardar los datos
+	 * @param claveCifrado Car√°cter usado como clave de cifrado
+	 *
+	 * Este m√©todo serializa los datos del banco a un archivo temporal, luego
+	 * cifra este archivo y guarda el resultado como un archivo binario (.bin).
+	 */
+	static void cifrarYGuardarDatos(const class Banco& banco, const std::string& nombreArchivo, char claveCifrado);
 
-    /**
-     * @brief Descifra y carga datos desde un archivo binario al objeto Banco
-     * @param banco Referencia al objeto Banco donde se cargar·n los datos descifrados
-     * @param nombreArchivo Nombre base del archivo cifrado (sin extensiÛn) a cargar
-     * @param claveCifrado Car·cter usado como clave de descifrado
-     * @return true si el proceso fue exitoso, false en caso contrario
-     *
-     * Este mÈtodo descifra el archivo binario especificado y carga los datos
-     * recuperados en el objeto Banco proporcionado.
-     */
-    static bool descifrarYCargarDatos(class Banco& banco, const std::string& nombreArchivo, char claveCifrado);
+	/**
+	 * @brief Descifra y carga datos desde un archivo binario al objeto Banco
+	 * @param banco Referencia al objeto Banco donde se cargar√°n los datos descifrados
+	 * @param nombreArchivo Nombre base del archivo cifrado (sin extensi√≥n) a cargar
+	 * @param claveCifrado Car√°cter usado como clave de descifrado
+	 * @return true si el proceso fue exitoso, false en caso contrario
+	 *
+	 * Este m√©todo descifra el archivo binario especificado y carga los datos
+	 * recuperados en el objeto Banco proporcionado.
+	 */
+	static bool descifrarYCargarDatos(class Banco& banco, const std::string& nombreArchivo, char claveCifrado);
 
-    /**
-     * @brief Descifra un archivo sin cargar los datos al banco
-     * @param banco Referencia al objeto Banco (usado para obtener rutas)
-     * @param nombreArchivo Nombre base del archivo cifrado (sin extensiÛn) a descifrar
-     * @param claveCifrado Car·cter usado como clave de descifrado
-     * @param opcion Tipo de archivo de salida: 0 para .bak, 1 para .txt
-     * @return true si el proceso fue exitoso, false en caso contrario
-     *
-     * Este mÈtodo descifra el archivo binario especificado y guarda el resultado
-     * en un nuevo archivo, sin modificar el estado del objeto Banco.
-     * La opciÛn determina si se genera un archivo de backup (.bak) o texto (.txt).
-     */
-    static bool descifrarSinCargarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado, int opcion);
+	/**
+	 * @brief Descifra un archivo sin cargar los datos al banco
+	 * @param banco Referencia al objeto Banco (usado para obtener rutas)
+	 * @param nombreArchivo Nombre base del archivo cifrado (sin extensi√≥n) a descifrar
+	 * @param claveCifrado Car√°cter usado como clave de descifrado
+	 * @param opcion Tipo de archivo de salida: 0 para .bak, 1 para .txt
+	 * @return true si el proceso fue exitoso, false en caso contrario
+	 *
+	 * Este m√©todo descifra el archivo binario especificado y guarda el resultado
+	 * en un nuevo archivo, sin modificar el estado del objeto Banco.
+	 * La opci√≥n determina si se genera un archivo de backup (.bak) o texto (.txt).
+	 */
+	static bool descifrarSinCargarDatos(const Banco& banco, const std::string& nombreArchivo, char claveCifrado, int opcion);
+
+	/**
+	 * @brief Inicia el proceso interactivo de descifrado de archivos .bin
+	 * @param baseDatos Referencia a la base de datos de personas
+	 * @return true si el proceso fue exitoso, false en caso contrario
+	 *
+	 * Este m√©todo proporciona una interfaz interactiva para descifrar archivos .bin
+	 * generados por ExportadorArchivo::guardarArchivoConCifrado. Aplica principios SOLID,
+	 * usa programaci√≥n funcional y recursi√≥n donde sea posible.
+	 */
+	static bool iniciarProcesoDescifrado(const class _BaseDatosPersona& baseDatos);
+
+private:
+	// === M√âTODOS AUXILIARES PARA EL PROCESO DE DESCIFRADO ===
+
+	/**
+	 * @brief Valida que existan archivos .bin disponibles para descifrar
+	 * @return true si existen archivos .bin, false en caso contrario
+	 */
+	static bool validarArchivosDisponibles();
+
+	/**
+	 * @brief Solicita al usuario seleccionar un archivo .bin para descifrar
+	 * @return Nombre del archivo seleccionado (sin extensi√≥n), vac√≠o si cancela
+	 */
+	static std::string solicitarSeleccionArchivo();
+
+	/**
+	 * @brief Solicita al usuario la clave de descifrado
+	 * @return Car√°cter de la clave de descifrado
+	 */
+	static char solicitarClaveDescifrado();
+
+	/**
+	 * @brief Solicita al usuario el formato de salida deseado
+	 * @return Opci√≥n seleccionada: 0 para .bak, 1 para .txt, 2 para .pdf
+	 */
+	static int solicitarFormatoSalida();
+
+	/**
+	 * @brief Ejecuta el proceso de descifrado seg√∫n el formato seleccionado
+	 * @param nombreArchivo Nombre del archivo a descifrar
+	 * @param clave Clave de descifrado
+	 * @param formato Formato de salida (0=.bak, 1=.txt, 2=.pdf)
+	 * @return true si el descifrado fue exitoso, false en caso contrario
+	 */
+	static bool ejecutarDescifradoPorFormato(const std::string& nombreArchivo, char clave, int formato);
+
+	/**
+	 * @brief Obtiene lista de archivos .bin disponibles en el directorio BancoApp
+	 * @return Vector con los nombres de archivos .bin encontrados
+	 */
+	static std::vector<std::string> obtenerArchivosBINDisponibles();
+
+	/**
+	 * @brief Descifra y convierte archivo .bin a formato PDF usando funciones recursivas
+	 * @param nombreArchivo Nombre del archivo .bin a procesar
+	 * @param clave Clave de descifrado
+	 * @return true si la conversi√≥n fue exitosa, false en caso contrario
+	 */
+	static bool descifrarYConvertirAPDF(const std::string& nombreArchivo, char clave);
+
+	/**
+	 * @brief Muestra el resultado del proceso de descifrado
+	 * @param exito Indica si el proceso fue exitoso
+	 * @param formato Formato de salida utilizado
+	 * @param nombreArchivo Nombre del archivo procesado
+	 */
+	static void mostrarResultadoDescifrado(bool exito, int formato, const std::string& nombreArchivo);
 };
 
 #endif // CIFRADO_H

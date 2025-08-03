@@ -20,11 +20,14 @@ private:
     mongocxx::client& _client;
 
 public:
+
     /**
      * @brief Constructor que inicializa la conexión a MongoDB
      * @param client Referencia al cliente de MongoDB
      */
     _BaseDatosPersona(mongocxx::client& client);
+
+
 
 #pragma region === OPERACIONES DE PERSONA ===
     /**
@@ -32,7 +35,7 @@ public:
      * @param persona La persona a insertar
      * @return true si la inserción fue exitosa, false en caso contrario
      */
-    bool insertarPersona(const Persona& persona);
+    bool insertarNuevaPersona(const Persona& persona);
 
     /**
      * @brief Inserta una nueva persona con una cuenta inicial
@@ -63,6 +66,37 @@ public:
      * @return true si se agregó exitosamente, false en caso contrario
      */
     bool agregarCuentaPersona(const std::string& cedula, const bsoncxx::document::value& cuentaDoc);
+
+    /**
+     * @brief Busca personas por criterio específico en la base de datos
+     * @param criterio Campo por el cual buscar (nombre, apellido, fechaNacimiento, etc.)
+     * @param valor Valor a buscar
+     * @return Vector de documentos BSON con las personas encontradas
+     */
+    std::vector<bsoncxx::document::value> buscarPersonasPorCriterio(const std::string& criterio, const std::string& valor);
+
+    /**
+     * @brief Busca cuentas por rango de fechas desde una fecha hasta hoy
+     * @param fechaInicio Fecha de inicio en formato DD/MM/AAAA
+     * @return Vector de documentos BSON con las cuentas encontradas
+     */
+    std::vector<bsoncxx::document::value> buscarCuentasPorRangoFechas(const std::string& fechaInicio);
+
+    /**
+     * @brief Busca todas las cuentas de una persona por su cédula
+     * @param cedula Cédula de la persona a buscar
+     * @return Documento BSON con la información completa de la persona y sus cuentas
+     */
+    bsoncxx::document::value buscarPersonaCompletaPorCedula(const std::string& cedula);
+
+    /**
+     * @brief Convierte una fecha de formato DD/MM/AAAA a ISO para MongoDB
+     * @param fecha Fecha en formato DD/MM/AAAA
+     * @return Fecha en formato ISO string
+     */
+    std::string convertirFechaAISO(const std::string& fecha);
+
+    void iniciarBaseDatosArbolB();
 
 #pragma endregion
 
@@ -120,6 +154,36 @@ public:
      * @return Cédula del titular, o cadena vacía si no se encuentra
      */
     std::string obtenerCedulaPorNumeroCuenta(const std::string& numeroCuenta);
+
+    /**
+     * @brief Verifica si existen personas registradas en la base de datos MongoDB
+     * @return true si existen personas registradas, false en caso contrario
+     */
+    bool existenPersonasEnBaseDatos();
+
+    /**
+     * @brief Obtiene el número total de personas registradas en la base de datos
+     * @return Número total de personas registradas
+     */
+    long obtenerTotalPersonasRegistradas();
+
+    /**
+     * @brief Verifica si existen cuentas en la base de datos MongoDB
+     * @return true si existen cuentas registradas, false en caso contrario
+     */
+    bool existenCuentasEnBaseDatos();
+
+    /**
+     * @brief Obtiene el número total de cuentas registradas en la base de datos
+     * @return Número total de cuentas registradas
+     */
+    long obtenerTotalCuentasRegistradas();
+
+    /**
+     * @brief Obtiene todas las personas registradas en la base de datos MongoDB
+     * @return Vector de documentos BSON con todas las personas encontradas
+     */
+    std::vector<bsoncxx::document::value> mostrarTodasPersonas();
 #pragma endregion
 
 #pragma region === UTILIDADES ===
@@ -131,7 +195,28 @@ public:
     static bool probarConexionMongoDB(const std::string& uri_str);
 #pragma endregion
 
-private:
+    /**
+     * @brief Obtiene el último número secuencial usado para una sucursal específica
+     * @param sucursal Código de sucursal (210, 220, 480, 560)
+     * @return Último número secuencial usado, 0 si no existe
+     */
+    int obtenerUltimoSecuencial(const std::string& sucursal);
+
+    /**
+     * @brief Actualiza el último número secuencial para una sucursal específica
+     * @param sucursal Código de sucursal
+     * @param nuevoSecuencial Nuevo número secuencial a guardar
+     * @return true si se actualizó correctamente, false en caso contrario
+     */
+    bool actualizarSecuencial(const std::string& sucursal, int nuevoSecuencial);
+
+    /**
+     * @brief Obtiene el mayor número de cuenta existente para una sucursal específica
+     * @param sucursal Código de sucursal
+     * @return Mayor número secuencial encontrado en las cuentas existentes
+     */
+    int obtenerMayorNumeroCuentaPorSucursal(const std::string& sucursal);
+
     /**
      * @brief Busca una cuenta específica dentro de un documento de persona
      * @param personaDoc Documento de la persona
@@ -153,5 +238,6 @@ private:
      * @return Monto redondeado a 2 decimales
      */
     double redondearMonto(double monto);
+    
 };
 #endif // _BASEDATOSPERSONA_H

@@ -3,7 +3,7 @@
 #define UTILIDADES_H
 
 #define _CRT_SECURE_NO_WARNINGS
- 
+
 #include <string>
 #include <vector>
 #include <functional>
@@ -12,6 +12,7 @@
 #include <iomanip>
 #include "CodigoQR.h"
 #include "Utilidades.h"
+#include "Banco.h"
 #include <iostream>
 #include <windows.h>
 #include <mutex>
@@ -237,6 +238,13 @@ public:
 	 */
 	static bool generarQR(const Persona& persona, const std::string& numeroCuenta);
 
+	/**
+	 * @brief Muestra tabla interactiva de personas para generar códigos QR
+	 *
+	 * Presenta una interfaz tabular con ordenamiento, filtrado y selección
+	 * para generar códigos QR de personas y sus cuentas desde MongoDB.
+	 */
+	static void generarQR();
 
 	/**
 	 * @brief Oculta el cursor de la consola
@@ -273,6 +281,18 @@ public:
 	 */
 	static void restaurarBarraTituloConsola();
 
+	/**
+	 * @brief Explorador interactivo de archivos de personas desde MongoDB
+	 *
+	 * Muestra una tabla interactiva con todas las personas y sus cuentas,
+	 * permitiendo ordenamiento por nombre, apellido y número de cuenta,
+	 * además de funciones de búsqueda avanzada.
+	 *
+	 * @param banco Referencia al objeto Banco para acceso a datos
+	 */
+	static void exploradorArchivosInteractivo(Banco& banco);
+
+	static void gestionHashInteractiva();
 
 };
 

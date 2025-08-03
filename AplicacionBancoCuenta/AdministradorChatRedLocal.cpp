@@ -168,6 +168,7 @@ bool AdministradorChatRedLocal::verificarConexionRemota() {
         return false;
     }
     catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
         return false;
     }
 }

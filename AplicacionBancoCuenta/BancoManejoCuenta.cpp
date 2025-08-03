@@ -106,12 +106,9 @@ std::vector<std::pair<Persona*, void*>> BancoManejoCuenta::buscarCuentasPorNumer
 bool BancoManejoCuenta::crearCuentaAhorros(const std::string& cedula, CuentaAhorros* cuenta) {
 	if (!cuenta) return false;
 
-	Persona* persona = manejoPersonas.buscarPersonaPorCedula(cedula);
-	if (!persona) return false;
-
 	// Crear documento para MongoDB
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		auto cuentaDoc = bsoncxx::builder::basic::document{};
@@ -134,12 +131,9 @@ bool BancoManejoCuenta::crearCuentaAhorros(const std::string& cedula, CuentaAhor
 bool BancoManejoCuenta::crearCuentaCorriente(const std::string& cedula, CuentaCorriente* cuenta) {
 	if (!cuenta) return false;
 
-	Persona* persona = manejoPersonas.buscarPersonaPorCedula(cedula);
-	if (!persona) return false;
-
 	// Crear documento para MongoDB
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		auto cuentaDoc = bsoncxx::builder::basic::document{};
@@ -163,7 +157,7 @@ bool BancoManejoCuenta::crearCuentaCorriente(const std::string& cedula, CuentaCo
 
 bool BancoManejoCuenta::depositar(const std::string& numeroCuenta, double monto) {
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		return dbPersona.depositarEnCuenta(numeroCuenta, monto);
@@ -176,7 +170,7 @@ bool BancoManejoCuenta::depositar(const std::string& numeroCuenta, double monto)
 
 bool BancoManejoCuenta::retirar(const std::string& numeroCuenta, double monto) {
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		return dbPersona.retirarDeCuenta(numeroCuenta, monto);
@@ -189,7 +183,7 @@ bool BancoManejoCuenta::retirar(const std::string& numeroCuenta, double monto) {
 
 double BancoManejoCuenta::consultarSaldo(const std::string& numeroCuenta) {
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		return dbPersona.obtenerSaldoCuenta(numeroCuenta);
@@ -202,7 +196,7 @@ double BancoManejoCuenta::consultarSaldo(const std::string& numeroCuenta) {
 
 bool BancoManejoCuenta::validarFondosSuficientes(const std::string& numeroCuenta, double monto) {
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		return dbPersona.verificarFondosSuficientes(numeroCuenta, monto);
@@ -215,7 +209,7 @@ bool BancoManejoCuenta::validarFondosSuficientes(const std::string& numeroCuenta
 
 bool BancoManejoCuenta::transferir(const std::string& cuentaOrigen, const std::string& cuentaDestino, double monto) {
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		return dbPersona.realizarTransferencia(cuentaOrigen, cuentaDestino, monto);
@@ -228,7 +222,7 @@ bool BancoManejoCuenta::transferir(const std::string& cuentaOrigen, const std::s
 
 std::string BancoManejoCuenta::obtenerInformacionCompleta(const std::string& numeroCuenta) {
 	try {
-		mongocxx::client& client = ConexionMongo::getCliente();
+		mongocxx::client& client = ConexionMongo::obtenerClienteBaseDatos();
 		_BaseDatosPersona dbPersona(client);
 
 		auto infoDoc = dbPersona.obtenerInformacionCuenta(numeroCuenta);

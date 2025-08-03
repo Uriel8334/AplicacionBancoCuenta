@@ -599,3 +599,37 @@ void AdministradorChatSocket::detenerChat() {
     // Limpiar Winsock
     limpiarWinsock();
 }
+
+void AdministradorChatSocket::iniciarChatInteractivo() {
+    Utilidades::limpiarPantallaPreservandoMarquesina(1);
+
+    std::cout << "=== SISTEMA DE CHAT LOCAL ===" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Este chat utiliza la misma configuración de red que MongoDB:" << std::endl;
+
+    if (ConexionMongo::getModoConexion() == ConexionMongo::SERVIDOR) {
+        std::cout << "• Actuando como SERVIDOR (esperará conexiones)" << std::endl;
+    }
+    else {
+        std::cout << "• Actuando como CLIENTE (se conectará al servidor)" << std::endl;
+    }
+
+    std::cout << std::endl;
+    std::cout << "¿Desea continuar? (s/n): ";
+    char respuesta;
+    std::cin >> respuesta;
+    std::cin.ignore(); // Limpiar el buffer
+
+    if (respuesta == 's' || respuesta == 'S') {
+        try {
+            AdministradorChatSocket chat;
+            chat.iniciarChat();
+        }
+        catch (const std::exception& e) {
+            std::cout << "Error en el chat: " << e.what() << std::endl;
+            system("pause");
+        }
+    }
+
+    Utilidades::limpiarPantallaPreservandoMarquesina(1);
+}

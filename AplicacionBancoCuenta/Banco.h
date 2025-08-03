@@ -1,53 +1,80 @@
 #pragma once
-
 #ifndef BANCO_H
 #define BANCO_H
 
-#include "BancoManejoPersona.h"
-#include "BancoManejoCuenta.h"
-#include "ManejoMenus.h"
-#include <string>
-#include <functional>  // ← AGREGADO: Para resolver el error E1086
+// === FORWARD DECLARATIONS ===
+class BancoManejoPersona;
+class BancoManejoCuenta;
+class BancoManejaRegistro;
+class _BaseDatosPersona;
+class BuscadorCuentas;
+class CreadorCuentas;
+class ValidadorBaseDatos;
+class Persona;
+class NodoPersona;
+class CuentaAhorros;
+class CuentaCorriente;
 
-/**
- * @class Banco
- * @brief Clase coordinadora que orquesta las operaciones bancarias
- *
- * Aplicando SRP: Se encarga únicamente de coordinar entre los diferentes manejadores
- * Aplicando DIP: Depende de abstracciones, no de implementaciones concretas
- */
+#include "_BaseDatosPersona.h"
+#include <string>
+#include <tuple>
+#include <memory>
+#include <functional>
+
 class Banco {
 private:
-    BancoManejoPersona manejoPersonas;
-    BancoManejoCuenta manejoCuentas;
+	std::unique_ptr<BancoManejoPersona> manejoPersonas;
+	std::unique_ptr<BancoManejoCuenta> manejoCuentas;
+	std::unique_ptr<BancoManejaRegistro> manejoRegistros;
+	_BaseDatosPersona baseDatosPersona;
+	std::unique_ptr<BuscadorCuentas> buscadorCuentas;
+	std::unique_ptr<ValidadorBaseDatos> validadorBaseDatos;
 
-    // Métodos de coordinación simplificados
-    bool validarOperacion(const std::string& operacion);
-    void registrarOperacion(const std::string& operacion);
+	// === MÉTODOS REFACTORIZADOS APLICANDO SOLID ===
+
+	// Extract Method - Métodos auxiliares pequeños y específicos
+	void mostrarMensajeCreacionCliente();
+	std::unique_ptr<Persona> prepararNuevaPersona(const std::string& cedula);
+	std::pair<bool, std::string> crearCuentaSegunTipo(const std::string& tipoCuenta, Persona* persona, const std::string& cedula);
+	bool persistirPersonaEnBaseDatos(const Persona& persona);
+
+	// Template Method Pattern - Para personas existentes
+	std::unique_ptr<Persona> obtenerPersonaExistente(const std::string& cedula);
+	std::pair<bool, std::string> crearCuentaParaPersonaExistente(CreadorCuentas& creador, const std::string& tipoCuenta, Persona* persona, const std::string& cedula);
+
+	// === MÉTODOS EXISTENTES ===
+	bool procesarPersonaExistente(Persona* persona, const std::string& tipoCuenta, const std::string& cedula);
+	bool procesarPersonaNueva(const std::string& tipoCuenta, const std::string& cedula);
+	bool crearCuentaPorTipo(const std::string& tipoCuenta, const std::string& cedula, const std::string& nombreCompleto = "");
+	void mostrarResultadoCreacion(bool exito, const std::string& tipoCuenta, const std::string& nombreCompleto);
+	void finalizarOperacion(bool exitoso, const std::string& cedula, const std::string& tipoOperacion);
+	std::tuple<std::string, std::string, int> obtenerDatosIniciales();
+	bool validarOperacion(const std::string& operacion);
+	void registrarOperacion(const std::string& operacion);
+	void realizarDeposito();
+	void realizarRetiro();
+	void consultarSaldo();
+	void mostrarInformacionCuenta();
 
 public:
-    Banco();
-    ~Banco() = default;
 
-    // API pública simplificada - solo coordina
-    void agregarPersonaConCuenta();
-    void buscarCuenta();
-    void realizarTransferencia();
-    void subMenuCuentasBancarias();
+	Banco();
+	~Banco();
 
-    // Verificaciones del sistema
-    bool verificarCuentasBanco() const;
+	void agregarPersonaConCuenta();
+	void buscarCuenta();
+	bool verificarCuentasBanco() const;
+	void realizarTransferencia();
+	void subMenuCuentasBancarias();
 
-    // Acceso a los manejadores (si es necesario)
-    BancoManejoPersona& getManejoPersonas() { return manejoPersonas; }
-    BancoManejoCuenta& getManejoCuentas() { return manejoCuentas; }
+	// Acceso a los manejadores (si es necesario)
+	BancoManejoPersona& getManejoPersonas();
+	BancoManejoCuenta& getManejoCuentas();
 
-    // Compatibilidad con código existente
-    NodoPersona* getListaPersonas() const { return manejoPersonas.getListaPersonas(); }
-    void setListaPersonas(NodoPersona* lista) { manejoPersonas.setListaPersonas(lista); }
-    void forEachPersona(const std::function<void(Persona*)>& funcion) const {  
-        const_cast<BancoManejoPersona&>(manejoPersonas).forEachPersona(funcion);  
-    }
+	// Compatibilidad con código existente
+	NodoPersona* getListaPersonas() const;
+	void setListaPersonas(NodoPersona* lista);
+	void forEachPersona(const std::function<void(Persona*)>& funcion) const;
 };
 
 #endif // BANCO_H

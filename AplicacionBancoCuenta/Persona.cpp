@@ -28,6 +28,7 @@
 #include "Persona.h"
 #include "Utilidades.h"
 #include "_BaseDatosPersona.h"
+#include "ConexionMongo.h"
 
  /**
   * @namespace PersonaUI
@@ -224,14 +225,13 @@ void Persona::ingresarDatos(const std::string& cedulaEsperada) {
 		// Mostrar los datos ingresados y preguntar si desea corregirlos
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		mostrarDatos();
-		system("pause");
-		bool seleccion = corregirDatos(); // Llamar al metodo para corregir los datos`
+		int seleccion = Utilidades::menuInteractivo("¿Los datos son correctos?", { "Si", "No" }, 10, 10);
 
-		// Si selecciona "Si", repetir el ingreso de datos
-		if (!(seleccion == 0)) { // Si selecciona "Si"
+		// Si selecciona "No", repetir el ingreso de datos
+		if (seleccion == 1) { // Si selecciona "No"
 			continue;
 		}
-		else { // Si selecciona "No"
+		else { // Si selecciona "Si"
 			// Setear los datos
 			setCedula(cedula);
 			setNombres(nombres);
@@ -603,7 +603,7 @@ std::string Persona::ingresarCorreo(std::string& correo) const
 		}
 
 		// Selección de dominio
-		int seleccion = Utilidades::menuInteractivo("Seleccione el dominio del correo:", dominios, 0, 0);
+		int seleccion = Utilidades::menuInteractivo("Seleccione el dominio del correo:", dominios, 5, 5);
 		std::string dominioSeleccionado;
 		if (seleccion == dominios.size() - 1) { // "<Otro dominio>"
 			std::cout << "Ingrese el dominio manualmente: ";
@@ -1008,10 +1008,10 @@ int Persona::guardarCuentas(std::ofstream& archivo, std::string tipo) const {
  */
 bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::string& cedulaEsperada)
 {
-	const int MAX_CUENTAS = 5; // Definir el maximo de cuentas permitidas
+	const int MAX_CUENTAS = 5;
 
 	// Verificar si la cedula esperada coincide con la cedula de la persona
-	ingresarDatos(cedulaEsperada);
+	this->ingresarDatos(cedulaEsperada);
 
 	// Verificacion de puntero nulo primero
 	if (!nuevaCuenta) {
@@ -1026,46 +1026,65 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 	}
 
 	try {
-		// Generar numero de cuenta
+		// Crear instancia de base de datos
+		_BaseDatosPersona baseDatos(ConexionMongo::obtenerClienteBaseDatos());
+
+		// Generar fecha actual
 		Fecha fechaActual;
 		std::string fechaStr = fechaActual.obtenerFechaFormateada();
-		nuevaCuenta->setFechaApertura(fechaStr);
-		nuevaCuenta->setEstadoCuenta("ACTIVA");
 
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
-		// Desea ingresar un saldo inicial, si o no? maximo 15000.00 USD
+		// Configurar monto inicial
 		std::cout << "\nAhora puede configurar un monto inicial para su cuenta de ahorros.\n" << std::endl;
 
 		double montoInicial = 0.0;
 		bool siIngresoMonto = PersonaUI::seleccionarSiNo("Desea ingresar un monto inicial? (maximo 15000.00 USD)\n");
-		
-		if (siIngresoMonto)
-		{ // Si desea ingresar un monto inicial 
+
+		if (siIngresoMonto) {
 			do {
 				montoInicial = PersonaUI::ingresarMonto(0.0, 15000.00, "\nIngrese el monto inicial (maximo 15000.00 USD): ");
 			} while (montoInicial < 0 || montoInicial > 15000.00);
-			nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
 		}
-		else { // Si no desea ingresar un monto inicial, se considera 0 
-			montoInicial = 0.0; // Si no se ingresa monto, se considera 0
-		}
-		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
-		// Pedir al usuario que seleccione una sucursal
+		// Seleccionar sucursal
 		std::string sucursal = seleccionSucursal();
 
+		// Generar número de cuenta
 		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta, sucursal);
 		if (numeroCuenta.empty()) {
 			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
 
-		// Mostrar informacion
-		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
+		// Configurar datos de la cuenta
+		nuevaCuenta->setFechaApertura(fechaStr);
+		nuevaCuenta->setEstadoCuenta("ACTIVA");
+		nuevaCuenta->depositar(montoInicial);
+		nuevaCuenta->setNumeroCuenta(numeroCuenta);
 
-		//std::cout << "Antes de vincular: cabezaAhorros = " << (cabezaAhorros ? cabezaAhorros->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
-		// Agregar a la lista enlazada
+		// **CREAR DOCUMENTO BSON PARA MONGODB**
+		using bsoncxx::builder::basic::kvp;
+		using bsoncxx::builder::basic::make_document;
+
+		auto cuentaDoc = make_document(
+			kvp("numeroCuenta", numeroCuenta),
+			kvp("tipo", "ahorros"),
+			kvp("saldo", montoInicial),
+			kvp("fechaApertura", fechaStr),
+			kvp("estado", "ACTIVA"),
+			kvp("sucursal", sucursal),
+			kvp("fechaCreacion", bsoncxx::types::b_date{ std::chrono::system_clock::now() })
+		);
+
+		// **GUARDAR EN MONGODB**
+		bool exitoBaseDatos = baseDatos.agregarCuentaPersona(cedulaEsperada, cuentaDoc);
+		if (!exitoBaseDatos) {
+			std::cout << "Error al guardar la cuenta en la base de datos.\n";
+			return false;
+		}
+
+		// Agregar a la lista enlazada en memoria
 		nuevaCuenta->setSiguiente(cabezaAhorros);
 		nuevaCuenta->setAnterior(nullptr);
 		if (cabezaAhorros != nullptr) {
@@ -1074,9 +1093,11 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 		this->cabezaAhorros = nuevaCuenta;
 		this->numCuentas++;
 
-		//std::cout << "Despues de vincular: cabezaAhorros = " << (cabezaAhorros ? cabezaAhorros->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
+		// Mostrar información
+		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
 
-		std::cout << "---- Cuenta de Ahorros creada correctamente ----" << std::endl;
+		std::cout << "---- DEBUG: Cuenta de Ahorros creada y guardada correctamente ----" << std::endl;
+		std::cout << "Número de cuenta: " << numeroCuenta << std::endl;
 		return true;
 	}
 	catch (const std::exception& e) {
@@ -1098,6 +1119,7 @@ bool Persona::crearAgregarCuentaAhorros(CuentaAhorros* nuevaCuenta, const std::s
 bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const std::string& cedulaEsperada) {
 
 	ingresarDatos(cedulaEsperada);
+
 	// Verificacion de puntero nulo primero
 	if (!nuevaCuenta) {
 		cout << "Error: Cuenta nula pasada como parametro." << endl;
@@ -1105,36 +1127,57 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 	}
 
 	try {
-		// Generar numero de cuenta
+		// Crear instancia de base de datos
+		_BaseDatosPersona baseDatos(ConexionMongo::obtenerClienteBaseDatos());
+
+		// Generar fecha actual
 		Fecha fechaActual;
 		std::string fechaStr = fechaActual.obtenerFechaFormateada();
-		nuevaCuenta->setFechaApertura(fechaStr);
-		nuevaCuenta->setEstadoCuenta("ACTIVA");
 
 		// Obligatorio ingresar un monto inicial minimo de 250.00 USD
 		double montoInicial = 0.0;
 		do {
 			montoInicial = PersonaUI::ingresarMonto(250.00, 15000.00, "\nIngrese el monto inicial (minimo 250.00 USD, maximo 15000.00 USD): ");
 		} while (montoInicial < 250.00);
-		nuevaCuenta->depositar(montoInicial); // Depositar el monto inicial
-		// No es necesario setear el saldo, ya que depositar lo hace automaticamente
 
-		// Pedir al usuario que seleccione una sucursal
+		// Seleccionar sucursal
 		std::string sucursal = seleccionSucursal();
 
+		// Generar número de cuenta
 		std::string numeroCuenta = crearNumeroCuenta(nuevaCuenta, sucursal);
 		if (numeroCuenta.empty()) {
 			cout << "Error generando numero de cuenta." << endl;
 			return false;
 		}
 
+		// Configurar datos de la cuenta
+		nuevaCuenta->setFechaApertura(fechaStr);
+		nuevaCuenta->setEstadoCuenta("ACTIVA");
+		nuevaCuenta->depositar(montoInicial);
+		nuevaCuenta->setNumeroCuenta(numeroCuenta);
 
-		// Mostrar informacion
-		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
+		// **CREAR DOCUMENTO BSON PARA MONGODB**
+		using bsoncxx::builder::basic::kvp;
+		using bsoncxx::builder::basic::make_document;
 
-		//std::cout << "Antes de vincular: cabezaAhorros = " << (cabezaCorriente ? cabezaCorriente->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
+		auto cuentaDoc = make_document(
+			kvp("numeroCuenta", numeroCuenta),
+			kvp("tipo", "corriente"),
+			kvp("saldo", montoInicial),
+			kvp("fechaApertura", fechaStr),
+			kvp("estado", "ACTIVA"),
+			kvp("sucursal", sucursal),
+			kvp("fechaCreacion", bsoncxx::types::b_date{ std::chrono::system_clock::now() })
+		);
 
-		// Agregar a la lista enlazada
+		// **GUARDAR EN MONGODB**
+		bool exitoBaseDatos = baseDatos.agregarCuentaPersona(cedulaEsperada, cuentaDoc);
+		if (!exitoBaseDatos) {
+			std::cout << "Error al guardar la cuenta en la base de datos.\n";
+			return false;
+		}
+
+		// Agregar a la lista enlazada en memoria
 		nuevaCuenta->setSiguiente(cabezaCorriente);
 		nuevaCuenta->setAnterior(nullptr);
 		if (cabezaCorriente != nullptr) {
@@ -1143,16 +1186,17 @@ bool Persona::crearAgregarCuentaCorriente(CuentaCorriente* nuevaCuenta, const st
 		this->cabezaCorriente = nuevaCuenta;
 		this->numCuentas++;
 
-		//std::cout << "Despues de vincular: cabezaAhorros = " << (cabezaCorriente ? cabezaCorriente->getNumeroCuenta() : "NULL") << std::endl; // Depuracion para verificar la vinculacion
+		// Mostrar información
+		nuevaCuenta->mostrarInformacion(cedulaEsperada, true);
 
-		std::cout << "---- Cuenta de Ahorros creada correctamente ----" << std::endl;
+		std::cout << "---- DEBUG: Cuenta Corriente creada y guardada correctamente ----" << std::endl;
+		std::cout << "Número de cuenta: " << numeroCuenta << std::endl;
 		return true;
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Error al crear cuenta: " << e.what() << std::endl;
 		return false;
 	}
-
 }
 
 /**
@@ -1315,37 +1359,73 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 		return "";
 	}
 
-	// Nombre del archivo para guardar el secuencial por sucursal
-	const std::string ARCHIVO_SECUENCIAL = "secuencial_cuentas.dat";
+	try {
+		// Crear instancia de base de datos usando la conexión actual
+		_BaseDatosPersona baseDatos(ConexionMongo::obtenerClienteBaseDatos());
 
-	// Mapa para almacenar los últimos números usados por sucursal
-	std::unordered_map<std::string, int> ultimosNumeros;
+		// Obtener el último secuencial desde MongoDB
+		int ultimoSecuencialBD = baseDatos.obtenerUltimoSecuencial(sucursal);
 
-	// Intentar leer el archivo de secuenciales existente
-	std::ifstream archivoLectura(ARCHIVO_SECUENCIAL);
-	if (archivoLectura.is_open()) {
-		std::string linea;
-		while (std::getline(archivoLectura, linea)) {
-			// Formato esperado: sucursal:numero
-			std::istringstream iss(linea);
-			std::string sucursalLeida;
-			int numeroLeido;
+		// Obtener el mayor número de cuenta existente en la BD por si hay inconsistencias
+		int mayorSecuencialCuentas = baseDatos.obtenerMayorNumeroCuentaPorSucursal(sucursal);
 
-			if (std::getline(iss, sucursalLeida, ':')) {
-				iss >> numeroLeido;
-				ultimosNumeros[sucursalLeida] = numeroLeido;
-			}
+		// También verificar en memoria (cuentas locales no guardadas aún)
+		int mayorSecuencialMemoria = obtenerMayorSecuencialEnMemoria(sucursal);
+
+		// Usar el máximo de todos los valores encontrados
+		int mayorSecuencial = std::max({ ultimoSecuencialBD, mayorSecuencialCuentas, mayorSecuencialMemoria });
+
+		// Incrementar para obtener el siguiente número secuencial
+		int nuevoSecuencial = mayorSecuencial + 1;
+
+		// Formatear el número de cuenta con ceros a la izquierda
+		std::ostringstream oss;
+		oss << sucursal << std::setw(6) << std::setfill('0') << nuevoSecuencial;
+		std::string base = oss.str();
+
+		// Calcular dígito verificador: suma de todos los dígitos módulo 10
+		int suma = 0;
+		for (char c : base) {
+			suma += (c - '0');
 		}
-		archivoLectura.close();
+		int digitoVerificador = suma % 10;
+
+		// Formar el número de cuenta completo
+		std::string numeroCuentaStr = base + std::to_string(digitoVerificador);
+
+		// Verificar que el número de cuenta sea válido
+		if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
+			std::cerr << "Error: El número de cuenta generado no es válido." << std::endl;
+			return "";
+		}
+
+		// Actualizar el secuencial en la base de datos
+		if (!baseDatos.actualizarSecuencial(sucursal, nuevoSecuencial)) {
+			std::cerr << "Advertencia: No se pudo actualizar el secuencial en la base de datos." << std::endl;
+		}
+
+		// Asignar el número de cuenta al objeto
+		nuevaCuenta->setNumeroCuenta(numeroCuentaStr);
+
+		std::cout << "Número de cuenta generado: " << numeroCuentaStr << std::endl;
+		return numeroCuentaStr;
 	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al crear número de cuenta: " << e.what() << std::endl;
+		return "";
+	}
+}
 
-	// Obtener el último número usado para la sucursal especificada (0 si no existe)
-	int ultimoNumArchivo = ultimosNumeros.count(sucursal) ? ultimosNumeros[sucursal] : 0;
-
-	// También buscar en las cuentas en memoria (como antes)
+/**
+ * @brief Obtiene el mayor número secuencial de cuentas en memoria para una sucursal
+ * @param sucursal Código de sucursal
+ * @return Mayor número secuencial encontrado en memoria
+ */
+int Persona::obtenerMayorSecuencialEnMemoria(const std::string& sucursal) {
+	int mayorSecuencial = 0;
 	std::vector<Cuenta<double>*> cuentas;
 
-	// Recolectar todas las cuentas existentes
+	// Recolectar todas las cuentas en memoria
 	CuentaAhorros* actualAhorros = cabezaAhorros;
 	while (actualAhorros) {
 		cuentas.push_back(actualAhorros);
@@ -1358,74 +1438,26 @@ std::string Persona::crearNumeroCuenta(Cuenta<double>* nuevaCuenta, const std::s
 		actualCorriente = actualCorriente->getSiguiente();
 	}
 
-	// Buscar el mayor número de cuenta para la sucursal especificada
-	int mayorNumCuenta = 0;
-
+	// Buscar el mayor número secuencial para la sucursal especificada
 	for (auto cuenta : cuentas) {
 		std::string numCuenta = cuenta->getNumeroCuenta();
 
-		// Verificar si el número de cuenta tiene el formato correcto
 		if (numCuenta.length() == 10 && numCuenta.substr(0, 3) == sucursal) {
 			try {
-				// Extraer los 6 dígitos del número de cuenta (posición 3 a 8)
 				int numSecuencial = std::stoi(numCuenta.substr(3, 6));
-				if (numSecuencial > mayorNumCuenta) {
-					mayorNumCuenta = numSecuencial;
+				if (numSecuencial > mayorSecuencial) {
+					mayorSecuencial = numSecuencial;
 				}
 			}
 			catch (const std::exception& e) {
-				std::cerr << "Error al procesar número de cuenta: " << e.what() << std::endl;
+				std::cerr << "Error al procesar número de cuenta en memoria: " << e.what() << std::endl;
 			}
 		}
 	}
 
-	// Usar el máximo entre el número encontrado en memoria y el leído del archivo
-	mayorNumCuenta = (ultimoNumArchivo > mayorNumCuenta) ? ultimoNumArchivo : mayorNumCuenta;
-
-	// Incrementar para obtener el siguiente número secuencial
-	mayorNumCuenta++;
-
-	// Guardar el nuevo valor en el mapa y actualizar el archivo
-	ultimosNumeros[sucursal] = mayorNumCuenta;
-
-	// Actualizar el archivo con los nuevos valores
-	std::ofstream archivoEscritura(ARCHIVO_SECUENCIAL);
-	if (archivoEscritura.is_open()) {
-		for (const auto& par : ultimosNumeros) {
-			archivoEscritura << par.first << ":" << par.second << std::endl;
-		}
-		archivoEscritura.close();
-	}
-	else {
-		std::cerr << "Advertencia: No se pudo guardar el secuencial de cuentas." << std::endl;
-	}
-
-	// Formatear el número de cuenta con ceros a la izquierda
-	std::ostringstream oss;
-	oss << sucursal << std::setw(6) << std::setfill('0') << mayorNumCuenta;
-	std::string base = oss.str();
-
-	// Calcular dígito verificador: suma de todos los dígitos módulo 10
-	int suma = 0;
-	for (char c : base) {
-		suma += (c - '0');
-	}
-	int digitoVerificador = suma % 10;
-
-	// Formar el número de cuenta completo
-	std::string numeroCuentaStr = base + std::to_string(digitoVerificador);
-
-	// Verificar que el número de cuenta sea válido
-	if (!Validar::ValidarNumeroCuenta(numeroCuentaStr)) {
-		std::cerr << "Error: El número de cuenta generado no es válido." << std::endl;
-		return "";
-	}
-
-	// Asignar el número de cuenta al objeto
-	nuevaCuenta->setNumeroCuenta(numeroCuentaStr);
-
-	return numeroCuentaStr;
+	return mayorSecuencial;
 }
+
 /**
  * @brief Presenta un selector de sucursal bancaria
  *

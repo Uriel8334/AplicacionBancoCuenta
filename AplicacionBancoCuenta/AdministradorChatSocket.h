@@ -89,4 +89,6 @@ public:
 	void detenerChat();
 	bool hayClientesConectados() const;
 	void configurarSegunModoMongoDB();
+	static void iniciarChatInteractivo();
+
 };

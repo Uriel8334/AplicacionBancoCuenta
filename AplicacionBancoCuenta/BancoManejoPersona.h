@@ -26,6 +26,7 @@ private:
 public:
     BancoManejoPersona();
     ~BancoManejoPersona();
+    Persona* personaActual;
 
     // Operaciones CRUD de personas
     void agregarPersona(Persona* persona);

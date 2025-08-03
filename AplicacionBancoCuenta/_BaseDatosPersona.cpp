@@ -1,18 +1,22 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "_BaseDatosPersona.h"
+#include "ConexionMongo.h"
+#include "ArbolBPlusGrafico.h"
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/builder/basic/array.hpp>
+#include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/json.hpp>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/client.hpp>
 #include <mongocxx/uri.hpp>
+#include <mongocxx/pipeline.hpp>
 #include <iostream>
-#include <bsoncxx/builder/basic/array.hpp>
-#include <bsoncxx/builder/basic/kvp.hpp>
 #include <string>
 #include <cmath>
 #include <iomanip>
+#include <chrono>
 #include "Persona.h"
 
 using bsoncxx::builder::basic::kvp;
@@ -28,12 +32,12 @@ _BaseDatosPersona::_BaseDatosPersona(mongocxx::client& client)
  * @param persona La persona a insertar
  * @return true si la inserción fue exitosa, false en caso contrario
  */
-bool _BaseDatosPersona::insertarPersona(const Persona& persona) {
+bool _BaseDatosPersona::insertarNuevaPersona(const Persona& persona)  {
 	try {
 		auto db = _client["Banco"];
 		auto collection = db["personas"];
 
-		// Construye el documento BSON a partir del objeto Persona
+		// Construye el documento BSON a partir del objeto Persona con la misma estructura que insertarPersona
 		auto doc = make_document(
 			kvp("cedula", persona.getCedula()),
 			kvp("nombre", persona.getNombres()),
@@ -41,9 +45,10 @@ bool _BaseDatosPersona::insertarPersona(const Persona& persona) {
 			kvp("fechaNacimiento", persona.getFechaNacimiento()),
 			kvp("correo", persona.getCorreo()),
 			kvp("direccion", persona.getDireccion()),
-			kvp("numCuentas", persona.getNumCuentas()),
-			kvp("numCorrientes", persona.getNumCorrientes()),
-			kvp("cuentas", bsoncxx::builder::basic::array{}) // <-- Array vacío de cuentas
+			kvp("numAhorros", persona.getNumCuentas()), // Cambiado a numAhorros para consistencia
+			kvp("numCorrientes", persona.getNumCorrientes()), // Mantenido igual para consistencia
+			kvp("totalCuentasExistentes", 0), // Siempre 0 para una persona nueva sin cuentas
+			kvp("cuentas", bsoncxx::builder::basic::array{}) // Array vacío de cuentas para persona nueva
 		);
 
 		auto result = collection.insert_one(doc.view());
@@ -309,7 +314,7 @@ std::string _BaseDatosPersona::obtenerCedulaPorNumeroCuenta(const std::string& n
 		auto cursor = collection.find({});
 
 		for (auto& doc : cursor) {
-			auto view = doc;
+			auto& view = doc;
 			int indice = buscarIndiceCuentaEnDocumento(view, numeroCuenta);
 
 			if (indice >= 0) {
@@ -343,7 +348,7 @@ double _BaseDatosPersona::obtenerSaldoCuenta(const std::string& numeroCuenta) {
 		auto cursor = collection.find({});
 
 		for (auto& doc : cursor) {
-			auto view = doc;
+			auto &view = doc;
 			int indice = buscarIndiceCuentaEnDocumento(view, numeroCuenta);
 
 			if (indice >= 0) {
@@ -615,7 +620,7 @@ bsoncxx::document::value _BaseDatosPersona::obtenerInformacionCuenta(const std::
 		auto cursor = collection.find({});
 
 		for (auto& doc : cursor) {
-			auto view = doc;
+			auto &view = doc;
 			int indice = buscarIndiceCuentaEnDocumento(view, numeroCuenta);
 
 			if (indice >= 0) {
@@ -650,4 +655,450 @@ bsoncxx::document::value _BaseDatosPersona::obtenerInformacionCuenta(const std::
 		std::cerr << "Error al obtener información de cuenta: " << e.what() << std::endl;
 		return bsoncxx::document::value(bsoncxx::builder::basic::make_document().view());
 	}
+}
+
+/**
+ * @brief Obtiene el último número secuencial usado para una sucursal específica
+ */
+int _BaseDatosPersona::obtenerUltimoSecuencial(const std::string& sucursal) {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["secuenciales"];
+
+		auto filter = make_document(kvp("sucursal", sucursal));
+		auto result = collection.find_one(filter.view());
+
+		if (result) {
+			auto view = result->view();
+			auto secuencialElement = view["ultimo_secuencial"];
+			if (secuencialElement && secuencialElement.type() == bsoncxx::type::k_int32) {
+				return secuencialElement.get_int32().value;
+			}
+			else if (secuencialElement && secuencialElement.type() == bsoncxx::type::k_int64) {
+				return static_cast<int>(secuencialElement.get_int64().value);
+			}
+		}
+		return 0; // No existe secuencial para esta sucursal
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al obtener último secuencial: " << e.what() << std::endl;
+		return 0;
+	}
+}
+
+/**
+ * @brief Actualiza el último número secuencial para una sucursal específica
+ */
+bool _BaseDatosPersona::actualizarSecuencial(const std::string& sucursal, int nuevoSecuencial) {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["secuenciales"];
+
+		auto filter = make_document(kvp("sucursal", sucursal));
+
+		// Usar upsert para crear el documento si no existe
+		auto update = make_document(
+			kvp("$set", make_document(
+				kvp("sucursal", sucursal),
+				kvp("ultimo_secuencial", nuevoSecuencial),
+				kvp("fecha_actualizacion", bsoncxx::types::b_date{ std::chrono::system_clock::now() })
+			))
+		);
+
+		mongocxx::options::update options;
+		options.upsert(true); // Crear si no existe
+
+		auto result = collection.update_one(filter.view(), update.view(), options);
+		return result && (result->modified_count() == 1 || result->upserted_count() == 1);
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al actualizar secuencial: " << e.what() << std::endl;
+		return false;
+	}
+}
+
+/**
+ * @brief Obtiene el mayor número de cuenta existente para una sucursal específica
+ */
+int _BaseDatosPersona::obtenerMayorNumeroCuentaPorSucursal(const std::string& sucursal) {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		// Pipeline de agregación para buscar el mayor número de cuenta por sucursal
+		mongocxx::pipeline pipeline;
+
+		// Desenrollar el array de cuentas
+		pipeline.unwind("$cuentas");
+
+		// Filtrar por cuentas que empiecen con el código de sucursal
+		pipeline.match(make_document(
+			kvp("cuentas.numeroCuenta", make_document(
+				kvp("$regex", "^" + sucursal),
+				kvp("$options", "i")
+			))
+		));
+
+		// Proyectar solo el número de cuenta y extraer la parte secuencial
+		// Crear el array de argumentos para $substr separadamente
+		bsoncxx::builder::basic::array substrArgs;
+		substrArgs.append("$cuentas.numeroCuenta");
+		substrArgs.append(3);
+		substrArgs.append(6);
+
+		pipeline.project(make_document(
+			kvp("numeroCuenta", "$cuentas.numeroCuenta"),
+			kvp("secuencial", make_document(
+				kvp("$toInt", make_document(
+					kvp("$substr", substrArgs)
+				))
+			))
+		));
+
+		// Ordenar por secuencial descendente
+		pipeline.sort(make_document(kvp("secuencial", -1)));
+
+		// Limitar a 1 resultado
+		pipeline.limit(1);
+
+		auto cursor = collection.aggregate(pipeline);
+		for (auto&& doc : cursor) {
+			auto secuencialElement = doc["secuencial"];
+			if (secuencialElement && secuencialElement.type() == bsoncxx::type::k_int32) {
+				return secuencialElement.get_int32().value;
+			}
+			else if (secuencialElement && secuencialElement.type() == bsoncxx::type::k_int64) {
+				return static_cast<int>(secuencialElement.get_int64().value);
+			}
+		}
+
+		return 0; // No se encontraron cuentas para esta sucursal
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al obtener mayor número de cuenta: " << e.what() << std::endl;
+		return 0;
+	}
+}
+
+/**
+ * @brief Busca personas por criterio específico en la base de datos
+ */
+std::vector<bsoncxx::document::value> _BaseDatosPersona::buscarPersonasPorCriterio(const std::string& criterio, const std::string& valor) {
+	std::vector<bsoncxx::document::value> resultados;
+
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		bsoncxx::builder::basic::document filtro;
+
+		if (criterio == "numAhorros" || criterio == "numCorrientes" || criterio == "totalCuentasExistentes") {
+			// Para campos numéricos
+			try {
+				int valorNumerico = std::stoi(valor);
+				filtro.append(kvp(criterio, valorNumerico));
+			}
+			catch (const std::exception&) {
+				std::cerr << "Error: El valor debe ser numérico para el criterio " << criterio << std::endl;
+				return resultados;
+			}
+		}
+		else {
+			// Para campos de texto (usar regex para búsqueda parcial)
+			filtro.append(kvp(criterio, make_document(
+				kvp("$regex", valor),
+				kvp("$options", "i") // case insensitive
+			)));
+		}
+
+		auto cursor = collection.find(filtro.view());
+
+		for (auto&& doc : cursor) {
+			resultados.emplace_back(bsoncxx::document::value(doc));
+		}
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al buscar por criterio: " << e.what() << std::endl;
+	}
+
+	return resultados;
+}
+
+/**
+ * @brief Busca cuentas por rango de fechas desde una fecha hasta hoy
+ */
+std::vector<bsoncxx::document::value> _BaseDatosPersona::buscarCuentasPorRangoFechas(const std::string& fechaInicio) {
+	std::vector<bsoncxx::document::value> resultados;
+
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		// Convertir fecha de inicio a formato ISO
+		std::string fechaInicioISO = convertirFechaAISO(fechaInicio);
+
+		// Obtener fecha actual en formato ISO
+		auto now = std::chrono::system_clock::now();
+		auto time_t_now = std::chrono::system_clock::to_time_t(now);
+		std::tm tm_now;
+		localtime_s(&tm_now, &time_t_now);
+
+		char fechaActualISO[11];
+		std::strftime(fechaActualISO, sizeof(fechaActualISO), "%d/%m/%Y", &tm_now);
+
+		// Pipeline de agregación para buscar cuentas en el rango de fechas
+		mongocxx::pipeline pipeline;
+
+		// Desenrollar el array de cuentas
+		pipeline.unwind("$cuentas");
+
+		// Filtrar por rango de fechas
+		pipeline.match(make_document(
+			kvp("cuentas.fechaApertura", make_document(
+				kvp("$gte", fechaInicioISO),
+				kvp("$lte", std::string(fechaActualISO))
+			))
+		));
+
+		// Proyectar la información necesaria
+		pipeline.project(make_document(
+			kvp("cedula", "$cedula"),
+			kvp("nombre", "$nombre"),
+			kvp("apellido", "$apellido"),
+			kvp("correo", "$correo"),
+			kvp("cuenta", "$cuentas")
+		));
+
+		auto cursor = collection.aggregate(pipeline);
+
+		for (auto&& doc : cursor) {
+			resultados.emplace_back(bsoncxx::document::value(doc));
+		}
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al buscar por rango de fechas: " << e.what() << std::endl;
+	}
+
+	return resultados;
+}
+
+/**
+ * @brief Busca todas las cuentas de una persona por su cédula
+ */
+bsoncxx::document::value _BaseDatosPersona::buscarPersonaCompletaPorCedula(const std::string& cedula) {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		auto filtro = make_document(kvp("cedula", cedula));
+		auto resultado = collection.find_one(filtro.view());
+
+		if (resultado) {
+			return bsoncxx::document::value(*resultado);
+		}
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al buscar persona completa: " << e.what() << std::endl;
+	}
+
+	// Retornar documento vacío si no se encuentra
+	return bsoncxx::document::value(make_document().view());
+}
+
+/**
+ * @brief Convierte una fecha de formato DD/MM/AAAA a formato compatible
+ */
+std::string _BaseDatosPersona::convertirFechaAISO(const std::string& fecha) {
+	// La fecha ya está en formato DD/MM/AAAA que es compatible con nuestra BD
+	return fecha;
+}
+
+void _BaseDatosPersona::iniciarBaseDatosArbolB()
+{
+	// Obtener referencia a la base de datos desde el banco
+	auto& clienteDB = ConexionMongo::obtenerClienteBaseDatos();
+	_BaseDatosPersona baseDatos(clienteDB);
+
+	// Verificar que existan datos en la base de datos
+	if (!baseDatos.existenPersonasEnBaseDatos()) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
+		std::cout << "No hay personas registradas en la base de datos.\n";
+		std::cout << "Por favor, registre personas primero.\n";
+		system("pause");
+		return;
+	}
+
+	// Menú de selección de criterio
+	std::vector<std::string> criterios = {
+		"Ordenar por Cédula",
+		"Ordenar por Nombre (3 chars)",
+		"Ordenar por Apellido (3 chars)",
+		"Ordenar por Fecha de Nacimiento",
+		"Volver al menú principal"
+	};
+
+	int seleccion = Utilidades::menuInteractivo(
+		"=== Árbol B+ Gráfico - Seleccione Criterio ===",
+		criterios, 0, 0
+	);
+
+	if (seleccion >= 0 && seleccion <= 3) {
+		// Mostrar árbol B+ gráfico con SFML
+		ArbolBPlusGrafico::mostrarAnimadoSFMLGrado3(baseDatos, "", seleccion);
+	}
+	// Si seleccion == 4 o -1 (ESC), simplemente regresa al menú
+}
+
+/**
+ * @brief Verifica si existen personas registradas en la base de datos MongoDB
+ */
+bool _BaseDatosPersona::existenPersonasEnBaseDatos() {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		// Contar documentos en la colección personas
+		auto count = collection.estimated_document_count();
+
+		return count > 0;
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al verificar existencia de personas en BD: " << e.what() << std::endl;
+		return false;
+	}
+}
+
+/**
+ * @brief Obtiene el número total de personas registradas en la base de datos
+ */
+long _BaseDatosPersona::obtenerTotalPersonasRegistradas() {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		return static_cast<long>(collection.estimated_document_count());
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al obtener total de personas: " << e.what() << std::endl;
+		return 0;
+	}
+}
+
+/**
+ * @brief Verifica si existen cuentas en la base de datos MongoDB
+ */
+bool _BaseDatosPersona::existenCuentasEnBaseDatos() {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		// Pipeline de agregación para verificar si existen cuentas
+		mongocxx::pipeline pipeline;
+
+		// Filtrar personas que tengan al menos una cuenta
+		pipeline.match(make_document(
+			kvp("cuentas.0", make_document(kvp("$exists", true)))
+		));
+
+		// Limitar a 1 resultado para verificación de existencia
+		pipeline.limit(1);
+
+		auto cursor = collection.aggregate(pipeline);
+
+		// Si hay al menos un resultado, existen cuentas
+		return cursor.begin() != cursor.end();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al verificar existencia de cuentas en BD: " << e.what() << std::endl;
+		return false;
+	}
+}
+
+/**
+ * @brief Obtiene el número total de cuentas registradas en la base de datos
+ */
+long _BaseDatosPersona::obtenerTotalCuentasRegistradas() {
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		// Pipeline de agregación para contar todas las cuentas
+		mongocxx::pipeline pipeline;
+
+		// Desenrollar el array de cuentas
+		pipeline.unwind("$cuentas");
+
+		// Contar los documentos resultantes
+		pipeline.count("totalCuentas");
+
+		auto cursor = collection.aggregate(pipeline);
+
+		for (auto&& doc : cursor) {
+			auto totalElement = doc["totalCuentas"];
+			if (totalElement && totalElement.type() == bsoncxx::type::k_int32) {
+				return static_cast<long>(totalElement.get_int32().value);
+			}
+			else if (totalElement && totalElement.type() == bsoncxx::type::k_int64) {
+				return static_cast<long>(totalElement.get_int64().value);
+			}
+		}
+
+		return 0;
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al obtener total de cuentas: " << e.what() << std::endl;
+		return 0;
+	}
+}
+
+/**
+ * @brief Obtiene todas las personas registradas en la base de datos MongoDB
+ * @return Vector de documentos BSON con todas las personas encontradas
+ */
+std::vector<bsoncxx::document::value> _BaseDatosPersona::mostrarTodasPersonas() {
+	std::vector<bsoncxx::document::value> resultados;
+
+	try {
+		auto db = _client["Banco"];
+		auto collection = db["personas"];
+
+		// Pipeline de agregación optimizado para obtener datos esenciales
+		mongocxx::pipeline pipeline;
+
+		// Proyección de solo los campos necesarios para eficiencia
+		pipeline.project(make_document(
+			kvp("cedula", 1),
+			kvp("nombre", 1),
+			kvp("apellido", 1),
+			kvp("correo", 1),
+			kvp("cuentas.numeroCuenta", 1),
+			kvp("cuentas.tipo", 1),
+			kvp("cuentas.saldo", 1),
+			kvp("totalCuentasExistentes", 1)
+		));
+
+		// Ordenar por apellido y nombre por defecto
+		pipeline.sort(make_document(
+			kvp("apellido", 1),
+			kvp("nombre", 1)
+		));
+
+		auto cursor = collection.aggregate(pipeline);
+
+		// Reservar espacio estimado para mejor rendimiento
+		resultados.reserve(100);
+
+		std::for_each(cursor.begin(), cursor.end(), [&resultados](const auto& doc) {
+			resultados.emplace_back(bsoncxx::document::value(doc));
+			});
+
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error al obtener todas las personas: " << e.what() << std::endl;
+	}
+
+	return resultados;
 }

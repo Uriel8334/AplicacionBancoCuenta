@@ -3,101 +3,161 @@
 #define _EXPORTADORARCHIVO_H
 
 #define _CRT_SECURE_NO_WARNINGS
- 
 #include <string>
 #include <fstream>
+#include <map>
+#include <functional>
+#include <bsoncxx/document/value.hpp>
+#include <bsoncxx/document/view.hpp>
+#include <bsoncxx/array/view.hpp>
+#include <bsoncxx/types.hpp>
+#include <bsoncxx/document/element.hpp>
+#include "_BaseDatosPersona.h"
+#include <memory>
 
+// Forward declarations
 class Banco;
 class Persona;
+class _BaseDatosPersona;
 
-class ExportadorArchivo
-{
+/**
+ * @brief Interfaz Strategy para diferentes tipos de guardado
+ * Aplicando Open/Closed Principle
+ */
+class IEstrategiaGuardado {
 public:
-    /**
-     * @brief Guarda todas las cuentas del banco en un archivo específico
-     *
-     * Genera un archivo con el nombre especificado y guarda los datos de las personas
-     * y sus cuentas en un formato estructurado. Utiliza la ruta del escritorio del usuario.
-     *
-     * @param banco Referencia al objeto Banco que contiene las cuentas a guardar
-     * @param nombreArchivo Nombre del archivo donde se guardarán los datos
-	 */
-    static void guardarCuentasEnArchivo(const Banco& banco, const std::string& nombreArchivo);
+	virtual ~IEstrategiaGuardado() = default;
+	virtual bool ejecutar(const _BaseDatosPersona& baseDatos, const std::string& nombreArchivo) = 0;
+	virtual std::string obtenerExtension() const = 0;
+	virtual std::string obtenerDescripcion() const = 0;
+};
 
-    /**
-     * @brief Guarda todas las cuentas del banco en un archivo con nombre automático
-     *
-     * Valida la fecha del sistema antes de proceder a guardar el respaldo.
-     * Genera un nombre de archivo basado en la fecha actual y guarda los datos
-     * de las personas y sus cuentas en el archivo especificado.
-     *
-     * @param banco Referencia al objeto Banco que contiene las cuentas a guardar
-	 */
-    static void guardarCuentasEnArchivo(const Banco& banco);
+/**
+ * @brief Factory para crear estrategias de guardado
+ * Aplicando Factory Pattern y Dependency Inversion Principle
+ */
+class FabricaEstrategiasGuardado {
+public:
+	static std::unique_ptr<IEstrategiaGuardado> crear(int tipoGuardado, char claveCifrado = '\0');
+	static std::vector<std::string> obtenerOpcionesDisponibles();
+};
 
-    /**
-     * @brief Carga las cuentas desde un archivo de respaldo
-     *
-     * Este método lee un archivo de respaldo previamente generado y carga las cuentas
-     * en el banco. Se espera que el archivo tenga un formato específico.
-     *
-     * @param banco Referencia al objeto Banco donde se cargarán las cuentas
-     * @param nombreArchivo Nombre del archivo desde donde se cargarán los datos
-	 */
-    static void cargarCuentasDesdeArchivo(Banco& banco, const std::string& nombreArchivo);
-
-    /**
-     * @brief Convierte un archivo de respaldo .bak a PDF
-     *
-     * Genera un archivo PDF a partir de un archivo de respaldo .bak utilizando
-     * la herramienta wkhtmltopdf. Si la conversión falla, se genera un archivo HTML.
-     *
-     * @param nombreArchivo Nombre del archivo de respaldo (sin extensión)
-	 * @return true si el PDF se generó correctamente, false en caso contrario
-     */
-    static bool archivoGuardadoHaciaPDF(const std::string& nombreArchivo);
-
-    /**
-     * @brief Obtiene la ruta del escritorio del usuario actual
-     *
-     * Utiliza la API de Windows para obtener la ruta del escritorio y crea un directorio
-     * específico para almacenar los archivos de respaldo.
-     *
-     * @return String con la ruta completa al escritorio
-	 */
-    static std::string obtenerRutaEscritorio();
-
+/**
+ * @brief Gestor principal de guardado de archivos
+ * Aplicando Single Responsibility Principle
+ */
+class GestorGuardadoArchivos {
 private:
-    /**
-    * @brief Guarda los datos de una persona en el archivo de respaldo
-    *
-    * Escribe la información de la persona, incluyendo sus cuentas de ahorro y corriente,
-    * en el archivo proporcionado. Utiliza un formato estructurado para facilitar la lectura.
-    *
-    * @param archivo Referencia al archivo de salida abierto
-    * @param p Puntero a la persona a guardar
-    */
-    static void guardarPersonaEnArchivo(std::ofstream& archivo, Persona* p);
+	const _BaseDatosPersona& baseDatos;
+	std::unique_ptr<IEstrategiaGuardado> estrategia;
 
-    /**
-     * @brief Procesa una persona desde el archivo y la agrega al banco
-     *
-     * Lee los datos de una persona desde el archivo, incluyendo sus cuentas de ahorro
-     * y corriente, y los agrega a la lista de personas del banco.
-     *
-     * @param banco Referencia al objeto Banco donde se agregará la persona
-     * @param archivo Referencia al archivo de entrada abierto
-     * @param linea Referencia a la línea actual del archivo
-	 */
-    static void procesarPersona(Banco& banco, std::ifstream& archivo, std::string& linea);
+public:
+	explicit GestorGuardadoArchivos(const _BaseDatosPersona& bd);
 
-    /**
-     * @brief Limpia la lista de personas del banco
-     * Elimina todas las personas y sus cuentas del banco, dejando la lista vacía.
-     *
-     * @param banco Referencia al objeto Banco que se desea limpiar
+	bool configurarEstrategia(int tipoGuardado, char claveCifrado = '\0');
+	bool ejecutarGuardado(const std::string& nombreArchivo);
+	std::vector<std::string> obtenerOpcionesGuardado() const;
+	bool validarDatosDisponibles() const;
+};
+
+/**
+ * @brief Estructura para mantener el estado durante el procesamiento de PDF
+ */
+struct EstadoProcesamiento {
+	bool enPersona = false;
+	bool enCuentasAhorro = false;
+	bool enCuentasCorriente = false;
+	bool enCuentaAhorro = false;
+	bool enCuentaCorriente = false;
+	int contadorPersonas = 0;
+	int totalCuentasAhorro = 0;
+	int totalCuentasCorriente = 0;
+};
+
+/**
+ * @class ExportadorArchivo
+ * @brief Clase responsable de exportar e importar datos del banco
+ *
+ * Esta clase maneja la exportación e importación de datos del banco
+ * hacia diferentes formatos de archivo (.bak, .bin, .pdf, .txt).
+ * Implementa principios SOLID y programación funcional.
+ */
+class ExportadorArchivo {
+private:
+	// === MÉTODOS AUXILIARES PARA MONGODB ===
+	static bool guardarDesdeBaseDatos(const _BaseDatosPersona& baseDatos, const std::string& nombreArchivo, const std::string& extension);
+	static void procesarPersonaRecursivamente(const bsoncxx::document::value& personaDoc, std::ofstream& archivo);
+	static void escribirCampoPersona(std::ofstream& archivo, const std::string& nombreCampo, const bsoncxx::document::element& elemento);
+	static bool guardarArchivoConCifrado(const _BaseDatosPersona& baseDatos, const std::string& nombreArchivo, char claveCifrado);
+	static bool generarPDFDesdeBaseDatos(const _BaseDatosPersona& baseDatos, const std::string& nombreArchivo);
+	static bool archivoGuardadoHaciaPDFConQR(const std::string& nombreArchivo, const _BaseDatosPersona& baseDatos);
+	static void procesarLineasPDFRecursivamente(std::ifstream& archivo, std::ofstream& archivoHtml,
+		std::map<std::string, std::string>& datosPersona, EstadoProcesamiento& estado);
+	static void escribirPersonaConQR(std::ofstream& archivoHtml, const std::map<std::string, std::string>& datosPersona);
+	static void procesarCuentasBSON(const bsoncxx::array::view& cuentasArray, std::ofstream& archivo);
+	static void procesarLineaEspecifica(const std::string& linea, std::ofstream& archivoHtml,
+		std::map<std::string, std::string>& datosPersona, EstadoProcesamiento& estado);
+	static void escribirCabeceraHTML(std::ofstream& archivoHtml);
+	static void finalizarHTML(std::ofstream& archivoHtml);
+	static bool convertirHTMLaPDF(const std::string& rutaHtml, const std::string& rutaPdf);
+	static void procesarPersonaTradicional(Banco& banco, std::ifstream& archivo, std::string& linea);
+
+public:
+	class EstrategiaRespaldoBD;
+	class EstrategiaCifrado;
+	class EstrategiaPDFConQR;
+	class EstrategiaRecuperacionBAK;
+	class EstrategiaRecuperacionBIN;
+
+	// === MÉTODOS DE RECUPERACIÓN ===
+	static bool procesarSolicitudRecuperacion(const _BaseDatosPersona& baseDatos);
+	static bool recuperarDesdeRespaldo(const _BaseDatosPersona& baseDatos, const std::string& nombreArchivo);
+	static bool recuperarDesdeCifrado(const _BaseDatosPersona& baseDatos, const std::string& nombreArchivo, char claveDescifrado);
+	static bool procesarArchivoRecuperacion(std::ifstream& archivo, _BaseDatosPersona& baseDatos);
+	static bool cargarPersonaEnMongoDB(const std::map<std::string, std::string>& datosPersona,
+		const std::vector<std::map<std::string, std::string>>& cuentasAhorro,
+		const std::vector<std::map<std::string, std::string>>& cuentasCorriente,
+		_BaseDatosPersona& baseDatos);
+	static bool agregarCuentaDesdeBackup(const std::string& cedula,
+		const std::map<std::string, std::string>& datosCuenta,
+		const std::string& tipoCuenta,
+		_BaseDatosPersona& baseDatos);
+
+	// === MÉTODOS DE INTERFAZ DE USUARIO PARA RECUPERACIÓN ===
+	static int solicitarTipoRecuperacion();
+	static std::string solicitarNombreArchivoRecuperacion();
+	static char solicitarClaveDescifrado();
+	static void mostrarResultadoRecuperacion(bool exito, const std::string& tipoOperacion);
+
+	// === MÉTODOS DE INTERFAZ DE USUARIO ===
+	static int solicitarTipoGuardado();
+	static std::string solicitarNombreArchivo();
+	static char solicitarClaveParaCifrado();
+	static void mostrarResultado(bool exito, const std::string& tipoOperacion);
+	static bool validarDatosEnBaseDatos(const _BaseDatosPersona& baseDatos);
+
+	// === MÉTODOS PRINCIPALES REFACTORIZADOS ===
+	/**
+	 * @brief Método principal simplificado que delega a GestorGuardadoArchivos
 	 */
-    static void limpiarBanco(Banco& banco);
+	static bool procesarSolicitudGuardado(const _BaseDatosPersona& baseDatos);
+
+	// === MÉTODOS EXISTENTES ===
+	static void guardarCuentasEnArchivo(const Banco& banco, const std::string& nombreArchivo);
+	static void guardarCuentasEnArchivo(const Banco& banco);
+	static void guardarPersonaEnArchivo(std::ofstream& archivo, Persona* p);
+	static void cargarCuentasDesdeArchivo(Banco& banco, const std::string& nombreArchivo);
+	static void limpiarBanco(Banco& banco);
+	static void procesarPersona(Banco& banco, std::ifstream& archivo, std::string& linea);
+	static bool archivoGuardadoHaciaPDF(const std::string& nombreArchivo);
+	static std::string obtenerRutaEscritorio();
+
+	// === NUEVOS MÉTODOS PARA MONGODB ===
+	static bool guardarArchivosVarios(const _BaseDatosPersona& baseDatos, int tipoArchivo,
+		const std::string& nombreArchivo, char claveCifrado = '\0');
+	static bool procesarPersonaDesdeBSON(const bsoncxx::document::value& personaDoc, std::ofstream& archivo);
+	static std::string generarQRPersona(const std::string& cedula, const std::string& nombres,
+		const std::string& apellidos, const std::string& numeroCuenta);
 };
 
 #endif // _EXPORTADORARCHIVO_H

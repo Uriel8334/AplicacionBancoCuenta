@@ -46,6 +46,6 @@ public:
      * @param nombreArchivo Ruta del archivo desde donde se restaurarán los datos  
      */  
     static void restaurarBackupMongoDB(const std::string& uri, const std::string& db, const std::string& nombreArchivo);  
-};  
 
+};  
 #endif //_BASEDATOSARCHIVOS_H

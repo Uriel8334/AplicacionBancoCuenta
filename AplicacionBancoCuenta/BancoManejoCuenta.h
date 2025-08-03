@@ -27,6 +27,9 @@ private:
         std::vector<std::pair<Persona*, void*>>& resultados);
 
 public:
+	CuentaAhorros* cuentaAhorrosActual;
+	CuentaCorriente* cuentaCorrienteActual;
+
     explicit BancoManejoCuenta(BancoManejoPersona& manejadorPersonas);
 
     // Operaciones de búsqueda de cuentas

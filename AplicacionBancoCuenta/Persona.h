@@ -79,6 +79,13 @@ private:
     /** @brief Indicador de si el objeto ha sido destruido, para evitar uso después de su destrucción */
     bool isDestroyed = false;
 
+    /**
+     * @brief Obtiene el mayor número secuencial de cuentas en memoria para una sucursal
+     * @param sucursal Código de sucursal
+     * @return Mayor número secuencial encontrado en memoria
+     */
+    int obtenerMayorSecuencialEnMemoria(const std::string& sucursal);
+
 public:
     /**
      * @brief Constructor por defecto

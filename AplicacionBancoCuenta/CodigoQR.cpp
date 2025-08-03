@@ -1001,7 +1001,6 @@ namespace CodigoQR {
 		return result;
 	}
 
-
 	/**
 	 * @brief Realiza la multiplicación en el campo finito GF(2^8)
 	 *
@@ -1023,7 +1022,6 @@ namespace CodigoQR {
 		return static_cast<uint8_t>(z);
 	}
 
-
 	/**
 	 * @brief Cuenta el número de patrones tipo finder en una secuencia de longitudes de módulos
 	 *
@@ -1037,7 +1035,6 @@ namespace CodigoQR {
 		return (core && runHistory.at(0) >= n * 4 && runHistory.at(6) >= n ? 1 : 0)
 			+ (core && runHistory.at(6) >= n * 4 && runHistory.at(0) >= n ? 1 : 0);
 	}
-
 
 	/**
 	 * @brief Termina una secuencia de módulos y cuenta patrones tipo finder
@@ -1057,7 +1054,6 @@ namespace CodigoQR {
 		return finderPenaltyCountPatterns(runHistory);
 	}
 
-
 	/**
 	 * @brief Añade una longitud de secuencia al historial de secuencias
 	 *
@@ -1071,7 +1067,6 @@ namespace CodigoQR {
 		runHistory.at(0) = currentRunLength;
 	}
 
-
 	/**
 	 * @brief Verifica si un bit específico está activado en un valor
 	 *
@@ -1083,14 +1078,12 @@ namespace CodigoQR {
 		return ((x >> i) & 1) != 0;
 	}
 
-
 	/*---- Constantes ----*/
 
 	/**
 	 * @brief Penalización por grupos de módulos del mismo color en línea
 	 */
 	const int QrCode::PENALTY_N1 = 3;
-
 
 	/**
 	 * @brief Penalización por bloques 2x2 del mismo color
@@ -1107,7 +1100,6 @@ namespace CodigoQR {
 	 */
 	const int QrCode::PENALTY_N4 = 10;
 
-	
 	const int8_t QrCode::ECC_CODEWORDS_PER_BLOCK[4][41] = {
 		// Version: (note that index 0 is for padding, and is set to an illegal value)
 		//0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
