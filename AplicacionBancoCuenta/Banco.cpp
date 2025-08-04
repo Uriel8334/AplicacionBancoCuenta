@@ -150,19 +150,25 @@ bool Banco::procesarPersonaNueva(const std::string& tipoCuenta, const std::strin
 	if (!nuevaPersona) {
 		return false;
 	}
+	
+	Utilidades::mostrarCursor();
+	nuevaPersona->ingresarDatos();
+
+	// Persistir persona en base de datos
+	if (!persistirPersonaEnBaseDatos(*nuevaPersona)) {
+		return false;
+	}
 
 	// Crear cuenta usando el patrón Strategy
 	auto resultadoCreacion = crearCuentaSegunTipo(tipoCuenta, nuevaPersona.get(), cedula);
+	Utilidades::ocultarCursor();
 
 	if (!resultadoCreacion.first) {
 		std::cout << "Error al crear la cuenta para la nueva persona.\n";
 		return false;
 	}
 
-	// Persistir persona en base de datos
-	if (!persistirPersonaEnBaseDatos(*nuevaPersona)) {
-		return false;
-	}
+	
 
 	// Mostrar resultado final
 	std::string nombreCompleto = nuevaPersona->getNombres() + " " + nuevaPersona->getApellidos();
@@ -217,10 +223,8 @@ std::unique_ptr<Persona> Banco::prepararNuevaPersona(const std::string& cedula) 
 	return nuevaPersona;
 }
 
-std::pair<bool, std::string> Banco::crearCuentaSegunTipo(
-	const std::string& tipoCuenta,
-	Persona* persona,
-	const std::string& cedula) {
+std::pair<bool, std::string> Banco::crearCuentaSegunTipo(const std::string& tipoCuenta, Persona* persona, const std::string& cedula)
+{
 
 	CreadorCuentas creador(baseDatosPersona);
 

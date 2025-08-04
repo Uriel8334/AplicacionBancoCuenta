@@ -249,7 +249,11 @@ std::string Validar::ValidarLeerNumeroCuenta() {
  * @return bool true si el nombre es válido, false en caso contrario
  */
 bool Validar::ValidarNombrePersona(const std::string& nombre) {
-    std::regex regex("^[a-zA-Z ]+$");
+    const size_t longitudMaxima = 30;
+    if (nombre.empty() || nombre.length() > longitudMaxima) {
+        return false;
+    }
+    static const std::regex regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+$");
     return std::regex_match(nombre, regex);
 }
 
