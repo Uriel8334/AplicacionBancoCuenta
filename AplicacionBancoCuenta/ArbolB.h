@@ -181,7 +181,7 @@ public:
 		// Si es una hoja, insertamos directamente
 		if (nodo->esHoja) {
 			// Encontrar la posición correcta
-			int i = nodo->claves.size() - 1;
+			int i = static_cast<int>(nodo->claves.size()) - 1;
 			while (i >= 0 && compararElementos(elemento, nodo->claves[i])) {
 				i--;
 			}
@@ -192,7 +192,7 @@ public:
 		}
 
 		// Si no es hoja, encontrar el hijo donde debería ir
-		int i = nodo->claves.size() - 1;
+		int i = static_cast<int>(nodo->claves.size()) - 1;
 		while (i >= 0 && compararElementos(elemento, nodo->claves[i])) {
 			i--;
 		}
@@ -370,7 +370,7 @@ public:
 		for (auto& hijo : raiz->hijos) {
 			nodosEstimados++;
 			if (!hijo->esHoja) {
-				nodosEstimados += hijo->hijos.size();
+				nodosEstimados += static_cast<int>(hijo->hijos.size());
 			}
 		}
 

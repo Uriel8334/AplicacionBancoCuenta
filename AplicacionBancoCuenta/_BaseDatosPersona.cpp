@@ -1,5 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+/**
+ * @file _BaseDatosPersona.cpp
+ * @brief Implementación de la clase _BaseDatosPersona para manejar operaciones con MongoDB
+ *
+ * Esta clase proporciona métodos para insertar, consultar y verificar personas en una base de datos MongoDB.
+ */
 #include "_BaseDatosPersona.h"
 #include "ConexionMongo.h"
 #include "ArbolBPlusGrafico.h"
@@ -22,6 +28,11 @@
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_document;
 
+/**
+ * @brief Constructor de la clase _BaseDatosPersona
+ *
+ * @param client Referencia al cliente de MongoDB
+ */
 _BaseDatosPersona::_BaseDatosPersona(mongocxx::client& client)
 	: _client(client) {
 }
@@ -178,7 +189,7 @@ bool _BaseDatosPersona::agregarCuentaPersona(const std::string& cedula, const bs
 		auto cuentasElement = personaDoc->view()["cuentas"];
 		int numCuentas = 0;
 		if (cuentasElement && cuentasElement.type() == bsoncxx::type::k_array) {
-			numCuentas = std::distance(cuentasElement.get_array().value.begin(), cuentasElement.get_array().value.end());
+			numCuentas = static_cast<int>(std::distance(cuentasElement.get_array().value.begin(), cuentasElement.get_array().value.end()));
 		}
 
 		if (numCuentas >= 5) {
@@ -596,6 +607,7 @@ bool _BaseDatosPersona::realizarTransferencia(const std::string& cuentaOrigen, c
 			return true;
 		}
 		catch (const std::exception& e) {
+			std::cerr << "Error en transferencia: " << e.what() << std::endl;
 			session.abort_transaction();
 			throw; // Re-lanzar la excepción
 		}
@@ -686,9 +698,9 @@ int _BaseDatosPersona::obtenerUltimoSecuencial(const std::string& sucursal) {
 	}
 }
 
-/**
- * @brief Actualiza el último número secuencial para una sucursal específica
- */
+/*
+* @brief 
+*/
 bool _BaseDatosPersona::actualizarSecuencial(const std::string& sucursal, int nuevoSecuencial) {
 	try {
 		auto db = _client["Banco"];
@@ -717,9 +729,12 @@ bool _BaseDatosPersona::actualizarSecuencial(const std::string& sucursal, int nu
 	}
 }
 
-/**
- * @brief Obtiene el mayor número de cuenta existente para una sucursal específica
- */
+/*
+ * @brief Obtiene el mayor número de cuenta por sucursal
+ *
+ * @param sucursal Código de la sucursal para buscar el mayor número de cuenta
+ * @return El mayor número de cuenta encontrado, o 0 si no se encuentra ninguna cuenta
+ */ 
 int _BaseDatosPersona::obtenerMayorNumeroCuentaPorSucursal(const std::string& sucursal) {
 	try {
 		auto db = _client["Banco"];

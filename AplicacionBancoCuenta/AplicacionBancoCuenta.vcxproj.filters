@@ -153,6 +153,12 @@
     <ClCompile Include="GestorHashBaseDatos.cpp">
       <Filter>DataBase</Filter>
     </ClCompile>
+    <ClCompile Include="PersonaValidator.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="PersonaDataProcessor.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_CdocsMain.h">
@@ -263,6 +269,15 @@
     <ClInclude Include="GestorHashBaseDatos.h">
       <Filter>DataBase</Filter>
     </ClInclude>
+    <ClInclude Include="CuentaManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PersonaValidator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PersonaDataProcessor.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="latex\make.bat">
@@ -336,7 +351,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
-    <Text Include="personas.txt" />
     <Text Include="ultimo_numero_cuenta.txt" />
   </ItemGroup>
   <ItemGroup>

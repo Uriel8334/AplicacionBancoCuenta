@@ -1,14 +1,9 @@
 /**
  * @file Persona.cpp
- * @brief Implementación de la clase Persona para manejo de datos personales y cuentas bancarias
- *
- * Este archivo implementa la funcionalidad para gestionar datos personales,
- * validar información de usuarios y administrar las cuentas bancarias asociadas
- * a una persona, incluyendo cuentas de ahorro y cuentas corrientes.
+ * @brief Implementación refactorizada de la clase Persona aplicando SOLID y código limpio
  */
 
 #define _CRT_SECURE_NO_WARNINGS
- 
 
 #include <iostream>
 #include <fstream>
@@ -18,14 +13,17 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
-#include <conio.h> // Para _getch()
+#include <conio.h>
 #include <windows.h>
 #include <functional>
 #include <iterator>
 #include <unordered_map>
+#include <memory>
 #include "Validar.h"
 #include "Fecha.h"
 #include "Persona.h"
+#include "PersonaValidator.h"
+#include "PersonaDataProcessor.h"
 #include "Utilidades.h"
 #include "_BaseDatosPersona.h"
 #include "ConexionMongo.h"
@@ -193,13 +191,119 @@ namespace PersonaUI {
 
 using namespace std;
 
+Persona::Persona() : cabezaAhorros(nullptr), cabezaCorriente(nullptr),
+numCuentas(0), numCorrientes(0), isDestroyed(false),
+validator(std::make_unique<PersonaValidator>()),
+dataProcessor(std::make_unique<PersonaDataProcessor>()) {
+}
+
+Persona::Persona(const string& cedula, const string& nombres, const string& apellidos,
+	const string& fechaNacimiento, const string& correo, const string& direccion)
+	: cedula(cedula), nombres(nombres), apellidos(apellidos),
+	fechaNacimiento(fechaNacimiento), correo(correo), direccion(direccion),
+	cabezaAhorros(nullptr), cabezaCorriente(nullptr), numCuentas(0), numCorrientes(0),
+	isDestroyed(false),
+	validator(std::make_unique<PersonaValidator>()),
+	dataProcessor(std::make_unique<PersonaDataProcessor>()) {
+}
+
+Persona::~Persona() {
+	liberarListaRecursivo(cabezaAhorros);
+	liberarListaRecursivo(cabezaCorriente);
+	isDestroyed = true;
+}
+
+template void Persona::liberarListaRecursivo<CuentaAhorros>(CuentaAhorros*);
+template void Persona::liberarListaRecursivo<CuentaCorriente>(CuentaCorriente*);
+template CuentaAhorros* Persona::buscarEnListaRecursivo<CuentaAhorros>(CuentaAhorros*, const std::function<bool(CuentaAhorros*)>&);
+template CuentaCorriente* Persona::buscarEnListaRecursivo<CuentaCorriente>(CuentaCorriente*, const std::function<bool(CuentaCorriente*)>&);
+
+// === MÉTODOS RECURSIVOS PRIVADOS ===
+
+template<typename T>
+void Persona::liberarListaRecursivo(T* nodo) {
+	if (!nodo) return;
+
+	T* siguiente = nodo->getSiguiente();
+	delete nodo;
+	liberarListaRecursivo(siguiente);
+}
+
+template<typename T>
+T* Persona::buscarEnListaRecursivo(T* nodo, const std::function<bool(T*)>& criterio) {
+	if (!nodo) return nullptr;
+	if (criterio(nodo)) return nodo;
+	return buscarEnListaRecursivo(nodo->getSiguiente(), criterio);
+}
+
+// === SETTERS REFACTORIZADOS CON BUILDER PATTERN ===
+
+Persona& Persona::setCedula(const string& cedula) {
+	this->cedula = cedula;
+	return *this;
+}
+
+Persona& Persona::setNombres(const string& nombres) {
+	this->nombres = nombres;
+	return *this;
+}
+
+Persona& Persona::setApellidos(const string& apellidos) {
+	this->apellidos = apellidos;
+	return *this;
+}
+
+Persona& Persona::setFechaNacimiento(const string& fechaNacimiento) {
+	this->fechaNacimiento = fechaNacimiento;
+	return *this;
+}
+
+Persona& Persona::setCorreo(const string& correo) {
+	this->correo = correo;
+	return *this;
+}
+
+Persona& Persona::setDireccion(const string& direccion) {
+	this->direccion = direccion;
+	return *this;
+}
+
+std::string Persona::procesarEntradaConValidacion(const std::string& tipo, const std::string& prompt,
+	const std::function<std::string()>& inputFunction) {
+	std::string resultado;
+	bool valido = false;
+
+	while (!valido) {
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
+		std::cout << msgIngresoDatos() << std::endl;
+		std::cout << prompt;
+   		resultado = inputFunction();
+
+		if (resultado.empty()) {
+			std::cout << "El campo no puede estar vacio. Presione cualquier tecla para continuar.";
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+			continue;
+		}
+
+		valido = validator->validarDato(tipo, resultado);
+		if (!valido) {
+			std::cout << validator->obtenerMensajeError(tipo) << std::endl;
+			int teclaCualquiera = _getch();
+			(void)teclaCualquiera;
+		}
+	}
+
+	return resultado;
+}
+
 /**
  * @brief Inicia el proceso de ingreso de datos para una persona
  *
  * Llama al método sobrecargado utilizando la cédula actual como parámetro.
  */
 void Persona::ingresarDatos() {
-	ingresarDatos(this->cedula); // O puedes pasar "" si prefieres no validar
+	ingresarDatos(this->cedula);
 }
 
 /**
@@ -211,40 +315,81 @@ void Persona::ingresarDatos() {
  * @param cedulaEsperada Cédula que se espera que ingrese el usuario para validación
  */
 void Persona::ingresarDatos(const std::string& cedulaEsperada) {
-	do {
-		std::string cedulaTemp = cedulaEsperada; // Cedula esperada para validar
-		std::string cedula = ingresarCedula(cedulaTemp); // Llamar al metodo para ingresar la cedula
-		std::string nombres = ingresarNombres(this->nombres); // Llamar al metodo para ingresar los nombres
-		std::string apellidos = ingresarApellidos(this->apellidos); // Llamar al metodo para ingresar los apellidos
-		std::string fechaNacimiento = ingresarFechaNacimiento(this->fechaNacimiento); // Llamar al metodo para ingresar la fecha de nacimiento
-		std::string correo = ingresarCorreo(this->correo); // Llamar al metodo para ingresar el correo
-		std::string direccion = ingresarDireccion(this->direccion); // Llamar al metodo para ingresar la direccion
+	// Aplicando Command Pattern para cada tipo de entrada
+	const std::vector<std::function<void()>> comandosEntrada = {
+		[this, &cedulaEsperada]() { this->cedula = ingresarCedula(const_cast<std::string&>(const_cast<std::string&>(cedulaEsperada))); },
+		[this]() { this->nombres = ingresarNombres(this->nombres); },
+		[this]() { this->apellidos = ingresarApellidos(this->apellidos); },
+		[this]() { this->fechaNacimiento = ingresarFechaNacimiento(this->fechaNacimiento); },
+		[this]() { this->correo = ingresarCorreo(this->correo); },
+		[this]() { this->direccion = ingresarDireccion(this->direccion); }
+	};
 
-		// Si el usuario considera que los datos son correctos, 
-		// selecciona "Si" para setear los datos o "No" para repetir
-		// Mostrar los datos ingresados y preguntar si desea corregirlos
+	bool datosCorrectos = false;
+	while (!datosCorrectos) {
+		// Ejecutar todos los comandos de entrada
+		std::for_each(comandosEntrada.begin(), comandosEntrada.end(), [](const auto& comando) {
+			comando();
+			});
+
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 		mostrarDatos();
+
 		int seleccion = Utilidades::menuInteractivo("¿Los datos son correctos?", { "Si", "No" }, 10, 10);
+		datosCorrectos = (seleccion == 0);
 
-		// Si selecciona "No", repetir el ingreso de datos
-		if (seleccion == 1) { // Si selecciona "No"
-			continue;
-		}
-		else { // Si selecciona "Si"
-			// Setear los datos
-			setCedula(cedula);
-			setNombres(nombres);
-			setApellidos(apellidos);
-			setFechaNacimiento(fechaNacimiento);
-			setCorreo(correo);
-			setDireccion(direccion);
-
-			// Guardar los datos en el archivo
+		if (datosCorrectos) {
 			guardarEnArchivo();
-			break;
 		}
-	} while (true);
+	}
+}
+
+std::vector<CuentaAhorros*> Persona::obtenerCuentasAhorros() const {
+	std::vector<CuentaAhorros*> cuentas;
+	forEachCuentaAhorros([&cuentas](CuentaAhorros* cuenta) {
+		cuentas.push_back(cuenta);
+		});
+	return cuentas;
+}
+
+std::vector<CuentaCorriente*> Persona::obtenerCuentasCorriente() const {
+	std::vector<CuentaCorriente*> cuentas;
+	forEachCuentaCorriente([&cuentas](CuentaCorriente* cuenta) {
+		cuentas.push_back(cuenta);
+		});
+	return cuentas;
+}
+
+void Persona::forEachCuentaAhorros(const std::function<void(CuentaAhorros*)>& accion) const {
+	if (dataProcessor) {
+		dataProcessor->procesarCuentasAhorros(const_cast<Persona*>(this), accion);
+	}
+}
+
+void Persona::forEachCuentaCorriente(const std::function<void(CuentaCorriente*)>& accion) const {
+	if (dataProcessor) {
+		dataProcessor->procesarCuentasCorriente(const_cast<Persona*>(this), accion);
+	}
+}
+
+std::vector<CuentaAhorros*> Persona::filtrarCuentasAhorros(const std::function<bool(CuentaAhorros*)>& filtro) const {
+	std::vector<CuentaAhorros*> resultado;
+	forEachCuentaAhorros([&](CuentaAhorros* cuenta) {
+		if (filtro(cuenta)) {
+			resultado.push_back(cuenta);
+		}
+		});
+	return resultado;
+}
+
+std::vector<CuentaCorriente*> Persona::filtrarCuentasCorriente(const std::function<bool(CuentaCorriente*)>& filtro) const {
+	std::vector<CuentaCorriente*> resultado;
+	forEachCuentaCorriente([&](CuentaCorriente* cuenta) {
+		if (filtro(cuenta)) {
+			resultado.push_back(cuenta);
+		}
+		});
+	return resultado;
 }
 
 /**
@@ -758,12 +903,10 @@ void Persona::mostrarDatos() const {
  * @param tipoCuenta Tipo de cuenta a mostrar: "Ahorros", "Corriente" o "Ambas"
  * @return int Número de cuentas encontradas
  */
-int Persona::mostrarCuentas(const std::string& tipoCuenta) const
-{
+int Persona::mostrarCuentas(const std::string& tipoCuenta) const {
 	int cuentasEncontradas = 0;
 	bool datosTitularMostrados = false;
 
-	// Función lambda para mostrar datos del titular solo una vez
 	auto mostrarDatosTitular = [&]() {
 		if (!datosTitularMostrados) {
 			mostrarDatos();
@@ -771,22 +914,20 @@ int Persona::mostrarCuentas(const std::string& tipoCuenta) const
 		}
 		};
 
-	// Función lambda para mostrar cuentas de un vector
-	auto mostrarCuentasDeVector = [&](const auto& cuentas) {
-		for (const auto& cuenta : cuentas) {
+	if (tipoCuenta == "Ahorros" || tipoCuenta == "Ambas") {
+		forEachCuentaAhorros([&](CuentaAhorros* cuenta) {
 			mostrarDatosTitular();
 			cuenta->mostrarInformacion(this->cedula, false);
 			++cuentasEncontradas;
-		}
-		};
-
-	if (tipoCuenta == "Ahorros" || tipoCuenta == "Ambas") {
-		const auto& cuentasAhorros = obtenerCuentasAhorros();
-		mostrarCuentasDeVector(cuentasAhorros);
+			});
 	}
+
 	if (tipoCuenta == "Corriente" || tipoCuenta == "Ambas") {
-		const auto& cuentasCorriente = obtenerCuentasCorriente();
-		mostrarCuentasDeVector(cuentasCorriente);
+		forEachCuentaCorriente([&](CuentaCorriente* cuenta) {
+			mostrarDatosTitular();
+			cuenta->mostrarInformacion(this->cedula, false);
+			++cuentasEncontradas;
+			});
 	}
 
 	return cuentasEncontradas;
@@ -934,25 +1075,23 @@ void Persona::buscarPersonaPorFecha(const std::string& fecha) const {
  * @return int Número de cuentas encontradas
  */
 int Persona::buscarPersonaPorCuentas(const string& numeroCuenta) const {
-	// Evita acceso a un objeto destruido
-	if (!isValidInstance()) {
-		//std::cerr << "Error: objeto 'Persona' invalido (destruido o no inicializado).\n";
-		return 0;
-	}
+	if (!isValidInstance()) return 0;
+
 	int encontrados = 0;
-	auto buscarCuenta = [&](Cuenta<double>* actual, const std::string& tipo) -> void {
-		while (actual) {
-			if (!actual) { // Si el puntero es nulo, continuar con el siguiente nodo
-				actual = actual->getSiguiente();
-				continue;
+
+	// Buscar usando programación funcional
+	auto buscarEnTipo = [&](const auto& lista) {
+		std::for_each(lista.begin(), lista.end(), [&](auto* cuenta) {
+			if (cuenta && cuenta->getNumeroCuenta() == numeroCuenta) {
+				cuenta->mostrarInformacion(this->cedula, false);
+				++encontrados;
 			}
-			if (actual->getNumeroCuenta() == numeroCuenta) {
-				actual->mostrarInformacion(this->cedula, false); // false para no borrar la pantalla
-				encontrados++;
-			}
-			actual = actual->getSiguiente();
-		}
+			});
 		};
+
+	buscarEnTipo(obtenerCuentasAhorros());
+	buscarEnTipo(obtenerCuentasCorriente());
+
 	return encontrados;
 }
 
@@ -1539,30 +1678,30 @@ std::string Persona::msgIngresoDatos() const {
 	return "\n----- INGRESO DE DATOS -----\n";
 }
 
-/**
- * @brief Convierte la lista enlazada de cuentas de ahorros a un vector para iteración limpia
- * @return std::vector<CuentaAhorros*> Vector de punteros a cuentas de ahorros
- */
-std::vector<CuentaAhorros*> Persona::obtenerCuentasAhorros() const {
-    std::vector<CuentaAhorros*> cuentas;
-    CuentaAhorros* actual = cabezaAhorros;
-    while (actual) {
-        cuentas.push_back(actual);
-        actual = actual->getSiguiente();
-    }
-    return cuentas;
+template<typename T>
+T* Persona::configurarCabezaLista(T* nuevaCabeza, T*& cabezaActual) {
+	if (!nuevaCabeza) return cabezaActual;
+
+	// Aplicando Command Pattern para encapsular la operación
+	auto comando = [&cabezaActual](T* nodo) {
+		nodo->setSiguiente(cabezaActual);
+		nodo->setAnterior(nullptr);
+
+		if (cabezaActual) {
+			cabezaActual->setAnterior(nodo);
+		}
+		};
+
+	comando(nuevaCabeza);
+	cabezaActual = nuevaCabeza;
+
+	return cabezaActual;
 }
 
-/**
- * @brief Convierte la lista enlazada de cuentas corrientes a un vector para iteración limpia
- * @return std::vector<CuentaCorriente*> Vector de punteros a cuentas corrientes
- */
-std::vector<CuentaCorriente*> Persona::obtenerCuentasCorriente() const {
-    std::vector<CuentaCorriente*> cuentas;
-    CuentaCorriente* actual = cabezaCorriente;
-    while (actual) {
-        cuentas.push_back(actual);
-        actual = actual->getSiguiente();
-    }
-    return cuentas;
+CuentaAhorros* Persona::setCabezaAhorros(CuentaAhorros* nuevaCabeza) {
+	return configurarCabezaLista(nuevaCabeza, cabezaAhorros);
+}
+
+CuentaCorriente* Persona::setCabezaCorriente(CuentaCorriente* nuevaCabeza) {
+	return configurarCabezaLista(nuevaCabeza, cabezaCorriente);
 }

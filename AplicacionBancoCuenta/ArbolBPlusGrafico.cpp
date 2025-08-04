@@ -349,7 +349,7 @@ void ArbolBPlusGrafico::mostrarAnimadoSFMLGrado3(_BaseDatosPersona& baseDatos,
         ventana.draw(textoBusqueda);
 
         sf::Text instrucciones("ESC: Salir | F: Buscar | Scroll: Navegar", fuente, 14);
-        instrucciones.setPosition(10, ventana.getSize().y - 30);
+        instrucciones.setPosition(10.0f, static_cast<float>(ventana.getSize().y) - 30.0f);
         instrucciones.setFillColor(sf::Color(200, 200, 200));
         ventana.draw(instrucciones);
 

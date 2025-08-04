@@ -71,6 +71,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(Platform)\$(Configuration)\App1\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Platform)\$(Configuration)\App1\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -159,6 +165,8 @@
     <ClCompile Include="DocumentacionDoxygen.cpp" />
     <ClCompile Include="GestorHashBaseDatos.cpp" />
     <ClCompile Include="ManejoMenus.cpp" />
+    <ClCompile Include="PersonaDataProcessor.cpp" />
+    <ClCompile Include="PersonaValidator.cpp" />
     <ClCompile Include="SistemaMenuPrincipal.cpp" />
     <ClCompile Include="ValidadorBaseDatos.cpp" />
     <ClCompile Include="_BaseDatosArchivos.cpp" />
@@ -191,11 +199,14 @@
     <ClInclude Include="Cuenta.h" />
     <ClInclude Include="CuentaAhorros.h" />
     <ClInclude Include="CuentaCorriente.h" />
+    <ClInclude Include="CuentaManager.h" />
     <ClInclude Include="DocumentacionDoxygen.h" />
     <ClInclude Include="GestorHashBaseDatos.h" />
     <ClInclude Include="ManejoMenus.h" />
     <ClInclude Include="NodoArbolB.h" />
+    <ClInclude Include="PersonaDataProcessor.h" />
     <ClInclude Include="PersonaUI.h" />
+    <ClInclude Include="PersonaValidator.h" />
     <ClInclude Include="SistemaMenuPrincipal.h" />
     <ClInclude Include="ValidadorBaseDatos.h" />
     <ClInclude Include="_BaseDatosArchivos.h" />
@@ -270,7 +281,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
-    <Text Include="personas.txt" />
     <Text Include="ultimo_numero_cuenta.txt" />
   </ItemGroup>
   <ItemGroup>

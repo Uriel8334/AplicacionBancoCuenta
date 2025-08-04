@@ -1,9 +1,15 @@
-#pragma once  
+#pragma once
 #ifndef _BASEDATOSARCHIVOS_H  
 #define _BASEDATOSARCHIVOS_H  
 
+
 #include <string>
 
+/*
+* @file _BaseDatosArchivos.h
+* @brief Clase para manejar la exportación e importación de bases de datos MongoDB a archivos
+* Esta clase permite exportar colecciones de MongoDB a archivos JSON y restaurar datos desde archivos a MongoDB.
+*/
 class _BaseDatosArchivos  
 {  
 public:  

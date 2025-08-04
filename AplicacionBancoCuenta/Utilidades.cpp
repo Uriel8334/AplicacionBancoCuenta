@@ -88,7 +88,7 @@ void Utilidades::mostrarMenu(int seleccion, const std::vector<std::string>& opci
 int Utilidades::menuInteractivo(const std::string& titulo, const std::vector<std::string>& opciones, int x, int y) {
 	int seleccion = 0;
 	int seleccionAnterior = -1;
-	int numOpciones = opciones.size();
+	int numOpciones = static_cast<int>(opciones.size());
 
 	if (!titulo.empty()) {
 		Utilidades::gotoxy(x, y);
@@ -463,7 +463,7 @@ void Utilidades::mostrarMenuAyuda() {
 
 	if (reinterpret_cast<INT_PTR>(resultado) <= 32) {
 		Utilidades::limpiarPantallaPreservandoMarquesina(1);
-		std::cerr << "Error al abrir el menu de ayuda. Codigo: " << (int)resultado << std::endl;
+		std::cerr << "Error al abrir el menu de ayuda. Codigo: " << reinterpret_cast<INT_PTR>(resultado) << std::endl;
 	}
 
 
@@ -688,9 +688,9 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 		if (tecla == 224) {
 			tecla = _getch();
 			if (tecla == 72) // Flecha arriba
-				selCriterio = (static_cast<unsigned long long>(selCriterio) - 1 + criterios.size()) % criterios.size();
+				selCriterio = static_cast<int>((static_cast<unsigned long long>(selCriterio) - 1 + criterios.size()) % criterios.size());
 			else if (tecla == 80) // Flecha abajo
-				selCriterio = (static_cast<unsigned long long>(selCriterio) + 1) % criterios.size();
+				selCriterio = static_cast<int>((static_cast<unsigned long long>(selCriterio) + 1) % criterios.size());
 
 			// Redibujar todo el menú
 			mostrarMenuCriterios();
@@ -801,14 +801,14 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 		if (tecla == 224) {
 			tecla = _getch();
 			if (tecla == 72) // Flecha arriba
-				selOpcion = (static_cast<unsigned long long>(selOpcion) - 1 + opcionesArbol.size()) % opcionesArbol.size();
+				selOpcion = static_cast<int>((static_cast<unsigned long long>(selOpcion) - 1 + opcionesArbol.size()) % opcionesArbol.size());
 			else if (tecla == 80) // Flecha abajo
-				selOpcion = (static_cast<unsigned long long>(selOpcion) + 1) % opcionesArbol.size();
+				selOpcion = static_cast<int>((static_cast<unsigned long long>(selOpcion) + 1) % opcionesArbol.size());
 		}
 		else if (tecla == 13) { // Enter
 			if (selOpcion == 0) { // Buscar persona
 				// Coordenadas para el área de entrada
-				int baseY = static_cast<unsigned long long>(arbol.altura()) + 8 + opcionesArbol.size();
+				int baseY = static_cast<int>(static_cast<unsigned long long>(arbol.altura()) + 8 + opcionesArbol.size());
 				gotoxy(0, baseY);
 				std::cout << std::string(80, ' '); // Limpiar línea
 				gotoxy(0, baseY);
@@ -867,7 +867,7 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
 			}
 			else if (selOpcion == 1) { // Eliminar persona
 				// Coordenadas para el área de entrada
-				int baseY = static_cast<unsigned long long>(arbol.altura()) + 8 + opcionesArbol.size();
+				int baseY = static_cast<int>(static_cast<unsigned long long>(arbol.altura()) + 8 + opcionesArbol.size());
 				gotoxy(0, baseY);
 				std::cout << std::string(80, ' '); // Limpiar línea
 				gotoxy(0, baseY);
