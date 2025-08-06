@@ -171,7 +171,7 @@ bool Banco::procesarPersonaNueva(const std::string& tipoCuenta, const std::strin
 	
 
 	// Mostrar resultado final
-	std::string nombreCompleto = nuevaPersona->getNombres() + " " + nuevaPersona->getApellidos();
+	std::string nombreCompleto = nuevaPersona->getNombres() + "" + nuevaPersona->getApellidos();
 	mostrarResultadoCreacion(true, tipoCuenta, nombreCompleto);
 
 	// Liberamos la referencia del unique_ptr para que no se destruya automáticamente
@@ -309,21 +309,11 @@ void Banco::finalizarOperacion(bool exitoso, const std::string& cedula, const st
 	}
 
 	// Mensaje de salida con realismo
-	std::cout << "\nPresione cualquier tecla para salir...";
+	std::cout << "\nPresione cualquier tecla para salir";
 	int teclaCualquiera = _getch();
 	(void)teclaCualquiera;
 
-	std::cout << "\nSaliendo de la creacion de cuenta";
-
-	// Animación de puntos para mayor realismo
-	for (int i = 0; i < 3; ++i) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(666));  // 2 segundos total / 3 = 666ms
-		std::cout << ".";
-		std::cout.flush();
-	}
-
-	std::cout << "\n\n";
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));  // Pausa adicional
+	Utilidades::mensajeAnimado("Saliendo de la creacion de cuenta");
 }
 
 void Banco::buscarCuenta() {
@@ -342,7 +332,8 @@ void Banco::buscarCuenta() {
 		"Por cedula",
 		"Cancelar"
 	};
-
+	
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 	int seleccion = Utilidades::menuInteractivo("Seleccione el tipo de busqueda:", opcionesBusqueda, 0, 0);
 
 	if (seleccion >= 0 && seleccion <= 3) {
@@ -447,11 +438,12 @@ void Banco::subMenuCuentasBancarias() {
 
 	int seleccion;
 	do {
-		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 		// Mostrar estadísticas actuales de la base de datos
 		ValidadorBaseDatos validador(baseDatosPersona);
 		validador.mostrarEstadoBaseDatos();
+
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 		seleccion = Utilidades::menuInteractivo("=== SUBMENU CUENTAS BANCARIAS ===", opcionesCuentas, 0, 0);
 

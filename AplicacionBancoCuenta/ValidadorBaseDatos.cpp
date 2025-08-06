@@ -1,4 +1,5 @@
 #include "ValidadorBaseDatos.h"
+#include "Utilidades.h"
 #include <iostream>
 #include <iomanip>
 
@@ -26,6 +27,7 @@ ValidadorBaseDatos::EstadisticasBaseDatos ValidadorBaseDatos::obtenerEstadistica
 void ValidadorBaseDatos::mostrarEstadoBaseDatos() {
     auto stats = obtenerEstadisticas();
 
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
     std::cout << "\n=== ESTADO DE LA BASE DE DATOS ===\n";
     std::cout << std::left << std::setw(20) << "Personas registradas:"
         << std::right << std::setw(10) << stats.totalPersonas << "\n";
@@ -35,4 +37,5 @@ void ValidadorBaseDatos::mostrarEstadoBaseDatos() {
         << std::right << std::setw(10)
         << (stats.tienePersonas ? "Operativo" : "Sin datos") << "\n";
     std::cout << std::string(35, '=') << "\n";
+    system("pause");
 }

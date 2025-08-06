@@ -514,23 +514,23 @@ namespace CodigoQR {
 
         // Borde superior
         for (int i = 0; i < size; i++) {
-            std::cout << "??";
+            std::cout << "██";
         }
         std::cout << std::endl;
 
         // Imprimir QR con bordes
         for (int y = -quietZone; y < qr.getSize() + quietZone; y++) {
-            std::cout << "????"; // Borde izquierdo extra
+            std::cout << "████"; // Borde izquierdo extra
             for (int x = -quietZone; x < qr.getSize() + quietZone; x++) {
                 bool module = (x >= 0 && y >= 0 && x < qr.getSize() && y < qr.getSize()) && qr.getModule(x, y);
-                std::cout << (module ? "??" : "  ");
+                std::cout << (module ? "██" : "  ");
             }
-            std::cout << "????" << std::endl; // Borde derecho extra
+            std::cout << "████" << std::endl; // Borde derecho extra
         }
 
         // Borde inferior
         for (int i = 0; i < size; i++) {
-            std::cout << "??";
+            std::cout << "██";
         }
         std::cout << std::endl;
 

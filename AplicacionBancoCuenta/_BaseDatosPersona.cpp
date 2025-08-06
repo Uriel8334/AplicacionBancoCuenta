@@ -934,7 +934,7 @@ std::string _BaseDatosPersona::convertirFechaAISO(const std::string& fecha) {
 void _BaseDatosPersona::iniciarBaseDatosArbolB()
 {
 	// Obtener referencia a la base de datos desde el banco
-	auto& clienteDB = ConexionMongo::obtenerClienteBaseDatos();
+	mongocxx::client& clienteDB = ConexionMongo::obtenerClienteBaseDatos();
 	_BaseDatosPersona baseDatos(clienteDB);
 
 	// Verificar que existan datos en la base de datos
@@ -954,6 +954,8 @@ void _BaseDatosPersona::iniciarBaseDatosArbolB()
 		"Ordenar por Fecha de Nacimiento",
 		"Volver al menú principal"
 	};
+
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 	int seleccion = Utilidades::menuInteractivo(
 		"=== Árbol B+ Gráfico - Seleccione Criterio ===",

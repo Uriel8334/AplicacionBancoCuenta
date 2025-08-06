@@ -750,35 +750,75 @@ void ExportadorArchivo::procesarLineasPDFRecursivamente(std::ifstream& archivo, 
 }
 
 /**
- * @brief Procesa una línea específica para el PDF - MEJORADO para capturar número de cuenta
+ * @brief Procesa líneas específicas para generar PDF con QR
+ * @param linea Línea actual del archivo
+ * @param archivoHtml Archivo HTML de salida
+ * @param datosPersona Datos de la persona actual
+ * @param estado Estado del procesamiento
  */
 void ExportadorArchivo::procesarLineaEspecifica(const std::string& linea, std::ofstream& archivoHtml,
 	std::map<std::string, std::string>& datosPersona, EstadoProcesamiento& estado) {
 
-	// Variable estática para almacenar el número de cuenta actual
-	static std::string numeroCuentaActual = "N/A";
+	// Variable estática para almacenar los datos de la cuenta actual
+	static std::map<std::string, std::string> cuentaActual;
 
 	// Manejar marcadores de cuentas individuales
 	if (linea == "CUENTA_AHORROS_INICIO") {
 		estado.enCuentaAhorro = true;
+		cuentaActual.clear();
 		archivoHtml << "<div class='cuenta cuenta-ahorro'>\n";
-		numeroCuentaActual = "N/A"; // Reset
+		archivoHtml << "<div class='cuenta-info'>\n";
 		return;
 	}
 	if (linea == "CUENTA_AHORROS_FIN") {
-		archivoHtml << "</div>\n";
+		// Generar QR para esta cuenta antes de cerrar
+		if (!cuentaActual.empty() && !datosPersona.empty()) {
+			std::string qrData = generarQRPersona(
+				datosPersona["CEDULA"],
+				datosPersona["NOMBRES"],
+				datosPersona["APELLIDOS"],
+				cuentaActual["NUMERO_CUENTA"]
+			);
+			archivoHtml << "</div>\n"; // Cierra cuenta-info
+			archivoHtml << "<div class='cuenta-qr'>\n";
+			archivoHtml << "  <h5>QR Cuenta</h5>\n";
+			archivoHtml << "  <div class='qr-code'>" << qrData << "</div>\n";
+			archivoHtml << "</div>\n"; // Cierra cuenta-qr
+		}
+		else {
+			archivoHtml << "</div>\n"; // Solo cierra cuenta-info si no hay QR
+		}
+		archivoHtml << "</div>\n"; // Cierra cuenta
 		estado.enCuentaAhorro = false;
 		estado.totalCuentasAhorro++;
 		return;
 	}
 	if (linea == "CUENTA_CORRIENTE_INICIO") {
 		estado.enCuentaCorriente = true;
+		cuentaActual.clear();
 		archivoHtml << "<div class='cuenta cuenta-corriente'>\n";
-		numeroCuentaActual = "N/A"; // Reset
+		archivoHtml << "<div class='cuenta-info'>\n";
 		return;
 	}
 	if (linea == "CUENTA_CORRIENTE_FIN") {
-		archivoHtml << "</div>\n";
+		// Generar QR para esta cuenta antes de cerrar
+		if (!cuentaActual.empty() && !datosPersona.empty()) {
+			std::string qrData = generarQRPersona(
+				datosPersona["CEDULA"],
+				datosPersona["NOMBRES"],
+				datosPersona["APELLIDOS"],
+				cuentaActual["NUMERO_CUENTA"]
+			);
+			archivoHtml << "</div>\n"; // Cierra cuenta-info
+			archivoHtml << "<div class='cuenta-qr'>\n";
+			archivoHtml << "  <h5>QR Cuenta</h5>\n";
+			archivoHtml << "  <div class='qr-code'>" << qrData << "</div>\n";
+			archivoHtml << "</div>\n"; // Cierra cuenta-qr
+		}
+		else {
+			archivoHtml << "</div>\n"; // Solo cierra cuenta-info si no hay QR
+		}
+		archivoHtml << "</div>\n"; // Cierra cuenta
 		estado.enCuentaCorriente = false;
 		estado.totalCuentasCorriente++;
 		return;
@@ -811,9 +851,11 @@ void ExportadorArchivo::procesarLineaEspecifica(const std::string& linea, std::o
 			datosPersona[clave] = valor;
 		}
 		else if (estado.enCuentaAhorro || estado.enCuentaCorriente) {
-			// Procesar detalles de cuentas y capturar número de cuenta
+			// Guardar datos de cuenta para el QR
+			cuentaActual[clave] = valor;
+
+			// Mostrar detalles de cuentas
 			if (clave == "NUMERO_CUENTA") {
-				numeroCuentaActual = valor; // Almacenar para uso en QR
 				archivoHtml << "  <p><span class='label'>Número de Cuenta:</span> " << valor << "</p>\n";
 			}
 			else if (clave == "SALDO") {
@@ -829,8 +871,11 @@ void ExportadorArchivo::procesarLineaEspecifica(const std::string& linea, std::o
 		}
 	}
 }
+
 /**
- * @brief Escribe información de persona con código QR en HTML - CORREGIDO
+ * @brief Finaliza el archivo HTML con pie de página
+ * @param archivoHtml Archivo HTML de salida
+ * @param datosPersona Datos de la persona actual
  */
 void ExportadorArchivo::escribirPersonaConQR(std::ofstream& archivoHtml, const std::map<std::string, std::string>& datosPersona) {
 	archivoHtml << "<div class='persona'>\n";
@@ -859,25 +904,19 @@ void ExportadorArchivo::escribirPersonaConQR(std::ofstream& archivoHtml, const s
 		archivoHtml << "  <p><span class='label'>Dirección:</span> " << direccion->second << "</p>\n";
 	}
 
-	archivoHtml << "</div>\n";
+	archivoHtml << "</div>\n"; // Cierra persona-info
 
-	// Generar y agregar código QR con los datos correctos y número de cuenta
+	// Generar QR general del cliente (sin número de cuenta específico)
 	if (cedula != datosPersona.end() && nombres != datosPersona.end() && apellidos != datosPersona.end()) {
-		// Necesitamos obtener el número de cuenta del contexto actual
-		// Para esto, almacenaremos el número de cuenta en el estado
-		std::string numeroCuentaActual = "N/A"; // Valor por defecto
-
-		// En el contexto de procesamiento de cuentas, necesitamos pasar este dato
-		// Lo haremos a través de una variable global temporal o modifiando el método
-		std::string qrData = generarQRPersona(cedula->second, nombres->second, apellidos->second, numeroCuentaActual);
+		std::string qrData = generarQRPersona(cedula->second, nombres->second, apellidos->second, "CLIENTE");
 
 		archivoHtml << "<div class='qr-container'>\n";
-		archivoHtml << "  <h4>Código QR del Cliente</h4>\n";
+		archivoHtml << "  <h4>QR Cliente</h4>\n";
 		archivoHtml << "  <div class='qr-code'>" << qrData << "</div>\n";
 		archivoHtml << "</div>\n";
 	}
 
-	archivoHtml << "</div>\n";
+	archivoHtml << "</div>\n"; // Cierra persona
 }
 
 /**
@@ -885,22 +924,25 @@ void ExportadorArchivo::escribirPersonaConQR(std::ofstream& archivoHtml, const s
  */
 std::string ExportadorArchivo::generarQRPersona(const std::string& cedula, const std::string& nombres,
 	const std::string& apellidos, const std::string& numeroCuenta) {
-	// Crear objeto Persona temporal
-	Persona personaTemp;
-	personaTemp.setCedula(cedula);
-	personaTemp.setNombres(nombres);
-	personaTemp.setApellidos(apellidos);
+	try {
+		// Crear objeto Persona temporal
+		Persona personaTemp;
+		personaTemp.setCedula(cedula);
+		personaTemp.setNombres(nombres);
+		personaTemp.setApellidos(apellidos);
 
-	// Usar la función existente de Utilidades que ya funciona
-	bool success = Utilidades::generarQR(personaTemp, numeroCuenta);
+		// Usar la nueva función que solo genera el QR sin mostrarlo
+		std::string qrTexto = Utilidades::generarQRSoloMostrar(personaTemp, numeroCuenta);
 
-	if (success) {
-		// Como Utilidades::generarQR no retorna el código QR en texto,
-		// creamos uno simple para el HTML
-		return "QR: " + nombres + " " + apellidos + " - Cuenta: " + numeroCuenta;
+		if (!qrTexto.empty()) {
+			return qrTexto;
+		}
+		else {
+			return "Error al generar código QR";
+		}
 	}
-	else {
-		return "Error generando QR";
+	catch (const std::exception& e) {
+		return "Error: " + std::string(e.what());
 	}
 }
 
@@ -918,9 +960,11 @@ void ExportadorArchivo::escribirCabeceraHTML(std::ofstream& archivoHtml) {
 	archivoHtml << "h2 { margin-top: 20px; border-bottom: 1px solid #ccc; }\n";
 	archivoHtml << ".persona { background-color: #f9f9f9; border: 1px solid #ddd; margin: 15px 0; padding: 10px; border-radius: 5px; display: flex; justify-content: space-between; }\n";
 	archivoHtml << ".persona-info { flex: 1; }\n";
-	archivoHtml << ".qr-container { flex: 0 0 200px; text-align: center; padding: 10px; }\n";
-	archivoHtml << ".qr-code { font-family: monospace; font-size: 8px; line-height: 8px; background: white; padding: 10px; border: 1px solid #ccc; }\n";
-	archivoHtml << ".cuenta { background-color: #eef6ff; margin: 10px 0; padding: 8px; border-left: 4px solid #003366; }\n";
+	archivoHtml << ".qr-container { flex: 0 0 200px; margin-left: 20px; text-align: center; }\n";
+	archivoHtml << ".qr-code { font-family: monospace; font-size: 8px; line-height: 8px; background-color: white; padding: 10px; border: 1px solid #ccc; white-space: pre; }\n";
+	archivoHtml << ".cuenta { background-color: #eef6ff; margin: 10px 0; padding: 8px; border-left: 4px solid #003366; display: flex; justify-content: space-between; }\n";
+	archivoHtml << ".cuenta-info { flex: 1; }\n";
+	archivoHtml << ".cuenta-qr { flex: 0 0 150px; margin-left: 15px; text-align: center; }\n";
 	archivoHtml << ".cuenta-ahorro { border-left-color: #007700; }\n";
 	archivoHtml << ".cuenta-corriente { border-left-color: #770000; }\n";
 	archivoHtml << ".label { font-weight: bold; color: #555; min-width: 150px; display: inline-block; }\n";
@@ -1218,6 +1262,8 @@ bool ExportadorArchivo::procesarSolicitudGuardado(const _BaseDatosPersona& baseD
 		return false;
 	}
 
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
+
 	// Crear gestor con Dependency Injection
 	GestorGuardadoArchivos gestor(baseDatos);
 
@@ -1422,6 +1468,8 @@ bool ExportadorArchivo::procesarSolicitudRecuperacion(const _BaseDatosPersona& b
 	try {
 		// Crear gestor con Dependency Injection
 		GestorRecuperacionArchivos gestor(baseDatos);
+
+		Utilidades::limpiarPantallaPreservandoMarquesina(1);
 
 		// Solicitar tipo de recuperación
 		int tipoRecuperacion = ExportadorArchivo::solicitarTipoRecuperacion();

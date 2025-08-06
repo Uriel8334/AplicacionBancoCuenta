@@ -241,6 +241,9 @@ bool Cifrado::descifrarSinCargarDatos(const Banco& banco, const std::string& nom
  */
 bool Cifrado::iniciarProcesoDescifrado(const _BaseDatosPersona& baseDatos) {
     try {
+
+        Utilidades::limpiarPantallaPreservandoMarquesina(1);
+
         // Aplicando SRP: Cada método tiene una responsabilidad específica
         if (!validarArchivosDisponibles()) {
             return false;
@@ -260,6 +263,7 @@ bool Cifrado::iniciarProcesoDescifrado(const _BaseDatosPersona& baseDatos) {
 
         // Ejecutar descifrado usando estrategia específica según formato
         bool resultado = ejecutarDescifradoPorFormato(nombreArchivo, claveDescifrado, formatoSalida);
+
 
         // Mostrar resultado al usuario
         mostrarResultadoDescifrado(resultado, formatoSalida, nombreArchivo);

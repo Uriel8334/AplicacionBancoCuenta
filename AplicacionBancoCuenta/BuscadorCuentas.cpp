@@ -56,6 +56,8 @@ void BuscadorCuentas::buscarPorCriterioUsuario() {
         "Cancelar"
     };
 
+
+	Utilidades::limpiarPantallaPreservandoMarquesina(1);
     int seleccion = Utilidades::menuInteractivo("Seleccione el criterio de búsqueda:", criterios, 0, 0);
 
     if (seleccion == 8 || seleccion == -1) { // Cancelar o ESC
@@ -281,6 +283,8 @@ void BuscadorCuentas::buscarPorCedula() {
     }
 
     system("pause");
+
+    Utilidades::mensajeAnimado("Saliendo de busqueda por cedula");
 }
 
 void BuscadorCuentas::buscarPorNumeroCuenta() {
@@ -333,6 +337,7 @@ void BuscadorCuentas::buscarPorNumeroCuenta() {
     }
 
     system("pause");
+    Utilidades::mensajeAnimado("Saliendo de busqueda por cedula");
 }
 
 // === MÉTODOS DE PRESENTACIÓN ===

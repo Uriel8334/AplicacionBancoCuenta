@@ -8,7 +8,7 @@
  */
 
 #define _CRT_SECURE_NO_WARNINGS
- 
+
 
 #include <windows.h>
 #include <conio.h>
@@ -30,6 +30,7 @@
 #include <vector>
 #include <shellapi.h>
 
+#include "CodigoQR.h"
 #include "Marquesina.h"
 #include "Utilidades.h"
 #include "ArbolBGrafico.h"
@@ -983,10 +984,6 @@ void Utilidades::PorArbolB(NodoPersona* cabeza) {
  */
 bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuenta) {
 	try {
-		// Pausar la marquesina y limpiar la pantalla
-		if (marquesinaGlobal) {
-			marquesinaGlobal->marcarOperacionCritica();
-		}
 		limpiarPantallaPreservandoMarquesina(1);
 
 		// Crear y generar QR
@@ -997,124 +994,88 @@ bool Utilidades::generarQR(const Persona& persona, const std::string& numeroCuen
 		qr.generarQR();
 
 		// Mostrar información y QR
-		std::cout << "\n=== CODIGO QR GENERADO ===\n\n";
-		qr.imprimirEnConsola();
+		std::cout << "\n=== CODIGO QR GENERADO EXISTOSAMENTE ===";
+		//qr.imprimirEnConsola();
 
 		// Opciones para el QR
-		std::string opcionesQRGen[] = {
+		std::vector<std::string> opcionesQRGen = {
 			"Generar PDF",
+			"Mostrar QR tecnico en pantalla",
 			"Volver al menu principal"
 		};
-		int numOpcionesQRGen = sizeof(opcionesQRGen) / sizeof(opcionesQRGen[0]);
-		int seleccionQRGen = 0;
+		std::cout << "\n=== OPCIONES ===";
 
-		// Mostrar título de opciones
-		std::cout << "\n=== OPCIONES ===\n\n";
+		int seleccionQR = Utilidades::menuInteractivo("Seleccione una opcion para el QR", opcionesQRGen, 2, 4);
 
-		// Posición inicial del menú - se mantiene fija para redibujarlo
-		int menuY = 0;
-		bool opcionesDibujadas = false;
-
-		// Bucle de navegación del menú
-		while (true) {
-			// Dibujar opciones solo la primera vez
-			if (!opcionesDibujadas) {
-				// Guardar la posición Y de la primera opción
-				CONSOLE_SCREEN_BUFFER_INFO csbi;
-				GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-				menuY = csbi.dwCursorPosition.Y - 2; // -2 por offset de marquesina
-
-				// Dibujar todas las opciones
-				for (int i = 0; i < numOpcionesQRGen; i++) {
-					if (i == seleccionQRGen)
-						std::cout << " > " << opcionesQRGen[i] << std::endl;
-					else
-						std::cout << "   " << opcionesQRGen[i] << std::endl;
-				}
-
-				opcionesDibujadas = true; // Marcar que ya se dibujaron las opciones
-			}
-
-			int teclaQRGen = _getch();
-			if (teclaQRGen == 224) {
-				teclaQRGen = _getch();
-				if (teclaQRGen == 72 || teclaQRGen == 80) { // Arriba o Abajo
-					// Guardar la selección anterior
-					int seleccionAnterior = seleccionQRGen;
-
-					// Actualizar selección según la tecla presionada
-					if (teclaQRGen == 72) // Arriba
-						seleccionQRGen = (seleccionQRGen - 1 + numOpcionesQRGen) % numOpcionesQRGen;
-					else // Abajo (80)
-						seleccionQRGen = (seleccionQRGen + 1) % numOpcionesQRGen;
-
-					// Actualizar opción anterior (quitar cursor)
-					gotoxy(0, menuY + seleccionAnterior);
-					std::cout << "   " << opcionesQRGen[seleccionAnterior] << "   ";
-
-					// Actualizar nueva opción seleccionada (poner cursor)
-					gotoxy(0, menuY + seleccionQRGen);
-					std::cout << " > " << opcionesQRGen[seleccionQRGen] << "   ";
-				}
-			}
-			else if (teclaQRGen == 13) { // ENTER
-				if (seleccionQRGen == 0) { // Generar PDF
-					// Crear nombre del archivo
-					std::string nombreArchivo = "QR_" +
-						persona.getNombres() + "_" +
-						persona.getApellidos();
-
-					// Eliminar caracteres no válidos para nombre de archivo
-					nombreArchivo = Utilidades::EliminarEspacios(nombreArchivo);
-
-					// Añadir extensión y ruta temporal
-					char tempPath[MAX_PATH];
-					GetTempPathA(MAX_PATH, tempPath);
-					std::string rutaCompleta = std::string(tempPath) + nombreArchivo + ".pdf";
-
-					try {
-						// Mostrar proceso de generación
-						gotoxy(0, menuY + numOpcionesQRGen);
-						std::cout << "\nGenerando PDF del código QR..." << std::endl;
-
-						// Llamar a la función de generación de PDF
-						qr.generarPDFQR(qr.qr, rutaCompleta);
-
-						// Abrir el PDF automáticamente
-						HINSTANCE resultado = ShellExecuteA(NULL, "open", rutaCompleta.c_str(), NULL, NULL, SW_SHOWNORMAL);
-
-						if (reinterpret_cast<INT_PTR>(resultado) <= 32) {
-							std::cerr << "Error al abrir el PDF. Se guardó en: " << rutaCompleta << std::endl;
-							Sleep(2000);
-						}
-					}
-					catch (const std::exception& e) {
-						std::cerr << "Error generando el PDF: " << e.what() << std::endl;
-						Sleep(2000);
-					}
-				}
-				else { // Volver al menu
-					if (marquesinaGlobal) {
-						marquesinaGlobal->finalizarOperacionCritica();
-					}
-					limpiarPantallaPreservandoMarquesina(1);
-					return true;
-				}
-			}
-			else if (teclaQRGen == 27) { // ESC
-				if (marquesinaGlobal) {
-					marquesinaGlobal->finalizarOperacionCritica();
-				}
-				limpiarPantallaPreservandoMarquesina(1);
-				return false;
-			}
+		if (seleccionQR == -1 || seleccionQR == 2) { // Volver al menu principal
+			limpiarPantallaPreservandoMarquesina(1);
+			return false; // Cancelado
 		}
-	}
+		switch (seleccionQR) {
+		case 0:  // Generar PDF
+		{
+			// Crear nombre del archivo
+			std::string nombreArchivo = "QR_" +
+				persona.getNombres() + "_" +
+				persona.getApellidos();
+
+			// Eliminar caracteres no válidos para nombre de archivo
+			nombreArchivo = Utilidades::EliminarEspacios(nombreArchivo);
+
+			// Construir ruta hacia la carpeta BancoApp en el Escritorio
+			char desktopPath[MAX_PATH];
+			HRESULT hr = SHGetFolderPathA(NULL, CSIDL_DESKTOP, NULL, SHGFP_TYPE_CURRENT, desktopPath);
+
+			std::string rutaCompleta;
+			if (SUCCEEDED(hr)) {
+				// Construir ruta: Escritorio\BancoApp\nombreArchivo.pdf
+				rutaCompleta = std::string(desktopPath) + "\\BancoApp\\" + nombreArchivo + ".pdf";
+
+				// Crear la carpeta BancoApp si no existe
+				std::string carpetaBancoApp = std::string(desktopPath) + "\\BancoApp";
+				CreateDirectoryA(carpetaBancoApp.c_str(), NULL);
+			}
+			else {
+				// Fallback a carpeta temporal si no se puede obtener el escritorio
+				char tempPath[MAX_PATH];
+				GetTempPathA(MAX_PATH, tempPath);
+				rutaCompleta = std::string(tempPath) + nombreArchivo + ".pdf";
+				std::cerr << "No se pudo acceder al Escritorio, usando carpeta temporal." << std::endl;
+			}
+
+			try {
+				std::cout << "\nGenerando PDF del código QR..." << std::endl;
+				std::cout << "Guardando en: " << rutaCompleta << std::endl;
+
+				// Llamar a la función de generación de PDF
+				qr.generarPDFQR(qr.qr, rutaCompleta);
+
+				// Abrir el PDF automáticamente
+				HINSTANCE resultado = ShellExecuteA(NULL, "open", rutaCompleta.c_str(), NULL, NULL, SW_SHOWNORMAL);
+
+				if (reinterpret_cast<INT_PTR>(resultado) <= 32) {
+					std::cerr << "Error al abrir el PDF. Se guardó en: " << rutaCompleta << std::endl;
+					Sleep(2000);
+				}
+			}
+			catch (const std::exception& e) {
+				std::cerr << "Error generando el PDF: " << e.what() << std::endl;
+				Sleep(2000);
+			}
+			break;
+		}
+		case 1: // Mostrar QR técnico en pantalla
+		{
+			// Mostrar QR en consola
+			std::cout << "\n=== CÓDIGO QR TÉCNICO ===" << std::endl;
+			qr.imprimirEnConsola();
+			std::cout << "\nPresione Enter para continuar...";
+			std::cin.get();
+			break;
+		}
+		}
+	}	
 	catch (const std::exception& e) {
-		// Manejo de excepciones
-		if (marquesinaGlobal) {
-			marquesinaGlobal->finalizarOperacionCritica();
-		}
 		limpiarPantallaPreservandoMarquesina(1);
 		std::cout << "Error generando QR: " << e.what() << std::endl;
 		system("pause");
@@ -1160,7 +1121,6 @@ void Utilidades::generarQR() {
 			std::cout << "\n[INFORMACIÓN] No hay personas registradas en la base de datos.\n";
 			std::cout << "Para generar códigos QR, primero debe registrar personas con cuentas.\n";
 			system("pause");
-			finalizarOperacionCritica();
 			return;
 		}
 
@@ -1382,7 +1342,7 @@ void Utilidades::generarQR() {
 			else if (tecla == 'f' || tecla == 'F') { // Búsqueda
 				std::cout << "\nIngrese texto a buscar: ";
 				mostrarCursor();
-				std::getline(std::cin, textoBusqueda);
+				std::cin >> textoBusqueda;
 				ocultarCursor();
 
 				aplicarFiltro(textoBusqueda);
@@ -1411,6 +1371,49 @@ void Utilidades::generarQR() {
 
 	//finalizarOperacionCritica();
 	limpiarPantallaPreservandoMarquesina(1);
+}
+
+/**
+ * @brief Genera código QR para una persona y retorna la representación en string
+ *
+ * Esta función crea un código QR con los datos de la persona y cuenta,
+ * pero en lugar de mostrarlo, retorna una representación que puede ser
+ * utilizada para integrar en otros documentos como HTML o PDF.
+ *
+ * @param persona Referencia al objeto Persona
+ * @param numeroCuenta Número de cuenta para incluir en el QR
+ * @return String con la representación del código QR, vacío si hay error
+ */
+std::string Utilidades::generarQRSoloMostrar(const Persona& persona, const std::string& numeroCuenta) {
+	try {
+		// Crear datos para el QR igual que en la función original
+		std::string datosQR = "BANCO_CUENTA\n";
+		datosQR += "CEDULA:" + persona.getCedula() + "\n";
+		datosQR += "NOMBRE:" + persona.getNombres() + " " + persona.getApellidos() + "\n";
+		datosQR += "CUENTA:" + numeroCuenta + "\n";
+		datosQR += "FECHA:" + Fecha().obtenerFechaFormateada();
+
+		// Generar el código QR usando la biblioteca existente
+		CodigoQR::QrCode qr = CodigoQR::QrCode::encodeText(datosQR.c_str(), CodigoQR::QrCode::Ecc::MEDIUM);
+
+		// Convertir a representación de texto usando caracteres ASCII
+		std::ostringstream resultado;
+		int size = qr.getSize();
+
+		// Usar caracteres diferentes para mejor visualización en HTML
+		for (int y = 0; y < size; y++) {
+			for (int x = 0; x < size; x++) {
+				resultado << (qr.getModule(x, y) ? "██" : "  ");
+			}
+			resultado << "\n";
+		}
+
+		return resultado.str();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error generando QR: " << e.what() << std::endl;
+		return "";
+	}
 }
 
 /**
@@ -1580,7 +1583,7 @@ void Utilidades::exploradorArchivosInteractivo(Banco& banco) {
 	};
 
 	try {
-		iniciarOperacionCritica();
+		//iniciarOperacionCritica();
 		limpiarPantallaPreservandoMarquesina(1);
 
 		// Obtener datos desde MongoDB
@@ -1593,7 +1596,7 @@ void Utilidades::exploradorArchivosInteractivo(Banco& banco) {
 			std::cout << "\n[INFORMACIÓN] No hay personas registradas en la base de datos.\n";
 			std::cout << "Para explorar archivos, primero debe registrar personas.\n";
 			system("pause");
-			finalizarOperacionCritica();
+			//finalizarOperacionCritica();
 			return;
 		}
 
@@ -1650,7 +1653,7 @@ void Utilidades::exploradorArchivosInteractivo(Banco& banco) {
 		if (datosTabla.empty()) {
 			std::cout << "\n[INFORMACIÓN] No hay datos para explorar.\n";
 			system("pause");
-			finalizarOperacionCritica();
+			//finalizarOperacionCritica();
 			return;
 		}
 
@@ -1891,9 +1894,7 @@ void Utilidades::exploradorArchivosInteractivo(Banco& banco) {
 			else if (tecla == 'f' || tecla == 'F') { // Búsqueda
 				std::cout << "\nIngrese texto a buscar (nombre, apellido, cédula, cuenta, correo): ";
 				mostrarCursor();
-				std::cin.clear();
-				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				std::getline(std::cin, textoBusqueda);
+				std::cin >> textoBusqueda;
 				ocultarCursor();
 
 				aplicarFiltro(textoBusqueda);
@@ -1919,8 +1920,7 @@ void Utilidades::exploradorArchivosInteractivo(Banco& banco) {
 		std::cerr << "\nError en explorador de archivos: " << e.what() << std::endl;
 		system("pause");
 	}
-
-	finalizarOperacionCritica();
+	//finalizarOperacionCritica();
 	limpiarPantallaPreservandoMarquesina(1);
 }
 
@@ -1949,4 +1949,19 @@ void Utilidades::gestionHashInteractiva() {
 		std::cout << "Presione Enter para continuar...";
 		std::cin.get();
 	}
+}
+
+void Utilidades::mensajeAnimado(const std::string& mensaje)
+{
+	std::cout << mensaje;
+
+	// Animación de puntos para mayor realismo
+	for (int i = 0; i < 3; ++i) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(333));  // Pausa de 333 ms 
+		std::cout << ".";
+		std::cout.flush();
+	}
+
+	std::cout << "\n\n";
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));  // Pausa adicional
 }

@@ -294,6 +294,11 @@ public:
 
 	static void gestionHashInteractiva();
 
+	static void mensajeAnimado(const std::string& mensaje);
+
+	static std::string generarQRSoloMostrar(const Persona& persona, const std::string& numeroCuenta);
+
+
 };
 
 #endif // UTILIDADES_H
